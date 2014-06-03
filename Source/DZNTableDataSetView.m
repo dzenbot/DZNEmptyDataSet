@@ -86,8 +86,8 @@
     {
         _imageView = [UIImageView new];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _imageView.userInteractionEnabled = NO;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView.userInteractionEnabled = NO;
     }
     return _imageView;
 }
@@ -177,8 +177,12 @@
         }
     }];
     
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
-                                                                         options:0 metrics:metrics views:views]];
+    NSLog(@"format : %@", format);
+    
+    if (format.length > 0) {
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
+                                                                             options:0 metrics:metrics views:views]];
+    }
 }
 
 @end

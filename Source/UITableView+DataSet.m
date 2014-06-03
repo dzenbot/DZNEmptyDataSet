@@ -45,7 +45,7 @@ static NSString *kContentSize = @"contentSize";
     {
         _dataSetView = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
         _dataSetView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dataSetView.backgroundColor = [UIColor greenColor];
+        _dataSetView.backgroundColor = [UIColor clearColor];
         _dataSetView.hidden = YES;
         _dataSetView.alpha = 0;
         
@@ -84,15 +84,26 @@ static NSString *kContentSize = @"contentSize";
     }
     
     if (self.dataSetEnabled && !enabled) {
-        [self removeObserver:self forKeyPath:kContentSize];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+        @try {
+            [self removeObserver:self forKeyPath:kContentSize];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+            [self invalidateContent];
+        }
+        @catch(id anException) {
+            
+        }
     }
-    else {
-        [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
-
-        _dataSetEnabled = enabled;
+    else if (enabled) {
+        @try {
+            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+        }
+        @catch(id anException) {
+            
+        }
     }
+    
+    _dataSetEnabled = enabled;
 }
 
 
@@ -132,19 +143,17 @@ static NSString *kContentSize = @"contentSize";
 
 - (BOOL)needsReloadSets
 {
-    DZNTableDataSetView *contentView = self.dataSetView;
-
-    if ([contentView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
-        return NO;
+    if (![self.dataSetView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
+        return YES;
     }
-    if ([contentView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
-        return NO;
+    if (![self.dataSetView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
+        return YES;
     }
-    if ([[contentView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitle].string]) {
-        return NO;
+    if (![[self.dataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitle].string]) {
+        return YES;
     }
-    if (([UIImagePNGRepresentation(contentView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
-        return NO;
+    if (!([UIImagePNGRepresentation(self.dataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
+        return YES;
     }
     
     return YES;
@@ -194,41 +203,30 @@ static NSString *kContentSize = @"contentSize";
 - (void)reloadDataSet
 {
     BOOL isDataSetVisible = [self isDataSetVisible];
-    DZNTableDataSetView *contentView = self.dataSetView;
     
     _totalNumberOfRows = [self totalNumberOfRows];
     
     if (_totalNumberOfRows == 0)
     {
-        contentView.titleLabel.attributedText = [self titleLabelText];
-        contentView.detailLabel.attributedText = [self detailLabelText];
-        contentView.imageView.image = [self image];
-        [contentView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
-        [contentView.button sizeToFit];
+        self.dataSetView.titleLabel.attributedText = [self titleLabelText];
+        self.dataSetView.detailLabel.attributedText = [self detailLabelText];
+        self.dataSetView.imageView.image = [self image];
+        [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
+
+        [self.dataSetView updateConstraints];
+        [self.dataSetView layoutIfNeeded];
         
-        [contentView updateConstraints];
-        [contentView layoutIfNeeded];
-        
-        contentView.hidden = NO;
-//        self.scrollEnabled = NO;
+        self.dataSetView.hidden = NO;
+        self.scrollEnabled = NO;
 
         [UIView animateWithDuration:0.25
                          animations:^{
-                             contentView.alpha = 1.0;
+                             self.dataSetView.alpha = 1.0;
                          }
                          completion:NULL];
     }
-    else if (isDataSetVisible)
-    {
-        contentView.hidden = YES;
-        contentView.alpha = 0.0;
-        
-        contentView.hidden = NO;
-        contentView.titleLabel.text = nil;
-        contentView.detailLabel.text = nil;
-        contentView.imageView.image = nil;
-        
-        self.scrollEnabled = YES;
+    else if (isDataSetVisible) {
+        [self invalidateContent];
     }
 }
 
@@ -239,6 +237,20 @@ static NSString *kContentSize = @"contentSize";
     }
 }
 
+- (void)invalidateContent
+{
+    _dataSetView.titleLabel.text = nil;
+    _dataSetView.detailLabel.text = nil;
+    _dataSetView.imageView.image = nil;
+    
+    _dataSetView = nil;
+    _totalNumberOfRows = 0;
+    
+    observanceCtx = 0;
+    
+    self.scrollEnabled = YES;
+}
+
 
 #pragma mark - NSKeyValueObserving methods
 
@@ -247,11 +259,11 @@ static NSString *kContentSize = @"contentSize";
 {
     if (context == &observanceCtx)
     {
-        NSValue *new = [change valueForKey:@"new"];
-        NSValue *old = [change valueForKey:@"old"];
+        NSValue *new = [change objectForKey:@"new"];
+        NSValue *old = [change objectForKey:@"old"];
         
-        if ([keyPath isEqualToString:kContentSize]) {
-            if (new && old && ![old isEqualToValue:new]) {
+        if (new && old && [new isEqualToValue:old]) {
+            if ([keyPath isEqualToString:kContentSize]) {
                 [self didReloadData];
             }
         }
