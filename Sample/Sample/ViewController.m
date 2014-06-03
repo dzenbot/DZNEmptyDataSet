@@ -118,9 +118,9 @@
         _tableView.dataSetSource = self;
         _tableView.dataSetDelegate = self;
         
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
-        headerView.backgroundColor = [UIColor redColor];
-        _tableView.tableHeaderView = headerView;
+//        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
+//        headerView.backgroundColor = [UIColor redColor];
+//        _tableView.tableHeaderView = headerView;
         
         _tableView.tableFooterView = [UIView new];
     }
