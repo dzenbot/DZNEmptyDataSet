@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () {
+@interface ViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate> {
     CGFloat _bottomMargin;
 }
 @property (nonatomic, strong) NSArray *users;
@@ -28,13 +28,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.title = @"My Cool App";
+    self.title = @"Sample";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self.tableView action:@selector(reloadDataSetIfNeeded)];
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -116,10 +116,11 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.dataSetSource = self;
+        _tableView.dataSetDelegate = self;
         
-//        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
-//        headerView.backgroundColor = [UIColor redColor];
-//        _tableView.tableHeaderView = headerView;
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
+        headerView.backgroundColor = [UIColor redColor];
+        _tableView.tableHeaderView = headerView;
         
         _tableView.tableFooterView = [UIView new];
     }
@@ -138,14 +139,6 @@
         _searchBar.searchBarStyle = UISearchBarStyleMinimal;
     }
     return _searchBar;
-}
-
-
-#pragma mark - Actions Methods
-
-- (void)reloadData
-{
-    [self.tableView reloadData];
 }
 
 
@@ -187,20 +180,7 @@
     return 44.0;
 }
 
-
-#pragma mark - DZNTableViewDataSetSource Methods
-
-- (NSString *)titleForDataSetInTableView:(UITableView *)tableView
-{
-    return NSLocalizedString(@"No Users Found", nil);
-}
-
-- (NSString *)descriptionForDataSetInTableView:(UITableView *)tableView;
-{
-    return NSLocalizedString(@"Make sure that all words are spelled correctly.", nil);
-}
-
-- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return nil;
 }
@@ -211,6 +191,75 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+}
+
+
+#pragma mark - DZNTableViewDataSetSource Methods
+
+- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
+{
+    NSString *text = @"No Users to invite";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:28.0],
+                                 NSForegroundColorAttributeName: [UIColor grayColor]};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    
+    return attributedTitle;
+}
+
+- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView;
+{
+    NSString *channelName = @"#theoldgodsandthenew";
+    NSString *message = @"All team members are already participating in the channel";
+    NSString *text = [NSString stringWithFormat:@"%@ %@", message, channelName];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    
+    [attributedTitle addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16.0] range:[text rangeOfString:channelName]];
+    
+    return attributedTitle;
+}
+
+- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
+{
+    return [UIImage imageNamed:@"placeholder"];
+}
+
+- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
+{
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0]};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Tap here to reload" attributes:attributes];
+    
+    return attributedTitle;
+}
+
+
+#pragma mark - DZNTableViewDataSetDelegate Methods
+
+- (void)tableViewDataSetDidTapView:(UITableView *)tableView
+{
+    NSLog(@"%s",__FUNCTION__);
+    
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
+    }
+}
+
+- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
+{
+    NSLog(@"%s",__FUNCTION__);
+    
+    [tableView reloadData];
 }
 
 
@@ -233,7 +282,9 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-    searchBar.text = nil;
+    if (searchBar.text.length > 0) {
+        return;
+    }
     
     [searchBar setShowsCancelButton:NO animated:YES];
     
@@ -255,8 +306,6 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"textDidChange : %@", searchText);
-    
     if (searchText.length > 0) {
         
         if (!_filteredUsers) {
@@ -303,6 +352,10 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+#warning Very important to remove the delegates, so we unregister from KVO!
+    self.tableView.dataSetSource = nil;
+    self.tableView.dataSetDelegate = nil;
 }
 
 

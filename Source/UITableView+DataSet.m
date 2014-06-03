@@ -7,10 +7,11 @@
 //
 
 #import "UITableView+DataSet.h"
-#import "DZNDataSetContentView.h"
+#import "DZNTableDataSetView.h"
 
 static id<DZNTableViewDataSetSource> _dataSetSource = nil;
-static DZNDataSetContentView *_dataSetContentView;
+static id<DZNTableViewDataSetDelegate> _dataSetDelegate = nil;
+static DZNTableDataSetView *_dataSetView;
 static NSInteger _totalNumberOfRows;
 static BOOL _dataSetEnabled;
 
@@ -18,7 +19,7 @@ static NSInteger observanceCtx = 0;
 static NSString *kContentSize = @"contentSize";
 
 @interface UITableView ()
-@property (nonatomic, readonly) DZNDataSetContentView *dataSetContentView;
+@property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
 @property (nonatomic) BOOL dataSetEnabled;
 @end
 
@@ -31,19 +32,27 @@ static NSString *kContentSize = @"contentSize";
     return _dataSetSource;
 }
 
-- (DZNDataSetContentView *)dataSetContentView
+- (id<DZNTableViewDataSetDelegate>)dataSetDelegate
 {
-    if (!_dataSetContentView)
-    {
-        _dataSetContentView = [[DZNDataSetContentView alloc] initWithFrame:self.bounds];
-        _dataSetContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dataSetContentView.backgroundColor = [UIColor clearColor];
-        _dataSetContentView.hidden = YES;
-        _dataSetContentView.alpha = 0;
+    return _dataSetDelegate;
+}
 
-        [self addSubview:_dataSetContentView];
+- (DZNTableDataSetView *)dataSetView
+{
+    if (!_dataSetView)
+    {
+        _dataSetView = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
+        _dataSetView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _dataSetView.backgroundColor = [UIColor greenColor];
+        _dataSetView.hidden = YES;
+        _dataSetView.alpha = 0;
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
+        [_dataSetView addGestureRecognizer:tapGesture];
+
+        [self addSubview:_dataSetView];
     }
-    return _dataSetContentView;
+    return _dataSetView;
 }
 
 - (BOOL)dataSetEnabled
@@ -60,6 +69,12 @@ static NSString *kContentSize = @"contentSize";
     _dataSetSource = source;
 }
 
+- (void)setDataSetDelegate:(id<DZNTableViewDataSetDelegate>)delegate
+{
+    self.dataSetEnabled = delegate ? YES : NO;
+    _dataSetDelegate = delegate;
+}
+
 - (void)setDataSetEnabled:(BOOL)enabled
 {
     if (self.dataSetEnabled == enabled) {
@@ -68,10 +83,12 @@ static NSString *kContentSize = @"contentSize";
     
     if (self.dataSetEnabled && !enabled) {
         [self removeObserver:self forKeyPath:kContentSize];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
     }
     else {
         [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+
         _dataSetEnabled = enabled;
     }
 }
@@ -79,7 +96,7 @@ static NSString *kContentSize = @"contentSize";
 
 #pragma mark - Data Source Methods
 
-- (NSString *)dataSetTitle
+- (NSAttributedString *)titleLabelText
 {
     if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForDataSetInTableView:)]) {
         return [self.dataSetSource titleForDataSetInTableView:self];
@@ -87,7 +104,7 @@ static NSString *kContentSize = @"contentSize";
     return nil;
 }
 
-- (NSString *)dataSetDescription
+- (NSAttributedString *)detailLabelText
 {
     if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForDataSetInTableView:)]) {
         return [self.dataSetSource descriptionForDataSetInTableView:self];
@@ -95,7 +112,15 @@ static NSString *kContentSize = @"contentSize";
     return nil;
 }
 
-- (UIImage *)dataSetImage
+- (NSAttributedString *)buttonTitle
+{
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForDataSetInTableView:)]) {
+        return [self.dataSetSource buttonTitleForDataSetInTableView:self];
+    }
+    return nil;
+}
+
+- (UIImage *)image
 {
     if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForDataSetInTableView:)]) {
         return [self.dataSetSource imageForDataSetInTableView:self];
@@ -103,9 +128,29 @@ static NSString *kContentSize = @"contentSize";
     return nil;
 }
 
+- (BOOL)needsReloadSets
+{
+    DZNTableDataSetView *contentView = self.dataSetView;
+
+    if ([contentView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
+        return NO;
+    }
+    if ([contentView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
+        return NO;
+    }
+    if ([[contentView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitle].string]) {
+        return NO;
+    }
+    if (([UIImagePNGRepresentation(contentView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (BOOL)isDataSetVisible
 {
-    return !self.dataSetContentView.hidden;
+    return !self.dataSetView.hidden;
 }
 
 - (NSInteger)totalNumberOfRows
@@ -123,6 +168,20 @@ static NSString *kContentSize = @"contentSize";
 
 #pragma mark - UITableView+DataSet Methods
 
+- (void)didTapContentView:(id)sender
+{
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetDidTapView:)]) {
+        [self.dataSetDelegate tableViewDataSetDidTapView:self];
+    }
+}
+
+- (void)didTapDataSetButton:(id)sender
+{
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetDidTapButton:)]) {
+        [self.dataSetDelegate tableViewDataSetDidTapButton:self];
+    }
+}
+
 - (void)didReloadData
 {
     if (self.dataSetSource) {
@@ -133,19 +192,23 @@ static NSString *kContentSize = @"contentSize";
 - (void)reloadDataSet
 {
     BOOL isDataSetVisible = [self isDataSetVisible];
-    DZNDataSetContentView *contentView = self.dataSetContentView;
+    DZNTableDataSetView *contentView = self.dataSetView;
     
     _totalNumberOfRows = [self totalNumberOfRows];
     
     if (_totalNumberOfRows == 0)
     {
-        contentView.titleLabel.text = [self dataSetTitle];
-        contentView.detailLabel.text = [self dataSetDescription];
-                
+        contentView.titleLabel.attributedText = [self titleLabelText];
+        contentView.detailLabel.attributedText = [self detailLabelText];
+        contentView.imageView.image = [self image];
+        [contentView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
+        [contentView.button sizeToFit];
+        
         [contentView updateConstraints];
+        [contentView layoutIfNeeded];
         
         contentView.hidden = NO;
-        self.scrollEnabled = NO;
+//        self.scrollEnabled = NO;
 
         [UIView animateWithDuration:0.25
                          animations:^{
@@ -169,7 +232,7 @@ static NSString *kContentSize = @"contentSize";
 
 - (void)reloadDataSetIfNeeded
 {
-    if (_totalNumberOfRows != [self totalNumberOfRows]) {
+    if ([self needsReloadSets]) {
         [self reloadDataSet];
     }
 }
@@ -185,8 +248,8 @@ static NSString *kContentSize = @"contentSize";
         NSValue *new = [change valueForKey:@"new"];
         NSValue *old = [change valueForKey:@"old"];
         
-        if (new && old) {
-            if (![old isEqualToValue:new]) {
+        if ([keyPath isEqualToString:kContentSize]) {
+            if (new && old && ![old isEqualToValue:new]) {
                 [self didReloadData];
             }
         }

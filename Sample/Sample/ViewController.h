@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UITableView+DataSet.h"
 
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, DZNTableViewDataSetSource, UISearchBarDelegate>
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;

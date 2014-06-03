@@ -21,7 +21,7 @@
 		4F352DFF1933AF0400801106 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F352DFD1933AF0400801106 /* InfoPlist.strings */; };
 		4F352E011933AF0400801106 /* SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F352E001933AF0400801106 /* SampleTests.m */; };
 		4FB0594B193C16280027C072 /* UITableView+DataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0594A193C16280027C072 /* UITableView+DataSet.m */; };
-		4FB0594F193C1E010027C072 /* DZNDataSetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0594E193C1E010027C072 /* DZNDataSetContentView.m */; };
+		4FB0594F193C1E010027C072 /* DZNTableDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0594E193C1E010027C072 /* DZNTableDataSetView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,9 +55,9 @@
 		4F352E001933AF0400801106 /* SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleTests.m; sourceTree = "<group>"; };
 		4FB05949193C16280027C072 /* UITableView+DataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableView+DataSet.h"; path = "../Source/UITableView+DataSet.h"; sourceTree = "<group>"; };
 		4FB0594A193C16280027C072 /* UITableView+DataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableView+DataSet.m"; path = "../Source/UITableView+DataSet.m"; sourceTree = "<group>"; };
-		4FB0594C193C16A20027C072 /* DZNTableViewDataSetSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DZNTableViewDataSetSource.h; path = ../Source/DZNTableViewDataSetSource.h; sourceTree = "<group>"; };
-		4FB0594D193C1E010027C072 /* DZNDataSetContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNDataSetContentView.h; path = ../Source/DZNDataSetContentView.h; sourceTree = "<group>"; };
-		4FB0594E193C1E010027C072 /* DZNDataSetContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DZNDataSetContentView.m; path = ../Source/DZNDataSetContentView.m; sourceTree = "<group>"; };
+		4FB0594C193C16A20027C072 /* DZNTableViewDataSetProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DZNTableViewDataSetProtocols.h; path = ../Source/DZNTableViewDataSetProtocols.h; sourceTree = "<group>"; };
+		4FB0594D193C1E010027C072 /* DZNTableDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNTableDataSetView.h; path = ../Source/DZNTableDataSetView.h; sourceTree = "<group>"; };
+		4FB0594E193C1E010027C072 /* DZNTableDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DZNTableDataSetView.m; path = ../Source/DZNTableDataSetView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,11 +160,11 @@
 		4F352E0A1933AFD400801106 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				4FB0594C193C16A20027C072 /* DZNTableViewDataSetProtocols.h */,
 				4FB05949193C16280027C072 /* UITableView+DataSet.h */,
 				4FB0594A193C16280027C072 /* UITableView+DataSet.m */,
-				4FB0594D193C1E010027C072 /* DZNDataSetContentView.h */,
-				4FB0594E193C1E010027C072 /* DZNDataSetContentView.m */,
-				4FB0594C193C16A20027C072 /* DZNTableViewDataSetSource.h */,
+				4FB0594D193C1E010027C072 /* DZNTableDataSetView.h */,
+				4FB0594E193C1E010027C072 /* DZNTableDataSetView.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -267,7 +267,7 @@
 			files = (
 				4F352DEC1933AF0400801106 /* ViewController.m in Sources */,
 				4F352DE31933AF0400801106 /* AppDelegate.m in Sources */,
-				4FB0594F193C1E010027C072 /* DZNDataSetContentView.m in Sources */,
+				4FB0594F193C1E010027C072 /* DZNTableDataSetView.m in Sources */,
 				4F352DDF1933AF0400801106 /* main.m in Sources */,
 				4FB0594B193C16280027C072 /* UITableView+DataSet.m in Sources */,
 			);
@@ -391,8 +391,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sample/Sample-Prefix.pch";
 				INFOPLIST_FILE = "Sample/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -405,8 +406,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sample/Sample-Prefix.pch";
 				INFOPLIST_FILE = "Sample/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
