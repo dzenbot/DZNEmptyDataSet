@@ -10,7 +10,7 @@
 #import "DZNTableViewDataSetProtocols.h"
 
 /**
- * An add-on to UITableView for showing empty data sets whenever -reloadData returns no content to display.
+ * A drop-in UITableView category for showing empty data sets whenever -reloadData returns no content to display.
  * It will work automatically, by just setting the dataSetSource and dataSetDelegate, and returning the data source content requiered.
  *
  * @discussion It is very important to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. This class uses KVO under the hood, so it needs to remove the observer whenever the tableview is going to be released.
