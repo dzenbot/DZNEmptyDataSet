@@ -126,14 +126,16 @@
 - (void)updateConstraints
 {
     [super updateConstraints];
-    
+
     [_contentView removeConstraints:_contentView.constraints];
     
+    CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
+    
     NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 12 : 4;
-    NSNumber *padding = @(roundf(self.frame.size.width/multiplier));
+    NSNumber *padding = @(roundf(width/multiplier));
     NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
     NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
-    NSNumber *trailing = @(roundf((self.frame.size.width-[imgWidth floatValue])/2.0));
+    NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
     
     NSDictionary *views = NSDictionaryOfVariableBindings(self,_contentView,_titleLabel,_detailLabel,_imageView,_button);
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
@@ -176,8 +178,6 @@
             [format appendString:@"-"];
         }
     }];
-    
-    NSLog(@"format : %@", format);
     
     if (format.length > 0) {
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]

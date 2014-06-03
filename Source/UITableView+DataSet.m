@@ -212,7 +212,7 @@ static NSString *kContentSize = @"contentSize";
         self.dataSetView.detailLabel.attributedText = [self detailLabelText];
         self.dataSetView.imageView.image = [self image];
         [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
-
+        
         [self.dataSetView updateConstraints];
         [self.dataSetView layoutIfNeeded];
         
@@ -271,6 +271,16 @@ static NSString *kContentSize = @"contentSize";
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (void)willChangeValueForKey:(NSString *)key
+{
+    [super willChangeValueForKey:key];
+}
+
+- (void)didChangeValueForKey:(NSString *)key
+{
+    [super didChangeValueForKey:key];
 }
 
 @end
