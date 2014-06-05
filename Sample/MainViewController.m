@@ -12,7 +12,7 @@
 @interface MainViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate> {
     CGFloat _bottomMargin;
 }
-@property (nonatomic, strong) NSArray *users;
+@property (nonatomic, strong) NSMutableArray *users;
 @property (nonatomic, strong) NSArray *filteredUsers;
 @end
 
@@ -31,9 +31,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    _users = @[@"Amanda",@"Allie",@"Alyson",@"Byron",@"Britanny",@"Carl",@"Caroline",@"Connie",@"Daniel",@"Donnie",@"Donkey",@"Emanuel",@"Emerson",@"Eliseo",@"Emrih",@"Fabienne",@"Fabio",@"Fabiola",@"Francisco",@"Fernando",@"Flor",@"Facundo",@"Fatima",@"Felipe",@"Florencia",@"Filomena",@"Felicia",@"Flavio",@"Federico",@"Fanny",@"Francia",@"Hector",@"Horacio",@"Homero",@"Hilda",@"Hilia",@"Hernan",@"Geronimo",@"Gabriela",@"Gonzalo",@"Guido",@"Giovanni",@"George",@"Galileo",@"Gilberto"];
+    _users = [[NSMutableArray alloc] initWithArray:@[@"Amanda",@"Allie",@"Alyson",@"Byron",@"Britanny",@"Carl",@"Caroline",@"Connie",@"Daniel",@"Donnie",@"Donkey",@"Emanuel",@"Emerson",@"Eliseo",@"Emrih",@"Fabienne",@"Fabio",@"Fabiola",@"Francisco",@"Fernando",@"Flor",@"Facundo",@"Fatima",@"Felipe",@"Florencia",@"Filomena",@"Felicia",@"Flavio",@"Federico",@"Fanny",@"Francia",@"Hector",@"Horacio",@"Homero",@"Hilda",@"Hilia",@"Hernan",@"Geronimo",@"Gabriela",@"Gonzalo",@"Guido",@"Giovanni",@"George",@"Galileo",@"Gilberto"]];;
     
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self.tableView action:@selector(reloadDataSetIfNeeded)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self.tableView action:@selector(reloadData)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -138,6 +138,43 @@
 }
 
 
+#pragma mark - Sample Methods
+
+- (void)addMissingUser
+{
+    NSString *name = self.searchBar.text;
+    
+    if ([_users containsObject:name]) {
+        return;
+    }
+    
+    [_users addObject:name];
+    
+    NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+    [_users sortUsingDescriptors:@[sorter]];
+    
+    [self filterUsers];
+}
+
+- (void)filterUsers
+{
+    if (self.searchBar.text.length > 0) {
+        
+        if (!_filteredUsers) {
+            _filteredUsers = [NSArray new];
+        }
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self contains[cd] %@", self.searchBar.text];
+        _filteredUsers = [_users filteredArrayUsingPredicate:predicate];
+    }
+    else {
+        _filteredUsers = nil;
+    }
+    
+    [self.tableView reloadData];
+}
+
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -189,49 +226,45 @@
 
 - (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
 {
-    NSString *text = @"No Users to invite";
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:28.0],
-                                 NSForegroundColorAttributeName: [UIColor grayColor]};
-    
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
-    
-    return attributedTitle;
+    return nil;
 }
 
 - (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
 {
-    NSString *channelName = @"#theoldgodsandthenew";
-    NSString *message = @"All team members are already participating in the channel";
-    NSString *text = [NSString stringWithFormat:@"%@ %@", message, channelName];
+    NSString *text = [NSString stringWithFormat:@"No users found matching\n%@.", self.searchBar.text];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0],
-                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
                                  NSParagraphStyleAttributeName: paragraphStyle};
     
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
     
-    [attributedTitle addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16.0] range:[text rangeOfString:channelName]];
+    [attributedTitle addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:[text rangeOfString:self.searchBar.text]];
     
     return attributedTitle;
 }
 
 - (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
 {
-    return [UIImage imageNamed:@"placeholder"];
+    return [UIImage imageNamed:@"search_icon"];
 }
 
 - (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
 {
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0]};
     
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Tap here to reload" attributes:attributes];
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Add user to the List" attributes:attributes];
     
     return attributedTitle;
+}
+
+- (UIColor *)tableViewDataSetBackgroundColor:(UITableView *)tableView
+{
+    return [UIColor whiteColor];
 }
 
 
@@ -239,12 +272,12 @@
 
 - (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
 {
-    return NO;
+    return YES;
 }
 
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
 {
-    return NO;
+    return YES;
 }
 
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView
@@ -256,7 +289,7 @@
 
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
-    
+    [self addMissingUser];
 }
 
 
@@ -303,20 +336,14 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length > 0) {
-        
-        if (!_filteredUsers) {
-            _filteredUsers = [NSArray new];
-        }
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self contains[cd] %@", searchText];
-        _filteredUsers = [_users filteredArrayUsingPredicate:predicate];
-    }
-    else {
-        _filteredUsers = nil;
-    }
+    [self filterUsers];
     
-    [self.tableView reloadData];
+    // If the data set is visiable, but the user keeps typing text
+    // let's force the data set to redraw data according to the data source updates.
+    
+    if (self.tableView.isDataSetVisible && self.filteredUsers.count == 0) {
+        [self.tableView reloadDataSetIfNeeded];
+    }
 }
 
 
@@ -349,6 +376,10 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+    _tableView.dataSetSource = nil;
+    _tableView.dataSetDelegate = nil;
+    _tableView = nil;
 }
 
 
