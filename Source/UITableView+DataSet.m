@@ -84,8 +84,8 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (UIColor *)dataSetBackgroundColor
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(tableViewDataSetBackgroundColor:)]) {
-        return [self.dataSetSource tableViewDataSetBackgroundColor:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForDataSetInTableView:)]) {
+        return [self.dataSetSource backgroundColorForDataSetInTableView:self];
     }
     return [UIColor clearColor];
 }

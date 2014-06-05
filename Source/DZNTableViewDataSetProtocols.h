@@ -62,7 +62,7 @@
  * @param tableView A table-view object informing the data source.
  * @return An color to be applied to the data set background view.
  */
-- (UIColor *)tableViewDataSetBackgroundColor:(UITableView *)tableView;
+- (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView;
 
 @end
 

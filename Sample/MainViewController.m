@@ -284,7 +284,7 @@
     return attributedTitle;
 }
 
-- (UIColor *)tableViewDataSetBackgroundColor:(UITableView *)tableView
+- (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView
 {
     return [UIColor whiteColor];
 }
