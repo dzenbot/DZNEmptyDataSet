@@ -16,8 +16,8 @@ static char const * const kDataSetSource =      "dataSetSource";
 static char const * const kDataSetDelegate =    "dataSetDelegate";
 static char const * const kDataSetView =        "dataSetView";
 static char const * const kDataSetEnabled =     "dataSetEnabled";
-static NSString *kContentSize =                 @"contentSize";
-static NSInteger observanceCtx;
+static NSString * const kContentSize =          @"contentSize";
+static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
@@ -187,7 +187,7 @@ static NSInteger observanceCtx;
 {
     if (self.isDataSetEnabled && !enable) {
         @try {
-            [self removeObserver:self forKeyPath:kContentSize];
+            [self removeObserver:self forKeyPath:kContentSize context:DZNContentSizeCtx];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
             [self invalidateContent];
         }
@@ -197,7 +197,7 @@ static NSInteger observanceCtx;
     }
     else if (enable) {
         @try {
-            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
+            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:DZNContentSizeCtx];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
         }
@@ -284,7 +284,7 @@ static NSInteger observanceCtx;
 // Based on Abdullah Umer's answer http://stackoverflow.com/a/14920005/590010
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (context == &observanceCtx)
+    if (context == DZNContentSizeCtx)
     {
         NSValue *new = [change objectForKey:@"new"];
         NSValue *old = [change objectForKey:@"old"];
