@@ -303,11 +303,11 @@ static NSString *kContentSize = @"contentSize";
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (![gestureRecognizer.view isEqual:self.dataSetView]) {
-        return NO;
+    if ([gestureRecognizer.view isEqual:self.dataSetView]) {
+        return [self allowsTouch];
     }
     
-    return [self allowsTouch];
+    return [super gestureRecognizerShouldBegin:gestureRecognizer];
 }
 
 @end
