@@ -10,58 +10,63 @@
 
 #import "UITableView+DataSet.h"
 #import "DZNTableDataSetView.h"
+#import <objc/runtime.h>
 
-static id<DZNTableViewDataSetSource> _dataSetSource = nil;
-static id<DZNTableViewDataSetDelegate> _dataSetDelegate = nil;
-static DZNTableDataSetView *_dataSetView;
-static BOOL _dataSetEnabled;
-
-static NSInteger observanceCtx = 0;
-static NSString *kContentSize = @"contentSize";
+static char const * const kDataSetSource =      "dataSetSource";
+static char const * const kDataSetDelegate =    "dataSetDelegate";
+static char const * const kDataSetView =        "dataSetView";
+static char const * const kDataSetEnabled =     "dataSetEnabled";
+static NSString *kContentSizeKeyPath =          @"contentSize";
+static NSInteger observanceCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
-@property (nonatomic) BOOL dataSetEnabled;
+@property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
 @end
 
 @implementation UITableView (DataSet)
+@dynamic dataSetDelegate, dataSetSource;
+
 
 #pragma mark - Getter Methods
 
 - (id<DZNTableViewDataSetSource>)dataSetSource
 {
-    return _dataSetSource;
+    return objc_getAssociatedObject(self, kDataSetSource);
 }
 
 - (id<DZNTableViewDataSetDelegate>)dataSetDelegate
 {
-    return _dataSetDelegate;
+    return objc_getAssociatedObject(self, kDataSetDelegate);
 }
 
 - (DZNTableDataSetView *)dataSetView
 {
-    if (!_dataSetView)
+    id view = objc_getAssociatedObject(self, kDataSetView);
+    if (!view)
     {
-        _dataSetView = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
-        _dataSetView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dataSetView.hidden = YES;
-        _dataSetView.alpha = 0;
+        DZNTableDataSetView *view = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
+        view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        view.hidden = YES;
+        view.alpha = 0;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
         tapGesture.delegate = self;
-        [_dataSetView addGestureRecognizer:tapGesture];
+        [view addGestureRecognizer:tapGesture];
         
-        [self addSubview:_dataSetView];
+        [self addSubview:view];
+        
+        objc_setAssociatedObject(self, kDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return _dataSetView;
+    return view;
 }
 
-- (BOOL)dataSetEnabled
+- (BOOL)isDataSetEnabled
 {
-    return _dataSetEnabled;
+    return [objc_getAssociatedObject(self, kDataSetEnabled) boolValue];
 }
 
-- (BOOL)allowsTouch
+- (BOOL)isTouchAllowed
 {
     if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowTouch:)]) {
         return [self.dataSetDelegate tableViewDataSetShouldAllowTouch:self];
@@ -69,7 +74,7 @@ static NSString *kContentSize = @"contentSize";
     return YES;
 }
 
-- (BOOL)allowsScroll
+- (BOOL)isScrollAllowed
 {
     if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowScroll:)]) {
         return [self.dataSetDelegate tableViewDataSetShouldAllowScroll:self];
@@ -84,53 +89,6 @@ static NSString *kContentSize = @"contentSize";
     }
     return [UIColor clearColor];
 }
-
-
-#pragma mark - Setter Methods
-
-- (void)setDataSetSource:(id<DZNTableViewDataSetSource>)source
-{
-    self.dataSetEnabled = source ? YES : NO;
-    _dataSetSource = source;
-}
-
-- (void)setDataSetDelegate:(id<DZNTableViewDataSetDelegate>)delegate
-{
-    self.dataSetEnabled = delegate ? YES : NO;
-    _dataSetDelegate = delegate;
-}
-
-- (void)setDataSetEnabled:(BOOL)enabled
-{
-    if (self.dataSetEnabled == enabled) {
-        return;
-    }
-    
-    if (self.dataSetEnabled && !enabled) {
-        @try {
-            [self removeObserver:self forKeyPath:kContentSize];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
-            [self invalidateContent];
-        }
-        @catch(id anException) {
-            
-        }
-    }
-    else if (enabled) {
-        @try {
-            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
-        }
-        @catch(id anException) {
-            
-        }
-    }
-    
-    _dataSetEnabled = enabled;
-}
-
-
-#pragma mark - Data Source Methods
 
 - (NSAttributedString *)titleLabelText
 {
@@ -182,11 +140,6 @@ static NSString *kContentSize = @"contentSize";
     return YES;
 }
 
-- (BOOL)isDataSetVisible
-{
-    return !self.dataSetView.hidden;
-}
-
 - (NSInteger)totalNumberOfRows
 {
     NSInteger sections = [self.dataSource numberOfSectionsInTableView:self];
@@ -197,6 +150,61 @@ static NSString *kContentSize = @"contentSize";
     }
     
     return rows;
+}
+
+- (BOOL)isDataSetVisible
+{
+    return !self.dataSetView.hidden;
+}
+
+
+#pragma mark - Setter Methods
+
+- (void)setDataSetSource:(id<DZNTableViewDataSetSource>)source
+{
+    self.dataSetEnabled = source ? YES : NO;
+    objc_setAssociatedObject(self, kDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (void)setDataSetDelegate:(id<DZNTableViewDataSetDelegate>)delegate
+{
+    self.dataSetEnabled = delegate ? YES : NO;
+    objc_setAssociatedObject(self, kDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (void)setDataSetEnabled:(BOOL)enabled
+{
+    if (self.isDataSetEnabled == enabled) {
+        return;
+    }
+    
+    [self enableObservers:enabled];
+    
+    objc_setAssociatedObject(self, kDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)enableObservers:(BOOL)enable
+{
+    if (self.isDataSetEnabled && !enable) {
+        @try {
+            [self removeObserver:self forKeyPath:kContentSizeKeyPath];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+            [self invalidateContent];
+        }
+        @catch(id anException) {
+            
+        }
+    }
+    else if (enable) {
+        @try {
+            [self addObserver:self forKeyPath:kContentSizeKeyPath options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+        }
+        @catch(id anException) {
+            
+        }
+    }
 }
 
 
@@ -225,8 +233,6 @@ static NSString *kContentSize = @"contentSize";
 
 - (void)reloadDataSet
 {
-    BOOL isDataSetVisible = [self isDataSetVisible];
-    
     if ([self totalNumberOfRows] == 0)
     {
         self.dataSetView.titleLabel.attributedText = [self titleLabelText];
@@ -240,7 +246,7 @@ static NSString *kContentSize = @"contentSize";
         self.dataSetView.hidden = NO;
         self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
         
-        self.scrollEnabled = [self allowsScroll];
+        self.scrollEnabled = [self isScrollAllowed];
 
         [UIView animateWithDuration:0.25
                          animations:^{
@@ -248,7 +254,7 @@ static NSString *kContentSize = @"contentSize";
                          }
                          completion:NULL];
     }
-    else if (isDataSetVisible) {
+    else if ([self isDataSetVisible] && [self needsReloadSets]) {
         [self invalidateContent];
     }
 }
@@ -262,11 +268,12 @@ static NSString *kContentSize = @"contentSize";
 
 - (void)invalidateContent
 {
-    [_dataSetView invalidateContent];
-    [_dataSetView removeFromSuperview];
-    _dataSetView = nil;
-    
-    observanceCtx = 0;
+    if (self.dataSetView) {
+        [self.dataSetView invalidateContent];
+        [self.dataSetView removeFromSuperview];
+        
+        objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
     
     self.scrollEnabled = YES;
 }
@@ -283,7 +290,7 @@ static NSString *kContentSize = @"contentSize";
         NSValue *old = [change objectForKey:@"old"];
         
         if (new && old && ![new isEqualToValue:old]) {
-            if ([keyPath isEqualToString:kContentSize]) {
+            if ([keyPath isEqualToString:kContentSizeKeyPath]) {
                 [self didReloadData];
             }
         }
@@ -309,7 +316,7 @@ static NSString *kContentSize = @"contentSize";
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer.view isEqual:self.dataSetView]) {
-        return [self allowsTouch];
+        return [self isTouchAllowed];
     }
     
     return [super gestureRecognizerShouldBegin:gestureRecognizer];
