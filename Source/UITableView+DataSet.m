@@ -14,7 +14,6 @@
 static id<DZNTableViewDataSetSource> _dataSetSource = nil;
 static id<DZNTableViewDataSetDelegate> _dataSetDelegate = nil;
 static DZNTableDataSetView *_dataSetView;
-static NSInteger _totalNumberOfRows;
 static BOOL _dataSetEnabled;
 
 static NSInteger observanceCtx = 0;
@@ -45,14 +44,13 @@ static NSString *kContentSize = @"contentSize";
     {
         _dataSetView = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
         _dataSetView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dataSetView.backgroundColor = [UIColor clearColor];
         _dataSetView.hidden = YES;
         _dataSetView.alpha = 0;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
         tapGesture.delegate = self;
         [_dataSetView addGestureRecognizer:tapGesture];
-
+        
         [self addSubview:_dataSetView];
     }
     return _dataSetView;
@@ -77,6 +75,14 @@ static NSString *kContentSize = @"contentSize";
         return [self.dataSetDelegate tableViewDataSetShouldAllowScroll:self];
     }
     return NO;
+}
+
+- (UIColor *)dataSetBackgroundColor
+{
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(tableViewDataSetBackgroundColor:)]) {
+        return [self.dataSetSource tableViewDataSetBackgroundColor:self];
+    }
+    return [UIColor clearColor];
 }
 
 
@@ -221,9 +227,7 @@ static NSString *kContentSize = @"contentSize";
 {
     BOOL isDataSetVisible = [self isDataSetVisible];
     
-    _totalNumberOfRows = [self totalNumberOfRows];
-    
-    if (_totalNumberOfRows == 0)
+    if ([self totalNumberOfRows] == 0)
     {
         self.dataSetView.titleLabel.attributedText = [self titleLabelText];
         self.dataSetView.detailLabel.attributedText = [self detailLabelText];
@@ -234,6 +238,8 @@ static NSString *kContentSize = @"contentSize";
         [self.dataSetView layoutIfNeeded];
         
         self.dataSetView.hidden = NO;
+        self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
+        
         self.scrollEnabled = [self allowsScroll];
 
         [UIView animateWithDuration:0.25
@@ -260,7 +266,6 @@ static NSString *kContentSize = @"contentSize";
     [_dataSetView removeFromSuperview];
     _dataSetView = nil;
     
-    _totalNumberOfRows = 0;
     observanceCtx = 0;
     
     self.scrollEnabled = YES;

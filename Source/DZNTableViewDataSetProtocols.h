@@ -56,6 +56,14 @@
  */
 - (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView;
 
+/**
+ * Asks the data source for the background color of the data set. Default is clear color.
+ *
+ * @param tableView A table-view object informing the data source.
+ * @return An color to be applied to the data set background view.
+ */
+- (UIColor *)tableViewDataSetBackgroundColor:(UITableView *)tableView;
+
 @end
 
 
@@ -98,5 +106,6 @@
  * @param tableView A table-view object informing the delegate.
  */
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView;
+
 
 @end
