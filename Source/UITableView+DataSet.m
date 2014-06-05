@@ -16,7 +16,7 @@ static char const * const kDataSetSource =      "dataSetSource";
 static char const * const kDataSetDelegate =    "dataSetDelegate";
 static char const * const kDataSetView =        "dataSetView";
 static char const * const kDataSetEnabled =     "dataSetEnabled";
-static NSString *kContentSizeKeyPath =          @"contentSize";
+static NSString *kContentSize =                 @"contentSize";
 static NSInteger observanceCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
@@ -187,7 +187,7 @@ static NSInteger observanceCtx;
 {
     if (self.isDataSetEnabled && !enable) {
         @try {
-            [self removeObserver:self forKeyPath:kContentSizeKeyPath];
+            [self removeObserver:self forKeyPath:kContentSize];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
             [self invalidateContent];
         }
@@ -197,7 +197,7 @@ static NSInteger observanceCtx;
     }
     else if (enable) {
         @try {
-            [self addObserver:self forKeyPath:kContentSizeKeyPath options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
+            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:&observanceCtx];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
         }
@@ -290,7 +290,7 @@ static NSInteger observanceCtx;
         NSValue *old = [change objectForKey:@"old"];
         
         if (new && old && ![new isEqualToValue:old]) {
-            if ([keyPath isEqualToString:kContentSizeKeyPath]) {
+            if ([keyPath isEqualToString:kContentSize]) {
                 [self didReloadData];
             }
         }
