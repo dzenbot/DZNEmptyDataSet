@@ -7,9 +7,9 @@
 //
 
 #import "MainViewController.h"
-//#import "UITableView+DataSet.h"
+#import "UITableView+DataSet.h"
 
-@interface MainViewController () /*<DZNTableViewDataSetSource, DZNTableViewDataSetDelegate>*/ {
+@interface MainViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate> {
     CGFloat _bottomMargin;
 }
 @property (nonatomic, strong) NSArray *users;
@@ -115,8 +115,8 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
-//        _tableView.dataSetDelegate = self;
-//        _tableView.dataSetSource = self;
+        _tableView.dataSetDelegate = self;
+        _tableView.dataSetSource = self;
  
         _tableView.tableFooterView = [UIView new];
     }
@@ -147,7 +147,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    if (_filteredUsers) {
+        return _filteredUsers.count;
+    }
+    return _users.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,7 +162,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    NSString *name = [_users objectAtIndex:indexPath.row];
+    NSString *name = nil;
+    if (_filteredUsers) name = [_filteredUsers objectAtIndex:indexPath.row];
+    else name = [_users objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = name;
     
     return cell;
@@ -179,49 +185,79 @@
 }
 
 
-//#pragma mark - DZNTableViewDataSetDataSource Methods
-//
-//- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
-//{
-//    return nil;
-//}
-//
-//- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
-//{
-//    return nil;
-//}
-//
-//- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
-//{
-//    return nil;
-//}
-//
-//- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
-//{
-//    return nil;
-//}
-//
-//#pragma mark - DZNTableViewDataSetDelegate Methods
-//
-//- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
-//{
-//    return YES;
-//}
-//
-//- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
-//{
-//    return YES;
-//}
-//
-//- (void)tableViewDataSetDidTapView:(UITableView *)tableView
-//{
-//    
-//}
-//
-//- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
-//{
-//    
-//}
+#pragma mark - DZNTableViewDataSetDataSource Methods
+
+- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
+{
+    NSString *text = @"No Users to invite";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:28.0],
+                                 NSForegroundColorAttributeName: [UIColor grayColor]};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    
+    return attributedTitle;
+}
+
+- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
+{
+    NSString *channelName = @"#theoldgodsandthenew";
+    NSString *message = @"All team members are already participating in the channel";
+    NSString *text = [NSString stringWithFormat:@"%@ %@", message, channelName];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    
+    [attributedTitle addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16.0] range:[text rangeOfString:channelName]];
+    
+    return attributedTitle;
+}
+
+- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
+{
+    return [UIImage imageNamed:@"placeholder"];
+}
+
+- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
+{
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0]};
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Tap here to reload" attributes:attributes];
+    
+    return attributedTitle;
+}
+
+
+#pragma mark - DZNTableViewDataSetDelegate Methods
+
+- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
+{
+    return NO;
+}
+
+- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
+{
+    return NO;
+}
+
+- (void)tableViewDataSetDidTapView:(UITableView *)tableView
+{
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
+    }
+}
+
+- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
+{
+    
+}
 
 
 #pragma mark - UISearchBarDelegate Methods

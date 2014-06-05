@@ -15,8 +15,8 @@
 		4F44C97F19402EAD00E34052 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C97C19402EAD00E34052 /* main.m */; };
 		4F44C98519402EE600E34052 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C98419402EE600E34052 /* Images.xcassets */; };
 		4F44C98619402F2600E34052 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C98119402EDE00E34052 /* Main.storyboard */; };
-		4F44C99D1940307000E34052 /* DZNTableDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C9991940307000E34052 /* DZNTableDataSetView.m */; };
-		4F44C99E1940307000E34052 /* UITableView+DataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C99C1940307000E34052 /* UITableView+DataSet.m */; };
+		4F44C9B31940311C00E34052 /* DZNTableDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C9AF1940311C00E34052 /* DZNTableDataSetView.m */; };
+		4F44C9BA1940326900E34052 /* UITableView+DataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C9B91940326900E34052 /* UITableView+DataSet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,11 +34,11 @@
 		4F44C97E19402EAD00E34052 /* Sample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sample-Prefix.pch"; sourceTree = "<group>"; };
 		4F44C98219402EDE00E34052 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		4F44C98419402EE600E34052 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = SOURCE_ROOT; };
-		4F44C9981940307000E34052 /* DZNTableDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZNTableDataSetView.h; sourceTree = "<group>"; };
-		4F44C9991940307000E34052 /* DZNTableDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZNTableDataSetView.m; sourceTree = "<group>"; };
-		4F44C99A1940307000E34052 /* DZNTableViewDataSetProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZNTableViewDataSetProtocols.h; sourceTree = "<group>"; };
-		4F44C99B1940307000E34052 /* UITableView+DataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+DataSet.h"; sourceTree = "<group>"; };
-		4F44C99C1940307000E34052 /* UITableView+DataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+DataSet.m"; sourceTree = "<group>"; };
+		4F44C9AE1940311C00E34052 /* DZNTableDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNTableDataSetView.h; path = ../Source/DZNTableDataSetView.h; sourceTree = "<group>"; };
+		4F44C9AF1940311C00E34052 /* DZNTableDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DZNTableDataSetView.m; path = ../Source/DZNTableDataSetView.m; sourceTree = "<group>"; };
+		4F44C9B01940311C00E34052 /* DZNTableViewDataSetProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNTableViewDataSetProtocols.h; path = ../Source/DZNTableViewDataSetProtocols.h; sourceTree = "<group>"; };
+		4F44C9B81940325C00E34052 /* UITableView+DataSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UITableView+DataSet.h"; path = "../Source/UITableView+DataSet.h"; sourceTree = "<group>"; };
+		4F44C9B91940326900E34052 /* UITableView+DataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableView+DataSet.m"; path = "../Source/UITableView+DataSet.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +58,8 @@
 		4F44C931193FD8B000E34052 = {
 			isa = PBXGroup;
 			children = (
+				4F44C9AD1940311200E34052 /* Source */,
 				4F44C943193FD8B000E34052 /* Sample */,
-				4F44C9971940307000E34052 /* Source */,
 				4F44C93C193FD8B000E34052 /* Frameworks */,
 				4F44C93B193FD8B000E34052 /* Products */,
 			);
@@ -109,17 +109,16 @@
 			path = "Supporting Files";
 			sourceTree = SOURCE_ROOT;
 		};
-		4F44C9971940307000E34052 /* Source */ = {
+		4F44C9AD1940311200E34052 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				4F44C9981940307000E34052 /* DZNTableDataSetView.h */,
-				4F44C9991940307000E34052 /* DZNTableDataSetView.m */,
-				4F44C99A1940307000E34052 /* DZNTableViewDataSetProtocols.h */,
-				4F44C99B1940307000E34052 /* UITableView+DataSet.h */,
-				4F44C99C1940307000E34052 /* UITableView+DataSet.m */,
+				4F44C9AE1940311C00E34052 /* DZNTableDataSetView.h */,
+				4F44C9AF1940311C00E34052 /* DZNTableDataSetView.m */,
+				4F44C9B01940311C00E34052 /* DZNTableViewDataSetProtocols.h */,
+				4F44C9B81940325C00E34052 /* UITableView+DataSet.h */,
+				4F44C9B91940326900E34052 /* UITableView+DataSet.m */,
 			);
 			name = Source;
-			path = ../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,10 +186,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F44C97719402E6400E34052 /* MainViewController.m in Sources */,
-				4F44C99D1940307000E34052 /* DZNTableDataSetView.m in Sources */,
+				4F44C9B31940311C00E34052 /* DZNTableDataSetView.m in Sources */,
 				4F44C97F19402EAD00E34052 /* main.m in Sources */,
 				4F44C97A19402E7D00E34052 /* AppDelegate.m in Sources */,
-				4F44C99E1940307000E34052 /* UITableView+DataSet.m in Sources */,
+				4F44C9BA1940326900E34052 /* UITableView+DataSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
