@@ -28,4 +28,6 @@
 /** The button of the view. */
 @property (nonatomic, strong, readonly) UIButton *button;
 
+- (void)invalidateContent;
+
 @end

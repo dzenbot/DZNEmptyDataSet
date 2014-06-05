@@ -20,7 +20,7 @@ static BOOL _dataSetEnabled;
 static NSInteger observanceCtx = 0;
 static NSString *kContentSize = @"contentSize";
 
-@interface UITableView ()
+@interface UITableView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
 @property (nonatomic) BOOL dataSetEnabled;
 @end
@@ -50,6 +50,7 @@ static NSString *kContentSize = @"contentSize";
         _dataSetView.alpha = 0;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
+        tapGesture.delegate = self;
         [_dataSetView addGestureRecognizer:tapGesture];
 
         [self addSubview:_dataSetView];
@@ -60,6 +61,22 @@ static NSString *kContentSize = @"contentSize";
 - (BOOL)dataSetEnabled
 {
     return _dataSetEnabled;
+}
+
+- (BOOL)allowsTouch
+{
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowTouch:)]) {
+        return [self.dataSetDelegate tableViewDataSetShouldAllowTouch:self];
+    }
+    return YES;
+}
+
+- (BOOL)allowsScroll
+{
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowScroll:)]) {
+        return [self.dataSetDelegate tableViewDataSetShouldAllowScroll:self];
+    }
+    return NO;
 }
 
 
@@ -217,7 +234,7 @@ static NSString *kContentSize = @"contentSize";
         [self.dataSetView layoutIfNeeded];
         
         self.dataSetView.hidden = NO;
-        self.scrollEnabled = NO;
+        self.scrollEnabled = [self allowsScroll];
 
         [UIView animateWithDuration:0.25
                          animations:^{
@@ -239,13 +256,11 @@ static NSString *kContentSize = @"contentSize";
 
 - (void)invalidateContent
 {
-    _dataSetView.titleLabel.text = nil;
-    _dataSetView.detailLabel.text = nil;
-    _dataSetView.imageView.image = nil;
-    
+    [_dataSetView invalidateContent];
+    [_dataSetView removeFromSuperview];
     _dataSetView = nil;
-    _totalNumberOfRows = 0;
     
+    _totalNumberOfRows = 0;
     observanceCtx = 0;
     
     self.scrollEnabled = YES;
@@ -262,7 +277,7 @@ static NSString *kContentSize = @"contentSize";
         NSValue *new = [change objectForKey:@"new"];
         NSValue *old = [change objectForKey:@"old"];
         
-        if (new && old && [new isEqualToValue:old]) {
+        if (new && old && ![new isEqualToValue:old]) {
             if ([keyPath isEqualToString:kContentSize]) {
                 [self didReloadData];
             }
@@ -281,6 +296,18 @@ static NSString *kContentSize = @"contentSize";
 - (void)didChangeValueForKey:(NSString *)key
 {
     [super didChangeValueForKey:key];
+}
+
+
+#pragma mark - UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (![gestureRecognizer.view isEqual:self.dataSetView]) {
+        return NO;
+    }
+    
+    return [self allowsTouch];
 }
 
 @end

@@ -115,6 +115,19 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kDZNTableDataSetViewDidTapButtonNotification object:nil];
 }
 
+- (void)invalidateContent
+{
+    [_titleLabel removeFromSuperview];
+    [_detailLabel removeFromSuperview];
+    [_imageView removeFromSuperview];
+    [_button removeFromSuperview];
+
+    _titleLabel = nil;
+    _detailLabel = nil;
+    _imageView = nil;
+    _button = nil;
+}
+
 
 #pragma mark - UIView Constraints & Layout Methods
 
