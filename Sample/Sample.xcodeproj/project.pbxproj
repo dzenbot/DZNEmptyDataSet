@@ -14,9 +14,9 @@
 		4F44C97A19402E7D00E34052 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C97919402E7D00E34052 /* AppDelegate.m */; };
 		4F44C97F19402EAD00E34052 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C97C19402EAD00E34052 /* main.m */; };
 		4F44C98519402EE600E34052 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C98419402EE600E34052 /* Images.xcassets */; };
-		4F44C98619402F2600E34052 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C98119402EDE00E34052 /* Main.storyboard */; };
 		4F44C9B31940311C00E34052 /* DZNTableDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C9AF1940311C00E34052 /* DZNTableDataSetView.m */; };
 		4F44C9BA1940326900E34052 /* UITableView+DataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C9B91940326900E34052 /* UITableView+DataSet.m */; };
+		4F44C9BF1940D67300E34052 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C9BE1940D67300E34052 /* countries.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,13 +32,13 @@
 		4F44C97C19402EAD00E34052 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F44C97D19402EAD00E34052 /* Sample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Sample-Info.plist"; sourceTree = "<group>"; };
 		4F44C97E19402EAD00E34052 /* Sample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sample-Prefix.pch"; sourceTree = "<group>"; };
-		4F44C98219402EDE00E34052 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		4F44C98419402EE600E34052 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4F44C9AE1940311C00E34052 /* DZNTableDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNTableDataSetView.h; path = ../Source/DZNTableDataSetView.h; sourceTree = "<group>"; };
 		4F44C9AF1940311C00E34052 /* DZNTableDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DZNTableDataSetView.m; path = ../Source/DZNTableDataSetView.m; sourceTree = "<group>"; };
 		4F44C9B01940311C00E34052 /* DZNTableViewDataSetProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DZNTableViewDataSetProtocols.h; path = ../Source/DZNTableViewDataSetProtocols.h; sourceTree = "<group>"; };
 		4F44C9B81940325C00E34052 /* UITableView+DataSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UITableView+DataSet.h"; path = "../Source/UITableView+DataSet.h"; sourceTree = "<group>"; };
 		4F44C9B91940326900E34052 /* UITableView+DataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableView+DataSet.m"; path = "../Source/UITableView+DataSet.m"; sourceTree = "<group>"; };
+		4F44C9BE1940D67300E34052 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +91,7 @@
 				4F44C97919402E7D00E34052 /* AppDelegate.m */,
 				4F44C97519402E6400E34052 /* MainViewController.h */,
 				4F44C97619402E6400E34052 /* MainViewController.m */,
-				4F44C98119402EDE00E34052 /* Main.storyboard */,
+				4F44C9BE1940D67300E34052 /* countries.json */,
 				4F44C98419402EE600E34052 /* Images.xcassets */,
 				4F44C97B19402EAD00E34052 /* Supporting Files */,
 			);
@@ -173,7 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F44C98619402F2600E34052 /* Main.storyboard in Resources */,
+				4F44C9BF1940D67300E34052 /* countries.json in Resources */,
 				4F44C98519402EE600E34052 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,17 +194,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		4F44C98119402EDE00E34052 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F44C98219402EDE00E34052 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4F44C96A193FD8B200E34052 /* Debug */ = {
@@ -285,7 +274,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Supporting Files/Sample-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Sample;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -298,7 +289,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Supporting Files/Sample-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Sample;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

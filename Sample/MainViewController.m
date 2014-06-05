@@ -12,8 +12,8 @@
 @interface MainViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate> {
     CGFloat _bottomMargin;
 }
-@property (nonatomic, strong) NSMutableArray *users;
-@property (nonatomic, strong) NSArray *filteredUsers;
+@property (nonatomic, strong) NSMutableArray *countries;
+@property (nonatomic, strong) NSMutableArray *filteredCountries;
 @end
 
 @implementation MainViewController
@@ -27,11 +27,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.title = @"Sample";
+    self.title = @"Countries of the World";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    _users = [[NSMutableArray alloc] initWithArray:@[@"Amanda",@"Allie",@"Alyson",@"Byron",@"Britanny",@"Carl",@"Caroline",@"Connie",@"Daniel",@"Donnie",@"Donkey",@"Emanuel",@"Emerson",@"Eliseo",@"Emrih",@"Fabienne",@"Fabio",@"Fabiola",@"Francisco",@"Fernando",@"Flor",@"Facundo",@"Fatima",@"Felipe",@"Florencia",@"Filomena",@"Felicia",@"Flavio",@"Federico",@"Fanny",@"Francia",@"Hector",@"Horacio",@"Homero",@"Hilda",@"Hilia",@"Hernan",@"Geronimo",@"Gabriela",@"Gonzalo",@"Guido",@"Giovanni",@"George",@"Galileo",@"Gilberto"]];;
+    // A list of countries in JSON by Félix Bellanger
+    // https://gist.github.com/Keeguon/2310008
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self.tableView action:@selector(reloadData)];
     
@@ -88,7 +92,9 @@
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&endFrame];
     
     CGFloat minY = CGRectGetMinY(endFrame);
-    _bottomMargin = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : endFrame.size.height;
+    CGFloat keyboardHeight = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? endFrame.size.width : endFrame.size.height;
+    if (keyboardHeight == CGRectGetHeight([UIScreen mainScreen].bounds)) keyboardHeight = 0;
+    _bottomMargin = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : keyboardHeight;
     
     CGFloat duration = [[note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     CGFloat curve = [[note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] floatValue];
@@ -101,6 +107,7 @@
                         options:curve
                      animations:^{
                          [self.view layoutIfNeeded];
+                         [self.tableView layoutIfNeeded];
                      }
                      completion:NULL];
 }
@@ -131,7 +138,7 @@
         _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
         _searchBar.delegate = self;
         
-        _searchBar.placeholder = @"Search";
+        _searchBar.placeholder = @"Search Country";
         _searchBar.searchBarStyle = UISearchBarStyleMinimal;
     }
     return _searchBar;
@@ -144,34 +151,37 @@
 {
     NSString *name = self.searchBar.text;
     
-    if ([_users containsObject:name]) {
+    if ([self.countries containsObject:name]) {
         return;
     }
     
-    [_users addObject:name];
+    [self.countries addObject:name];
     
-    NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-    [_users sortUsingDescriptors:@[sorter]];
     
-    [self filterUsers];
+    
+    [self filtercountries];
 }
 
-- (void)filterUsers
+- (void)filtercountries
 {
     if (self.searchBar.text.length > 0) {
         
-        if (!_filteredUsers) {
-            _filteredUsers = [NSArray new];
+        if (!self.filteredCountries) {
+            self.filteredCountries = [NSMutableArray new];
         }
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self contains[cd] %@", self.searchBar.text];
-        _filteredUsers = [_users filteredArrayUsingPredicate:predicate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", self.searchBar.text];
+        self.filteredCountries = [[self.countries filteredArrayUsingPredicate:predicate] mutableCopy];
+        
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+        [self.filteredCountries sortUsingDescriptors:@[sorter]];
     }
     else {
-        _filteredUsers = nil;
+        self.filteredCountries = nil;
     }
     
     [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero];
 }
 
 
@@ -184,10 +194,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_filteredUsers) {
-        return _filteredUsers.count;
+    if (self.filteredCountries) {
+        return self.filteredCountries.count;
     }
-    return _users.count;
+    return self.countries.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -196,14 +206,26 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    NSString *name = nil;
-    if (_filteredUsers) name = [_filteredUsers objectAtIndex:indexPath.row];
-    else name = [_users objectAtIndex:indexPath.row];
+    NSDictionary *country = nil;
+    if (self.filteredCountries) country = [self.filteredCountries objectAtIndex:indexPath.row];
+    else country = [self.countries objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = name;
+    cell.textLabel.text = [country objectForKey:@"name"];
+    cell.detailTextLabel.text = [country objectForKey:@"code"];
+    
+    UIImage *image = [UIImage imageNamed:[[country objectForKey:@"code"] lowercaseString]];
+    if (!image) image = [UIImage imageNamed:@"unknown"];
+    cell.imageView.image = image;
+    
+    cell.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.imageView.layer.shadowOpacity = 0.4;
+    cell.imageView.layer.shadowRadius = 1.5;
+    cell.imageView.layer.shadowOffset = CGSizeZero;
+    cell.imageView.layer.shouldRasterize = YES;
+    cell.imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return cell;
 }
@@ -231,7 +253,7 @@
 
 - (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
 {
-    NSString *text = [NSString stringWithFormat:@"No users found matching\n%@.", self.searchBar.text];
+    NSString *text = [NSString stringWithFormat:@"No countries found matching\n%@.", self.searchBar.text];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -255,10 +277,10 @@
 
 - (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
 {
+    NSString *text = @"Search in Wikipedia";
+    
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0]};
-    
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Add user to the List" attributes:attributes];
-    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
     return attributedTitle;
 }
 
@@ -289,7 +311,11 @@
 
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
-    [self addMissingUser];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", self.searchBar.text]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:URL]) {
+        [[UIApplication sharedApplication] openURL:URL];
+    }
 }
 
 
@@ -318,8 +344,8 @@
     
     [searchBar setShowsCancelButton:NO animated:YES];
     
-    if (_filteredUsers) {
-        _filteredUsers = nil;
+    if (self.filteredCountries) {
+        self.filteredCountries = nil;
         [self.tableView reloadData];
     }
 }
@@ -336,12 +362,11 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [self filterUsers];
+    [self filtercountries];
     
     // If the data set is visiable, but the user keeps typing text
     // let's force the data set to redraw data according to the data source updates.
-    
-    if (self.tableView.isDataSetVisible && self.filteredUsers.count == 0) {
+    if (self.tableView.isDataSetVisible && self.filteredCountries.count == 0) {
         [self.tableView reloadDataSetIfNeeded];
     }
 }
