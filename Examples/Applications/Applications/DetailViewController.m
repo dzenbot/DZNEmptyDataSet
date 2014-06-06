@@ -34,6 +34,8 @@
     self.tableView.dataSetDelegate = self;
     self.tableView.dataSetSource = self;
     self.tableView.tableFooterView = [UIView new];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,17 +103,36 @@
 
 - (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
 {
-    return nil;
+    NSString *text = @"Instagram Direct";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0]};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
 {
-    return nil;
+    NSString *text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 4.0;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
 {
-    return nil;
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:  return [UIImage imageNamed:@"placeholder_instagram"];
+        default:                        return nil;
+    }
 }
 
 - (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
@@ -121,7 +142,10 @@
 
 - (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView
 {
-    return nil;
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        default:                        return nil;
+    }
 }
 
 
@@ -134,12 +158,17 @@
 
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
 {
-    return YES;
+    return NO;
+}
+
+- (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView
+{
+    return 24.0;
 }
 
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView
 {
-    
+    NSLog(@"%s",__FUNCTION__);
 }
 
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
