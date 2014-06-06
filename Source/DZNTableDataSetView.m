@@ -188,7 +188,8 @@
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [format appendString:obj];
         if (idx < subviews.count-1) {
-            [format appendString:@"-"];
+            if (_verticalSpace > 0) [format appendFormat:@"-%.f-", _verticalSpace];
+            else [format appendString:@"-"];
         }
     }];
     

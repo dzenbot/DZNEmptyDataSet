@@ -27,7 +27,12 @@
 @property (nonatomic, strong, readonly) UIImageView *imageView;
 /** The button of the view. */
 @property (nonatomic, strong, readonly) UIButton *button;
+/** The vertical space between controls. */
+@property (nonatomic, assign) CGFloat verticalSpace;
 
+/** 
+ * Removes and deallocates all the view's controls.
+ */
 - (void)invalidateContent;
 
 @end

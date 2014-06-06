@@ -122,6 +122,14 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     return nil;
 }
 
+- (CGFloat)verticalSpace
+{
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetVerticalSpace:)]) {
+        return [self.dataSetDelegate tableViewDataSetVerticalSpace:self];
+    }
+    return 0.0;
+}
+
 - (BOOL)needsReloadSets
 {
     if (![self.dataSetView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
@@ -241,6 +249,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         self.dataSetView.titleLabel.attributedText = [self titleLabelText];
         self.dataSetView.imageView.image = [self image];
         [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
+        self.dataSetView.verticalSpace = [self verticalSpace];
         
         [self.dataSetView updateConstraints];
         [self.dataSetView layoutIfNeeded];

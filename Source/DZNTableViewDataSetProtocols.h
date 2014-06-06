@@ -93,6 +93,14 @@
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView;
 
 /**
+ * Aks the delegate for custom vertical space. Default is autolayout's default (12px).
+ *
+ * @param tableView A table-view object informing the delegate.
+ * @return The vertical space amount.
+ */
+- (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView;
+
+/**
  * Tells the delegate that the data set view was tapped.
  * Use this method either to resignFirstResponder of a textfield or searchBar.
  *
