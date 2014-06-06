@@ -235,8 +235,10 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 {
     if ([self totalNumberOfRows] == 0)
     {
-        self.dataSetView.titleLabel.attributedText = [self titleLabelText];
+        [self.dataSetView updateConstraintsIfNeeded];
+        
         self.dataSetView.detailLabel.attributedText = [self detailLabelText];
+        self.dataSetView.titleLabel.attributedText = [self titleLabelText];
         self.dataSetView.imageView.image = [self image];
         [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
         
