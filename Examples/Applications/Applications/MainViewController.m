@@ -31,14 +31,17 @@
     [super viewDidLoad];
     
     self.title = @"Applications";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
-
-    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.titleTextAttributes = nil;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -94,18 +97,23 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.detailTextLabel.textColor = [UIColor grayColor];
     }
     
     Application *app = [self.applications objectAtIndex:indexPath.row];
     
     cell.textLabel.text = app.displayName;
-    cell.detailTextLabel.text = app.identifier;
+    cell.detailTextLabel.text = app.developerName;
     
     UIImage *image = [UIImage imageNamed:app.iconName];
     cell.imageView.image = image;
     
     cell.imageView.layer.cornerRadius = image.size.width*0.2;
     cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.layer.borderColor = [UIColor colorWithWhite:0.0 alpha:0.2].CGColor;
+    cell.imageView.layer.borderWidth = 0.5;
+    
     cell.imageView.layer.shouldRasterize = YES;
     cell.imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
@@ -125,20 +133,14 @@
     Application *app = [self.applications objectAtIndex:indexPath.row];
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     
+    UIImage *backIndicator = [UIImage imageNamed:[NSString stringWithFormat:@"back_%@", [app.displayName lowercaseString]]];
+    
+    if (backIndicator) {
+        self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backIndicator;
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    }
+    
     [self.navigationController pushViewController:controller animated:YES];
-}
-
-
-#pragma mark - View lifeterm
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
 }
 
 
@@ -153,7 +155,5 @@
 {
     return YES;
 }
-
-
 
 @end

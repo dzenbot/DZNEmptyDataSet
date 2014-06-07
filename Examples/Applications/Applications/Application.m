@@ -19,14 +19,25 @@
     self = [super init];
     if (self) {
         self.displayName = [dict objectForKey:@"display_name"];
+        self.developerName = [dict objectForKey:@"developer_name"];
         self.identifier = [dict objectForKey:@"identifier"];
-        self.iconName = [dict objectForKey:@"icon_name"];
-        
-        if ([self.identifier isEqualToString:@"389801252"]) {
-            self.type = ApplicationTypeInstagram;
-        }
     }
     return self;
+}
+
+- (void)setDisplayName:(NSString *)displayName
+{
+    _displayName = displayName;
+    
+    NSString *name = [self.displayName lowercaseString];
+    self.iconName = [NSString stringWithFormat:@"icon_%@", name];
+    
+    if ([name isEqualToString:@"instagram"]) {
+        self.type = ApplicationTypeInstagram;
+    }
+    if ([name isEqualToString:@"vesper"]) {
+        self.type = ApplicationTypeVesper;
+    }
 }
 
 @end

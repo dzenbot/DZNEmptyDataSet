@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, ApplicationType) {
-    ApplicationTypeInstagram
+    ApplicationTypeInstagram,
+    ApplicationTypeVesper
 };
 
 @interface Application : NSObject
 @property (nonatomic, strong) NSString *displayName;
+@property (nonatomic, strong) NSString *developerName;
 @property (nonatomic, strong) NSString *identifier;
 @property (nonatomic, strong) NSString *iconName;
 @property (nonatomic) ApplicationType type;

@@ -20,7 +20,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.application = application;
-        self.title = self.application.displayName;
+        self.title = application.displayName;
     }
     return self;
 }
@@ -41,6 +41,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self configureNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -58,6 +60,52 @@
 	[super viewDidDisappear:animated];
 }
 
+- (void)configureNavigationBar
+{
+    UIFont *font = nil;
+    UIColor *textColor = nil;
+    UIColor *barColor = nil;
+    UIColor *tintColor = nil;
+    UIImage *backImage = nil;
+    UIImage *backIndicator = [UIImage imageNamed:[NSString stringWithFormat:@"back_%@", [self.application.displayName lowercaseString]]];
+    
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:
+        {
+            self.title = [self.title uppercaseString];
+            textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+            barColor = [UIColor whiteColor];
+            backImage = backIndicator;
+            tintColor = [UIColor colorWithRed:31/255.0 green:98/255.0 blue:153/255.0 alpha:1.0];
+
+            break;
+        }
+        case ApplicationTypeVesper:
+        {
+            font = [UIFont fontWithName:@"IdealSans-Book" size:20.0];
+            textColor = [UIColor whiteColor];
+            barColor = [UIColor colorWithRed:94/255.0 green:125/255.0 blue:154/255.0 alpha:1.0];
+            backImage = backIndicator;
+            tintColor = textColor;
+
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
+            break;
+        }
+        default:
+            break;
+    }
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    if (font) [attributes setObject:font forKey:NSFontAttributeName];
+    if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    
+    self.navigationController.navigationBar.titleTextAttributes = attributes;
+    self.navigationController.navigationBar.barTintColor = barColor;
+    self.navigationController.navigationBar.tintColor = tintColor;
+    self.navigationController.navigationBar.backIndicatorImage = backImage;
+}
+
 
 #pragma mark - UITableViewDataSource Methods
 
@@ -71,59 +119,82 @@
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"detail_cell_identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"cell %d", indexPath.row];
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
-
-
-#pragma mark - UITableViewDelegate Methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
 
 #pragma mark - DZNTableViewDataSetDataSource Methods
 
 - (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
 {
-    NSString *text = @"Instagram Direct";
+    NSString *text = nil;
+    UIFont *font = nil;
+    UIColor *textColor = nil;
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0],
-                                 NSForegroundColorAttributeName: [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0]};
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:
+        {
+            text = @"Instagram Direct";
+            font = [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0];
+            textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0];
+            
+            break;
+        }
+        case ApplicationTypeVesper:
+        {
+            text = @"No Notes";
+            font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
+            textColor = [UIColor colorWithRed:217/255.0 green:220/255.0 blue:225/255.0 alpha:1.0];
+            
+            break;
+        }
+        default:
+            return nil;
+    }
+    
+    if (!text) {
+        return nil;
+    }
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    if (font) [attributes setObject:font forKey:NSFontAttributeName];
+    if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
 {
-    NSString *text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
+    NSString *text = nil;
+    UIFont *font = nil;
+    UIColor *textColor = nil;
+    NSMutableParagraphStyle *paragraph = nil;
     
-    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    paragraphStyle.lineSpacing = 4.0;
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:
+        {
+            text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
+            font = [UIFont systemFontOfSize:16.0];
+            textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0];
+
+            paragraph = [NSMutableParagraphStyle new];
+            paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+            paragraph.alignment = NSTextAlignmentCenter;
+            paragraph.lineSpacing = 4.0;
+            break;
+        }
+        case ApplicationTypeVesper:
+            return nil;
+        default:
+            return nil;
+    }
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0],
-                                 NSForegroundColorAttributeName: [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0],
-                                 NSParagraphStyleAttributeName: paragraphStyle};
+    if (!text) {
+        return nil;
+    }
     
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    if (font) [attributes setObject:font forKey:NSFontAttributeName];
+    if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    if (paragraph) [attributes setObject:paragraph forKey:NSParagraphStyleAttributeName];
+
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
@@ -131,6 +202,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeInstagram:  return [UIImage imageNamed:@"placeholder_instagram"];
+        case ApplicationTypeVesper:     return [UIImage imageNamed:@"placeholder_vesper"];
         default:                        return nil;
     }
 }
@@ -144,6 +216,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        case ApplicationTypeVesper:     return [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
         default:                        return nil;
     }
 }
@@ -163,7 +236,11 @@
 
 - (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView
 {
-    return 24.0;
+    switch (self.application.type) {
+        case ApplicationTypeInstagram:  return 24.0;
+        case ApplicationTypeVesper:     return 22.0;
+        default:                        return 0.0;
+    }
 }
 
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView

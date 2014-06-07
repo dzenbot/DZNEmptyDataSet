@@ -1,3 +1,4 @@
  [
-  {"display_name": "Instagram", "identifier": "389801252", "icon_name": "icon_instagram"}
+  {"display_name": "Instagram", "developer_name": "Instagram, Inc.", "identifier": "389801252"},
+  {"display_name": "Vesper", "developer_name": "Q Branch", "identifier": "655895325"}
 ]
