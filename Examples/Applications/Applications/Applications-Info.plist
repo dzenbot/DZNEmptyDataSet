@@ -27,6 +27,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>IdealSans-Book-Pro.otf</string>
+		<string>Lato-Regular.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

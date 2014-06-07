@@ -46,6 +46,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Tumblr",
                      @"Twitter",
                      @"Vesper",
+                     @"Vine",
                      @"WhatsApp"
                      ];
     return (ApplicationType)[arr indexOfObject:string];

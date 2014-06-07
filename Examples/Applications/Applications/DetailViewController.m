@@ -32,12 +32,12 @@
 {
     [super viewDidLoad];
     
-    self.tableView.dataSetDelegate = self;
-    self.tableView.dataSetSource = self;
-    self.tableView.tableFooterView = [UIView new];
-    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"]; //TODO: Fix this
-    
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.tableView.dataSetSource = self;
+    self.tableView.dataSetDelegate = self;
+    self.tableView.tableFooterView = [UIView new];
+//    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"]; //TODO: Fix this
     
     if (self.application.type == ApplicationTypePinterest) {
         self.tableView.tableHeaderView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_pinterest"]];
@@ -86,6 +86,13 @@
             
             break;
         }
+        case ApplicationTypeSlack:
+        {
+            barColor = [UIColor colorWithHex:@"f4f5f6"];
+            tintColor = [UIColor colorWithHex:@"3eba92"];
+            
+            break;
+        }
         case ApplicationTypeTumblr:
         {
             barColor = [UIColor colorWithHex:@"2e3e53"];
@@ -94,12 +101,28 @@
 
             break;
         }
+        case ApplicationTypeTwitter:
+        {
+            barColor = [UIColor colorWithHex:@"58aef0"];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
+            
+            break;
+        }
         case ApplicationTypeVesper:
         {
             barColor = [UIColor colorWithHex:@"5e7d9a"];
             tintColor = [UIColor colorWithHex:@"f8f8f8"];
             barstyle = UIStatusBarStyleLightContent;
 
+            break;
+        }
+        case ApplicationTypeVine:
+        {
+            barColor = [UIColor colorWithHex:@"00bf8f"];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
+            
             break;
         }
         case ApplicationTypeWhatsapp:
@@ -143,6 +166,8 @@
     UIFont *font = nil;
     UIColor *textColor = nil;
     
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    
     switch (self.application.type) {
         case ApplicationTypeAirbnb:
         {
@@ -184,11 +209,29 @@
             
             break;
         }
+        case ApplicationTypeTwitter:
+        {
+            text = @"No lists";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"292f33"];
+            
+            break;
+        }
         case ApplicationTypeVesper:
         {
             text = @"No Notes";
             font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
             textColor = [UIColor colorWithHex:@"d9dce1"];
+            
+            break;
+        }
+        case ApplicationTypeVine:
+        {
+            text = @"Welcome to VMs";
+            font = [UIFont boldSystemFontOfSize:22.0];
+            textColor = [UIColor colorWithHex:@"595959"];
+            
+            [attributes setObject:@(0.45) forKey:NSKernAttributeName];
             
             break;
         }
@@ -208,7 +251,6 @@
         return nil;
     }
     
-    NSMutableDictionary *attributes = [NSMutableDictionary new];
     if (font) [attributes setObject:font forKey:NSFontAttributeName];
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
@@ -220,6 +262,8 @@
     NSString *text = nil;
     UIFont *font = nil;
     UIColor *textColor = nil;
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -252,6 +296,14 @@
             
             break;
         }
+        case ApplicationTypeSlack:
+        {
+            text = @"You don't have any\nrecent mentions";
+            font = [UIFont fontWithName:@"Lato-Regular" size:19.0];
+            textColor = [UIColor colorWithHex:@"d7d7d7"];
+            
+            break;
+        }
         case ApplicationTypeTumblr:
         {
             text = @"When you follow some blogs, their latest posts will show up here!";
@@ -260,9 +312,25 @@
             
             break;
         }
+        case ApplicationTypeTwitter:
+        {
+            text = @"You aren’t subscribed to any lists yet.";
+            font = [UIFont systemFontOfSize:12.0];
+            textColor = [UIColor colorWithHex:@"8899a6"];
+            
+            break;
+        }
+        case ApplicationTypeVine:
+        {
+            text = @"This is where your private conversations will live";
+            font = [UIFont systemFontOfSize:17.0];
+            textColor = [UIColor colorWithHex:@"a6a6a6"];
+            
+            break;
+        }
         case ApplicationTypeWhatsapp:
         {
-            text = @"You can exchange media with Alexandra by tapping on the Arrow Up icon in the conversation screen.";
+            text = @"You can exchange media with Ignacio by tapping on the Arrow Up icon in the conversation screen.";
             font = [UIFont systemFontOfSize:15.0];
             textColor = [UIColor colorWithHex:@"989898"];
             
@@ -276,7 +344,6 @@
         return nil;
     }
     
-    NSMutableDictionary *attributes = [NSMutableDictionary new];
     if (font) [attributes setObject:font forKey:NSFontAttributeName];
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     if (paragraph) [attributes setObject:paragraph forKey:NSParagraphStyleAttributeName];
@@ -335,12 +402,16 @@
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
         case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
+        case ApplicationTypeSlack:      return [UIColor whiteColor];
         case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
+        case ApplicationTypeTwitter:    return [UIColor colorWithHex:@"f5f8fa"];
         case ApplicationTypeVesper:     return [UIColor colorWithHex:@"f8f8f8"];
         case ApplicationTypeWhatsapp:   return [UIColor colorWithHex:@"f2f2f2"];
         default:                        return nil;
     }
 }
+
+
 
 #pragma mark - DZNTableViewDataSetDelegate Methods
 
@@ -360,7 +431,9 @@
         case ApplicationTypeAirbnb:     return 24.0;
         case ApplicationTypeInstagram:  return 24.0;
         case ApplicationTypeTumblr:     return 10.0;
+        case ApplicationTypeTwitter:    return 0.1;
         case ApplicationTypeVesper:     return 22.0;
+        case ApplicationTypeVine:       return 0.1;
         default:                        return 0.0;
     }
 }

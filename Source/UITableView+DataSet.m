@@ -49,12 +49,13 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     {
         DZNTableDataSetView *view = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        view.backgroundColor = nil;
         view.hidden = YES;
         view.alpha = 0;
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
-        tapGesture.delegate = self;
-        [view addGestureRecognizer:tapGesture];
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
+        gesture.delegate = self;
+        [view addGestureRecognizer:gesture];
         
         [self addSubview:view];
         
@@ -263,22 +264,21 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
         self.dataSetView.verticalSpace = [self verticalSpace];
         
-        [self.dataSetView updateConstraints];
-        [self.dataSetView layoutIfNeeded];
-        
         self.dataSetView.hidden = NO;
         self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
         
         self.scrollEnabled = [self isScrollAllowed];
         
-        if (self.scrollEnabled && [self dataSetBackgroundColor]) {
-            
+        if (self.scrollEnabled && self.dataSetView.backgroundColor)
+        {
             if (self.backgroundColor) {
                 self.previousBackgroundColor = self.backgroundColor;
             }
-            
-            self.backgroundColor = [self dataSetBackgroundColor];
+            self.backgroundColor = self.dataSetView.backgroundColor;
         }
+        
+        [self.dataSetView updateConstraints];
+        [self.dataSetView layoutIfNeeded];
 
         [UIView animateWithDuration:0.25
                          animations:^{
