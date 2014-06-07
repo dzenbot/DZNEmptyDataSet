@@ -35,9 +35,13 @@
     self.tableView.dataSetDelegate = self;
     self.tableView.dataSetSource = self;
     self.tableView.tableFooterView = [UIView new];
-    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"];
+    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"]; //TODO: Fix this
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    if (self.application.type == ApplicationTypePinterest) {
+        self.tableView.tableHeaderView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_pinterest"]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -45,21 +49,6 @@
     [super viewWillAppear:animated];
     
     [self configureNavigationBar];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
 }
 
 - (void)configureNavigationBar
@@ -76,12 +65,25 @@
             
             break;
         }
+        case ApplicationTypeDropbox:
+        {
+            barColor = [UIColor whiteColor];
+            tintColor = [UIColor colorWithHex:@"007ee5"];
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             barColor = [UIColor colorWithHex:@"2e5e86"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
 
+            break;
+        }
+        case ApplicationTypePinterest:
+        {
+            barColor = [UIColor colorWithHex:@"f4f4f4"];
+            tintColor = [UIColor colorWithHex:@"cb2027"];
+            
             break;
         }
         case ApplicationTypeTumblr:
@@ -98,6 +100,12 @@
             tintColor = [UIColor colorWithHex:@"f8f8f8"];
             barstyle = UIStatusBarStyleLightContent;
 
+            break;
+        }
+        case ApplicationTypeWhatsapp:
+        {
+            barColor = [UIColor colorWithHex:@"f7f7f7"];
+            
             break;
         }
         default:
@@ -148,7 +156,7 @@
         case ApplicationTypeDropbox:
         {
             text = @"Star Your Favorite Files";
-            font = [UIFont boldSystemFontOfSize:18.0];
+            font = [UIFont boldSystemFontOfSize:17.0];
             textColor = [UIColor colorWithHex:@"25282b"];
             
             break;
@@ -158,6 +166,14 @@
             text = @"Instagram Direct";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0];
             textColor = [UIColor colorWithHex:@"444444"];
+            
+            break;
+        }
+        case ApplicationTypePinterest:
+        {
+            text = @"No boards to display";
+            font = [UIFont boldSystemFontOfSize:18.0];
+            textColor = [UIColor colorWithHex:@"666666"];
             
             break;
         }
@@ -174,6 +190,14 @@
             text = @"No Notes";
             font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
             textColor = [UIColor colorWithHex:@"d9dce1"];
+            
+            break;
+        }
+        case ApplicationTypeWhatsapp:
+        {
+            text = @"No Media";
+            font = [UIFont systemFontOfSize:20.0];
+            textColor = [UIColor colorWithHex:@"808080"];
             
             break;
         }
@@ -215,7 +239,7 @@
         case ApplicationTypeDropbox:
         {
             text = @"Favorites are saved for offline access.";
-            font = [UIFont systemFontOfSize:15.0];
+            font = [UIFont systemFontOfSize:14.5];
             textColor = [UIColor colorWithHex:@"7b8994"];
             
             break;
@@ -237,8 +261,14 @@
             
             break;
         }
-        case ApplicationTypeVesper:
-            return nil;
+        case ApplicationTypeWhatsapp:
+        {
+            text = @"You can exchange media with Alexandra by tapping on the Arrow Up icon in the conversation screen.";
+            font = [UIFont systemFontOfSize:15.0];
+            textColor = [UIColor colorWithHex:@"989898"];
+            
+            break;
+        }
         default:
             return nil;
     }
@@ -305,12 +335,13 @@
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
         case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
         case ApplicationTypeVesper:     return [UIColor colorWithHex:@"f8f8f8"];
+        case ApplicationTypeWhatsapp:   return [UIColor colorWithHex:@"f2f2f2"];
         default:                        return nil;
     }
 }
-
 
 #pragma mark - DZNTableViewDataSetDelegate Methods
 
@@ -342,13 +373,7 @@
 
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@", self.application.identifier]];
-    
-    NSLog(@"%s: %@",__FUNCTION__, URL);
-    
-    if ([[UIApplication sharedApplication] canOpenURL:URL]) {
-        [[UIApplication sharedApplication] openURL:URL];
-    }
+    NSLog(@"%s",__FUNCTION__);
 }
 
 
@@ -375,14 +400,12 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationPortrait;
 }
 
 - (BOOL)shouldAutorotate
 {
-    return YES;
+    return NO;
 }
-
-
 
 @end
