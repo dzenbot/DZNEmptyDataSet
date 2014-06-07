@@ -10,9 +10,15 @@
 
 typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeAirbnb,
+    ApplicationTypeCamera,
+    ApplicationTypeDropbox,
     ApplicationTypeInstagram,
+    ApplicationTypePhotos,
+    ApplicationTypeSlack,
     ApplicationTypeTumblr,
-    ApplicationTypeVesper
+    ApplicationTypeTwitter,
+    ApplicationTypeVesper,
+    ApplicationTypeWhatsapp
 };
 
 @interface Application : NSObject

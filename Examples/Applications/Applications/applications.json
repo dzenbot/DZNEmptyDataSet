@@ -1,6 +1,12 @@
  [
   {"display_name": "Airbnb", "developer_name": "Airbnb, Inc.", "identifier": "401626263"},
+  {"display_name": "Camera", "developer_name": "Apple, Inc.", "identifier": ""},
+  {"display_name": "Dropbox", "developer_name": "Dropbox, Inc.", "identifier": "327630330"},
   {"display_name": "Instagram", "developer_name": "Instagram, Inc.", "identifier": "389801252"},
+  {"display_name": "Photos", "developer_name": "Apple, Inc.", "identifier": ""},
+  {"display_name": "Slack", "developer_name": "Tiny Speck", "identifier": "618783545"},
   {"display_name": "Tumblr", "developer_name": "Tumblr", "identifier": "305343404"},
-  {"display_name": "Vesper", "developer_name": "Q Branch", "identifier": "655895325"}
+  {"display_name": "Twitter", "developer_name": "Twitter, Inc.", "identifier": "333903271"},
+  {"display_name": "Vesper", "developer_name": "Q Branch", "identifier": "655895325"},
+  {"display_name": "WhatsApp", "developer_name": "WhatsApp, Inc.", "identifier": "310633997"},
 ]

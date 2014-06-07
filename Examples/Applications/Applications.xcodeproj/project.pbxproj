@@ -34,6 +34,7 @@
 		4FB5CEED1942944A0051C6BD /* IdealSans-ThinItalic-Pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CEDD1942944A0051C6BD /* IdealSans-ThinItalic-Pro.otf */; };
 		4FB5CEEE1942944A0051C6BD /* IdealSans-XLight-Pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CEDE1942944A0051C6BD /* IdealSans-XLight-Pro.otf */; };
 		4FB5CEEF1942944A0051C6BD /* IdealSans-XLightItalic-Pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CEDF1942944A0051C6BD /* IdealSans-XLightItalic-Pro.otf */; };
+		4FB5CEF2194383F90051C6BD /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */; };
 		BE4E1F3C7F3D44E682764DE5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D8EC570697420CB12B0361 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,8 @@
 		4FB5CEDD1942944A0051C6BD /* IdealSans-ThinItalic-Pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IdealSans-ThinItalic-Pro.otf"; sourceTree = "<group>"; };
 		4FB5CEDE1942944A0051C6BD /* IdealSans-XLight-Pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IdealSans-XLight-Pro.otf"; sourceTree = "<group>"; };
 		4FB5CEDF1942944A0051C6BD /* IdealSans-XLightItalic-Pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IdealSans-XLightItalic-Pro.otf"; sourceTree = "<group>"; };
+		4FB5CEF0194383F90051C6BD /* UIColor+Hexadecimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hexadecimal.h"; sourceTree = "<group>"; };
+		4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hexadecimal.m"; sourceTree = "<group>"; };
 		54D8EC570697420CB12B0361 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BFC9B8F81D04C10A9DD1CE8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,6 +136,8 @@
 				4FB5CEBB19421D0F0051C6BD /* DetailViewController.m */,
 				4FB5CEC0194220F50051C6BD /* Application.h */,
 				4FB5CEC1194220F50051C6BD /* Application.m */,
+				4FB5CEF0194383F90051C6BD /* UIColor+Hexadecimal.h */,
+				4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */,
 				4FB5CEC31942210E0051C6BD /* applications.json */,
 				4FB5CECE1942944A0051C6BD /* Fonts */,
 				4FB5CE9A19421BB70051C6BD /* Images.xcassets */,
@@ -300,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FB5CEB919421CA40051C6BD /* MainViewController.m in Sources */,
+				4FB5CEF2194383F90051C6BD /* UIColor+Hexadecimal.m in Sources */,
 				4FB5CE9319421BB70051C6BD /* AppDelegate.m in Sources */,
 				4FB5CE8F19421BB70051C6BD /* main.m in Sources */,
 				4FB5CEC2194220F50051C6BD /* Application.m in Sources */,

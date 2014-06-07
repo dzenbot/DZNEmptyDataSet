@@ -29,13 +29,25 @@
 {
     _displayName = displayName;
     
-    NSString *name = [self.displayName lowercaseString];
-    self.iconName = [NSString stringWithFormat:@"icon_%@", name];
-    
-    if ([name isEqualToString:@"airbnb"]) self.type = ApplicationTypeAirbnb;
-    if ([name isEqualToString:@"instagram"]) self.type = ApplicationTypeInstagram;
-    if ([name isEqualToString:@"tumblr"]) self.type = ApplicationTypeTumblr;
-    if ([name isEqualToString:@"vesper"]) self.type = ApplicationTypeVesper;
+    self.iconName = [[NSString stringWithFormat:@"icon_%@", self.displayName] lowercaseString];
+    self.type = applicationTypeFromString(self.displayName);
+}
+
+ApplicationType applicationTypeFromString(NSString *string)
+{
+    NSArray *arr = @[
+                     @"Airbnb",
+                     @"Camera",
+                     @"Dropbox",
+                     @"Instagram",
+                     @"Photos",
+                     @"Slack",
+                     @"Tumblr",
+                     @"Twitter",
+                     @"Vesper",
+                     @"WhatsApp"
+                     ];
+    return (ApplicationType)[arr indexOfObject:string];
 }
 
 @end

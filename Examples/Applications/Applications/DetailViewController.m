@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "UITableView+DataSet.h"
+#import "UIColor+Hexadecimal.h"
 
 @interface DetailViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate>
 @property (nonatomic, strong) Application *application;
@@ -34,6 +35,7 @@
     self.tableView.dataSetDelegate = self;
     self.tableView.dataSetSource = self;
     self.tableView.tableFooterView = [UIView new];
+    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
 }
@@ -69,14 +71,14 @@
     switch (self.application.type) {
         case ApplicationTypeAirbnb:
         {
-            barColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
-            tintColor = [UIColor colorWithRed:5/255.0 green:173/255.0 blue:255/255.0 alpha:1.0];
+            barColor = [UIColor colorWithHex:@"f8f8f8"];
+            tintColor = [UIColor colorWithHex:@"08aeff"];
             
             break;
         }
         case ApplicationTypeInstagram:
         {
-            barColor = [UIColor colorWithRed:46/255.0 green:94/255.0 blue:134/255.0 alpha:1.0];
+            barColor = [UIColor colorWithHex:@"2e5e86"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
 
@@ -84,7 +86,7 @@
         }
         case ApplicationTypeTumblr:
         {
-            barColor = [UIColor colorWithRed:46/255.0 green:62/255.0 blue:83/255.0 alpha:1.0];
+            barColor = [UIColor colorWithHex:@"2e3e53"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
 
@@ -92,8 +94,8 @@
         }
         case ApplicationTypeVesper:
         {
-            barColor = [UIColor colorWithRed:94/255.0 green:125/255.0 blue:154/255.0 alpha:1.0];
-            tintColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
+            barColor = [UIColor colorWithHex:@"5e7d9a"];
+            tintColor = [UIColor colorWithHex:@"f8f8f8"];
             barstyle = UIStatusBarStyleLightContent;
 
             break;
@@ -103,7 +105,7 @@
     }
     
     UIImage *logo = [UIImage imageNamed:[NSString stringWithFormat:@"logo_%@", [self.application.displayName lowercaseString]]];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    if (logo) self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
     
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
@@ -139,7 +141,7 @@
         {
             text = @"No Messages";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0];
-            textColor = [UIColor colorWithRed:201/255.0 green:201/255.0 blue:201/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"c9c9c9"];
             
             break;
         }
@@ -147,7 +149,7 @@
         {
             text = @"Instagram Direct";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0];
-            textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"444444"];
             
             break;
         }
@@ -155,7 +157,7 @@
         {
             text = @"This is your Dashboard.";
             font = [UIFont boldSystemFontOfSize:18.0];
-            textColor = [UIColor colorWithRed:170/255.0 green:182/255.0 blue:196/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"aab6c4"];
             
             break;
         }
@@ -163,7 +165,7 @@
         {
             text = @"No Notes";
             font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
-            textColor = [UIColor colorWithRed:217/255.0 green:220/255.0 blue:225/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"d9dce1"];
             
             break;
         }
@@ -197,7 +199,7 @@
         {
             text = @"When you have messages, you’ll\nsee them here.";
             font = [UIFont systemFontOfSize:13.0];
-            textColor = [UIColor colorWithRed:207/255.0 green:207/255.0 blue:207/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"cfcfcf"];
             paragraph.lineSpacing = 4.0;
 
             break;
@@ -206,7 +208,7 @@
         {
             text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
             font = [UIFont systemFontOfSize:16.0];
-            textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"444444"];
             paragraph.lineSpacing = 4.0;
             
             break;
@@ -215,7 +217,7 @@
         {
             text = @"When you follow some blogs, their latest posts will show up here!";
             font = [UIFont systemFontOfSize:17.0];
-            textColor = [UIColor colorWithRed:130/255.0 green:142/255.0 blue:156/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"828e9c"];
             
             break;
         }
@@ -259,7 +261,7 @@
         {
             text = @"Start Browsing";
             font = [UIFont boldSystemFontOfSize:16.0];
-            textColor = [UIColor colorWithRed:5/255.0 green:173/255.0 blue:255/255.0 alpha:1.0];
+            textColor = [UIColor colorWithHex:@"05adff"];
 
             break;
         }
@@ -283,8 +285,8 @@
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
-        case ApplicationTypeTumblr:     return [UIColor colorWithRed:52/255.0 green:70/255.0 blue:92/255.0 alpha:1.0];
-        case ApplicationTypeVesper:     return [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
+        case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
+        case ApplicationTypeVesper:     return [UIColor colorWithHex:@"f8f8f8"];
         default:                        return nil;
     }
 }
@@ -320,7 +322,9 @@
 
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/en/app/instagram/id%@?mt=8", self.application.identifier]];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@", self.application.identifier]];
+    
+    NSLog(@"%s: %@",__FUNCTION__, URL);
     
     if ([[UIApplication sharedApplication] canOpenURL:URL]) {
         [[UIApplication sharedApplication] openURL:URL];
