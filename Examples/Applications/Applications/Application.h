@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeInstagram,
+    ApplicationTypeTumblr,
     ApplicationTypeVesper
 };
 

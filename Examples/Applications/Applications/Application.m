@@ -35,6 +35,9 @@
     if ([name isEqualToString:@"instagram"]) {
         self.type = ApplicationTypeInstagram;
     }
+    if ([name isEqualToString:@"tumblr"]) {
+        self.type = ApplicationTypeTumblr;
+    }
     if ([name isEqualToString:@"vesper"]) {
         self.type = ApplicationTypeVesper;
     }

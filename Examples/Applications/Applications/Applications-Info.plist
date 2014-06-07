@@ -26,7 +26,6 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>IdealSans-Medium-Pro.otf</string>
 		<string>IdealSans-Book-Pro.otf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

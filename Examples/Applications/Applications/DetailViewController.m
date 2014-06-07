@@ -62,31 +62,38 @@
 
 - (void)configureNavigationBar
 {
-    UIFont *font = nil;
-    UIColor *textColor = nil;
     UIColor *barColor = nil;
     UIColor *tintColor = nil;
+    UIImage *logoImage = nil;
     UIImage *backImage = nil;
     UIImage *backIndicator = [UIImage imageNamed:[NSString stringWithFormat:@"back_%@", [self.application.displayName lowercaseString]]];
     
     switch (self.application.type) {
         case ApplicationTypeInstagram:
         {
-            self.title = [self.title uppercaseString];
-            textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
             barColor = [UIColor whiteColor];
             backImage = backIndicator;
             tintColor = [UIColor colorWithRed:31/255.0 green:98/255.0 blue:153/255.0 alpha:1.0];
+            backIndicator = [UIImage imageNamed:@"back_instagram"];
+
+            break;
+        }
+        case ApplicationTypeTumblr:
+        {
+            barColor = [UIColor colorWithRed:46/255.0 green:62/255.0 blue:83/255.0 alpha:1.0];
+            tintColor = [UIColor whiteColor];
+            logoImage = [UIImage imageNamed:@"logo_tumblr"];
+            
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 
             break;
         }
         case ApplicationTypeVesper:
         {
-            font = [UIFont fontWithName:@"IdealSans-Book" size:20.0];
-            textColor = [UIColor whiteColor];
             barColor = [UIColor colorWithRed:94/255.0 green:125/255.0 blue:154/255.0 alpha:1.0];
             backImage = backIndicator;
-            tintColor = textColor;
+            tintColor = [UIColor whiteColor];
+            backIndicator = [UIImage imageNamed:@"back_vesper"];
 
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 
@@ -96,11 +103,7 @@
             break;
     }
     
-    NSMutableDictionary *attributes = [NSMutableDictionary new];
-    if (font) [attributes setObject:font forKey:NSFontAttributeName];
-    if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
-    
-    self.navigationController.navigationBar.titleTextAttributes = attributes;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logoImage];
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
     self.navigationController.navigationBar.backIndicatorImage = backImage;
@@ -134,6 +137,14 @@
             text = @"Instagram Direct";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0];
             textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:1.0];
+            
+            break;
+        }
+        case ApplicationTypeTumblr:
+        {
+            text = @"This is your Dashboard.";
+            font = [UIFont boldSystemFontOfSize:18.0];
+            textColor = [UIColor colorWithRed:170/255.0 green:182/255.0 blue:196/255.0 alpha:1.0];
             
             break;
         }
@@ -178,6 +189,15 @@
             paragraph.lineBreakMode = NSLineBreakByWordWrapping;
             paragraph.alignment = NSTextAlignmentCenter;
             paragraph.lineSpacing = 4.0;
+            
+            break;
+        }
+        case ApplicationTypeTumblr:
+        {
+            text = @"When you follow some blogs, their latest posts will show up here!";
+            font = [UIFont systemFontOfSize:17.0];
+            textColor = [UIColor colorWithRed:130/255.0 green:142/255.0 blue:156/255.0 alpha:1.0];
+            
             break;
         }
         case ApplicationTypeVesper:
@@ -202,6 +222,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeInstagram:  return [UIImage imageNamed:@"placeholder_instagram"];
+        case ApplicationTypeTumblr:     return [UIImage imageNamed:@"placeholder_tumblr"];
         case ApplicationTypeVesper:     return [UIImage imageNamed:@"placeholder_vesper"];
         default:                        return nil;
     }
@@ -216,6 +237,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        case ApplicationTypeTumblr:     return [UIColor colorWithRed:52/255.0 green:70/255.0 blue:92/255.0 alpha:1.0];
         case ApplicationTypeVesper:     return [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
         default:                        return nil;
     }
@@ -238,6 +260,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeInstagram:  return 24.0;
+        case ApplicationTypeTumblr:     return 10.0;
         case ApplicationTypeVesper:     return 22.0;
         default:                        return 0.0;
     }

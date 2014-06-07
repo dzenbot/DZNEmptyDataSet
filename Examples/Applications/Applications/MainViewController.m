@@ -134,11 +134,8 @@
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     
     UIImage *backIndicator = [UIImage imageNamed:[NSString stringWithFormat:@"back_%@", [app.displayName lowercaseString]]];
-    
-    if (backIndicator) {
-        self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backIndicator;
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
-    }
+    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backIndicator;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     
     [self.navigationController pushViewController:controller animated:YES];
 }
