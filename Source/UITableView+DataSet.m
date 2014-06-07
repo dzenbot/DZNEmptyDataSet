@@ -15,12 +15,14 @@
 static char const * const kDataSetSource =      "dataSetSource";
 static char const * const kDataSetDelegate =    "dataSetDelegate";
 static char const * const kDataSetView =        "dataSetView";
+static char const * const kTableViewBkgdColor = "tableViewBkgdColor";
 static char const * const kDataSetEnabled =     "dataSetEnabled";
 static NSString * const kContentSize =          @"contentSize";
 static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
+@property (nonatomic, strong) UIColor *previousBackgroundColor;
 @property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
 @end
 
@@ -59,6 +61,11 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         objc_setAssociatedObject(self, kDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
+}
+
+- (UIColor *)previousBackgroundColor
+{
+    return objc_getAssociatedObject(self, kTableViewBkgdColor);
 }
 
 - (BOOL)isDataSetEnabled
@@ -180,6 +187,11 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     objc_setAssociatedObject(self, kDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
+- (void)setPreviousBackgroundColor:(UIColor *)color
+{
+    objc_setAssociatedObject(self, kTableViewBkgdColor, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)setDataSetEnabled:(BOOL)enabled
 {
     if (self.isDataSetEnabled == enabled) {
@@ -258,6 +270,15 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
         
         self.scrollEnabled = [self isScrollAllowed];
+        
+        if (self.scrollEnabled && [self dataSetBackgroundColor]) {
+            
+            if (self.backgroundColor) {
+                self.previousBackgroundColor = self.backgroundColor;
+            }
+            
+            self.backgroundColor = [self dataSetBackgroundColor];
+        }
 
         [UIView animateWithDuration:0.25
                          animations:^{
@@ -284,6 +305,12 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         [self.dataSetView removeFromSuperview];
         
         objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
+    if (self.previousBackgroundColor) {
+        self.backgroundColor = self.previousBackgroundColor;
+        
+        objc_setAssociatedObject(self, kTableViewBkgdColor, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     self.scrollEnabled = YES;
