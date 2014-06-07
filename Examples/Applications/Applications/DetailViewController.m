@@ -64,17 +64,14 @@
 {
     UIColor *barColor = nil;
     UIColor *tintColor = nil;
-    UIImage *logoImage = nil;
-    UIImage *backImage = nil;
-    UIImage *backIndicator = [UIImage imageNamed:[NSString stringWithFormat:@"back_%@", [self.application.displayName lowercaseString]]];
+    UIStatusBarStyle barstyle = UIStatusBarStyleDefault;
     
     switch (self.application.type) {
         case ApplicationTypeInstagram:
         {
-            barColor = [UIColor whiteColor];
-            backImage = backIndicator;
-            tintColor = [UIColor colorWithRed:31/255.0 green:98/255.0 blue:153/255.0 alpha:1.0];
-            backIndicator = [UIImage imageNamed:@"back_instagram"];
+            barColor = [UIColor colorWithRed:46/255.0 green:94/255.0 blue:134/255.0 alpha:1.0];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
 
             break;
         }
@@ -82,20 +79,15 @@
         {
             barColor = [UIColor colorWithRed:46/255.0 green:62/255.0 blue:83/255.0 alpha:1.0];
             tintColor = [UIColor whiteColor];
-            logoImage = [UIImage imageNamed:@"logo_tumblr"];
-            
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+            barstyle = UIStatusBarStyleLightContent;
 
             break;
         }
         case ApplicationTypeVesper:
         {
             barColor = [UIColor colorWithRed:94/255.0 green:125/255.0 blue:154/255.0 alpha:1.0];
-            backImage = backIndicator;
             tintColor = [UIColor whiteColor];
-            backIndicator = [UIImage imageNamed:@"back_vesper"];
-
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+            barstyle = UIStatusBarStyleLightContent;
 
             break;
         }
@@ -103,10 +95,14 @@
             break;
     }
     
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logoImage];
+    UIImage *logo = [UIImage imageNamed:[NSString stringWithFormat:@"logo_%@", [self.application.displayName lowercaseString]]];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
-    self.navigationController.navigationBar.backIndicatorImage = backImage;
+    self.navigationController.navigationBar.backIndicatorImage = [UIImage imageNamed:@"back_button"];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:barstyle animated:YES];
 }
 
 
@@ -253,7 +249,7 @@
 
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
 {
-    return NO;
+    return YES;
 }
 
 - (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView
