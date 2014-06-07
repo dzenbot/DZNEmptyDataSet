@@ -145,6 +145,14 @@
             
             break;
         }
+        case ApplicationTypeDropbox:
+        {
+            text = @"Star Your Favorite Files";
+            font = [UIFont boldSystemFontOfSize:18.0];
+            textColor = [UIColor colorWithHex:@"25282b"];
+            
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             text = @"Instagram Direct";
@@ -204,6 +212,14 @@
 
             break;
         }
+        case ApplicationTypeDropbox:
+        {
+            text = @"Favorites are saved for offline access.";
+            font = [UIFont systemFontOfSize:15.0];
+            textColor = [UIColor colorWithHex:@"7b8994"];
+            
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
@@ -241,13 +257,8 @@
 
 - (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
 {
-    switch (self.application.type) {
-        case ApplicationTypeAirbnb:     return [UIImage imageNamed:@"placeholder_airbnb"];
-        case ApplicationTypeInstagram:  return [UIImage imageNamed:@"placeholder_instagram"];
-        case ApplicationTypeTumblr:     return [UIImage imageNamed:@"placeholder_tumblr"];
-        case ApplicationTypeVesper:     return [UIImage imageNamed:@"placeholder_vesper"];
-        default:                        return nil;
-    }
+    NSString *imageName = [[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString];
+    return [UIImage imageNamed:imageName];
 }
 
 - (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
@@ -263,6 +274,14 @@
             font = [UIFont boldSystemFontOfSize:16.0];
             textColor = [UIColor colorWithHex:@"05adff"];
 
+            break;
+        }
+        case ApplicationTypeDropbox:
+        {
+            text = @"Learn more";
+            font = [UIFont systemFontOfSize:15.0];
+            textColor = [UIColor colorWithHex:@"007ee5"];
+            
             break;
         }
         default:
@@ -284,6 +303,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
+        case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
         case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
         case ApplicationTypeVesper:     return [UIColor colorWithHex:@"f8f8f8"];
