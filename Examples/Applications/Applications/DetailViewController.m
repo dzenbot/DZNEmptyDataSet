@@ -117,7 +117,6 @@
     
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
-    self.navigationController.navigationBar.backIndicatorImage = [UIImage imageNamed:@"back_button"];
     
     [[UIApplication sharedApplication] setStatusBarStyle:barstyle animated:YES];
 }

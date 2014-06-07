@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Applications";
+    self.title = [@"Apps" uppercaseString];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -40,6 +40,8 @@
     self.navigationController.navigationBar.titleTextAttributes = nil;
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
@@ -132,9 +134,6 @@
 {
     Application *app = [self.applications objectAtIndex:indexPath.row];
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
-    
-    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"back_button"];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     
     [self.navigationController pushViewController:controller animated:YES];
 }
