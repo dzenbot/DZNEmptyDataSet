@@ -96,12 +96,13 @@
 {
     if (!_button)
     {
-        _button = [UIButton buttonWithType:UIButtonTypeSystem];
+        _button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.translatesAutoresizingMaskIntoConstraints = NO;
         _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        _button.adjustsImageWhenHighlighted = YES;
         _button.userInteractionEnabled = YES;
-        
+    
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _button;

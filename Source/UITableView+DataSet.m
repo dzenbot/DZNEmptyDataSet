@@ -15,14 +15,12 @@
 static char const * const kDataSetSource =      "dataSetSource";
 static char const * const kDataSetDelegate =    "dataSetDelegate";
 static char const * const kDataSetView =        "dataSetView";
-static char const * const kTableViewBkgdColor = "tableViewBkgdColor";
 static char const * const kDataSetEnabled =     "dataSetEnabled";
 static NSString * const kContentSize =          @"contentSize";
 static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
-@property (nonatomic, strong) UIColor *previousBackgroundColor;
 @property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
 @end
 
@@ -62,11 +60,6 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         objc_setAssociatedObject(self, kDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
-}
-
-- (UIColor *)previousBackgroundColor
-{
-    return objc_getAssociatedObject(self, kTableViewBkgdColor);
 }
 
 - (BOOL)isDataSetEnabled
@@ -114,10 +107,18 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     return nil;
 }
 
-- (NSAttributedString *)buttonTitle
+- (NSAttributedString *)buttonTitleForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForDataSetInTableView:)]) {
-        return [self.dataSetSource buttonTitleForDataSetInTableView:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForDataSetInTableView:forState:)]) {
+        return [self.dataSetSource buttonTitleForDataSetInTableView:self forState:state];
+    }
+    return nil;
+}
+
+- (UIImage *)buttonBackgroundImageForState:(UIControlState)state
+{
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForDataSetInTableView:forState:)]) {
+        return [self.dataSetSource buttonBackgroundImageForDataSetInTableView:self forState:state];
     }
     return nil;
 }
@@ -146,7 +147,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     if (![self.dataSetView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
         return YES;
     }
-    if (![[self.dataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitle].string]) {
+    if (![[self.dataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitleForState:UIControlStateNormal].string]) {
         return YES;
     }
     if (!([UIImagePNGRepresentation(self.dataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
@@ -186,11 +187,6 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 {
     self.dataSetEnabled = delegate ? YES : NO;
     objc_setAssociatedObject(self, kDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (void)setPreviousBackgroundColor:(UIColor *)color
-{
-    objc_setAssociatedObject(self, kTableViewBkgdColor, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)setDataSetEnabled:(BOOL)enabled
@@ -258,24 +254,30 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     {
         [self.dataSetView updateConstraintsIfNeeded];
         
+        // Configure labels
         self.dataSetView.detailLabel.attributedText = [self detailLabelText];
         self.dataSetView.titleLabel.attributedText = [self titleLabelText];
+        
+        // Configure imageview
         self.dataSetView.imageView.image = [self image];
-        [self.dataSetView.button setAttributedTitle:[self buttonTitle] forState:UIControlStateNormal];
+        
+        // Configure button
+        [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
+        [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
+        [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
+        [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
+        
+        // Configure vertical spacing
         self.dataSetView.verticalSpace = [self verticalSpace];
         
-        self.dataSetView.hidden = NO;
-        self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
-        
+        // Configure scroll permission
         self.scrollEnabled = [self isScrollAllowed];
         
-        if (self.scrollEnabled && self.dataSetView.backgroundColor)
-        {
-            if (self.backgroundColor) {
-                self.previousBackgroundColor = self.backgroundColor;
-            }
-            self.backgroundColor = self.dataSetView.backgroundColor;
-        }
+        // Configure background color
+        self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
+        if (self.scrollEnabled && [self dataSetBackgroundColor]) self.backgroundColor = [self dataSetBackgroundColor];
+        
+        self.dataSetView.hidden = NO;
         
         [self.dataSetView updateConstraints];
         [self.dataSetView layoutIfNeeded];
@@ -305,12 +307,6 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         [self.dataSetView removeFromSuperview];
         
         objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    
-    if (self.previousBackgroundColor) {
-        self.backgroundColor = self.previousBackgroundColor;
-        
-        objc_setAssociatedObject(self, kTableViewBkgdColor, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     self.scrollEnabled = YES;

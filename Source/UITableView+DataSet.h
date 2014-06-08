@@ -26,7 +26,6 @@
 /** YES if any data set is visible. */
 @property (nonatomic, readonly, getter = isDataSetVisible) BOOL dataSetVisible;
 
-
 /**
  * Call this methods whenever you want to force the data set update, whitout having to depend of -reloadData.
  * This will update the content of the controls and their constraints. If the content hasn't change, this will take no effect.

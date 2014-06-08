@@ -48,13 +48,24 @@
 - (UIImage *)imageForDataSetInTableView:(UITableView *)tableView;
 
 /**
- * Asks the data source for the button title of the data set.
+ * Asks the data source for the title to be used for the specified button state.
  * The data set uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
  *
  * @param tableView A table-view object informing the data source.
+ * @param state The state that uses the specified title. The possible values are described in UIControlState.
  * @return An attributed string for the data set button title, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView;
+- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state;
+
+/**
+ * Asks the data source for a background image to be used for the specified button state.
+ * There is no default style for this call.
+ *
+ * @param tableView A table-view object informing the data source.
+ * @param state The state that uses the specified image. The values are described in UIControlState.
+ * @return An attributed string for the data set button title, combining font, text color, text pararaph style, etc.
+ */
+- (UIImage *)buttonBackgroundImageForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state;
 
 /**
  * Asks the data source for the background color of the data set. Default is clear color.
