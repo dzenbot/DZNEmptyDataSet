@@ -144,7 +144,7 @@
     
     CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
     
-    NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 12 : 4;
+    NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 16 : 4;
     NSNumber *padding = @(roundf(width/multiplier));
     NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
     NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
@@ -156,11 +156,11 @@
     if (!self.didConfigureConstraints) {
         self.didConfigureConstraints = YES;
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=1)-[_contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterY metrics:metrics views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[_contentView]"
+                                                                     options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
         
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterX metrics:metrics views:views]];
+                                                                     options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
     }
 
     [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
