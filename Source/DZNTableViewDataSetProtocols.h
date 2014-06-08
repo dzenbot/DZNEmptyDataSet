@@ -75,6 +75,14 @@
  */
 - (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView;
 
+/**
+ * Aks the data source for a custom vertical space. Default is 11 pts.
+ *
+ * @param tableView A table-view object informing the delegate.
+ * @return The space height between elements.
+ */
+- (CGFloat)spaceHeightForTableViewDataSet:(UITableView *)tableView;
+
 @end
 
 
@@ -103,14 +111,6 @@
  * @return YES if the data set is allowed to be scrollable.
  */
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView;
-
-/**
- * Aks the delegate for custom vertical space. Default is autolayout's default (12px).
- *
- * @param tableView A table-view object informing the delegate.
- * @return The vertical space amount.
- */
-- (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView;
 
 /**
  * Tells the delegate that the data set view was tapped.

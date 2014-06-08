@@ -133,8 +133,8 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (CGFloat)verticalSpace
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetVerticalSpace:)]) {
-        return [self.dataSetDelegate tableViewDataSetVerticalSpace:self];
+    if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(spaceHeightForTableViewDataSet:)]) {
+        return [self.dataSetSource spaceHeightForTableViewDataSet:self];
     }
     return 0.0;
 }

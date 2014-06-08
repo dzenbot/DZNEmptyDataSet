@@ -55,7 +55,7 @@
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLabel.backgroundColor = [UIColor clearColor];
         
-        _titleLabel.font = [UIFont systemFontOfSize:24.0];
+        _titleLabel.font = [UIFont systemFontOfSize:27.0];
         _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.numberOfLines = 1;
@@ -71,8 +71,8 @@
         _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _detailLabel.backgroundColor = [UIColor clearColor];
         
-        _detailLabel.font = [UIFont systemFontOfSize:16.0];
-        _detailLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+        _detailLabel.font = [UIFont systemFontOfSize:17.0];
+        _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailLabel.numberOfLines = 0;
@@ -190,7 +190,7 @@
         [format appendString:obj];
         if (idx < subviews.count-1) {
             if (_verticalSpace > 0) [format appendFormat:@"-%.f-", _verticalSpace];
-            else [format appendString:@"-"];
+            else [format appendString:@"-11-"];
         }
     }];
     

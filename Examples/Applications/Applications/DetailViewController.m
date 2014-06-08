@@ -195,6 +195,13 @@
             textColor = [UIColor colorWithHex:@"666666"];
             break;
         }
+        case ApplicationTypePhotos:
+        {
+            text = @"No Photos or Videos";
+//            font = [UIFont boldSystemFontOfSize:18.0];
+//            textColor = [UIColor colorWithHex:@"666666"];
+            break;
+        }
         case ApplicationTypeTumblr:
         {
             text = @"This is your Dashboard.";
@@ -286,6 +293,11 @@
             font = [UIFont systemFontOfSize:16.0];
             textColor = [UIColor colorWithHex:@"444444"];
             paragraph.lineSpacing = 4.0;
+            break;
+        }
+        case ApplicationTypePhotos:
+        {
+            text = @"You can sync photos and videos onto your iPhone using iTunes.";
             break;
         }
         case ApplicationTypeSlack:
@@ -419,20 +431,7 @@
     }
 }
 
-
-#pragma mark - DZNTableViewDataSetDelegate Methods
-
-- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
-{
-    return YES;
-}
-
-- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
-{
-    return YES;
-}
-
-- (CGFloat)tableViewDataSetVerticalSpace:(UITableView *)tableView
+- (CGFloat)spaceHeightForTableViewDataSet:(UITableView *)tableView
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return 24.0;
@@ -444,6 +443,19 @@
         case ApplicationTypeVine:       return 0.1;
         default:                        return 0.0;
     }
+}
+
+
+#pragma mark - DZNTableViewDataSetDelegate Methods
+
+- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
+{
+    return YES;
+}
+
+- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
+{
+    return YES;
 }
 
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView
