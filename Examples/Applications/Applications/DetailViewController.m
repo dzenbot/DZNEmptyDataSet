@@ -181,6 +181,11 @@
             textColor = [UIColor colorWithHex:@"25282b"];
             break;
         }
+        case ApplicationTypeiCloud:
+        {
+            text = @"iCloud Photo Sharing";
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             text = @"Instagram Direct";
@@ -198,8 +203,6 @@
         case ApplicationTypePhotos:
         {
             text = @"No Photos or Videos";
-//            font = [UIFont boldSystemFontOfSize:18.0];
-//            textColor = [UIColor colorWithHex:@"666666"];
             break;
         }
         case ApplicationTypeTumblr:
@@ -287,6 +290,12 @@
             textColor = [UIColor colorWithHex:@"cecbc6"];
             break;
         }
+        case ApplicationTypeiCloud:
+        {
+            text = @"Share photos and videos with\njust the people you choose,\nand let them add photos,\nvideos, and comments.";
+            paragraph.lineSpacing = 2.0;
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             text = @"Send photos and videos directly to your friends. Only the people you send to can see these posts.";
@@ -370,6 +379,13 @@
             textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"05adff" : @"6bceff"];
             break;
         }
+        case ApplicationTypeDropbox:
+        {
+            text = @"Learn more";
+            font = [UIFont systemFontOfSize:15.0];
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007ee5" : @"48a1ea"];
+            break;
+        }
         case ApplicationTypeFoursquare:
         {
             text = @"Add friends to get started!";
@@ -377,11 +393,11 @@
             textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"00aeef" : @"ffffff"];
             break;
         }
-        case ApplicationTypeDropbox:
+        case ApplicationTypeiCloud:
         {
-            text = @"Learn more";
-            font = [UIFont systemFontOfSize:15.0];
-            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007ee5" : @"48a1ea"];
+            text = @"Create New Stream";
+            font = [UIFont systemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"999999" : @"ebebeb"];
             break;
         }
         default:
@@ -401,17 +417,29 @@
 
 - (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
+    NSString *imageName = [[NSString stringWithFormat:@"button_background_%@", self.application.displayName] lowercaseString];
+    
+    if (state == UIControlStateNormal) imageName = [imageName stringByAppendingString:@"_normal"];
+    if (state == UIControlStateHighlighted) imageName = [imageName stringByAppendingString:@"_highlight"];
+    
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+    UIEdgeInsets rectInsets = UIEdgeInsetsZero;
+    
     switch (self.application.type) {
-        case ApplicationTypeFoursquare:
-        {
-            if (state == UIControlStateNormal) return [UIImage imageNamed:@"button_background_foursquare_normal"];
-            if (state == UIControlStateHighlighted) return [UIImage imageNamed:@"button_background_foursquare_highlight"];
+        case ApplicationTypeiCloud:
+            rectInsets = UIEdgeInsetsMake(-19.0, -61.0, -19.0, -61.0);
             break;
-        }
+            
+        case ApplicationTypeFoursquare:
+            capInsets = UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0);
+            rectInsets = UIEdgeInsetsMake(0.0, 10, 0.0, 10);
+            break;
+            
         default:
-            return nil;
+            break;
     }
-    return nil;
+
+    return [[[UIImage imageNamed:imageName] resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch] imageWithAlignmentRectInsets:rectInsets];
 }
 
 - (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
