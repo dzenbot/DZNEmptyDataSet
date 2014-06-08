@@ -77,6 +77,13 @@
             tintColor = [UIColor colorWithHex:@"007ee5"];
             break;
         }
+        case ApplicationTypeFacebook:
+        {
+            barColor = [UIColor colorWithHex:@"506da8"];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypeFoursquare:
         {
             barColor = [UIColor colorWithHex:@"00aeef"];
@@ -190,6 +197,18 @@
             text = @"Star Your Favorite Files";
             font = [UIFont boldSystemFontOfSize:17.0];
             textColor = [UIColor colorWithHex:@"25282b"];
+            break;
+        }
+        case ApplicationTypeFacebook:
+        {
+            text = @"No friends to show.";
+            font = [UIFont boldSystemFontOfSize:22.0];
+            textColor = [UIColor colorWithHex:@"acafbd"];
+            
+            NSShadow *shadow = [NSShadow new];
+            shadow.shadowColor = [UIColor whiteColor];
+            shadow.shadowOffset = CGSizeMake(0.0, 1.0);
+            [attributes setObject:shadow forKey:NSShadowAttributeName];
             break;
         }
         case ApplicationTypeiCloud:
@@ -332,6 +351,13 @@
         case ApplicationTypePhotos:
         {
             text = @"You can sync photos and videos onto your iPhone using iTunes.";
+            break;
+        }
+        case ApplicationTypeSafari:
+        {
+            text = @"Safari cannot open the page because your iPhone is not connected to the Internet.";
+            textColor = [UIColor colorWithHex:@"7d7f7f"];
+            paragraph.lineSpacing = 2.0;
             break;
         }
         case ApplicationTypeSlack:
@@ -479,6 +505,7 @@
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
+        case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
         case ApplicationTypeFoursquare: return [UIColor colorWithHex:@"fcfcfa"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
         case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
@@ -496,6 +523,7 @@
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return 24.0;
         case ApplicationTypeAppstore:   return 34.0;
+        case ApplicationTypeFacebook:   return 30.0;
         case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
         case ApplicationTypeTumblr:     return 10.0;
