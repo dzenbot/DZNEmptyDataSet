@@ -98,6 +98,13 @@
             barstyle = UIStatusBarStyleLightContent;
             break;
         }
+        case ApplicationTypePath:
+        {
+            barColor = [UIColor colorWithHex:@"544f49"];
+            tintColor = [UIColor colorWithHex:@"fffff2"];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypePinterest:
         {
             barColor = [UIColor colorWithHex:@"f4f4f4"];
@@ -223,6 +230,13 @@
             textColor = [UIColor colorWithHex:@"444444"];
             break;
         }
+        case ApplicationTypePath:
+        {
+            text = @"Message Your Friends";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor whiteColor];
+            break;
+        }
         case ApplicationTypePinterest:
         {
             text = @"No boards to display";
@@ -346,6 +360,13 @@
             font = [UIFont systemFontOfSize:16.0];
             textColor = [UIColor colorWithHex:@"444444"];
             paragraph.lineSpacing = 4.0;
+            break;
+        }
+        case ApplicationTypePath:
+        {
+            text = @"Send a message or create a group.";
+            font = [UIFont systemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"a6978d"];
             break;
         }
         case ApplicationTypePhotos:
@@ -508,6 +529,7 @@
         case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
         case ApplicationTypeFoursquare: return [UIColor colorWithHex:@"fcfcfa"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        case ApplicationTypePath:       return [UIColor colorWithHex:@"726d67"];
         case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
         case ApplicationTypeSlack:      return [UIColor whiteColor];
         case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
@@ -526,6 +548,7 @@
         case ApplicationTypeFacebook:   return 30.0;
         case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
+        case ApplicationTypePath:       return 1.0;
         case ApplicationTypeTumblr:     return 10.0;
         case ApplicationTypeTwitter:    return 0.1;
         case ApplicationTypeVesper:     return 22.0;

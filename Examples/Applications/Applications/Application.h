@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeFoursquare,
     ApplicationTypeiCloud,
     ApplicationTypeInstagram,
+    ApplicationTypePath,
     ApplicationTypePinterest,
     ApplicationTypePhotos,
     ApplicationTypeSafari,
