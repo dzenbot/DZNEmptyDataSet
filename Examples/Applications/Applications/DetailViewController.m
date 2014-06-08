@@ -401,7 +401,7 @@
         {
             text = @"Continue";
             font = [UIFont boldSystemFontOfSize:17.0];
-            textColor = [UIColor colorWithHex:@"0084ff"];
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007ee5" : @"48a1ea"];
             break;
         }
         case ApplicationTypeDropbox:
@@ -440,14 +440,6 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (CGFloat)buttonTitleTopInsetForTableViewDataSet:(UITableView *)tableView
-{
-    switch (self.application.type) {
-        case ApplicationTypeCamera:     return 76.0;
-        default:                        return 0.0;
-    }
-}
-
 - (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
     NSString *imageName = [[NSString stringWithFormat:@"button_background_%@", self.application.displayName] lowercaseString];
@@ -464,7 +456,7 @@
             break;
             
         case ApplicationTypeFoursquare:
-            capInsets = UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0);
+            capInsets = UIEdgeInsetsMake(25.0, 25.0, 25.0, 25.0);
             rectInsets = UIEdgeInsetsMake(0.0, 10, 0.0, 10);
             break;
             

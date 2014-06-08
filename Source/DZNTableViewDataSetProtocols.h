@@ -67,8 +67,6 @@
  */
 - (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state;
 
-- (CGFloat)buttonTitleTopInsetForTableViewDataSet:(UITableView *)tableView;
-
 /**
  * Asks the data source for the background color of the data set. Default is clear color.
  *
