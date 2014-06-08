@@ -158,7 +158,7 @@
 
 #pragma mark - DZNTableViewDataSetDataSource Methods
 
-- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -245,7 +245,7 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -338,13 +338,13 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
+- (UIImage *)imageForTableViewDataSet:(UITableView *)tableView
 {
     NSString *imageName = [[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString];
     return [UIImage imageNamed:imageName];
 }
 
-- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state
+- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -387,7 +387,7 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (UIImage *)buttonBackgroundImageForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state
+- (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
     switch (self.application.type) {
         case ApplicationTypeFoursquare:
@@ -402,7 +402,7 @@
     return nil;
 }
 
-- (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView
+- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];

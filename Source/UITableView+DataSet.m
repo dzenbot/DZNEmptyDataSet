@@ -85,48 +85,48 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (UIColor *)dataSetBackgroundColor
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForDataSetInTableView:)]) {
-        return [self.dataSetSource backgroundColorForDataSetInTableView:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForTableViewDataSet:)]) {
+        return [self.dataSetSource backgroundColorForTableViewDataSet:self];
     }
     return [UIColor clearColor];
 }
 
 - (NSAttributedString *)titleLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForDataSetInTableView:)]) {
-        return [self.dataSetSource titleForDataSetInTableView:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForTableViewDataSet:)]) {
+        return [self.dataSetSource titleForTableViewDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)detailLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForDataSetInTableView:)]) {
-        return [self.dataSetSource descriptionForDataSetInTableView:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForTableViewDataSet:)]) {
+        return [self.dataSetSource descriptionForTableViewDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)buttonTitleForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForDataSetInTableView:forState:)]) {
-        return [self.dataSetSource buttonTitleForDataSetInTableView:self forState:state];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForTableViewDataSet:forState:)]) {
+        return [self.dataSetSource buttonTitleForTableViewDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)buttonBackgroundImageForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForDataSetInTableView:forState:)]) {
-        return [self.dataSetSource buttonBackgroundImageForDataSetInTableView:self forState:state];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForTableViewDataSet:forState:)]) {
+        return [self.dataSetSource buttonBackgroundImageForTableViewDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)image
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForDataSetInTableView:)]) {
-        return [self.dataSetSource imageForDataSetInTableView:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForTableViewDataSet:)]) {
+        return [self.dataSetSource imageForTableViewDataSet:self];
     }
     return nil;
 }

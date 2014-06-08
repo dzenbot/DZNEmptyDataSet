@@ -14,7 +14,7 @@
  * The object that acts as the data source of the data sets.
  * The data source must adopt the DZNTableViewDataSetSource protocol. The data source is not retained.
  *
- * @discussion All data source methods are optional. They will not be considered in the layout if they either return nil or the view controller doesn't conform to them.
+ * @discussion All data source methods are optional.They will not be considered in the layout if they either return nil or the view controller doesn't conform to them.
  */
 @protocol DZNTableViewDataSetSource <NSObject>
 @required
@@ -28,7 +28,7 @@
  * @param tableView A table-view object informing the data source.
  * @return An attributed string for the data set title, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView;
+- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView;
 
 /**
  * Asks the data source for the description of the data set.
@@ -37,7 +37,7 @@
  * @param tableView A table-view object informing the data source.
  * @return An attributed string for the data set description text, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView;
+- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView;
 
 /**
  * Asks the data source for the image of the data set.
@@ -45,7 +45,7 @@
  * @param tableView A table-view object informing the data source.
  * @return An image for the data set.
  */
-- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView;
+- (UIImage *)imageForTableViewDataSet:(UITableView *)tableView;
 
 /**
  * Asks the data source for the title to be used for the specified button state.
@@ -55,7 +55,7 @@
  * @param state The state that uses the specified title. The possible values are described in UIControlState.
  * @return An attributed string for the data set button title, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state;
+- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state;
 
 /**
  * Asks the data source for a background image to be used for the specified button state.
@@ -65,7 +65,7 @@
  * @param state The state that uses the specified image. The values are described in UIControlState.
  * @return An attributed string for the data set button title, combining font, text color, text pararaph style, etc.
  */
-- (UIImage *)buttonBackgroundImageForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state;
+- (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state;
 
 /**
  * Asks the data source for the background color of the data set. Default is clear color.
@@ -73,7 +73,7 @@
  * @param tableView A table-view object informing the data source.
  * @return An color to be applied to the data set background view.
  */
-- (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView;
+- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView;
 
 @end
 
@@ -81,7 +81,8 @@
 /**
  * The object that acts as the delegate of the data sets.
  * The delegate must adopt the DZNTableViewDataSetDelegate protocol. The delegate is not retained.
- * Use this delegate for receiving action callbacks.
+ *
+ * @discussion All delegate methods are optional. Use this delegate for receiving action callbacks.
  */
 @protocol DZNTableViewDataSetDelegate <NSObject>
 @required
