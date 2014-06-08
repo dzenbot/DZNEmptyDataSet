@@ -287,6 +287,13 @@
             paragraph.lineSpacing = 4.0;
             break;
         }
+        case ApplicationTypeAppstore:
+        {
+            text = @"There are no results for “wwdc2014”.";
+            font = [UIFont systemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"333333"];
+            break;
+        }
         case ApplicationTypeCamera:
         {
             text = @"This allows you to share photos from your library and save photos to your camera roll.";
@@ -488,6 +495,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return 24.0;
+        case ApplicationTypeAppstore:   return 34.0;
         case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
         case ApplicationTypeTumblr:     return 10.0;

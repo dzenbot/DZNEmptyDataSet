@@ -1,5 +1,6 @@
  [
   {"display_name": "Airbnb", "developer_name": "Airbnb", "identifier": "401626263"},
+  {"display_name": "AppStore", "developer_name": "Apple", "identifier": ""},
   {"display_name": "Camera", "developer_name": "Apple", "identifier": ""},
   {"display_name": "Dropbox", "developer_name": "Dropbox", "identifier": "327630330"},
   {"display_name": "Foursquare", "developer_name": "Foursquare Labs", "identifier": "306934924"},
