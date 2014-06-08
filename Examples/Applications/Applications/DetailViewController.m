@@ -64,6 +64,13 @@
             tintColor = [UIColor colorWithHex:@"08aeff"];
             break;
         }
+        case ApplicationTypeCamera:
+        {
+            barColor = [UIColor colorWithHex:@"595959"];
+            barstyle = UIStatusBarStyleLightContent;
+            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+            break;
+        }
         case ApplicationTypeDropbox:
         {
             barColor = [UIColor whiteColor];
@@ -124,12 +131,9 @@
             barstyle = UIStatusBarStyleLightContent;
             break;
         }
-        case ApplicationTypeWhatsapp:
-        {
-            barColor = [UIColor colorWithHex:@"f7f7f7"];
-            break;
-        }
         default:
+            barColor = [UIColor colorWithHex:@"f8f8f8"];
+            tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
             break;
     }
     
@@ -172,6 +176,13 @@
             text = @"No Messages";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0];
             textColor = [UIColor colorWithHex:@"c9c9c9"];
+            break;
+        }
+        case ApplicationTypeCamera:
+        {
+            text = @"Please Allow Photo Access";
+            font = [UIFont boldSystemFontOfSize:18.0];
+            textColor = [UIColor colorWithHex:@"5f6978"];
             break;
         }
         case ApplicationTypeDropbox:
@@ -274,6 +285,13 @@
             font = [UIFont systemFontOfSize:13.0];
             textColor = [UIColor colorWithHex:@"cfcfcf"];
             paragraph.lineSpacing = 4.0;
+            break;
+        }
+        case ApplicationTypeCamera:
+        {
+            text = @"This allows you to share photos from your library and save photos to your camera roll.";
+            font = [UIFont systemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"5f6978"];
             break;
         }
         case ApplicationTypeDropbox:
@@ -379,6 +397,13 @@
             textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"05adff" : @"6bceff"];
             break;
         }
+        case ApplicationTypeCamera:
+        {
+            text = @"Continue";
+            font = [UIFont boldSystemFontOfSize:17.0];
+            textColor = [UIColor colorWithHex:@"0084ff"];
+            break;
+        }
         case ApplicationTypeDropbox:
         {
             text = @"Learn more";
@@ -413,6 +438,14 @@
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)buttonTitleTopInsetForTableViewDataSet:(UITableView *)tableView
+{
+    switch (self.application.type) {
+        case ApplicationTypeCamera:     return 76.0;
+        default:                        return 0.0;
+    }
 }
 
 - (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state

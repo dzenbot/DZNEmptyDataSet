@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "DetailViewController.h"
+#import "UIColor+Hexadecimal.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) NSMutableArray *applications;
@@ -38,11 +39,11 @@
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBar.titleTextAttributes = nil;
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];;
     self.navigationController.navigationBar.translucent = NO;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
-
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 

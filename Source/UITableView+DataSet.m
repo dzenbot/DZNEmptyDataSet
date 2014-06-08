@@ -131,6 +131,14 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     return nil;
 }
 
+- (CGFloat)buttonTitleTopInset
+{
+    if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(buttonTitleTopInsetForTableViewDataSet:)]) {
+        return [self.dataSetSource buttonTitleTopInsetForTableViewDataSet:self];
+    }
+    return 0.0;
+}
+
 - (CGFloat)verticalSpace
 {
     if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(spaceHeightForTableViewDataSet:)]) {
@@ -266,6 +274,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
         [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
         [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
+        [self.dataSetView.button setTitleEdgeInsets:UIEdgeInsetsMake([self buttonTitleTopInset], 0, 0, 0)];
         
         // Configure vertical spacing
         self.dataSetView.verticalSpace = [self verticalSpace];
