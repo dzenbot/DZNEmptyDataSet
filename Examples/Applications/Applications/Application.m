@@ -39,6 +39,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Airbnb",
                      @"Camera",
                      @"Dropbox",
+                     @"Foursquare",
                      @"Instagram",
                      @"Pinterest",
                      @"Photos",

@@ -62,7 +62,6 @@
         {
             barColor = [UIColor colorWithHex:@"f8f8f8"];
             tintColor = [UIColor colorWithHex:@"08aeff"];
-            
             break;
         }
         case ApplicationTypeDropbox:
@@ -71,26 +70,30 @@
             tintColor = [UIColor colorWithHex:@"007ee5"];
             break;
         }
+        case ApplicationTypeFoursquare:
+        {
+            barColor = [UIColor colorWithHex:@"00aeef"];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypeInstagram:
         {
             barColor = [UIColor colorWithHex:@"2e5e86"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-
             break;
         }
         case ApplicationTypePinterest:
         {
             barColor = [UIColor colorWithHex:@"f4f4f4"];
             tintColor = [UIColor colorWithHex:@"cb2027"];
-            
             break;
         }
         case ApplicationTypeSlack:
         {
             barColor = [UIColor colorWithHex:@"f4f5f6"];
             tintColor = [UIColor colorWithHex:@"3eba92"];
-            
             break;
         }
         case ApplicationTypeTumblr:
@@ -98,7 +101,6 @@
             barColor = [UIColor colorWithHex:@"2e3e53"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-
             break;
         }
         case ApplicationTypeTwitter:
@@ -106,7 +108,6 @@
             barColor = [UIColor colorWithHex:@"58aef0"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-            
             break;
         }
         case ApplicationTypeVesper:
@@ -114,7 +115,6 @@
             barColor = [UIColor colorWithHex:@"5e7d9a"];
             tintColor = [UIColor colorWithHex:@"f8f8f8"];
             barstyle = UIStatusBarStyleLightContent;
-
             break;
         }
         case ApplicationTypeVine:
@@ -122,13 +122,11 @@
             barColor = [UIColor colorWithHex:@"00bf8f"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-            
             break;
         }
         case ApplicationTypeWhatsapp:
         {
             barColor = [UIColor colorWithHex:@"f7f7f7"];
-            
             break;
         }
         default:
@@ -174,7 +172,6 @@
             text = @"No Messages";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0];
             textColor = [UIColor colorWithHex:@"c9c9c9"];
-            
             break;
         }
         case ApplicationTypeDropbox:
@@ -182,7 +179,6 @@
             text = @"Star Your Favorite Files";
             font = [UIFont boldSystemFontOfSize:17.0];
             textColor = [UIColor colorWithHex:@"25282b"];
-            
             break;
         }
         case ApplicationTypeInstagram:
@@ -190,7 +186,6 @@
             text = @"Instagram Direct";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:26.0];
             textColor = [UIColor colorWithHex:@"444444"];
-            
             break;
         }
         case ApplicationTypePinterest:
@@ -198,7 +193,6 @@
             text = @"No boards to display";
             font = [UIFont boldSystemFontOfSize:18.0];
             textColor = [UIColor colorWithHex:@"666666"];
-            
             break;
         }
         case ApplicationTypeTumblr:
@@ -206,7 +200,6 @@
             text = @"This is your Dashboard.";
             font = [UIFont boldSystemFontOfSize:18.0];
             textColor = [UIColor colorWithHex:@"aab6c4"];
-            
             break;
         }
         case ApplicationTypeTwitter:
@@ -214,7 +207,6 @@
             text = @"No lists";
             font = [UIFont boldSystemFontOfSize:14.0];
             textColor = [UIColor colorWithHex:@"292f33"];
-            
             break;
         }
         case ApplicationTypeVesper:
@@ -222,7 +214,6 @@
             text = @"No Notes";
             font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
             textColor = [UIColor colorWithHex:@"d9dce1"];
-            
             break;
         }
         case ApplicationTypeVine:
@@ -230,9 +221,7 @@
             text = @"Welcome to VMs";
             font = [UIFont boldSystemFontOfSize:22.0];
             textColor = [UIColor colorWithHex:@"595959"];
-            
             [attributes setObject:@(0.45) forKey:NSKernAttributeName];
-            
             break;
         }
         case ApplicationTypeWhatsapp:
@@ -240,7 +229,6 @@
             text = @"No Media";
             font = [UIFont systemFontOfSize:20.0];
             textColor = [UIColor colorWithHex:@"808080"];
-            
             break;
         }
         default:
@@ -276,7 +264,6 @@
             font = [UIFont systemFontOfSize:13.0];
             textColor = [UIColor colorWithHex:@"cfcfcf"];
             paragraph.lineSpacing = 4.0;
-
             break;
         }
         case ApplicationTypeDropbox:
@@ -284,7 +271,13 @@
             text = @"Favorites are saved for offline access.";
             font = [UIFont systemFontOfSize:14.5];
             textColor = [UIColor colorWithHex:@"7b8994"];
-            
+            break;
+        }
+        case ApplicationTypeFoursquare:
+        {
+            text = @"Nobody has liked or commented on your check-ins yet.";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"cecbc6"];
             break;
         }
         case ApplicationTypeInstagram:
@@ -293,7 +286,6 @@
             font = [UIFont systemFontOfSize:16.0];
             textColor = [UIColor colorWithHex:@"444444"];
             paragraph.lineSpacing = 4.0;
-            
             break;
         }
         case ApplicationTypeSlack:
@@ -301,7 +293,6 @@
             text = @"You don't have any\nrecent mentions";
             font = [UIFont fontWithName:@"Lato-Regular" size:19.0];
             textColor = [UIColor colorWithHex:@"d7d7d7"];
-            
             break;
         }
         case ApplicationTypeTumblr:
@@ -309,7 +300,6 @@
             text = @"When you follow some blogs, their latest posts will show up here!";
             font = [UIFont systemFontOfSize:17.0];
             textColor = [UIColor colorWithHex:@"828e9c"];
-            
             break;
         }
         case ApplicationTypeTwitter:
@@ -317,7 +307,6 @@
             text = @"You aren’t subscribed to any lists yet.";
             font = [UIFont systemFontOfSize:12.0];
             textColor = [UIColor colorWithHex:@"8899a6"];
-            
             break;
         }
         case ApplicationTypeVine:
@@ -325,7 +314,6 @@
             text = @"This is where your private conversations will live";
             font = [UIFont systemFontOfSize:17.0];
             textColor = [UIColor colorWithHex:@"a6a6a6"];
-            
             break;
         }
         case ApplicationTypeWhatsapp:
@@ -333,7 +321,6 @@
             text = @"You can exchange media with Ignacio by tapping on the Arrow Up icon in the conversation screen.";
             font = [UIFont systemFontOfSize:15.0];
             textColor = [UIColor colorWithHex:@"989898"];
-            
             break;
         }
         default:
@@ -357,7 +344,7 @@
     return [UIImage imageNamed:imageName];
 }
 
-- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -368,16 +355,21 @@
         {
             text = @"Start Browsing";
             font = [UIFont boldSystemFontOfSize:16.0];
-            textColor = [UIColor colorWithHex:@"05adff"];
-
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"05adff" : @"6bceff"];
+            break;
+        }
+        case ApplicationTypeFoursquare:
+        {
+            text = @"Add friends to get started!";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"00aeef" : @"ffffff"];
             break;
         }
         case ApplicationTypeDropbox:
         {
             text = @"Learn more";
             font = [UIFont systemFontOfSize:15.0];
-            textColor = [UIColor colorWithHex:@"007ee5"];
-            
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007ee5" : @"48a1ea"];
             break;
         }
         default:
@@ -395,11 +387,27 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (UIImage *)buttonBackgroundImageForDataSetInTableView:(UITableView *)tableView forState:(UIControlState)state
+{
+    switch (self.application.type) {
+        case ApplicationTypeFoursquare:
+        {
+            if (state == UIControlStateNormal) return [UIImage imageNamed:@"button_background_foursquare_normal"];
+            if (state == UIControlStateHighlighted) return [UIImage imageNamed:@"button_background_foursquare_highlight"];
+            break;
+        }
+        default:
+            return nil;
+    }
+    return nil;
+}
+
 - (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
+        case ApplicationTypeFoursquare: return [UIColor colorWithHex:@"fcfcfa"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
         case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
         case ApplicationTypeSlack:      return [UIColor whiteColor];
@@ -410,7 +418,6 @@
         default:                        return nil;
     }
 }
-
 
 
 #pragma mark - DZNTableViewDataSetDelegate Methods
@@ -429,6 +436,7 @@
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return 24.0;
+        case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
         case ApplicationTypeTumblr:     return 10.0;
         case ApplicationTypeTwitter:    return 0.1;
