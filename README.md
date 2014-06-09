@@ -1,19 +1,8 @@
 UITableView-DataSet
 ===================
 
-A drop-in UITableView category for showing empty data sets whenever the tableView's `-reloadData` returns no content to display.
-
-Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on the device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
-
-That is why in mobile design patterns, the **Empty Datasets** are helpful for:
-- Avoiding white-screens, and taking advantage of that circunstance to explain to the user why the screen is empty.
-- Calling to action (particularly for boarding process of new users).
-- Avoiding other interruptive mechanisms for showing errors.
-- Delivering a brand presence and strong user experience.
-
-This library as been designed in a way where you won't need to use an extended UITableView class. It will work when using UITableViewControllers or UIViewControllers with a custom tableView.
-By simply conforming to the datasource and delegate you will be able to fully customise the content and appearance of the empty datasets for your application.
-
+This library has been designed in a way where you won't need to use an extended UITableView class. It will still work when using UITableViewController.
+By simply conforming to the datasource and delegate you will be able to fully customize the content and appearance of the empty datasets for your application.
 
 ### Features
 * Uses KVO to observe whenever the tableview calls -reloadData.
@@ -24,6 +13,15 @@ By simply conforming to the datasource and delegate you will be able to fully cu
 * Background color customisation.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
+
+### The Empty DataSet Pattern
+Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on their device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
+
+That is why in mobile design patterns, the **Empty Datasets** are helpful for:
+* Avoiding white-screens, and taking advantage of that circunstance to explain to the user why the screen is empty.
+* Calling to action (particularly for boarding process of new users).
+* Avoiding other interruptive mechanisms like showing error alerts.
+* Delivering a brand presence and a smooth user experience.
 
 
 ## Installation
@@ -49,7 +47,7 @@ Conform to datasource and/or delegate
 ```
 
 ### Step 3: Data Source Implementation
-Return the content you want to be shown on the empty datasets, and take advantage of NSAttributeString features to fully customise the text appearance.
+Return the content you want to be shown on the empty datasets, and take advantage of NSAttributeString features to fully customize the text appearance.
 
 ##### The description of the data set.
 ```
