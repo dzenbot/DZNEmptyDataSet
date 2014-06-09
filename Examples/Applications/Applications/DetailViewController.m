@@ -310,7 +310,7 @@
     if (font) [attributes setObject:font forKey:NSFontAttributeName];
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
-    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
@@ -449,7 +449,7 @@
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     if (paragraph) [attributes setObject:paragraph forKey:NSParagraphStyleAttributeName];
 
-    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (UIImage *)imageForTableViewDataSet:(UITableView *)tableView
@@ -512,7 +512,7 @@
     if (font) [attributes setObject:font forKey:NSFontAttributeName];
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
-    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state

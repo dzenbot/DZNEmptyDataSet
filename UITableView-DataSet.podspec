@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name          = "UITableView-DataSet"
   s.version       = "1.0"
-  s.summary       = "A drop-in UITableView category for showing empty data sets whenever -reloadData returns no content to display."
+  s.summary       = "A drop-in UITableView category for showing empty datasets whenever the UITableView has no content to display"
   s.description   = "It will work automatically, by just setting the dataSetSource and dataSetDelegate, and returning the data source content requiered."
   s.homepage      = "https://github.com/dzenbot/UITableView-DataSet"
   s.license       = { :type => 'MIT', :file => 'LICENSE' }

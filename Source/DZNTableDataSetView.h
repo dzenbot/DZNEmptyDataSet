@@ -13,7 +13,7 @@
 #define kDZNTableDataSetViewDidTapButtonNotification @"kDZNTableDataSetViewDidTapButtonNotification"
 
 /**
- * The data set view, containing visual controls such as labels, buttons, imageviews, etc.
+ * The dataset view, containing visual controls such as labels, buttons, imageviews, etc.
  *
  * @discussion This wrapper view allows multiple combinations, based on the content retrieved from the data source. You can decide to just show an image with a button, or a title with a description, or all together. Is up to you and what your view controller needs to successfuly communicate to the user what's going on and why there is no content to display.
  */
