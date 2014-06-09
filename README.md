@@ -17,9 +17,9 @@ That is why in mobile design patterns, the **Empty Datasets** are helpful for:
 ### Features
 * Uses KVO to observe whenever the tableview calls -reloadData.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title lable and/or description label and/or button.
-* Uses NSAttributesStrings for easier appearance customisation.
-* Uses auto-layout to automagically center the content to the tableview's, with auto-rotation support.
-* Allows tap gesture on the whole tableview screen (useful for resigning first responder or similar actions).
+* Uses NSAttributedString for easier appearance customisation.
+* Uses auto-layout to automagically center the content to the tableview, with auto-rotation support.
+* Allows tap gesture on the whole tableview bounds (useful for resigning first responder or similar actions).
 * Background color customisation.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
@@ -45,15 +45,15 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 ```
 
 ### Step 2: Protocol Conformance
-Conform to datasource and/or delegate
+Conform to datasource and/or delegate.
 ```
 @interface MainViewController : UITableViewController <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate>
 ```
 
 ### Step 3: Data Source Implementation
-Return the content you want to be shown on the empty datasets, and take advantage of NSAttributeString features to fully customize the text appearance.
+Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to fully customise the text appearance.
 
-##### The description of the data set.
+##### The title of the dataset.
 ```
 - (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView {
 
@@ -66,7 +66,7 @@ Return the content you want to be shown on the empty datasets, and take advantag
 }
 ```
 
-##### The description of the data set.
+##### The description of the dataset.
 ```
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView {
 
@@ -95,7 +95,7 @@ Return the content you want to be shown on the empty datasets, and take advantag
 ```
 
 ### Step 4: Delegate Implementation
-Return the behaviour you'd expect form the empty datasets, and receive the user events.
+Return the behaviours you would expect from the empty datasets, and receive the user events.
 
 ##### Asks for interaction permission. Default is YES.
 ```
@@ -126,7 +126,7 @@ Return the behaviour you'd expect form the empty datasets, and receive the user 
 ```
 
 ### Step 5: Deallocation
-It is very *important* to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. Since this library uses KVO under the hood, it needs to remove the observer whenever the tableview is going to be released.
+It is very **important** to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. Since this library uses KVO under the hood, the observer must be removed when the tableview is going to be released.
 
 ```
 - (void)dealloc
@@ -140,14 +140,14 @@ It is very *important* to set the dataSetSource and dataSetDelegate to nil, on t
 ## Sample project
 
 #### Applications
-This sample project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. Use this project for understanding how easy and flexible it is to customise the appearance of your empty datasets.
+This sample project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. Use this project for understanding how easy and flexible it is to customize the appearance of your empty datasets.
 
 #### Countries
-This other sample project shows a list of the countries worlwide. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. Use this project for understanding better the interaction between the UITableViewDataSource and the DZNTableDataSetSource protocols.
+This other sample project shows a list of the world countries. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. Use this project for understanding better the interaction between the UITableViewDataSource and the DZNTableDataSetSource protocols.
 
 
 ## Collaboration
-I tried to build an easy to use API, while beign flexible enough for multiple variations, but I'm sure there is way of improving and adding more feature, so feel free to collaborate with ideas, issues and/or pull requests.
+I tried to build an easy to use API, while beeing flexible enough for multiple variations, but I'm sure there are ways of improving and adding more features, so feel free to collaborate with ideas, issues and/or pull requests.
 
 
 ## License
