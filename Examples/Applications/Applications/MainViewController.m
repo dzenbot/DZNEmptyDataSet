@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     
-    self.title = [@"Apps" uppercaseString];
+    self.title = @"Popular Applications";
 }
 
 - (void)viewWillAppear:(BOOL)animated

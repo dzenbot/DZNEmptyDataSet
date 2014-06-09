@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02814654A00E4227802251C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AED14F1ABCD94E898178FF50 /* libPods.a */; };
 		4F44C93E193FD8B000E34052 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F44C93D193FD8B000E34052 /* Foundation.framework */; };
 		4F44C940193FD8B000E34052 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F44C93F193FD8B000E34052 /* CoreGraphics.framework */; };
 		4F44C942193FD8B000E34052 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F44C941193FD8B000E34052 /* UIKit.framework */; };
@@ -15,12 +16,11 @@
 		4F44C97F19402EAD00E34052 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F44C97C19402EAD00E34052 /* main.m */; };
 		4F44C98519402EE600E34052 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C98419402EE600E34052 /* Images.xcassets */; };
 		4F44C9BF1940D67300E34052 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C9BE1940D67300E34052 /* countries.json */; };
-		4FB5CE74194219290051C6BD /* DZNTableDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CE70194219290051C6BD /* DZNTableDataSetView.m */; };
-		4FB5CE75194219290051C6BD /* UITableView+DataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CE73194219290051C6BD /* UITableView+DataSet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4F44C93A193FD8B000E34052 /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4F44C93A193FD8B000E34052 /* Countries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Countries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F44C93D193FD8B000E34052 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4F44C93F193FD8B000E34052 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4F44C941193FD8B000E34052 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -30,15 +30,11 @@
 		4F44C97819402E7D00E34052 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		4F44C97919402E7D00E34052 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		4F44C97C19402EAD00E34052 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4F44C97D19402EAD00E34052 /* Sample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Sample-Info.plist"; sourceTree = "<group>"; };
-		4F44C97E19402EAD00E34052 /* Sample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sample-Prefix.pch"; sourceTree = "<group>"; };
+		4F44C97D19402EAD00E34052 /* Countries-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Countries-Info.plist"; sourceTree = "<group>"; };
+		4F44C97E19402EAD00E34052 /* Countries-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Countries-Prefix.pch"; sourceTree = "<group>"; };
 		4F44C98419402EE600E34052 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4F44C9BE1940D67300E34052 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = SOURCE_ROOT; };
-		4FB5CE6F194219290051C6BD /* DZNTableDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZNTableDataSetView.h; sourceTree = "<group>"; };
-		4FB5CE70194219290051C6BD /* DZNTableDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZNTableDataSetView.m; sourceTree = "<group>"; };
-		4FB5CE71194219290051C6BD /* DZNTableViewDataSetProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZNTableViewDataSetProtocols.h; sourceTree = "<group>"; };
-		4FB5CE72194219290051C6BD /* UITableView+DataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+DataSet.h"; sourceTree = "<group>"; };
-		4FB5CE73194219290051C6BD /* UITableView+DataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+DataSet.m"; sourceTree = "<group>"; };
+		AED14F1ABCD94E898178FF50 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +45,7 @@
 				4F44C940193FD8B000E34052 /* CoreGraphics.framework in Frameworks */,
 				4F44C942193FD8B000E34052 /* UIKit.framework in Frameworks */,
 				4F44C93E193FD8B000E34052 /* Foundation.framework in Frameworks */,
+				02814654A00E4227802251C5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,17 +55,17 @@
 		4F44C931193FD8B000E34052 = {
 			isa = PBXGroup;
 			children = (
-				4FB5CE6E194219290051C6BD /* Source */,
-				4F44C943193FD8B000E34052 /* Sample */,
+				4F44C943193FD8B000E34052 /* Countries */,
 				4F44C93C193FD8B000E34052 /* Frameworks */,
 				4F44C93B193FD8B000E34052 /* Products */,
+				4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
 		4F44C93B193FD8B000E34052 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F44C93A193FD8B000E34052 /* Sample.app */,
+				4F44C93A193FD8B000E34052 /* Countries.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,11 +77,12 @@
 				4F44C93F193FD8B000E34052 /* CoreGraphics.framework */,
 				4F44C941193FD8B000E34052 /* UIKit.framework */,
 				4F44C95C193FD8B200E34052 /* XCTest.framework */,
+				AED14F1ABCD94E898178FF50 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4F44C943193FD8B000E34052 /* Sample */ = {
+		4F44C943193FD8B000E34052 /* Countries */ = {
 			isa = PBXGroup;
 			children = (
 				4F44C97819402E7D00E34052 /* AppDelegate.h */,
@@ -95,7 +93,7 @@
 				4F44C98419402EE600E34052 /* Images.xcassets */,
 				4F44C97B19402EAD00E34052 /* Supporting Files */,
 			);
-			name = Sample;
+			name = Countries;
 			path = ScrollTest;
 			sourceTree = "<group>";
 		};
@@ -103,43 +101,32 @@
 			isa = PBXGroup;
 			children = (
 				4F44C97C19402EAD00E34052 /* main.m */,
-				4F44C97D19402EAD00E34052 /* Sample-Info.plist */,
-				4F44C97E19402EAD00E34052 /* Sample-Prefix.pch */,
+				4F44C97D19402EAD00E34052 /* Countries-Info.plist */,
+				4F44C97E19402EAD00E34052 /* Countries-Prefix.pch */,
 			);
 			path = "Supporting Files";
 			sourceTree = SOURCE_ROOT;
 		};
-		4FB5CE6E194219290051C6BD /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				4FB5CE6F194219290051C6BD /* DZNTableDataSetView.h */,
-				4FB5CE70194219290051C6BD /* DZNTableDataSetView.m */,
-				4FB5CE71194219290051C6BD /* DZNTableViewDataSetProtocols.h */,
-				4FB5CE72194219290051C6BD /* UITableView+DataSet.h */,
-				4FB5CE73194219290051C6BD /* UITableView+DataSet.m */,
-			);
-			name = Source;
-			path = ../../Source;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F44C939193FD8B000E34052 /* Sample */ = {
+		4F44C939193FD8B000E34052 /* Countries */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F44C96C193FD8B200E34052 /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = 4F44C96C193FD8B200E34052 /* Build configuration list for PBXNativeTarget "Countries" */;
 			buildPhases = (
+				4FA3E815F7424CF596319F5F /* Check Pods Manifest.lock */,
 				4F44C936193FD8B000E34052 /* Sources */,
 				4F44C937193FD8B000E34052 /* Frameworks */,
 				4F44C938193FD8B000E34052 /* Resources */,
+				B27381A97EF04420AFB7466C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Sample;
+			name = Countries;
 			productName = ScrollTest;
-			productReference = 4F44C93A193FD8B000E34052 /* Sample.app */;
+			productReference = 4F44C93A193FD8B000E34052 /* Countries.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -151,7 +138,7 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "DZN Labs";
 			};
-			buildConfigurationList = 4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Sample" */;
+			buildConfigurationList = 4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Countries" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -164,7 +151,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4F44C939193FD8B000E34052 /* Sample */,
+				4F44C939193FD8B000E34052 /* Countries */,
 			);
 		};
 /* End PBXProject section */
@@ -181,16 +168,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4FA3E815F7424CF596319F5F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B27381A97EF04420AFB7466C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4F44C936193FD8B000E34052 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4F44C97719402E6400E34052 /* MainViewController.m in Sources */,
-				4FB5CE74194219290051C6BD /* DZNTableDataSetView.m in Sources */,
 				4F44C97F19402EAD00E34052 /* main.m in Sources */,
 				4F44C97A19402E7D00E34052 /* AppDelegate.m in Sources */,
-				4FB5CE75194219290051C6BD /* UITableView+DataSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,14 +287,15 @@
 		};
 		4F44C96D193FD8B200E34052 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Supporting Files/Sample-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Sample-Info.plist";
+				GCC_PREFIX_HEADER = "Supporting Files/Countries-Prefix.pch";
+				INFOPLIST_FILE = "Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PRODUCT_NAME = Sample;
+				PRODUCT_NAME = Countries;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -284,14 +303,15 @@
 		};
 		4F44C96E193FD8B200E34052 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Supporting Files/Sample-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Sample-Info.plist";
+				GCC_PREFIX_HEADER = "Supporting Files/Countries-Prefix.pch";
+				INFOPLIST_FILE = "Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PRODUCT_NAME = Sample;
+				PRODUCT_NAME = Countries;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -300,7 +320,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Sample" */ = {
+		4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Countries" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F44C96A193FD8B200E34052 /* Debug */,
@@ -309,7 +329,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4F44C96C193FD8B200E34052 /* Build configuration list for PBXNativeTarget "Sample" */ = {
+		4F44C96C193FD8B200E34052 /* Build configuration list for PBXNativeTarget "Countries" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F44C96D193FD8B200E34052 /* Debug */,

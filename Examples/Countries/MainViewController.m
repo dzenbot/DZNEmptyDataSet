@@ -246,12 +246,12 @@
 
 #pragma mark - DZNTableViewDataSetDataSource Methods
 
-- (NSAttributedString *)titleForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
 {
     return nil;
 }
 
-- (NSAttributedString *)descriptionForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
 {
     NSString *text = [NSString stringWithFormat:@"No countries found matching\n%@.", self.searchBar.text];
     
@@ -270,21 +270,32 @@
     return attributedTitle;
 }
 
-- (UIImage *)imageForDataSetInTableView:(UITableView *)tableView
+- (UIImage *)imageForTableViewDataSet:(UITableView *)tableView
 {
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        return nil;
+    }
+    
     return [UIImage imageNamed:@"search_icon"];
 }
 
-- (NSAttributedString *)buttonTitleForDataSetInTableView:(UITableView *)tableView
+- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
-    NSString *text = @"Search in Wikipedia";
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        return nil;
+    }
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0]};
+    NSString *text = @"Search in Wikipedia";
+    UIColor *textColor = (state == UIControlStateNormal) ? [UIColor colorWithRed:0/255.0 green:122/255.0 blue:255/255.0 alpha:1.0] : [UIColor colorWithRed:204/255.0 green:228/255.0 blue:255/255.0 alpha:1.0];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0],
+                                 NSForegroundColorAttributeName: textColor};
+    
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
     return attributedTitle;
 }
 
-- (UIColor *)backgroundColorForDataSetInTableView:(UITableView *)tableView
+- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
 {
     return [UIColor whiteColor];
 }
