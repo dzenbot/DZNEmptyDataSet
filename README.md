@@ -3,13 +3,14 @@
 ###### (Real life examples available in the sample project)
 
 ### The Empty DataSet Pattern
-Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on their device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
+Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new users with blank accounts. Empty screens create confusion by not being clear about what's going on, if there is an error/bug or if the user is supposed to do something within your app to be able to consume the content.
 
-That is why in mobile design patterns, the **Empty Datasets** are helpful for:
-* Avoiding white-screens, and taking advantage of that circunstance to explain to the user why the screen is empty.
-* Calling to action (particularly for boarding process of new users).
+**Empty Datasets** are helpful for:
+* Avoiding white-screens and communicating to your users why the screen is empty.
+* Calling to action (particularly as a boarding process for your new users).
 * Avoiding other interruptive mechanisms like showing error alerts.
-* Delivering a brand presence and a smooth user experience.
+* Beeing consistent and improving the user experience.
+* Delivering a brand presence.
 
 
 ### Features
