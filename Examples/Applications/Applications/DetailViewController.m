@@ -84,6 +84,13 @@
             barstyle = UIStatusBarStyleLightContent;
             break;
         }
+        case ApplicationTypeFancy:
+        {
+            barColor = [UIColor colorWithHex:@"353b49"];
+            tintColor = [UIColor colorWithHex:@"c4c7cb"];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypeFoursquare:
         {
             barColor = [UIColor colorWithHex:@"00aeef"];
@@ -218,6 +225,13 @@
             [attributes setObject:shadow forKey:NSShadowAttributeName];
             break;
         }
+        case ApplicationTypeFancy:
+        {
+            text = @"No Owns yet";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"494c53"];
+            break;
+        }
         case ApplicationTypeiCloud:
         {
             text = @"iCloud Photo Sharing";
@@ -339,6 +353,13 @@
             text = @"Favorites are saved for offline access.";
             font = [UIFont systemFontOfSize:14.5];
             textColor = [UIColor colorWithHex:@"7b8994"];
+            break;
+        }
+        case ApplicationTypeFancy:
+        {
+            text = @"Tap Add to List and add things to Owns";
+            font = [UIFont systemFontOfSize:13.0];
+            textColor = [UIColor colorWithHex:@"7a7d83"];
             break;
         }
         case ApplicationTypeFoursquare:
@@ -527,6 +548,7 @@
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
+        case ApplicationTypeFancy:      return [UIColor colorWithHex:@"f0f0f0"];
         case ApplicationTypeFoursquare: return [UIColor colorWithHex:@"fcfcfa"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
         case ApplicationTypePath:       return [UIColor colorWithHex:@"726d67"];
@@ -546,6 +568,7 @@
         case ApplicationTypeAirbnb:     return 24.0;
         case ApplicationTypeAppstore:   return 34.0;
         case ApplicationTypeFacebook:   return 30.0;
+        case ApplicationTypeFancy:      return 1.0;
         case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
         case ApplicationTypePath:       return 1.0;

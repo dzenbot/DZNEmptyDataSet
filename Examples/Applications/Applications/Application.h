@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeCamera,
     ApplicationTypeDropbox,
     ApplicationTypeFacebook,
+    ApplicationTypeFancy,
     ApplicationTypeFoursquare,
     ApplicationTypeiCloud,
     ApplicationTypeInstagram,

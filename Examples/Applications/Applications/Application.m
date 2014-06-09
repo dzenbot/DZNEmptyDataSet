@@ -41,6 +41,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Camera",
                      @"Dropbox",
                      @"Facebook",
+                     @"Fancy",
                      @"Foursquare",
                      @"iCloud",
                      @"Instagram",
