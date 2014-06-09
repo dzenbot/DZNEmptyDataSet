@@ -14,6 +14,7 @@ That is why in mobile design patterns, the **Empty Datasets** are helpful for:
 This library as been designed in a way where you won't need to use an extended UITableView class. It will work when using UITableViewControllers or UIViewControllers with a custom tableView.
 By simply conforming to the datasource and delegate you will be able to fully customise the content and appearance of the empty datasets for your application.
 
+
 ### Features
 * Uses KVO to observe whenever the tableview calls -reloadData.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title lable and/or description label and/or button.
@@ -24,12 +25,14 @@ By simply conforming to the datasource and delegate you will be able to fully cu
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
 
+
 ## Installation
 
 Available in [Cocoa Pods](http://cocoapods.org/?q=UITableView-DataSet)
 ```
 pod 'UITableView-DataSet'
 ```
+
 
 ## How to use
 For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoadocs.org/docsets/UITableView-DataSet/)
@@ -46,12 +49,12 @@ Conform to datasource and/or delegate
 ```
 
 ### Step 3: Data Source Implementation
-Return the content you want to be shown on the empty datasets, and use take advantage of NSAttributeString features to fully customise the text appearance.
+Return the content you want to be shown on the empty datasets, and take advantage of NSAttributeString features to fully customise the text appearance.
 
 ##### The description of the data set.
 ```
-- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
-{
+- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView {
+
     NSString *text = @"Please Allow Photo Access";
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
@@ -63,8 +66,8 @@ Return the content you want to be shown on the empty datasets, and use take adva
 
 ##### The description of the data set.
 ```
-- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
-{
+- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView {
+
     NSString *text = @"This allows you to share photos from your library and save photos to your camera roll.";
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
@@ -81,8 +84,8 @@ Return the content you want to be shown on the empty datasets, and use take adva
 
 ##### The title to be used for the specified button state.
 ```
-- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
-{
+- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state {
+
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]
 
     return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
@@ -94,32 +97,28 @@ Return the behaviour you'd expect form the empty datasets, and receive the user 
 
 ##### Asks for interaction permission. Default is YES.
 ```
-- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
-{
+- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView {
     return YES;
 }
 ```
 
 ##### Asks for scrolling permission. Default is NO.
 ```
-- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
-{
+- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView {
     return YES;
 }
 ```
 
 ##### Notifies when the dataset view was tapped.
 ```
-- (void)tableViewDataSetDidTapView:(UITableView *)tableView
-{
+- (void)tableViewDataSetDidTapView:(UITableView *)tableView {
     
 }
 ```
 
 ##### Notifies when the dataset call to action button was tapped.
 ```
-- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
-{
+- (void)tableViewDataSetDidTapButton:(UITableView *)tableView {
     
 }
 ```
@@ -135,11 +134,19 @@ It is very *important* to set the dataSetSource and dataSetDelegate to nil, on t
 }
 ```
 
-### Sample project
-Take a look into the sample projects. There is a very complete project replicating popular application's empty datasets with the exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others.
 
-### Collaboration
-Feel free to collaborate with this project!
+## Sample project
+
+#### Applications
+This sample project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. Use this project for understanding how easy and flexible it is to customise the appearance of your empty datasets.
+
+#### Countries
+This other sample project shows a list of the countries worlwide. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. Use this project for understanding better the interaction between the UITableViewDataSource and the DZNTableDataSetSource protocols.
+
+
+## Collaboration
+I tried to build an easy to use API, while beign flexible enough for multiple variations, but I'm sure there is way of improving and adding more feature, so feel free to collaborate with ideas, issues and/or pull requests.
+
 
 ## License
 (The MIT License)
