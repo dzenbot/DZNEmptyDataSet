@@ -1,11 +1,11 @@
 UITableView-DataSet
 ===================
 
-A drop-in UITableView category for showing empty data sets whenever -reloadData returns no content to display.
+A drop-in UITableView category for showing empty data sets whenever the tableView's `-reloadData` returns no content to display.
 
 Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on the device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
 
-That is why in mobile design patterns, the *Empty Datasets* are helpful for:
+That is why in mobile design patterns, the **Empty Datasets** are helpful for:
 - Avoiding white-screens, and taking advantage of that circunstance to explain to the user why the screen is empty.
 - Calling to action (particularly for boarding process of new users).
 - Avoiding other interruptive mechanisms for showing errors.
@@ -48,8 +48,8 @@ Conform to datasource and/or delegate
 ### Step 3: Data Source Implementation
 Return the content you want to be shown on the empty datasets, and use take advantage of NSAttributeString features to fully customise the text appearance.
 
+The description of the data set.
 ```
-// The description of the data set.
 - (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
 {
     NSString *text = @"Please Allow Photo Access";
@@ -59,8 +59,10 @@ Return the content you want to be shown on the empty datasets, and use take adva
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
+```
 
-// The description of the data set.
+The description of the data set.
+```
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
 {
     NSString *text = @"This allows you to share photos from your library and save photos to your camera roll.";
@@ -75,39 +77,47 @@ Return the content you want to be shown on the empty datasets, and use take adva
                                  
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];                      
 }
+```
 
-// The title to be used for the specified button state.
+The title to be used for the specified button state.
+```
 - (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]
 
     return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
 }
-
+```
 
 ### Step 4: Delegate Implementation
 Return the behaviour you'd expect form the empty datasets, and receive the user events.
 
+Asks for interaction permission. Default is YES.
 ```
-// Asks for interaction permission. Default is YES.
 - (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
 {
     return YES;
 }
+```
 
-// Asks for scrolling permission. Default is NO.
+Asks for scrolling permission. Default is NO.
+```
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
 {
     return YES;
 }
+```
 
-// Notifies when the dataset view was tapped.
+Notifies when the dataset view was tapped.
+```
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView
 {
     
 }
+```
 
-// Notifies when the dataset call to action button was tapped.
+Notifies when the dataset call to action button was tapped.
+```
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
     
