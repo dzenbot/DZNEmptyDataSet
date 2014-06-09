@@ -1,7 +1,8 @@
 UITableView-DataSet
 ===================
 
-![Screenshots](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots.png)
+![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
+![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
 
 ### The Empty DataSet Pattern
 Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on their device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
