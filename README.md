@@ -48,7 +48,7 @@ Conform to datasource and/or delegate
 ### Step 3: Data Source Implementation
 Return the content you want to be shown on the empty datasets, and use take advantage of NSAttributeString features to fully customise the text appearance.
 
-The description of the data set.
+##### The description of the data set.
 ```
 - (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
 {
@@ -61,7 +61,7 @@ The description of the data set.
 }
 ```
 
-The description of the data set.
+##### The description of the data set.
 ```
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
 {
@@ -79,7 +79,7 @@ The description of the data set.
 }
 ```
 
-The title to be used for the specified button state.
+##### The title to be used for the specified button state.
 ```
 - (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
@@ -92,7 +92,7 @@ The title to be used for the specified button state.
 ### Step 4: Delegate Implementation
 Return the behaviour you'd expect form the empty datasets, and receive the user events.
 
-Asks for interaction permission. Default is YES.
+##### Asks for interaction permission. Default is YES.
 ```
 - (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
 {
@@ -100,7 +100,7 @@ Asks for interaction permission. Default is YES.
 }
 ```
 
-Asks for scrolling permission. Default is NO.
+##### Asks for scrolling permission. Default is NO.
 ```
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
 {
@@ -108,7 +108,7 @@ Asks for scrolling permission. Default is NO.
 }
 ```
 
-Notifies when the dataset view was tapped.
+##### Notifies when the dataset view was tapped.
 ```
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView
 {
@@ -116,7 +116,7 @@ Notifies when the dataset view was tapped.
 }
 ```
 
-Notifies when the dataset call to action button was tapped.
+##### Notifies when the dataset call to action button was tapped.
 ```
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView
 {
