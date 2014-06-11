@@ -1,21 +1,97 @@
  [
-  {"display_name": "Airbnb", "developer_name": "Airbnb, Inc.", "identifier": "401626263"},
-  {"display_name": "AppStore", "developer_name": "Apple, Inc.", "identifier": ""},
-  {"display_name": "Camera", "developer_name": "Apple, Inc.", "identifier": ""},
-  {"display_name": "Dropbox", "developer_name": "Dropbox, Inc.", "identifier": "327630330"},
-  {"display_name": "Facebook", "developer_name": "Facebook, Inc.", "identifier": "284882215"},
-  {"display_name": "Fancy", "developer_name": "Thing Daemon, Inc.", "identifier": "407324335"},
-  {"display_name": "Foursquare", "developer_name": "Foursquare Labs", "identifier": "306934924"},
-  {"display_name": "iCloud", "developer_name": "Apple, Inc.", "identifier": ""},
-  {"display_name": "Instagram", "developer_name": "Instagram, Inc.", "identifier": "389801252"},
-  {"display_name": "Path", "developer_name": "Path, Inc.", "identifier": "403639508"},
-  {"display_name": "Pinterest", "developer_name": "Pinterest, Inc.", "identifier": "429047995"},
-  {"display_name": "Photos", "developer_name": "Apple, Inc.", "identifier": ""},
-  {"display_name": "Safari", "developer_name": "Apple, Inc.", "identifier": ""},
-  {"display_name": "Slack", "developer_name": "Tiny Speck, Inc.", "identifier": "618783545"},
-  {"display_name": "Tumblr", "developer_name": "Tumblr, Inc.", "identifier": "305343404"},
-  {"display_name": "Twitter", "developer_name": "Twitter, Inc.", "identifier": "333903271"},
-  {"display_name": "Vesper", "developer_name": "Q Branch", "identifier": "655895325"},
-  {"display_name": "Vine", "developer_name": "Vine Labs, Inc.", "identifier": "592447445"},
-  {"display_name": "WhatsApp", "developer_name": "WhatsApp, Inc.", "identifier": "310633997"},
+  {
+  "display_name": "Airbnb",
+  "developer_name": "Airbnb, Inc.",
+  "identifier": "401626263"
+  },
+  {
+  "display_name": "AppStore",
+  "developer_name": "Apple, Inc.",
+  "identifier": ""
+  },
+  {
+  "display_name": "Camera",
+  "developer_name": "Apple, Inc.",
+  "identifier": ""
+  },
+  {
+  "display_name": "Dropbox",
+  "developer_name": "Dropbox, Inc.",
+  "identifier": "327630330"
+  },
+  {
+  "display_name": "Facebook",
+  "developer_name": "Facebook, Inc.",
+  "identifier": "284882215"
+  },
+  {
+  "display_name": "Fancy",
+  "developer_name": "Thing Daemon, Inc.",
+  "identifier": "407324335"
+  },
+  {
+  "display_name": "Foursquare",
+  "developer_name": "Foursquare Labs",
+  "identifier": "306934924"
+  },
+  {
+  "display_name": "iCloud",
+  "developer_name": "Apple, Inc.",
+  "identifier": ""
+  },
+  {
+  "display_name": "Instagram",
+  "developer_name": "Instagram, Inc.",
+  "identifier": "389801252"
+  },
+  {
+  "display_name": "Path",
+  "developer_name": "Path, Inc.",
+  "identifier": "403639508"
+  },
+  {
+  "display_name": "Pinterest",
+  "developer_name": "Pinterest, Inc.",
+  "identifier": "429047995"
+  },
+  {
+  "display_name": "Photos",
+  "developer_name": "Apple, Inc.",
+  "identifier": ""
+  },
+  {
+  "display_name": "Safari",
+  "developer_name": "Apple, Inc.",
+  "identifier": ""
+  },
+  {
+  "display_name": "Slack",
+  "developer_name": "Tiny Speck, Inc.",
+  "identifier": "618783545"
+  },
+  {
+  "display_name": "Tumblr",
+  "developer_name": "Tumblr, Inc.",
+  "identifier": "305343404"
+  },
+  {
+  "display_name": "Twitter",
+  "developer_name": "Twitter, Inc.",
+  "identifier": "333903271"
+  },
+  {
+  "display_name": "Vesper",
+  "developer_name": "Q Branch",
+  "identifier": "655895325"
+  },
+  {
+  "display_name": "Vine",
+  "developer_name": "Vine Labs, Inc.",
+  "identifier": "592447445"
+  },
+  {
+  "display_name": "WhatsApp",
+  "developer_name": "WhatsApp, Inc.",
+  "identifier": "310633997"
+  },
 ]
