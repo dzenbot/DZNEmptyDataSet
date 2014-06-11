@@ -1,0 +1,14 @@
+PODS:
+  - UITableView-DataSet (1.0)
+
+DEPENDENCIES:
+  - UITableView-DataSet (from `../../`)
+
+EXTERNAL SOURCES:
+  UITableView-DataSet:
+    :path: ../../
+
+SPEC CHECKSUMS:
+  UITableView-DataSet: 65a403c97da8feb8fa17b00fcf87e2efe00b4c69
+
+COCOAPODS: 0.33.1
