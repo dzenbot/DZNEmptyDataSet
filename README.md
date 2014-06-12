@@ -1,20 +1,21 @@
 ![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
 ![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
-###### (Real life examples available in the sample project)
+###### (These are real life examples, available in the sample project)
 
 ### The Empty DataSet Pattern
-Most applications use list of content (datasets), which many turn out to be empty at one point, specially for new user without saved content on their device or cloud. This gives a very bad experience, by not being clear about what's going on, if there's an error or the user is supposed to do something within your app.
+Most applications display lists of content (datasets), which many turn out to be empty at one point, specially for new users with blank accounts. Empty screens create confusion by not being clear about what's going on, if there is an error/bug or if the user is supposed to do something within your app to be able to consume the content.
 
-That is why in mobile design patterns, the **Empty Datasets** are helpful for:
-* Avoiding white-screens, and taking advantage of that circunstance to explain to the user why the screen is empty.
-* Calling to action (particularly for boarding process of new users).
+**Empty Datasets** are helpful for:
+* Avoiding white-screens and communicating to your users why the screen is empty.
+* Calling to action (particularly as a boarding process for your new users).
 * Avoiding other interruptive mechanisms like showing error alerts.
-* Delivering a brand presence and a smooth user experience.
+* Beeing consistent and improving the user experience.
+* Delivering a brand presence.
 
 
 ### Features
 * Uses KVO to observe whenever the tableview calls -reloadData.
-* Gives multiple possibilities of layout and appearance, by showing an image and/or title lable and/or description label and/or button.
+* Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support.
 * Allows tap gesture on the whole tableview bounds (useful for resigning first responder or similar actions).
