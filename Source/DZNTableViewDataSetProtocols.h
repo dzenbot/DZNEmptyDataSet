@@ -83,6 +83,8 @@
  */
 - (CGFloat)spaceHeightForTableViewDataSet:(UITableView *)tableView;
 
+- (UIView *)customViewForTableViewDataSet:(UITableView *)tableView;
+
 @end
 
 

@@ -12,6 +12,7 @@
 
 @interface DZNTableDataSetView ()
 @property (nonatomic, readonly) UIView *contentView;
+@property (nonatomic, readonly) UIView *customView;
 @property (nonatomic) BOOL didConfigureConstraints;
 @end
 
@@ -19,10 +20,20 @@
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
-- (id)initWithFrame:(CGRect)frame
+//- (id)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        [self addSubview:self.contentView];
+//    }
+//    return self;
+//}
+
+- (instancetype)initWithFrame:(CGRect)frame customView:(UIView *)view
 {
-    self = [super initWithFrame:frame];
+    self =  [super initWithFrame:frame];
     if (self) {
+        _customView = view;
         [self addSubview:self.contentView];
     }
     return self;
@@ -39,10 +50,16 @@
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
         
-        [_contentView addSubview:self.imageView];
-        [_contentView addSubview:self.titleLabel];
-        [_contentView addSubview:self.detailLabel];
-        [_contentView addSubview:self.button];
+        if (_customView) {
+            _customView.translatesAutoresizingMaskIntoConstraints = NO;
+            [_contentView addSubview:self.customView];
+        }
+        else {
+            [_contentView addSubview:self.imageView];
+            [_contentView addSubview:self.titleLabel];
+            [_contentView addSubview:self.detailLabel];
+            [_contentView addSubview:self.button];
+        }
     }
     return _contentView;
 }
@@ -143,16 +160,7 @@
 
     [_contentView removeConstraints:_contentView.constraints];
     
-    CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
-    
-    NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 16 : 4;
-    NSNumber *padding = @(roundf(width/multiplier));
-    NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
-    NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
-    NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(self,_contentView,_titleLabel,_detailLabel,_imageView,_button);
-    NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
+    NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:NSDictionaryOfVariableBindings(self,_contentView)];
     
     if (!self.didConfigureConstraints) {
         self.didConfigureConstraints = YES;
@@ -163,6 +171,28 @@
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
     }
+    
+    if (_customView) {
+        if (_customView) [views setObject:_customView forKey:@"_customView"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_customView]|" options:0 metrics:nil views:views]];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_customView]|" options:0 metrics:nil views:views]];
+        return;
+    }
+    
+    if (_titleLabel) [views setObject:_titleLabel forKey:@"_titleLabel"];
+    if (_detailLabel) [views setObject:_detailLabel forKey:@"_detailLabel"];
+    if (_imageView) [views setObject:_imageView forKey:@"_imageView"];
+    if (_button) [views setObject:_button forKey:@"_button"];
+
+    CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
+    
+    NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 16 : 4;
+    NSNumber *padding = @(roundf(width/multiplier));
+    NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
+    NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
+    NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
+    
+    NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
 
     [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
                                                                          options:0 metrics:metrics views:views]];

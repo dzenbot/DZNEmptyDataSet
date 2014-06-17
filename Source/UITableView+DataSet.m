@@ -45,7 +45,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     id view = objc_getAssociatedObject(self, kDataSetView);
     if (!view)
     {
-        DZNTableDataSetView *view = [[DZNTableDataSetView alloc] initWithFrame:self.bounds];
+        DZNTableDataSetView *view = [[DZNTableDataSetView alloc] initWithFrame:self.bounds customView:[self customView]];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.backgroundColor = nil;
         view.hidden = YES;
@@ -137,6 +137,14 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         return [self.dataSetSource spaceHeightForTableViewDataSet:self];
     }
     return 0.0;
+}
+
+- (UIView *)customView
+{
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(customViewForTableViewDataSet:)]) {
+        return [self.dataSetSource customViewForTableViewDataSet:self];
+    }
+    return nil;
 }
 
 - (BOOL)needsReloadSets
@@ -249,26 +257,28 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 }
 
 - (void)reloadDataSet
-{
+{    
     if ([self totalNumberOfRows] == 0)
     {
         [self.dataSetView updateConstraintsIfNeeded];
         
-        // Configure labels
-        self.dataSetView.detailLabel.attributedText = [self detailLabelText];
-        self.dataSetView.titleLabel.attributedText = [self titleLabelText];
-        
-        // Configure imageview
-        self.dataSetView.imageView.image = [self image];
-        
-        // Configure button
-        [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
-        [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
-        [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
-        [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
-        
-        // Configure vertical spacing
-        self.dataSetView.verticalSpace = [self verticalSpace];
+        if (![self customView]) {
+            // Configure labels
+            self.dataSetView.detailLabel.attributedText = [self detailLabelText];
+            self.dataSetView.titleLabel.attributedText = [self titleLabelText];
+            
+            // Configure imageview
+            self.dataSetView.imageView.image = [self image];
+            
+            // Configure button
+            [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
+            [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
+            [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
+            [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
+            
+            // Configure vertical spacing
+            self.dataSetView.verticalSpace = [self verticalSpace];
+        }
         
         // Configure scroll permission
         self.scrollEnabled = [self isScrollAllowed];

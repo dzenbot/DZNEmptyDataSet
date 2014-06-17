@@ -30,6 +30,8 @@
 /** The vertical space between controls. */
 @property (nonatomic, assign) CGFloat verticalSpace;
 
+- (instancetype)initWithFrame:(CGRect)frame customView:(UIView *)view;
+
 /** 
  * Removes and deallocates all the view's controls.
  */

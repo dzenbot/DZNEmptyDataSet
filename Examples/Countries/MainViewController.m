@@ -31,13 +31,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    // A list of countries in JSON by Félix Bellanger
-    // https://gist.github.com/Keeguon/2310008
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self.tableView action:@selector(reloadData)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -112,7 +106,6 @@
                      completion:NULL];
 }
 
-
 - (UITableView *)tableView
 {
     if (!_tableView)
@@ -147,6 +140,26 @@
 
 #pragma mark - Sample Methods
 
+- (void)loadContent
+{
+    if (_countries) {
+        _countries = nil;
+    }
+    
+    // A list of countries in JSON by Félix Bellanger
+    // https://gist.github.com/Keeguon/2310008
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
+}
+
+- (void)reloadContent
+{
+    [self loadContent];
+    
+    [self.tableView reloadData];
+}
+
 - (void)addMissingUser
 {
     NSString *name = self.searchBar.text;
@@ -156,8 +169,6 @@
     }
     
     [self.countries addObject:name];
-    
-    
     
     [self filtercountries];
 }
@@ -246,10 +257,10 @@
 
 #pragma mark - DZNTableViewDataSetDataSource Methods
 
-- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
-{
-    return nil;
-}
+//- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
+//{
+//    return nil;
+//}
 
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
 {
@@ -281,7 +292,7 @@
 
 - (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
 {
-    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+    if ([self.searchBar isFirstResponder]) {
         return nil;
     }
     
@@ -298,6 +309,16 @@
 - (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
 {
     return [UIColor whiteColor];
+}
+
+- (UIView *)customViewForTableViewDataSet:(UITableView *)tableView
+{
+    if (_countries.count == 0) {
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [activityView startAnimating];
+        return activityView;
+    }
+    return nil;
 }
 
 
