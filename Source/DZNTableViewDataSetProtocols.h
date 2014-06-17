@@ -83,6 +83,13 @@
  */
 - (CGFloat)spaceHeightForTableViewDataSet:(UITableView *)tableView;
 
+/**
+ * Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
+ * Use this method to show an activity view indicator for loading feedback, or for complete custom empty data set.
+ *
+ * @param tableView A table-view object informing the delegate.
+ * @return The custom view.
+ */
 - (UIView *)customViewForTableViewDataSet:(UITableView *)tableView;
 
 @end
