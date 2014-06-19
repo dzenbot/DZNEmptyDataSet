@@ -5,20 +5,20 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>8E7C01D2-98A1-4CCC-B646-628A8BD38F62</string>
+	<string>22149642-18E4-40E1-9FD2-304E9D1A2443</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Applications</string>
+	<string>Photos</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</key>
 		<string>https://github.com/dzenbot/UITableView-DataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Examples/Applications/Applications.xcworkspace</string>
+	<string>Examples/Photos/Photos.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</key>
-		<string>../../..</string>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/dzenbot/UITableView-DataSet.git</string>
