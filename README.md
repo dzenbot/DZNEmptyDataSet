@@ -52,7 +52,7 @@ Conform to datasource and/or delegate.
 ### Step 3: Data Source Implementation
 Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to fully customise the text appearance.
 
-##### The title of the dataset.
+The title of the dataset:
 ```
 - (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView {
 
@@ -65,7 +65,7 @@ Return the content you want to show on the empty datasets, and take advantage of
 }
 ```
 
-##### The description of the dataset.
+The description of the dataset:
 ```
 - (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView {
 
@@ -83,7 +83,7 @@ Return the content you want to show on the empty datasets, and take advantage of
 }
 ```
 
-##### The title to be used for the specified button state.
+The title to be used for the specified button state:
 ```
 - (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state {
 
@@ -93,31 +93,50 @@ Return the content you want to show on the empty datasets, and take advantage of
 }
 ```
 
+The background color for the dataset view:
+```
+- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
+{
+    return [UIColor whiteColor];
+}
+```
+
+You can also return a custom view if your layout requieres much more appearance flexibility:
+```
+- (UIView *)customViewForTableViewDataSet:(UITableView *)tableView
+{
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    return activityView;
+}
+```
+
+
 ### Step 4: Delegate Implementation
 Return the behaviours you would expect from the empty datasets, and receive the user events.
 
-##### Asks for interaction permission. Default is YES.
+Asks for interaction permission (Default is YES) :
 ```
 - (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView {
     return YES;
 }
 ```
 
-##### Asks for scrolling permission. Default is NO.
+Asks for scrolling permission (Default is NO) :
 ```
 - (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView {
     return YES;
 }
 ```
 
-##### Notifies when the dataset view was tapped.
+Notifies when the dataset view was tapped:
 ```
 - (void)tableViewDataSetDidTapView:(UITableView *)tableView {
     
 }
 ```
 
-##### Notifies when the dataset call to action button was tapped.
+Notifies when the dataset call to action button was tapped:
 ```
 - (void)tableViewDataSetDidTapButton:(UITableView *)tableView {
     
