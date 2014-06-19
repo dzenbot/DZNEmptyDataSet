@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  UIColor+Random.h
 //  Colors
 //
 //  Created by Ignacio Romero Z. on 6/19/14.
@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UICollectionViewController
+@interface UIColor (Random)
+
++ (UIColor *)randomColor;
+
+- (NSString *)hexFromColor;
 
 @end

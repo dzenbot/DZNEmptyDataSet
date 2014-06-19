@@ -20,7 +20,8 @@
 		4F3E12BD1952AEFC00D8CB5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12BB1952AEFC00D8CB5A /* InfoPlist.strings */; };
 		4F3E12BF1952AEFC00D8CB5A /* PhotosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12BE1952AEFC00D8CB5A /* PhotosTests.m */; };
 		4F3E12CA1952AF3500D8CB5A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12C91952AF3500D8CB5A /* MainViewController.m */; };
-		4F3E12CD1952B19800D8CB5A /* PhotoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12CC1952B19800D8CB5A /* PhotoViewCell.m */; };
+		4F3E12CD1952B19800D8CB5A /* ColorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12CC1952B19800D8CB5A /* ColorViewCell.m */; };
+		4F3E12D01952BC3100D8CB5A /* UIColor+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12CF1952BC3100D8CB5A /* UIColor+Random.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,26 +35,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4F3E12961952AEFC00D8CB5A /* Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3E12961952AEFC00D8CB5A /* Colors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3E12991952AEFC00D8CB5A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4F3E129B1952AEFC00D8CB5A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4F3E129D1952AEFC00D8CB5A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		4F3E12A11952AEFC00D8CB5A /* Photos-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Photos-Info.plist"; sourceTree = "<group>"; };
+		4F3E12A11952AEFC00D8CB5A /* Colors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Colors-Info.plist"; sourceTree = "<group>"; };
 		4F3E12A31952AEFC00D8CB5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4F3E12A51952AEFC00D8CB5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4F3E12A71952AEFC00D8CB5A /* Photos-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Photos-Prefix.pch"; sourceTree = "<group>"; };
+		4F3E12A71952AEFC00D8CB5A /* Colors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Colors-Prefix.pch"; sourceTree = "<group>"; };
 		4F3E12A81952AEFC00D8CB5A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4F3E12A91952AEFC00D8CB5A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4F3E12AB1952AEFC00D8CB5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		4F3E12B11952AEFC00D8CB5A /* PhotosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3E12B11952AEFC00D8CB5A /* ColorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3E12B21952AEFC00D8CB5A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		4F3E12BA1952AEFC00D8CB5A /* PhotosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhotosTests-Info.plist"; sourceTree = "<group>"; };
+		4F3E12BA1952AEFC00D8CB5A /* ColorsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColorsTests-Info.plist"; sourceTree = "<group>"; };
 		4F3E12BC1952AEFC00D8CB5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4F3E12BE1952AEFC00D8CB5A /* PhotosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotosTests.m; sourceTree = "<group>"; };
 		4F3E12C81952AF3500D8CB5A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		4F3E12C91952AF3500D8CB5A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		4F3E12CB1952B19800D8CB5A /* PhotoViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewCell.h; sourceTree = "<group>"; };
-		4F3E12CC1952B19800D8CB5A /* PhotoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewCell.m; sourceTree = "<group>"; };
+		4F3E12CB1952B19800D8CB5A /* ColorViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorViewCell.h; sourceTree = "<group>"; };
+		4F3E12CC1952B19800D8CB5A /* ColorViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorViewCell.m; sourceTree = "<group>"; };
+		4F3E12CE1952BC3100D8CB5A /* UIColor+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Random.h"; sourceTree = "<group>"; };
+		4F3E12CF1952BC3100D8CB5A /* UIColor+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Random.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +96,8 @@
 		4F3E12971952AEFC00D8CB5A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F3E12961952AEFC00D8CB5A /* Photos.app */,
-				4F3E12B11952AEFC00D8CB5A /* PhotosTests.xctest */,
+				4F3E12961952AEFC00D8CB5A /* Colors.app */,
+				4F3E12B11952AEFC00D8CB5A /* ColorsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,8 +120,10 @@
 				4F3E12A91952AEFC00D8CB5A /* AppDelegate.m */,
 				4F3E12C81952AF3500D8CB5A /* MainViewController.h */,
 				4F3E12C91952AF3500D8CB5A /* MainViewController.m */,
-				4F3E12CB1952B19800D8CB5A /* PhotoViewCell.h */,
-				4F3E12CC1952B19800D8CB5A /* PhotoViewCell.m */,
+				4F3E12CB1952B19800D8CB5A /* ColorViewCell.h */,
+				4F3E12CC1952B19800D8CB5A /* ColorViewCell.m */,
+				4F3E12CE1952BC3100D8CB5A /* UIColor+Random.h */,
+				4F3E12CF1952BC3100D8CB5A /* UIColor+Random.m */,
 				4F3E12AB1952AEFC00D8CB5A /* Images.xcassets */,
 				4F3E12A01952AEFC00D8CB5A /* Supporting Files */,
 			);
@@ -128,10 +133,10 @@
 		4F3E12A01952AEFC00D8CB5A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F3E12A11952AEFC00D8CB5A /* Photos-Info.plist */,
+				4F3E12A11952AEFC00D8CB5A /* Colors-Info.plist */,
 				4F3E12A21952AEFC00D8CB5A /* InfoPlist.strings */,
 				4F3E12A51952AEFC00D8CB5A /* main.m */,
-				4F3E12A71952AEFC00D8CB5A /* Photos-Prefix.pch */,
+				4F3E12A71952AEFC00D8CB5A /* Colors-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -148,7 +153,7 @@
 		4F3E12B91952AEFC00D8CB5A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F3E12BA1952AEFC00D8CB5A /* PhotosTests-Info.plist */,
+				4F3E12BA1952AEFC00D8CB5A /* ColorsTests-Info.plist */,
 				4F3E12BB1952AEFC00D8CB5A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -157,9 +162,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F3E12951952AEFC00D8CB5A /* Photos */ = {
+		4F3E12951952AEFC00D8CB5A /* Colors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F3E12C21952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "Photos" */;
+			buildConfigurationList = 4F3E12C21952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "Colors" */;
 			buildPhases = (
 				4F3E12921952AEFC00D8CB5A /* Sources */,
 				4F3E12931952AEFC00D8CB5A /* Frameworks */,
@@ -169,14 +174,14 @@
 			);
 			dependencies = (
 			);
-			name = Photos;
+			name = Colors;
 			productName = Photos;
-			productReference = 4F3E12961952AEFC00D8CB5A /* Photos.app */;
+			productReference = 4F3E12961952AEFC00D8CB5A /* Colors.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4F3E12B01952AEFC00D8CB5A /* PhotosTests */ = {
+		4F3E12B01952AEFC00D8CB5A /* ColorsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F3E12C51952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "PhotosTests" */;
+			buildConfigurationList = 4F3E12C51952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "ColorsTests" */;
 			buildPhases = (
 				4F3E12AD1952AEFC00D8CB5A /* Sources */,
 				4F3E12AE1952AEFC00D8CB5A /* Frameworks */,
@@ -187,9 +192,9 @@
 			dependencies = (
 				4F3E12B71952AEFC00D8CB5A /* PBXTargetDependency */,
 			);
-			name = PhotosTests;
+			name = ColorsTests;
 			productName = PhotosTests;
-			productReference = 4F3E12B11952AEFC00D8CB5A /* PhotosTests.xctest */;
+			productReference = 4F3E12B11952AEFC00D8CB5A /* ColorsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -206,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4F3E12911952AEFC00D8CB5A /* Build configuration list for PBXProject "Photos" */;
+			buildConfigurationList = 4F3E12911952AEFC00D8CB5A /* Build configuration list for PBXProject "Colors" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -218,8 +223,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4F3E12951952AEFC00D8CB5A /* Photos */,
-				4F3E12B01952AEFC00D8CB5A /* PhotosTests */,
+				4F3E12951952AEFC00D8CB5A /* Colors */,
+				4F3E12B01952AEFC00D8CB5A /* ColorsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -249,10 +254,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F3E12D01952BC3100D8CB5A /* UIColor+Random.m in Sources */,
 				4F3E12AA1952AEFC00D8CB5A /* AppDelegate.m in Sources */,
 				4F3E12CA1952AF3500D8CB5A /* MainViewController.m in Sources */,
 				4F3E12A61952AEFC00D8CB5A /* main.m in Sources */,
-				4F3E12CD1952B19800D8CB5A /* PhotoViewCell.m in Sources */,
+				4F3E12CD1952B19800D8CB5A /* ColorViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +275,7 @@
 /* Begin PBXTargetDependency section */
 		4F3E12B71952AEFC00D8CB5A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4F3E12951952AEFC00D8CB5A /* Photos */;
+			target = 4F3E12951952AEFC00D8CB5A /* Colors */;
 			targetProxy = 4F3E12B61952AEFC00D8CB5A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -370,9 +376,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Photos/Photos-Prefix.pch";
-				INFOPLIST_FILE = "Photos/Photos-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Photos/Colors-Prefix.pch";
+				INFOPLIST_FILE = "Photos/Colors-Info.plist";
+				PRODUCT_NAME = Colors;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -383,9 +389,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Photos/Photos-Prefix.pch";
-				INFOPLIST_FILE = "Photos/Photos-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Photos/Colors-Prefix.pch";
+				INFOPLIST_FILE = "Photos/Colors-Info.plist";
+				PRODUCT_NAME = Colors;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -405,8 +411,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "PhotosTests/PhotosTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PhotosTests/ColorsTests-Info.plist";
+				PRODUCT_NAME = ColorsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -423,8 +429,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Photos/Photos-Prefix.pch";
-				INFOPLIST_FILE = "PhotosTests/PhotosTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PhotosTests/ColorsTests-Info.plist";
+				PRODUCT_NAME = ColorsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -433,7 +439,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F3E12911952AEFC00D8CB5A /* Build configuration list for PBXProject "Photos" */ = {
+		4F3E12911952AEFC00D8CB5A /* Build configuration list for PBXProject "Colors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3E12C01952AEFC00D8CB5A /* Debug */,
@@ -442,7 +448,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4F3E12C21952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "Photos" */ = {
+		4F3E12C21952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "Colors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3E12C31952AEFC00D8CB5A /* Debug */,
@@ -450,7 +456,7 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		4F3E12C51952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "PhotosTests" */ = {
+		4F3E12C51952AEFC00D8CB5A /* Build configuration list for PBXNativeTarget "ColorsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F3E12C61952AEFC00D8CB5A /* Debug */,

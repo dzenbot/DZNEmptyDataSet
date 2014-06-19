@@ -1,6 +1,6 @@
 //
-//  PhotoViewCell.h
-//  Photos
+//  ColorViewCell.h
+//  Colors
 //
 //  Created by Ignacio Romero Z. on 6/19/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotoViewCell : UICollectionViewCell
+@interface ColorViewCell : UICollectionViewCell
 
-@property (nonatomic, readonly) UIImageView *imageView;
+@property (nonatomic, readonly) UILabel *textLabel;
 
 @end

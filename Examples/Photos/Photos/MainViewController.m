@@ -1,19 +1,22 @@
 //
 //  MainViewController.m
-//  Photos
+//  Colors
 //
 //  Created by Ignacio Romero Z. on 6/19/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
 //
 
 #import "MainViewController.h"
-#import "PhotoViewCell.h"
+#import "ColorViewCell.h"
+#import "UIColor+Random.h"
 
-static NSString *CellIdentifier = @"PhotoViewCell";
+static NSString *CellIdentifier = @"ColorViewCell";
 
 @interface MainViewController ()
 @property (nonatomic) NSInteger columnCount;
 @property (nonatomic) NSInteger rowCount;
+
+@property (nonatomic) NSIndexPath *selectedIndexPath;
 @end
 
 @implementation MainViewController
@@ -59,14 +62,14 @@ static NSString *CellIdentifier = @"PhotoViewCell";
     self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     
-    [self.collectionView registerClass:[PhotoViewCell class] forCellWithReuseIdentifier:CellIdentifier];
+    [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Photos";
+    self.title = @"Colors";
     
     self.rowCount = 20;
     self.columnCount = 5;
@@ -114,8 +117,14 @@ static NSString *CellIdentifier = @"PhotoViewCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PhotoViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    ColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
+    
+    cell.backgroundColor = [UIColor randomColor];
+    
+    if ([indexPath isEqual:_selectedIndexPath]) {
+        cell.textLabel.text = [cell.backgroundColor hexFromColor];
+    }
     
     return cell;
 }
@@ -135,12 +144,20 @@ static NSString *CellIdentifier = @"PhotoViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    _selectedIndexPath = indexPath;
     
+    ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.textLabel.text = [cell.backgroundColor hexFromColor];
+    cell.selected = YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    _selectedIndexPath = nil;
     
+    ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.textLabel.text = nil;
+    cell.selected = NO;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
