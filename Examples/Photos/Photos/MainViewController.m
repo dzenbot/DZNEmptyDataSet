@@ -13,8 +13,8 @@
 static NSString *CellIdentifier = @"ColorViewCell";
 
 @interface MainViewController ()
+@property (nonatomic, strong) NSMutableArray *colors;
 @property (nonatomic) NSInteger columnCount;
-@property (nonatomic) NSInteger rowCount;
 
 @property (nonatomic) NSIndexPath *selectedIndexPath;
 @end
@@ -70,9 +70,9 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [super viewDidLoad];
     
     self.title = @"Colors";
-    
-    self.rowCount = 20;
     self.columnCount = 5;
+    
+    [self loadColors];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,10 +95,24 @@ static NSString *CellIdentifier = @"ColorViewCell";
 	[super viewDidDisappear:animated];
 }
 
+- (void)loadColors
+{
+    if (!_colors) {
+        _colors = [NSMutableArray new];
+    }
+    
+    for (int i = 0; i < 80; i++) {
+        UIColor *color = [UIColor randomColor];
+        [_colors addObject:color];
+    }
+    
+    [self.collectionView reloadData];
+}
+
 - (CGSize)cellSize
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    CGFloat size = (self.navigationController.view.bounds.size.width/_columnCount) - flowLayout.minimumLineSpacing;
+    CGFloat size = (self.navigationController.view.bounds.size.width/self.columnCount) - flowLayout.minimumLineSpacing;
     return CGSizeMake(size, size);
 }
 
@@ -112,7 +126,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _rowCount*_columnCount;
+    return _colors.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -120,7 +134,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     ColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    cell.backgroundColor = [UIColor randomColor];
+    cell.backgroundColor = _colors[indexPath.row];
     
     if ([indexPath isEqual:_selectedIndexPath]) {
         cell.textLabel.text = [cell.backgroundColor hexFromColor];
@@ -147,7 +161,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     _selectedIndexPath = indexPath;
     
     ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.textLabel.text = [cell.backgroundColor hexFromColor];
+    cell.textLabel.text = [_colors[indexPath.row] hexFromColor];
     cell.selected = YES;
 }
 
