@@ -1,7 +1,7 @@
 //
 //  DZNDataSetView.h
-//  DZNDataSetManager
-//  https://github.com/dzenbot/DZNDataSetManager
+//  DZNEmptyDataSet
+//  https://github.com/dzenbot/DZNEmptyDataSet
 //
 //  Created by Ignacio Romero Zurbuchen on 6/1/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
