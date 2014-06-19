@@ -20,15 +20,6 @@
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
-//- (id)initWithFrame:(CGRect)frame
-//{
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        [self addSubview:self.contentView];
-//    }
-//    return self;
-//}
-
 - (instancetype)initWithFrame:(CGRect)frame customView:(UIView *)view
 {
     self =  [super initWithFrame:frame];
@@ -51,7 +42,7 @@
         _contentView.backgroundColor = [UIColor clearColor];
         
         if (_customView) {
-            _customView.translatesAutoresizingMaskIntoConstraints = NO;
+            _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(self.customView.frame);
             [_contentView addSubview:self.customView];
         }
         else {
