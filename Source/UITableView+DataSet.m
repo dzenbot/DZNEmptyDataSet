@@ -1,7 +1,7 @@
 //
 //  UITableView+DataSet.m
-//  UITableView-DataSet
-//  https://github.com/dzenbot/UITableView-DataSet
+//  DZNDataSetManager
+//  https://github.com/dzenbot/DZNDataSetManager
 //
 //  Created by Ignacio Romero Zurbuchen on 6/1/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
@@ -9,7 +9,7 @@
 //
 
 #import "UITableView+DataSet.h"
-#import "DZNTableDataSetView.h"
+#import "DZNDataSetView.h"
 #import <objc/runtime.h>
 
 static char const * const kDataSetSource =      "dataSetSource";
@@ -20,7 +20,7 @@ static NSString * const kContentSize =          @"contentSize";
 static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 @interface UITableView () <UIGestureRecognizerDelegate>
-@property (nonatomic, readonly) DZNTableDataSetView *dataSetView;
+@property (nonatomic, readonly) DZNDataSetView *dataSetView;
 @property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
 @end
 
@@ -30,22 +30,22 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 #pragma mark - Getter Methods
 
-- (id<DZNTableViewDataSetSource>)dataSetSource
+- (id<DZNScrollViewDataSetSource>)dataSetSource
 {
     return objc_getAssociatedObject(self, kDataSetSource);
 }
 
-- (id<DZNTableViewDataSetDelegate>)dataSetDelegate
+- (id<DZNScrollViewDataSetDelegate>)dataSetDelegate
 {
     return objc_getAssociatedObject(self, kDataSetDelegate);
 }
 
-- (DZNTableDataSetView *)dataSetView
+- (DZNDataSetView *)dataSetView
 {
     id view = objc_getAssociatedObject(self, kDataSetView);
     if (!view)
     {
-        DZNTableDataSetView *view = [[DZNTableDataSetView alloc] initWithFrame:self.bounds customView:[self customView]];
+        DZNDataSetView *view = [[DZNDataSetView alloc] initWithFrame:self.bounds customView:[self customView]];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.backgroundColor = nil;
         view.hidden = YES;
@@ -69,80 +69,80 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (BOOL)isTouchAllowed
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowTouch:)]) {
-        return [self.dataSetDelegate tableViewDataSetShouldAllowTouch:self];
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetShouldAllowTouch:)]) {
+        return [self.dataSetDelegate scrollViewDataSetShouldAllowTouch:self];
     }
     return YES;
 }
 
 - (BOOL)isScrollAllowed
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetShouldAllowScroll:)]) {
-        return [self.dataSetDelegate tableViewDataSetShouldAllowScroll:self];
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetShouldAllowScroll:)]) {
+        return [self.dataSetDelegate scrollViewDataSetShouldAllowScroll:self];
     }
     return NO;
 }
 
 - (UIColor *)dataSetBackgroundColor
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForTableViewDataSet:)]) {
-        return [self.dataSetSource backgroundColorForTableViewDataSet:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForScrollViewDataSet:)]) {
+        return [self.dataSetSource backgroundColorForScrollViewDataSet:self];
     }
     return [UIColor clearColor];
 }
 
 - (NSAttributedString *)titleLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForTableViewDataSet:)]) {
-        return [self.dataSetSource titleForTableViewDataSet:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForScrollViewDataSet:)]) {
+        return [self.dataSetSource titleForScrollViewDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)detailLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForTableViewDataSet:)]) {
-        return [self.dataSetSource descriptionForTableViewDataSet:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForScrollViewDataSet:)]) {
+        return [self.dataSetSource descriptionForScrollViewDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)buttonTitleForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForTableViewDataSet:forState:)]) {
-        return [self.dataSetSource buttonTitleForTableViewDataSet:self forState:state];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForScrollViewDataSet:forState:)]) {
+        return [self.dataSetSource buttonTitleForScrollViewDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)buttonBackgroundImageForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForTableViewDataSet:forState:)]) {
-        return [self.dataSetSource buttonBackgroundImageForTableViewDataSet:self forState:state];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForScrollViewDataSet:forState:)]) {
+        return [self.dataSetSource buttonBackgroundImageForScrollViewDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)image
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForTableViewDataSet:)]) {
-        return [self.dataSetSource imageForTableViewDataSet:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForScrollViewDataSet:)]) {
+        return [self.dataSetSource imageForScrollViewDataSet:self];
     }
     return nil;
 }
 
 - (CGFloat)verticalSpace
 {
-    if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(spaceHeightForTableViewDataSet:)]) {
-        return [self.dataSetSource spaceHeightForTableViewDataSet:self];
+    if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(spaceHeightForScrollViewDataSet:)]) {
+        return [self.dataSetSource spaceHeightForScrollViewDataSet:self];
     }
     return 0.0;
 }
 
 - (UIView *)customView
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(customViewForTableViewDataSet:)]) {
-        return [self.dataSetSource customViewForTableViewDataSet:self];
+    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(customViewForScrollViewDataSet:)]) {
+        return [self.dataSetSource customViewForScrollViewDataSet:self];
     }
     return nil;
 }
@@ -185,13 +185,13 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 #pragma mark - Setter Methods
 
-- (void)setDataSetSource:(id<DZNTableViewDataSetSource>)source
+- (void)setDataSetSource:(id<DZNScrollViewDataSetSource>)source
 {
     self.dataSetEnabled = source ? YES : NO;
     objc_setAssociatedObject(self, kDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (void)setDataSetDelegate:(id<DZNTableViewDataSetDelegate>)delegate
+- (void)setDataSetDelegate:(id<DZNScrollViewDataSetDelegate>)delegate
 {
     self.dataSetEnabled = delegate ? YES : NO;
     objc_setAssociatedObject(self, kDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
@@ -213,7 +213,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     if (self.isDataSetEnabled && !enable) {
         @try {
             [self removeObserver:self forKeyPath:kContentSize context:DZNContentSizeCtx];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNDataSetViewDidTapButtonNotification object:nil];
             [self invalidateContent];
         }
         @catch(id anException) {
@@ -224,7 +224,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         @try {
             [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:DZNContentSizeCtx];
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNDataSetViewDidTapButtonNotification object:nil];
         }
         @catch(id anException) {
             
@@ -237,15 +237,15 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (void)didTapContentView:(id)sender
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetDidTapView:)]) {
-        [self.dataSetDelegate tableViewDataSetDidTapView:self];
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetDidTapView:)]) {
+        [self.dataSetDelegate scrollViewDataSetDidTapView:self];
     }
 }
 
 - (void)didTapDataSetButton:(id)sender
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(tableViewDataSetDidTapButton:)]) {
-        [self.dataSetDelegate tableViewDataSetDidTapButton:self];
+    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetDidTapButton:)]) {
+        [self.dataSetDelegate scrollViewDataSetDidTapButton:self];
     }
 }
 

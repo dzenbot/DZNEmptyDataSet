@@ -1,22 +1,22 @@
 //
-//  DZNTableDataSetView.m
-//  UITableView-DataSet
-//  https://github.com/dzenbot/UITableView-DataSet
+//  DZNDataSetView.m
+//  DZNDataSetManager
+//  https://github.com/dzenbot/DZNDataSetManager
 //
 //  Created by Ignacio Romero Zurbuchen on 6/1/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
 //  Licence: MIT-Licence
 //
 
-#import "DZNTableDataSetView.h"
+#import "DZNDataSetView.h"
 
-@interface DZNTableDataSetView ()
+@interface DZNDataSetView ()
 @property (nonatomic, readonly) UIView *contentView;
 @property (nonatomic, readonly) UIView *customView;
 @property (nonatomic) BOOL didConfigureConstraints;
 @end
 
-@implementation DZNTableDataSetView
+@implementation DZNDataSetView
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
@@ -121,7 +121,7 @@
 
 - (void)didTapButton:(id)sender
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDZNTableDataSetViewDidTapButtonNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDZNDataSetViewDidTapButtonNotification object:nil];
 }
 
 - (void)invalidateContent
