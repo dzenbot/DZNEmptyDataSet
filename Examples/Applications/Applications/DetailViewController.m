@@ -7,10 +7,11 @@
 //
 
 #import "DetailViewController.h"
-#import "UITableView+DataSet.h"
 #import "UIColor+Hexadecimal.h"
 
-@interface DetailViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate>
+#import "UIScrollView+EmptyDataSet.h"
+
+@interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
 @end
 
@@ -34,8 +35,8 @@
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.tableView.dataSetSource = self;
-    self.tableView.dataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
 //    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"]; //TODO: Fix this
     
@@ -183,7 +184,7 @@
 
 #pragma mark - DZNTableViewDataSetDataSource Methods
 
-- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -313,7 +314,7 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -452,13 +453,13 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (UIImage *)imageForTableViewDataSet:(UITableView *)tableView
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *imageName = [[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString];
     return [UIImage imageNamed:imageName];
 }
 
-- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     NSString *text = nil;
     UIFont *font = nil;
@@ -515,7 +516,7 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (UIImage *)buttonBackgroundImageForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
+- (UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     NSString *imageName = [[NSString stringWithFormat:@"button_background_%@", self.application.displayName] lowercaseString];
     
@@ -542,7 +543,7 @@
     return [[[UIImage imageNamed:imageName] resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch] imageWithAlignmentRectInsets:rectInsets];
 }
 
-- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
@@ -562,7 +563,7 @@
     }
 }
 
-- (CGFloat)spaceHeightForTableViewDataSet:(UITableView *)tableView
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
 {
     switch (self.application.type) {
         case ApplicationTypeAirbnb:     return 24.0;
@@ -583,22 +584,22 @@
 
 #pragma mark - DZNTableViewDataSetDelegate Methods
 
-- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
 {
     return YES;
 }
 
-- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
     return YES;
 }
 
-- (void)tableViewDataSetDidTapView:(UITableView *)tableView
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
 {
     NSLog(@"%s",__FUNCTION__);
 }
 
-- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
 {
     NSLog(@"%s",__FUNCTION__);
 }
@@ -618,8 +619,8 @@
 
 - (void)dealloc
 {
-    self.tableView.dataSetSource = nil;
-    self.tableView.dataSetDelegate = nil;
+    self.tableView.emptyDataSetSource = nil;
+    self.tableView.emptyDataSetDelegate = nil;
 }
 
 
