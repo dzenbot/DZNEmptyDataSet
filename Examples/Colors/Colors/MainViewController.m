@@ -12,6 +12,9 @@
 
 #import "UIScrollView+EmptyDataSet.h"
 
+#define kColumnCountMax 7
+#define kColumnCountMin 5
+
 static NSString *CellIdentifier = @"ColorViewCell";
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -73,9 +76,10 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [super viewDidLoad];
     
     self.title = @"Colors";
-    self.columnCount = 5;
+    self.columnCount = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? kColumnCountMax : kColumnCountMin;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(removeContent)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,9 +109,23 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [self.collectionView reloadData];
 }
 
+- (void)removeContent
+{
+    if (_colors.count == 0) {
+        return;
+    }
+    
+    _colors = nil;
+    
+    [self.collectionView reloadData];
+}
+
 - (void)loadContent
 {
-    _colors = nil;
+    if (_colors.count > 0) {
+        return;
+    }
+    
     _colors = [NSMutableArray new];
     
     for (int i = 0; i < 80; i++) {
@@ -228,18 +246,28 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return nil;
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
-{
-    NSString *text = @"No colors loaded yet.";
+    NSString *text = @"No colors loaded";
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0],
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"To show a list of random colors, tap on the refresh icon in the right top corner.\n\nTo clean the list, tap on the trash icon.";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:15.0],
                                  NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
                                  NSParagraphStyleAttributeName: paragraphStyle};
     
@@ -253,7 +281,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return nil;
+    return [UIImage imageNamed:@"empty_placeholder"];
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
@@ -309,6 +337,13 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 
 #pragma mark - View Auto-Rotation
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    self.columnCount = UIDeviceOrientationIsLandscape(toInterfaceOrientation) ? kColumnCountMax : kColumnCountMin;
+    
+    [self.collectionView reloadData];
+}
 
 - (NSUInteger)supportedInterfaceOrientations
 {
