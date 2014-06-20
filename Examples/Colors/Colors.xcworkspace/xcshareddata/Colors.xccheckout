@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C0A196B3-B3BB-485A-AC7E-E82FA395D128</string>
+	<string>A9AF7311-99D8-400E-B9CF-29622DAABCC1</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Colors</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,7 +14,7 @@
 		<string>https://github.com/dzenbot/UITableView-DataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Examples/Photos/Colors.xcworkspace</string>
+	<string>Examples/Colors/Colors.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</key>

@@ -1,14 +1,14 @@
 //
-//  UITableView+EmptyDataSet.m
+//  UIScrollView+EmptyDataSet.m
 //  DZNEmptyDataSet
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
-//  Created by Ignacio Romero Zurbuchen on 6/1/14.
+//  Created by Ignacio Romero Zurbuchen on 6/20/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
 //  Licence: MIT-Licence
 //
 
-#import "UITableView+EmptyDataSet.h"
+#import "UIScrollView+EmptyDataSet.h"
 #import "DZNScrollViewDataSetSource.h"
 #import "DZNScrollViewDataSetDelegate.h"
 #import "DZNDataSetView.h"
@@ -21,13 +21,13 @@ static char const * const kDataSetEnabled =     "dataSetEnabled";
 static NSString * const kContentSize =          @"contentSize";
 static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
-@interface UITableView () <UIGestureRecognizerDelegate>
+@interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNDataSetView *dataSetView;
 @property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
 @end
 
-@implementation UITableView (DZNEmptyDataSet)
-@dynamic dataSetDelegate, dataSetSource;
+@implementation UIScrollView (DZNEmptyDataSet)
+//@dynamic dataSetDelegate, dataSetSource;
 
 #pragma mark - Getter Methods
 
@@ -61,6 +61,12 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         objc_setAssociatedObject(self, kDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
+}
+
+- (BOOL)isDataSetVisible
+{
+    UIView *view = objc_getAssociatedObject(self, kDataSetView);
+    return !view.hidden;
 }
 
 - (BOOL)isDataSetEnabled
@@ -166,21 +172,36 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
     return YES;
 }
 
-- (NSInteger)totalNumberOfRows
+- (NSInteger)itemsCount
 {
-    NSInteger sections = [self.dataSource numberOfSectionsInTableView:self];
     NSInteger rows = 0;
+
+    if (![self respondsToSelector:@selector(dataSource)]) {
+        return rows;
+    }
     
-    for (NSInteger i = 0; i < sections; i++) {
-        rows += [self.dataSource tableView:self numberOfRowsInSection:i];
+    if ([self isKindOfClass:[UITableView class]])
+    {
+        id <UITableViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
+        UITableView *tableView = (UITableView *)self;
+        
+        NSInteger sections = [dataSource numberOfSectionsInTableView:tableView];
+        for (NSInteger i = 0; i < sections; i++) {
+            rows += [dataSource tableView:tableView numberOfRowsInSection:i];
+        }
+    }
+    else if ([self isKindOfClass:[UICollectionView class]])
+    {
+        id <UICollectionViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
+        UICollectionView *collectionView = (UICollectionView *)self;
+
+        NSInteger sections = [dataSource numberOfSectionsInCollectionView:collectionView];
+        for (NSInteger i = 0; i < sections; i++) {
+            rows += [dataSource collectionView:collectionView numberOfItemsInSection:i];
+        }
     }
     
     return rows;
-}
-
-- (BOOL)isDataSetVisible
-{
-    return !self.dataSetView.hidden;
 }
 
 
@@ -218,7 +239,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
             [self invalidateContent];
         }
         @catch(id anException) {
-            
+            // Do nothing. An exception might araise due to removing an none existent observer.
         }
     }
     else if (enable) {
@@ -228,7 +249,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNDataSetViewDidTapButtonNotification object:nil];
         }
         @catch(id anException) {
-            
+            // Do nothing. An exception might araise due to removing an none existent observer.
         }
     }
 }
@@ -258,12 +279,12 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 }
 
 - (void)reloadDataSet
-{    
-    if ([self totalNumberOfRows] == 0)
+{
+    if ([self itemsCount] == 0)
     {
         [self.dataSetView updateConstraintsIfNeeded];
         
-        if (![self customView]) {
+        if (![self customView] && [self needsReloadSets]) {
             // Configure labels
             self.dataSetView.detailLabel.attributedText = [self detailLabelText];
             self.dataSetView.titleLabel.attributedText = [self titleLabelText];
@@ -292,14 +313,16 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         
         [self.dataSetView updateConstraints];
         [self.dataSetView layoutIfNeeded];
-
+        
         [UIView animateWithDuration:0.25
                          animations:^{
                              self.dataSetView.alpha = 1.0;
                          }
-                         completion:NULL];
+                         completion:^(BOOL finished) {
+                             NSLog(@"self.dataSetView : %@", self.dataSetView);
+                         }];
     }
-    else if ([self isDataSetVisible] && [self needsReloadSets]) {
+    else if (self.isDataSetVisible) {
         [self invalidateContent];
     }
 }
@@ -313,12 +336,10 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (void)invalidateContent
 {
-    if (self.dataSetView) {
-        [self.dataSetView invalidateContent];
-        [self.dataSetView removeFromSuperview];
-        
-        objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
+    [self.dataSetView invalidateContent];
+    [self.dataSetView removeFromSuperview];
+    
+    objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     self.scrollEnabled = YES;
 }

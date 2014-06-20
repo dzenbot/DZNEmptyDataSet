@@ -10,9 +10,11 @@
 #import "ColorViewCell.h"
 #import "UIColor+Random.h"
 
+#import "DZNEmptyDataSet.h"
+
 static NSString *CellIdentifier = @"ColorViewCell";
 
-@interface MainViewController ()
+@interface MainViewController () <DZNScrollViewDataSetDelegate, DZNScrollViewDataSetSource>
 @property (nonatomic, strong) NSMutableArray *colors;
 @property (nonatomic) NSInteger columnCount;
 
@@ -45,10 +47,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)loadView
 {
     [super loadView];
-
-    self.view.backgroundColor = [UIColor whiteColor];
     
-    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.automaticallyAdjustsScrollViewInsets = YES;
     
@@ -57,10 +57,13 @@ static NSString *CellIdentifier = @"ColorViewCell";
     
     self.collectionView.backgroundView = [UIView new];
     self.collectionView.backgroundView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight;
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    
+    self.collectionView.dataSetSource = self;
+    self.collectionView.dataSetDelegate = self;
     
     [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
@@ -72,7 +75,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     self.title = @"Colors";
     self.columnCount = 5;
     
-    [self loadColors];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,11 +98,17 @@ static NSString *CellIdentifier = @"ColorViewCell";
 	[super viewDidDisappear:animated];
 }
 
-- (void)loadColors
+- (void)reloadContent
 {
-    if (!_colors) {
-        _colors = [NSMutableArray new];
-    }
+    [self loadContent];
+    
+    [self.collectionView reloadData];
+}
+
+- (void)loadContent
+{
+    _colors = nil;
+    _colors = [NSMutableArray new];
     
     for (int i = 0; i < 80; i++) {
         UIColor *color = [UIColor randomColor];
@@ -213,6 +222,41 @@ static NSString *CellIdentifier = @"ColorViewCell";
 {
 
 }
+
+
+#pragma mark - DZNTableViewDataSetDataSource Methods
+
+- (NSAttributedString *)titleForScrollViewDataSet:(UITableView *)tableView
+{
+    return nil;
+}
+
+- (NSAttributedString *)descriptionForScrollViewDataSet:(UITableView *)tableView
+{
+    NSString *text = @"No colors loaded yet.";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (UIColor *)backgroundColorForScrollViewDataSet:(UITableView *)tableView
+{
+    return [UIColor whiteColor];
+}
+
+//- (UIView *)customViewForScrollViewDataSet:(UITableView *)tableView
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+//    view.backgroundColor = [UIColor redColor];
+//    return view;
+//}
 
 
 #pragma mark - View lifeterm

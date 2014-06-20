@@ -1,11 +1,14 @@
 //
-//  UICollectionView+EmptyDataSet.h
+//  UIScrollView+EmptyDataSet.h
 //  DZNEmptyDataSet
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
-//  Created by Ignacio Romero Z. on 6/19/14.
+//  Created by Ignacio Romero Zurbuchen on 6/20/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
+//  Licence: MIT-Licence
 //
+
+#import <UIKit/UIKit.h>
 
 #import <UIKit/UIKit.h>
 
@@ -13,12 +16,12 @@
 @protocol DZNScrollViewDataSetDelegate;
 
 /**
- * A drop-in UICollectionView category for showing empty datasets whenever the collectionView has no content to display.
+ * A drop-in UITableView category for showing empty datasets whenever the tableview has no content to display.
  * It will work automatically, by just setting the dataSetSource and dataSetDelegate, and returning the data source content requiered.
  *
- * @discussion It is very important to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. This class uses KVO under the hood, so it needs to remove the observer whenever the collectionView is going to be released.
+ * @discussion It is very important to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. This class uses KVO under the hood, so it needs to remove the observer whenever the tableview is going to be released.
  */
-@interface UICollectionView (DZNEmptyDataSet)
+@interface UIScrollView (EmptyDataSet)
 
 /** The data set data source. */
 @property (nonatomic, weak) id <DZNScrollViewDataSetSource> dataSetSource;

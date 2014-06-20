@@ -8,8 +8,7 @@
 //  Licence: MIT-Licence
 //
 
-#import "UITableView+EmptyDataSet.h"
-#import "UICollectionView+EmptyDataSet.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #import "DZNScrollViewDataSetSource.h"
 #import "DZNScrollViewDataSetDelegate.h"
