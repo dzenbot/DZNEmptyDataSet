@@ -15,13 +15,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-//        self.backgroundView = [UIView new];
-//        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-        
-        [self.contentView addSubview:self.textLabel];
-        
         self.selectedBackgroundView = [UIView new];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        
+        [self.contentView addSubview:self.textLabel];
     }
     return self;
 }

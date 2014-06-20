@@ -11,7 +11,6 @@
 		4F3E129C1952AEFC00D8CB5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3E129B1952AEFC00D8CB5A /* CoreGraphics.framework */; };
 		4F3E129E1952AEFC00D8CB5A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3E129D1952AEFC00D8CB5A /* UIKit.framework */; };
 		4F3E12F21953EF1000D8CB5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12E51953EF1000D8CB5A /* AppDelegate.m */; };
-		4F3E12F31953EF1000D8CB5A /* Colors-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12E61953EF1000D8CB5A /* Colors-Info.plist */; };
 		4F3E12F41953EF1000D8CB5A /* ColorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */; };
 		4F3E12F51953EF1000D8CB5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12EA1953EF1000D8CB5A /* InfoPlist.strings */; };
 		4F3E12F61953EF1000D8CB5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12EC1953EF1000D8CB5A /* Images.xcassets */; };
@@ -171,7 +170,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F3E12F61953EF1000D8CB5A /* Images.xcassets in Resources */,
-				4F3E12F31953EF1000D8CB5A /* Colors-Info.plist in Resources */,
 				4F3E12F51953EF1000D8CB5A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

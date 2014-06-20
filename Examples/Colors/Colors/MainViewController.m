@@ -10,11 +10,11 @@
 #import "ColorViewCell.h"
 #import "UIColor+Random.h"
 
-#import "DZNEmptyDataSet.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 static NSString *CellIdentifier = @"ColorViewCell";
 
-@interface MainViewController () <DZNScrollViewDataSetDelegate, DZNScrollViewDataSetSource>
+@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) NSMutableArray *colors;
 @property (nonatomic) NSInteger columnCount;
 
@@ -62,8 +62,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
     self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     
-    self.collectionView.dataSetSource = self;
-    self.collectionView.dataSetDelegate = self;
+    self.collectionView.emptyDataSetSource = self;
+    self.collectionView.emptyDataSetDelegate = self;
     
     [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
@@ -224,14 +224,14 @@ static NSString *CellIdentifier = @"ColorViewCell";
 }
 
 
-#pragma mark - DZNTableViewDataSetDataSource Methods
+#pragma mark - DZNEmptyDataSetSource Methods
 
-- (NSAttributedString *)titleForScrollViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     return nil;
 }
 
-- (NSAttributedString *)descriptionForScrollViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"No colors loaded yet.";
     
@@ -246,17 +246,53 @@ static NSString *CellIdentifier = @"ColorViewCell";
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (UIColor *)backgroundColorForScrollViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    return nil;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return nil;
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIColor whiteColor];
 }
 
-//- (UIView *)customViewForScrollViewDataSet:(UITableView *)tableView
-//{
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    view.backgroundColor = [UIColor redColor];
-//    return view;
-//}
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return nil;
+}
+
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 0;
+}
+
+
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+{
+    
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    
+}
 
 
 #pragma mark - View lifeterm

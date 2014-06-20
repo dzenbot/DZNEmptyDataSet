@@ -9,44 +9,41 @@
 //
 
 #import "UIScrollView+EmptyDataSet.h"
-#import "DZNScrollViewDataSetSource.h"
-#import "DZNScrollViewDataSetDelegate.h"
-#import "DZNDataSetView.h"
+#import "DZNEmptyDataSetView.h"
 #import <objc/runtime.h>
 
-static char const * const kDataSetSource =      "dataSetSource";
-static char const * const kDataSetDelegate =    "dataSetDelegate";
-static char const * const kDataSetView =        "dataSetView";
-static char const * const kDataSetEnabled =     "dataSetEnabled";
-static NSString * const kContentSize =          @"contentSize";
-static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
+static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
+static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
+static char const * const kEmptyDataSetView =       "emptyDataSetView";
+static char const * const kEmptyDataSetEnabled =    "emptyDataSetEnabled";
+static NSString * const kContentSize =              @"contentSize";
+static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
-@property (nonatomic, readonly) DZNDataSetView *dataSetView;
-@property (nonatomic, getter = isDataSetEnabled) BOOL dataSetEnabled;
+@property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
+@property (nonatomic, getter = isEmptyDataSetEnabled) BOOL emptyDataSetEnabled;
 @end
 
 @implementation UIScrollView (DZNEmptyDataSet)
-//@dynamic dataSetDelegate, dataSetSource;
 
 #pragma mark - Getter Methods
 
-- (id<DZNScrollViewDataSetSource>)dataSetSource
+- (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
-    return objc_getAssociatedObject(self, kDataSetSource);
+    return objc_getAssociatedObject(self, kEmptyDataSetSource);
 }
 
-- (id<DZNScrollViewDataSetDelegate>)dataSetDelegate
+- (id<DZNEmptyDataSetDelegate>)emptyDataSetDelegate
 {
-    return objc_getAssociatedObject(self, kDataSetDelegate);
+    return objc_getAssociatedObject(self, kEmptyDataSetDelegate);
 }
 
-- (DZNDataSetView *)dataSetView
+- (DZNEmptyDataSetView *)emptyDataSetView
 {
-    id view = objc_getAssociatedObject(self, kDataSetView);
+    DZNEmptyDataSetView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
     if (!view)
     {
-        DZNDataSetView *view = [[DZNDataSetView alloc] initWithFrame:self.bounds customView:[self customView]];
+        view = [[DZNEmptyDataSetView alloc] initWithCustomView:[self customView]];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.backgroundColor = nil;
         view.hidden = YES;
@@ -58,114 +55,114 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         
         [self addSubview:view];
         
-        objc_setAssociatedObject(self, kDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
 }
 
-- (BOOL)isDataSetVisible
+- (BOOL)isEmptyDataSetVisible
 {
-    UIView *view = objc_getAssociatedObject(self, kDataSetView);
+    UIView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
     return !view.hidden;
 }
 
-- (BOOL)isDataSetEnabled
+- (BOOL)isEmptyDataSetEnabled
 {
-    return [objc_getAssociatedObject(self, kDataSetEnabled) boolValue];
+    return [objc_getAssociatedObject(self, kEmptyDataSetEnabled) boolValue];
 }
 
 - (BOOL)isTouchAllowed
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetShouldAllowTouch:)]) {
-        return [self.dataSetDelegate scrollViewDataSetShouldAllowTouch:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldAllowTouch:self];
     }
     return YES;
 }
 
 - (BOOL)isScrollAllowed
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetShouldAllowScroll:)]) {
-        return [self.dataSetDelegate scrollViewDataSetShouldAllowScroll:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldAllowScroll:self];
     }
     return NO;
 }
 
 - (UIColor *)dataSetBackgroundColor
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(backgroundColorForScrollViewDataSet:)]) {
-        return [self.dataSetSource backgroundColorForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource backgroundColorForEmptyDataSet:self];
     }
     return [UIColor clearColor];
 }
 
 - (NSAttributedString *)titleLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(titleForScrollViewDataSet:)]) {
-        return [self.dataSetSource titleForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(titleForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource titleForEmptyDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)detailLabelText
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(descriptionForScrollViewDataSet:)]) {
-        return [self.dataSetSource descriptionForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(descriptionForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource descriptionForEmptyDataSet:self];
     }
     return nil;
 }
 
 - (NSAttributedString *)buttonTitleForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonTitleForScrollViewDataSet:forState:)]) {
-        return [self.dataSetSource buttonTitleForScrollViewDataSet:self forState:state];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
+        return [self.emptyDataSetSource buttonTitleForEmptyDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)buttonBackgroundImageForState:(UIControlState)state
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(buttonBackgroundImageForScrollViewDataSet:forState:)]) {
-        return [self.dataSetSource buttonBackgroundImageForScrollViewDataSet:self forState:state];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
+        return [self.emptyDataSetSource buttonBackgroundImageForEmptyDataSet:self forState:state];
     }
     return nil;
 }
 
 - (UIImage *)image
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(imageForScrollViewDataSet:)]) {
-        return [self.dataSetSource imageForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource imageForEmptyDataSet:self];
     }
     return nil;
 }
 
 - (CGFloat)verticalSpace
 {
-    if (self.dataSetDelegate && [self.dataSetSource respondsToSelector:@selector(spaceHeightForScrollViewDataSet:)]) {
-        return [self.dataSetSource spaceHeightForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource spaceHeightForEmptyDataSet:self];
     }
     return 0.0;
 }
 
 - (UIView *)customView
 {
-    if (self.dataSetSource && [self.dataSetSource respondsToSelector:@selector(customViewForScrollViewDataSet:)]) {
-        return [self.dataSetSource customViewForScrollViewDataSet:self];
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource customViewForEmptyDataSet:self];
     }
     return nil;
 }
 
 - (BOOL)needsReloadSets
 {
-    if (![self.dataSetView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
+    if (![self.emptyDataSetView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
         return YES;
     }
-    if (![self.dataSetView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
+    if (![self.emptyDataSetView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
         return YES;
     }
-    if (![[self.dataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitleForState:UIControlStateNormal].string]) {
+    if (![[self.emptyDataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitleForState:UIControlStateNormal].string]) {
         return YES;
     }
-    if (!([UIImagePNGRepresentation(self.dataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
+    if (!([UIImagePNGRepresentation(self.emptyDataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
         return YES;
     }
     
@@ -207,35 +204,35 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 #pragma mark - Setter Methods
 
-- (void)setDataSetSource:(id<DZNScrollViewDataSetSource>)source
+- (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
-    self.dataSetEnabled = source ? YES : NO;
-    objc_setAssociatedObject(self, kDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
+    self.emptyDataSetEnabled = source ? YES : NO;
+    objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (void)setDataSetDelegate:(id<DZNScrollViewDataSetDelegate>)delegate
+- (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
 {
-    self.dataSetEnabled = delegate ? YES : NO;
-    objc_setAssociatedObject(self, kDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
+    self.emptyDataSetEnabled = delegate ? YES : NO;
+    objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (void)setDataSetEnabled:(BOOL)enabled
+- (void)setEmptyDataSetEnabled:(BOOL)enabled
 {
-    if (self.isDataSetEnabled == enabled) {
+    if (self.isEmptyDataSetEnabled == enabled) {
         return;
     }
     
     [self enableObservers:enabled];
     
-    objc_setAssociatedObject(self, kDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kEmptyDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)enableObservers:(BOOL)enable
 {
-    if (self.isDataSetEnabled && !enable) {
+    if (self.isEmptyDataSetEnabled && !enable) {
         @try {
             [self removeObserver:self forKeyPath:kContentSize context:DZNContentSizeCtx];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNDataSetViewDidTapButtonNotification object:nil];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
             [self invalidateContent];
         }
         @catch(id anException) {
@@ -246,7 +243,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
         @try {
             [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:DZNContentSizeCtx];
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNDataSetViewDidTapButtonNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
         }
         @catch(id anException) {
             // Do nothing. An exception might araise due to removing an none existent observer.
@@ -259,21 +256,21 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (void)didTapContentView:(id)sender
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetDidTapView:)]) {
-        [self.dataSetDelegate scrollViewDataSetDidTapView:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
     }
 }
 
 - (void)didTapDataSetButton:(id)sender
 {
-    if (self.dataSetDelegate && [self.dataSetDelegate respondsToSelector:@selector(scrollViewDataSetDidTapButton:)]) {
-        [self.dataSetDelegate scrollViewDataSetDidTapButton:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
     }
 }
 
 - (void)didReloadData
 {
-    if (self.dataSetSource) {
+    if (self.emptyDataSetSource) {
         [self reloadDataSet];
     }
 }
@@ -282,47 +279,46 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 {
     if ([self itemsCount] == 0)
     {
-        [self.dataSetView updateConstraintsIfNeeded];
+        DZNEmptyDataSetView *view = self.emptyDataSetView;
         
-        if (![self customView] && [self needsReloadSets]) {
+        [view updateConstraintsIfNeeded];
+        
+        if (!view.customView && [self needsReloadSets])
+        {
             // Configure labels
-            self.dataSetView.detailLabel.attributedText = [self detailLabelText];
-            self.dataSetView.titleLabel.attributedText = [self titleLabelText];
+            view.detailLabel.attributedText = [self detailLabelText];
+            view.titleLabel.attributedText = [self titleLabelText];
             
             // Configure imageview
-            self.dataSetView.imageView.image = [self image];
+            view.imageView.image = [self image];
             
             // Configure button
-            [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
-            [self.dataSetView.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
-            [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
-            [self.dataSetView.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
+            [view.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
+            [view.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
+            [view.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
+            [view.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
             
             // Configure vertical spacing
-            self.dataSetView.verticalSpace = [self verticalSpace];
+            view.verticalSpace = [self verticalSpace];
         }
         
         // Configure scroll permission
         self.scrollEnabled = [self isScrollAllowed];
         
         // Configure background color
-        self.dataSetView.backgroundColor = [self dataSetBackgroundColor];
+        view.backgroundColor = [self dataSetBackgroundColor];
         if (self.scrollEnabled && [self dataSetBackgroundColor]) self.backgroundColor = [self dataSetBackgroundColor];
         
-        self.dataSetView.hidden = NO;
+        view.hidden = NO;
         
-        [self.dataSetView updateConstraints];
-        [self.dataSetView layoutIfNeeded];
+        [view updateConstraints];
+        [view layoutIfNeeded];
         
         [UIView animateWithDuration:0.25
-                         animations:^{
-                             self.dataSetView.alpha = 1.0;
-                         }
-                         completion:^(BOOL finished) {
-                             NSLog(@"self.dataSetView : %@", self.dataSetView);
-                         }];
+                         animations:^{view.alpha = 1.0;}
+                         completion:NULL];
     }
-    else if (self.isDataSetVisible) {
+    else if (self.isEmptyDataSetVisible) {
         [self invalidateContent];
     }
 }
@@ -336,10 +332,10 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (void)invalidateContent
 {
-    [self.dataSetView invalidateContent];
-    [self.dataSetView removeFromSuperview];
+    [self.emptyDataSetView invalidateContent];
+    [self.emptyDataSetView removeFromSuperview];
     
-    objc_setAssociatedObject(self, kDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kEmptyDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     self.scrollEnabled = YES;
 }
@@ -381,7 +377,7 @@ static void *DZNContentSizeCtx =                &DZNContentSizeCtx;
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if ([gestureRecognizer.view isEqual:self.dataSetView]) {
+    if ([gestureRecognizer.view isEqual:self.emptyDataSetView]) {
         return [self isTouchAllowed];
     }
     

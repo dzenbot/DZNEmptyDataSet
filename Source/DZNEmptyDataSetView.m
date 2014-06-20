@@ -1,5 +1,5 @@
 //
-//  DZNDataSetView.m
+//  DZNEmptyDataSetView.m
 //  DZNEmptyDataSet
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
@@ -8,21 +8,20 @@
 //  Licence: MIT-Licence
 //
 
-#import "DZNDataSetView.h"
+#import "DZNEmptyDataSetView.h"
 
-@interface DZNDataSetView ()
+@interface DZNEmptyDataSetView ()
 @property (nonatomic, readonly) UIView *contentView;
-@property (nonatomic, readonly) UIView *customView;
 @property (nonatomic) BOOL didConfigureConstraints;
 @end
 
-@implementation DZNDataSetView
+@implementation DZNEmptyDataSetView
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
-- (instancetype)initWithFrame:(CGRect)frame customView:(UIView *)view
+- (instancetype)initWithCustomView:(UIView *)view
 {
-    self =  [super initWithFrame:frame];
+    self =  [super init];
     if (self) {
         _customView = view;
         [self addSubview:self.contentView];
@@ -30,6 +29,10 @@
     return self;
 }
 
+- (void)didMoveToSuperview
+{
+    self.frame = self.superview.bounds;
+}
 
 #pragma mark - Getter Methods
 
@@ -121,7 +124,7 @@
 
 - (void)didTapButton:(id)sender
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDZNDataSetViewDidTapButtonNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDZNEmptyDataSetDidTapButtonNotification object:nil];
 }
 
 - (void)invalidateContent
