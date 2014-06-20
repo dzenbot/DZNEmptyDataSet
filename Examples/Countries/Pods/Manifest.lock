@@ -1,14 +1,14 @@
 PODS:
-  - UITableView-DataSet (1.0)
+  - DZNEmptyDataSet (1.2)
 
 DEPENDENCIES:
-  - UITableView-DataSet (from `../../`)
+  - DZNEmptyDataSet (from `../../`)
 
 EXTERNAL SOURCES:
-  UITableView-DataSet:
+  DZNEmptyDataSet:
     :path: ../../
 
 SPEC CHECKSUMS:
-  UITableView-DataSet: 65a403c97da8feb8fa17b00fcf87e2efe00b4c69
+  DZNEmptyDataSet: ed0cb50a9aacf9a7369211cf1af86f5f16109010
 
 COCOAPODS: 0.33.1

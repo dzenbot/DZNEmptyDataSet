@@ -7,9 +7,9 @@
 //
 
 #import "MainViewController.h"
-#import "UITableView+DataSet.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface MainViewController () <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate> {
+@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate> {
     CGFloat _bottomMargin;
 }
 @property (nonatomic, strong) NSMutableArray *countries;
@@ -115,8 +115,8 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
-        _tableView.dataSetDelegate = self;
-        _tableView.dataSetSource = self;
+        _tableView.emptyDataSetSource = self;
+        _tableView.emptyDataSetDelegate = self;
  
         _tableView.tableFooterView = [UIView new];
     }
@@ -255,14 +255,14 @@
 }
 
 
-#pragma mark - DZNTableViewDataSetDataSource Methods
+#pragma mark - DZNEmptyDataSetSource Methods
 
-//- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView
-//{
-//    return nil;
-//}
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return nil;
+}
 
-- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = [NSString stringWithFormat:@"No countries found matching\n%@.", self.searchBar.text];
     
@@ -281,16 +281,7 @@
     return attributedTitle;
 }
 
-- (UIImage *)imageForTableViewDataSet:(UITableView *)tableView
-{
-    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
-        return nil;
-    }
-    
-    return [UIImage imageNamed:@"search_icon"];
-}
-
-- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     if ([self.searchBar isFirstResponder]) {
         return nil;
@@ -306,12 +297,21 @@
     return attributedTitle;
 }
 
-- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        return nil;
+    }
+    
+    return [UIImage imageNamed:@"search_icon"];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIColor whiteColor];
 }
 
-- (UIView *)customViewForTableViewDataSet:(UITableView *)tableView
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (_countries.count == 0) {
         
@@ -329,7 +329,7 @@
         label.font = [UIFont systemFontOfSize:14.0];
         label.text = @"Loading countries...";
         [contentView addSubview:label];
-
+        
         NSDictionary *views = NSDictionaryOfVariableBindings(activityView, label);
         
         [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[activityView]|" options:0 metrics:nil views:views]];
@@ -341,27 +341,32 @@
     return nil;
 }
 
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 0;
+}
 
-#pragma mark - DZNTableViewDataSetDelegate Methods
 
-- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
 {
     return YES;
 }
 
-- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
     return YES;
 }
 
-- (void)tableViewDataSetDidTapView:(UITableView *)tableView
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
 {
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
     }
 }
 
-- (void)tableViewDataSetDidTapButton:(UITableView *)tableView
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
 {
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", self.searchBar.text]];
     
@@ -418,7 +423,7 @@
     
     // If the data set is visiable, but the user keeps typing text
     // let's force the data set to redraw data according to the data source updates.
-    if (self.tableView.isDataSetVisible && self.filteredCountries.count == 0) {
+    if (self.tableView.isEmptyDataSetVisible && self.filteredCountries.count == 0) {
         [self.tableView reloadDataSetIfNeeded];
     }
 }
@@ -454,8 +459,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
-    _tableView.dataSetSource = nil;
-    _tableView.dataSetDelegate = nil;
+    _tableView.emptyDataSetSource = nil;
+    _tableView.emptyDataSetDelegate = nil;
     _tableView = nil;
 }
 
