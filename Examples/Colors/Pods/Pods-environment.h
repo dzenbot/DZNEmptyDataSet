@@ -6,9 +6,9 @@
 // project.
 
 
-// UITableView-DataSet
-#define COCOAPODS_POD_AVAILABLE_UITableView_DataSet
-#define COCOAPODS_VERSION_MAJOR_UITableView_DataSet 1
-#define COCOAPODS_VERSION_MINOR_UITableView_DataSet 1
-#define COCOAPODS_VERSION_PATCH_UITableView_DataSet 0
+// DZNEmptyDataSet
+#define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
+#define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1
+#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 2
+#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 0
 
