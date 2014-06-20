@@ -283,7 +283,7 @@
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    if ([self.searchBar isFirstResponder]) {
+    if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         return nil;
     }
     
@@ -299,7 +299,7 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+    if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         return nil;
     }
     
@@ -368,6 +368,10 @@
 
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
 {
+    if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        return;
+    }
+    
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", self.searchBar.text]];
     
     if ([[UIApplication sharedApplication] canOpenURL:URL]) {
