@@ -53,6 +53,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Slack",
                      @"Tumblr",
                      @"Twitter",
+                     @"Videos",
                      @"Vesper",
                      @"Vine",
                      @"WhatsApp"

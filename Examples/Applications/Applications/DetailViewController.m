@@ -153,6 +153,12 @@
             barstyle = UIStatusBarStyleLightContent;
             break;
         }
+        case ApplicationTypeVideos:
+        {
+            barColor = [UIColor colorWithHex:@"4a4b4d"];
+            tintColor = [UIColor blackColor];
+            break;
+        }
         case ApplicationTypeVine:
         {
             barColor = [UIColor colorWithHex:@"00bf8f"];
@@ -290,6 +296,13 @@
             text = @"No Notes";
             font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
             textColor = [UIColor colorWithHex:@"d9dce1"];
+            break;
+        }
+        case ApplicationTypeVideos:
+        {
+            text = @"AirPlay";
+            font = [UIFont systemFontOfSize:17.0];
+            textColor = [UIColor colorWithHex:@"414141"];
             break;
         }
         case ApplicationTypeVine:
@@ -439,6 +452,13 @@
             textColor = [UIColor colorWithHex:@"8899a6"];
             break;
         }
+        case ApplicationTypeVideos:
+        {
+            text = @"This video is playing on “Apple TV”.";
+            font = [UIFont systemFontOfSize:12.0];
+            textColor = [UIColor colorWithHex:@"737373"];
+            break;
+        }
         case ApplicationTypeVine:
         {
             text = @"This is where your private conversations will live";
@@ -584,6 +604,7 @@
         case ApplicationTypeTumblr:     return [UIColor colorWithHex:@"34465c"];
         case ApplicationTypeTwitter:    return [UIColor colorWithHex:@"f5f8fa"];
         case ApplicationTypeVesper:     return [UIColor colorWithHex:@"f8f8f8"];
+        case ApplicationTypeVideos:     return [UIColor blackColor];
         case ApplicationTypeWhatsapp:   return [UIColor colorWithHex:@"f2f2f2"];
         default:                        return nil;
     }
@@ -602,6 +623,7 @@
         case ApplicationTypeTumblr:     return 10.0;
         case ApplicationTypeTwitter:    return 0.1;
         case ApplicationTypeVesper:     return 22.0;
+        case ApplicationTypeVideos:     return 0.1;
         case ApplicationTypeVine:       return 0.1;
         default:                        return 0.0;
     }

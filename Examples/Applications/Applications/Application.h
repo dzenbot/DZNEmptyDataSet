@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeSlack,
     ApplicationTypeTumblr,
     ApplicationTypeTwitter,
+    ApplicationTypeVideos,
     ApplicationTypeVesper,
     ApplicationTypeVine,
     ApplicationTypeWhatsapp
