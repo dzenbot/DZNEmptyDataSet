@@ -1,37 +1,39 @@
 ![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
 ![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
-###### (These are real life examples, available in the sample project)
+(These are real life examples, available in the sample project)
 
 ### The Empty DataSet Pattern
-Most applications display lists of content (datasets), which many turn out to be empty at one point, specially for new users with blank accounts. Empty screens create confusion by not being clear about what's going on, if there is an error/bug or if the user is supposed to do something within your app to be able to consume the content.
+Most applications show lists of content (datasets), which many turn out to be empty at one point, specially for new users with blank accounts. Empty screens create confusion by not being clear about what's going on, if there is an error/bug or if the user is supposed to do something within your app to be able to consume the content.
 
 **Empty Datasets** are helpful for:
 * Avoiding white-screens and communicating to your users why the screen is empty.
-* Calling to action (particularly as a boarding process for your new users).
+* Calling to action (particularly as an onboarding process).
 * Avoiding other interruptive mechanisms like showing error alerts.
 * Beeing consistent and improving the user experience.
 * Delivering a brand presence.
 
 
 ### Features
+* Compatible with UITableView and UICollectionView.
 * Uses KVO to observe whenever the tableview calls -reloadData.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support.
 * Allows tap gesture on the whole tableview bounds (useful for resigning first responder or similar actions).
 * Background color customisation.
+* For more advanced customisation, it accepts a custom view.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
 
-This library has been designed in a way where you won't need to use an extended UITableView class. It will still work when using UITableViewController.
-By simply conforming to the datasource and delegate you will be able to fully customize the content and appearance of the empty datasets for your application.
+This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
+By simply conforming by just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will be able to fully customize the content and appearance of the empty datasets for your application.
 
 
 ## Installation
 
 Available in [Cocoa Pods](http://cocoapods.org/?q=UITableView-DataSet)
 ```
-pod 'UITableView-DataSet'
+pod 'DZNEmptyDataSet'
 ```
 
 
@@ -40,21 +42,21 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 
 ### Step 1: Import
 ```
-#import "UITableView+DataSet.h"
+#import "UIScrollView+EmptyDataSet.h"
 ```
 
 ### Step 2: Protocol Conformance
 Conform to datasource and/or delegate.
 ```
-@interface MainViewController : UITableViewController <DZNTableViewDataSetSource, DZNTableViewDataSetDelegate>
+@interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 ```
 
 ### Step 3: Data Source Implementation
-Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to fully customise the text appearance.
+Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to customise the text appearance.
 
-The title of the dataset:
+The title of the empty dataset:
 ```
-- (NSAttributedString *)titleForTableViewDataSet:(UITableView *)tableView {
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
 
     NSString *text = @"Please Allow Photo Access";
     
@@ -65,9 +67,9 @@ The title of the dataset:
 }
 ```
 
-The description of the dataset:
+The description of the empty dataset:
 ```
-- (NSAttributedString *)descriptionForTableViewDataSet:(UITableView *)tableView {
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
 
     NSString *text = @"This allows you to share photos from your library and save photos to your camera roll.";
     
@@ -85,7 +87,7 @@ The description of the dataset:
 
 The title to be used for the specified button state:
 ```
-- (NSAttributedString *)buttonTitleForTableViewDataSet:(UITableView *)tableView forState:(UIControlState)state {
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
 
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]
 
@@ -93,9 +95,17 @@ The title to be used for the specified button state:
 }
 ```
 
-The background color for the dataset view:
+The image for the empty dataset:
 ```
-- (UIColor *)backgroundColorForTableViewDataSet:(UITableView *)tableView
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"empty_placeholder"];
+}
+```
+
+The background color for the empty dataset:
+```
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIColor whiteColor];
 }
@@ -117,34 +127,34 @@ Return the behaviours you would expect from the empty datasets, and receive the 
 
 Asks for interaction permission (Default is YES) :
 ```
-- (BOOL)tableViewDataSetShouldAllowTouch:(UITableView *)tableView {
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
     return YES;
 }
 ```
 
 Asks for scrolling permission (Default is NO) :
 ```
-- (BOOL)tableViewDataSetShouldAllowScroll:(UITableView *)tableView {
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
     return YES;
 }
 ```
 
 Notifies when the dataset view was tapped:
 ```
-- (void)tableViewDataSetDidTapView:(UITableView *)tableView {
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView {
     
 }
 ```
 
 Notifies when the dataset call to action button was tapped:
 ```
-- (void)tableViewDataSetDidTapButton:(UITableView *)tableView {
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView {
     
 }
 ```
 
 ### Step 5: Deallocation
-It is very **important** to set the dataSetSource and dataSetDelegate to nil, on the viewcontroller's -dealloc method. Since this library uses KVO under the hood, the observer must be removed when the tableview is going to be released.
+It is (extremely) **important** to set the dataSetSource and dataSetDelegate to nil, whenever the view is going to be released. This class uses KVO under the hood, so it needs to remove the observer before dealocating the view..
 
 ```
 - (void)dealloc
@@ -155,17 +165,20 @@ It is very **important** to set the dataSetSource and dataSetDelegate to nil, on
 ```
 
 
-## Sample project
+## Sample projects
 
 #### Applications
-This sample project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. Use this project for understanding how easy and flexible it is to customize the appearance of your empty datasets.
+This project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. See how easy and flexible it is to customize the appearance of your empty datasets.
 
 #### Countries
-This other sample project shows a list of the world countries. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. Use this project for understanding better the interaction between the UITableViewDataSource and the DZNTableDataSetSource protocols.
+This project shows a list of the world countries. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols.
+
+#### Colors
+This project is an example of how this library also works with UICollectionView.
 
 
 ## Collaboration
-I tried to build an easy to use API, while beeing flexible enough for multiple variations, but I'm sure there are ways of improving and adding more features, so feel free to collaborate with ideas, issues and/or pull requests.
+Feel free to collaborate with ideas, issues and/or pull requests.
 
 
 ## License
