@@ -19,11 +19,10 @@
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
-- (instancetype)initWithCustomView:(UIView *)view
+- (instancetype)init
 {
     self =  [super init];
     if (self) {
-        _customView = view;
         [self addSubview:self.contentView];
     }
     return self;
@@ -34,6 +33,7 @@
     self.frame = self.superview.bounds;
 }
 
+
 #pragma mark - Getter Methods
 
 - (UIView *)contentView
@@ -43,17 +43,6 @@
         _contentView = [UIView new];
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
-        
-        if (_customView) {
-            _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(self.customView.frame);
-            [_contentView addSubview:self.customView];
-        }
-        else {
-            [_contentView addSubview:self.imageView];
-            [_contentView addSubview:self.titleLabel];
-            [_contentView addSubview:self.detailLabel];
-            [_contentView addSubview:self.button];
-        }
     }
     return _contentView;
 }
@@ -70,6 +59,8 @@
         _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.numberOfLines = 1;
+        
+        [_contentView addSubview:_titleLabel];
     }
     return _titleLabel;
 }
@@ -87,6 +78,8 @@
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailLabel.numberOfLines = 0;
+        
+        [_contentView addSubview:_detailLabel];
     }
     return _detailLabel;
 }
@@ -99,6 +92,8 @@
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         _imageView.userInteractionEnabled = NO;
+        
+        [_contentView addSubview:_imageView];
     }
     return _imageView;
 }
@@ -113,10 +108,25 @@
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         _button.adjustsImageWhenHighlighted = YES;
         _button.userInteractionEnabled = YES;
-    
+        
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_contentView addSubview:_button];
     }
     return _button;
+}
+
+
+#pragma mark - Setter Methods
+
+- (void)setCustomView:(UIView *)view
+{
+    [self invalidateContent];
+    
+    _customView = view;
+    _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(view.frame);
+    
+    [_contentView addSubview:_customView];
 }
 
 
@@ -133,11 +143,13 @@
     [_detailLabel removeFromSuperview];
     [_imageView removeFromSuperview];
     [_button removeFromSuperview];
-
+    [_customView removeFromSuperview];
+    
     _titleLabel = nil;
     _detailLabel = nil;
     _imageView = nil;
     _button = nil;
+    _customView = nil;
 }
 
 
@@ -151,7 +163,7 @@
 - (void)updateConstraints
 {
     [super updateConstraints];
-
+    
     [_contentView removeConstraints:_contentView.constraints];
     
     NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:NSDictionaryOfVariableBindings(self,_contentView)];
@@ -173,11 +185,6 @@
         return;
     }
     
-    if (_titleLabel) [views setObject:_titleLabel forKey:@"_titleLabel"];
-    if (_detailLabel) [views setObject:_detailLabel forKey:@"_detailLabel"];
-    if (_imageView) [views setObject:_imageView forKey:@"_imageView"];
-    if (_button) [views setObject:_button forKey:@"_button"];
-
     CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
     
     NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 16 : 4;
@@ -187,20 +194,30 @@
     NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
-
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
-                                                                         options:0 metrics:metrics views:views]];
-
     
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_detailLabel]-padding-|"
-                                                                         options:0 metrics:metrics views:views]];
-
+    if (_titleLabel.superview) {
+        [views setObject:_titleLabel forKey:@"_titleLabel"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
+                                                                             options:0 metrics:metrics views:views]];
+    }
     
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_button]-padding-|"
-                                                                         options:0 metrics:metrics views:views]];
+    if (_detailLabel.superview) {
+        [views setObject:_detailLabel forKey:@"_detailLabel"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_detailLabel]-padding-|"
+                                                                             options:0 metrics:metrics views:views]];
+    }
     
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[_imageView(imgWidth)]-trailing-|"
-                                                                         options:0 metrics:metrics views:views]];
+    if (_imageView) {
+        [views setObject:_imageView forKey:@"_imageView"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[_imageView(imgWidth)]-trailing-|"
+                                                                             options:0 metrics:metrics views:views]];
+    }
+    
+    if (_button) {
+        [views setObject:_button forKey:@"_button"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_button]-padding-|"
+                                                                             options:0 metrics:metrics views:views]];
+    }
     
     NSMutableString *format = [NSMutableString new];
     NSMutableArray *subviews = [NSMutableArray new];
@@ -209,7 +226,7 @@
     if (_titleLabel.attributedText.string.length > 0) [subviews addObject:@"[_titleLabel]"];
     if (_detailLabel.attributedText.string.length > 0) [subviews addObject:@"[_detailLabel]"];
     if ([_button attributedTitleForState:UIControlStateNormal].string.length > 0) [subviews addObject:@"[_button]"];
-
+    
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [format appendString:obj];
         if (idx < subviews.count-1) {

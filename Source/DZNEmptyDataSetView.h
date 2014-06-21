@@ -29,12 +29,10 @@
 @property (nonatomic, strong, readonly) UIButton *button;
 /** The vertical space between controls. */
 @property (nonatomic, assign) CGFloat verticalSpace;
+/** An optional custom view for more advanced appearance customisation. */
+@property (nonatomic, strong) UIView *customView;
 
-@property (nonatomic, readonly) UIView *customView;
-
-- (instancetype)initWithCustomView:(UIView *)view;
-
-/** 
+/**
  * Removes and deallocates all the view's controls.
  */
 - (void)invalidateContent;

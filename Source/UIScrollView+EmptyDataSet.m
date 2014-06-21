@@ -43,7 +43,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     DZNEmptyDataSetView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
     if (!view)
     {
-        view = [[DZNEmptyDataSetView alloc] initWithCustomView:[self customView]];
+        view = [[DZNEmptyDataSetView alloc] init];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.backgroundColor = nil;
         view.hidden = YES;
@@ -55,7 +55,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         
         [self addSubview:view];
         
-        objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.emptyDataSetView = view;
     }
     return view;
 }
@@ -165,14 +165,17 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     if (!([UIImagePNGRepresentation(self.emptyDataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
         return YES;
     }
+    if ((self.emptyDataSetView && ![self customView]) || (!self.emptyDataSetView && [self customView])) {
+        return YES;
+    }
     
-    return YES;
+    return NO;
 }
 
 - (NSInteger)itemsCount
 {
     NSInteger rows = 0;
-
+    
     if (![self respondsToSelector:@selector(dataSource)]) {
         return rows;
     }
@@ -191,7 +194,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     {
         id <UICollectionViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UICollectionView *collectionView = (UICollectionView *)self;
-
+        
         NSInteger sections = [dataSource numberOfSectionsInCollectionView:collectionView];
         for (NSInteger i = 0; i < sections; i++) {
             rows += [dataSource collectionView:collectionView numberOfItemsInSection:i];
@@ -214,6 +217,11 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 {
     self.emptyDataSetEnabled = delegate ? YES : NO;
     objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (void)setEmptyDataSetView:(DZNEmptyDataSetView *)view
+{
+    objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)setEmptyDataSetEnabled:(BOOL)enabled
@@ -277,13 +285,18 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (void)reloadDataSet
 {
+    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"needsReloadSets : %@", [self needsReloadSets] ? @"YES" : @"NO");
+    
     if ([self itemsCount] == 0)
     {
+        UIView *customView = [self customView];
+        
         DZNEmptyDataSetView *view = self.emptyDataSetView;
+        [view invalidateContent];
+//        [view updateConstraintsIfNeeded];
         
-        [view updateConstraintsIfNeeded];
-        
-        if (!view.customView && [self needsReloadSets])
+        if (!customView && [self needsReloadSets])
         {
             // Configure labels
             view.detailLabel.attributedText = [self detailLabelText];
@@ -300,6 +313,9 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
             
             // Configure vertical spacing
             view.verticalSpace = [self verticalSpace];
+        }
+        else {
+            view.customView = customView;
         }
         
         // Configure scroll permission

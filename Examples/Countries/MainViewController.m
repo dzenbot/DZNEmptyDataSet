@@ -14,6 +14,7 @@
 }
 @property (nonatomic, strong) NSMutableArray *countries;
 @property (nonatomic, strong) NSMutableArray *filteredCountries;
+@property (nonatomic) BOOL loading;
 @end
 
 @implementation MainViewController
@@ -34,6 +35,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.loading = YES;
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -155,8 +158,9 @@
 
 - (void)reloadContent
 {
-    [self loadContent];
+    self.loading = NO;
     
+    [self loadContent];
     [self.tableView reloadData];
 }
 
@@ -264,6 +268,10 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
+    if (self.loading) {
+        return nil;
+    }
+    
     NSString *text = [NSString stringWithFormat:@"No countries found matching\n%@.", self.searchBar.text];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -283,7 +291,7 @@
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+    if (self.loading || ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))) {
         return nil;
     }
     
@@ -299,7 +307,7 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+    if (self.loading || ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))) {
         return nil;
     }
     
@@ -313,7 +321,7 @@
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (_countries.count == 0) {
+    if (self.loading) {
         
         UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
         

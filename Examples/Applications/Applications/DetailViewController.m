@@ -195,7 +195,7 @@
 }
 
 
-#pragma mark - DZNTableViewDataSetDataSource Methods
+#pragma mark - DZNEmptyDataSetSource Methods
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
@@ -630,7 +630,7 @@
 }
 
 
-#pragma mark - DZNTableViewDataSetDelegate Methods
+#pragma mark - DZNEmptyDataSetDelegate Methods
 
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
 {
