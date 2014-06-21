@@ -125,6 +125,13 @@
             tintColor = [UIColor colorWithHex:@"3eba92"];
             break;
         }
+        case ApplicationTypeSkype:
+        {
+            barColor = [UIColor colorWithHex:@"00aff0"];
+            tintColor = [UIColor whiteColor];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypeTumblr:
         {
             barColor = [UIColor colorWithHex:@"2e3e53"];
@@ -403,6 +410,14 @@
             paragraph.lineSpacing = 2.0;
             break;
         }
+        case ApplicationTypeSkype:
+        {
+            text = @"Keep all your favorite people\ntogether, add favorites.";
+            font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.75];
+            textColor = [UIColor colorWithHex:@"a6c3d1"];
+            paragraph.lineSpacing = 3.0;
+            break;
+        }
         case ApplicationTypeSlack:
         {
             text = @"You don't have any\nrecent mentions";
@@ -450,7 +465,18 @@
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     if (paragraph) [attributes setObject:paragraph forKey:NSParagraphStyleAttributeName];
 
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    
+    switch (self.application.type) {
+        case ApplicationTypeSkype:
+            [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHex:@"00adf1"] range:[attributedString.string rangeOfString:@"add favorites"]];
+            break;
+            
+        default:
+            break;
+    }
+    
+    return attributedString;
 }
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView

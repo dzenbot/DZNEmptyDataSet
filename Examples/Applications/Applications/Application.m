@@ -49,6 +49,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Pinterest",
                      @"Photos",
                      @"Safari",
+                     @"Skype",
                      @"Slack",
                      @"Tumblr",
                      @"Twitter",

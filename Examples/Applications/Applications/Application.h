@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypePinterest,
     ApplicationTypePhotos,
     ApplicationTypeSafari,
+    ApplicationTypeSkype,
     ApplicationTypeSlack,
     ApplicationTypeTumblr,
     ApplicationTypeTwitter,

@@ -65,6 +65,11 @@
   "identifier": ""
   },
   {
+  "display_name": "Skype",
+  "developer_name": "Skype Communications S.a.r.l",
+  "identifier": "304878510"
+  },
+  {
   "display_name": "Slack",
   "developer_name": "Tiny Speck, Inc.",
   "identifier": "618783545"
