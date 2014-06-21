@@ -31,14 +31,14 @@ By simply conforming by just conforming to DZNEmptyDataSetSource & DZNEmptyDataS
 
 ## Installation
 
-Available in [Cocoa Pods](http://cocoapods.org/?q=UITableView-DataSet)
+Available in [Cocoa Pods](http://cocoapods.org/?q=DZNEmptyDataSet)
 ```
 pod 'DZNEmptyDataSet'
 ```
 
 
 ## How to use
-For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoadocs.org/docsets/UITableView-DataSet/)
+For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoadocs.org/docsets/DZNEmptyDataSet/)
 
 ### Step 1: Import
 ```
