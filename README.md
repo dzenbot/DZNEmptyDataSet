@@ -24,7 +24,7 @@ Most applications show lists of content (datasets), which many turn out to be em
 * For more advanced customisation, it accepts a custom view.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
-* *App Store ready*
+* **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
 By simply conforming by just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will be able to fully customize the content and appearance of the empty datasets for your application.
