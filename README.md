@@ -55,8 +55,8 @@ Conform to datasource and/or delegate.
 {
     [super viewDidLoad];
 
-    self.tableView.emptyDataSetSource = nil;
-    self.tableView.emptyDataSetDelegate = nil;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
 }
 ```
 
