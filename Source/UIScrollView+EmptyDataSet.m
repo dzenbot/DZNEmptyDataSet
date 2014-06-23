@@ -165,7 +165,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     if (!([UIImagePNGRepresentation(self.emptyDataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
         return YES;
     }
-    if ((self.emptyDataSetView && ![self customView]) || (!self.emptyDataSetView && [self customView])) {
+    if (self.emptyDataSetView) {
         return YES;
     }
     
@@ -285,9 +285,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (void)reloadDataSet
 {
-    NSLog(@"%s",__FUNCTION__);
-    NSLog(@"needsReloadSets : %@", [self needsReloadSets] ? @"YES" : @"NO");
-    
     if ([self itemsCount] == 0)
     {
         UIView *customView = [self customView];
