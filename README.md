@@ -24,6 +24,7 @@ Most applications show lists of content (datasets), which many turn out to be em
 * For more advanced customisation, it accepts a custom view.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
+* *App Store ready*
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
 By simply conforming by just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will be able to fully customize the content and appearance of the empty datasets for your application.
@@ -171,10 +172,10 @@ It is (extremely) **important** to set the dataSetSource and dataSetDelegate to 
 This project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. See how easy and flexible it is to customize the appearance of your empty datasets.
 
 #### Countries
-This project shows a list of the world countries. By searching, it autocompletes and when no content is matched, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols.
+This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController results, for filtering search. Whenever no content is matched when searching, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
 
 #### Colors
-This project is an example of how this library also works with UICollectionView.
+This project is a simple example of how this library also works with UICollectionView.
 
 
 ## Collaboration
