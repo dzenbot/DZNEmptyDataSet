@@ -50,6 +50,14 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 Conform to datasource and/or delegate.
 ```
 @interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    self.tableView.emptyDataSetSource = nil;
+    self.tableView.emptyDataSetDelegate = nil;
+}
 ```
 
 ### Step 3: Data Source Implementation
@@ -160,8 +168,8 @@ It is (extremely) **important** to set the dataSetSource and dataSetDelegate to 
 ```
 - (void)dealloc
 {
-    self.tableView.dataSetSource = nil;
-    self.tableView.dataSetDelegate = nil;
+    self.tableView.emptyDataSetSource = nil;
+    self.tableView.emptyDataSetDelegate = nil;
 }
 ```
 
