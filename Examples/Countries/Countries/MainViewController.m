@@ -7,17 +7,27 @@
 //
 
 #import "MainViewController.h"
+#import "NSManagedObjectContext+Hydrate.h"
+
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate> {
     CGFloat _bottomMargin;
 }
-@property (nonatomic, strong) NSMutableArray *countries;
-@property (nonatomic, strong) NSMutableArray *filteredCountries;
 @property (nonatomic) BOOL loading;
+@property (nonatomic) BOOL searching;
 @end
 
 @implementation MainViewController
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self serialize];
+    }
+    return self;
+}
 
 #pragma mark - View lifecycle
 
@@ -36,38 +46,14 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.loading = YES;
-    
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
     
     [self updateViewConstraints];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-}
+#pragma mark - Auto-Layout Methods
 
 - (void)updateViewConstraints
 {
@@ -141,122 +127,72 @@
 }
 
 
-#pragma mark - Sample Methods
+#pragma mark - MainViewController Methods
 
-- (void)loadContent
+- (void)serialize
 {
-    if (_countries) {
-        _countries = nil;
-    }
+    NSDictionary *attributes = @{@"name":@"name", @"code":@"code"};
+    NSString *entityName = NSStringFromClass([Country class]);
     
-    // A list of countries in JSON by Félix Bellanger
-    // https://gist.github.com/Keeguon/2310008
+    // A list of countries in JSON by Félix Bellanger https://gist.github.com/Keeguon/2310008
     NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
+    [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:attributes forEntityName:entityName];
 }
+
+//- (void)loadContent
+//{
+//    if (_countries) {
+//        _countries = nil;
+//    }
+//    
+//    // A list of countries in JSON by Félix Bellanger
+//    // https://gist.github.com/Keeguon/2310008
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+//    NSData *data = [NSData dataWithContentsOfFile:path];
+//    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
+//}
 
 - (void)reloadContent
 {
-    self.loading = NO;
-    
-    [self loadContent];
-    [self.tableView reloadData];
-}
-
-- (void)addMissingUser
-{
-    NSString *name = self.searchBar.text;
-    
-    if ([self.countries containsObject:name]) {
-        return;
-    }
-    
-    [self.countries addObject:name];
-    
-    [self filtercountries];
-}
-
-- (void)filtercountries
-{
-    if (self.searchBar.text.length > 0) {
-        
-        if (!self.filteredCountries) {
-            self.filteredCountries = [NSMutableArray new];
-        }
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", self.searchBar.text];
-        self.filteredCountries = [[self.countries filteredArrayUsingPredicate:predicate] mutableCopy];
-        
-        NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-        [self.filteredCountries sortUsingDescriptors:@[sorter]];
-    }
-    else {
-        self.filteredCountries = nil;
-    }
+    self.loading = !self.loading;
     
     [self.tableView reloadData];
-    [self.tableView setContentOffset:CGPointZero];
 }
 
-
-#pragma mark - UITableViewDataSource Methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (self.filteredCountries) {
-        return self.filteredCountries.count;
-    }
-    return self.countries.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-    }
-    
-    NSDictionary *country = nil;
-    if (self.filteredCountries) country = [self.filteredCountries objectAtIndex:indexPath.row];
-    else country = [self.countries objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = [country objectForKey:@"name"];
-    cell.detailTextLabel.text = [country objectForKey:@"code"];
-    
-    UIImage *image = [UIImage imageNamed:[[country objectForKey:@"code"] lowercaseString]];
-    if (!image) image = [UIImage imageNamed:@"unknown"];
-    cell.imageView.image = image;
-    
-    cell.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.imageView.layer.shadowOpacity = 0.4;
-    cell.imageView.layer.shadowRadius = 1.5;
-    cell.imageView.layer.shadowOffset = CGSizeZero;
-    cell.imageView.layer.shouldRasterize = YES;
-    cell.imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
-
-
-#pragma mark - UITableViewDelegate Methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
+//- (void)addMissingUser
+//{
+//    NSString *name = self.searchBar.text;
+//    
+//    if ([self.countries containsObject:name]) {
+//        return;
+//    }
+//    
+//    [self.countries addObject:name];
+//    
+//    [self filtercountries];
+//}
+//
+//- (void)filtercountries
+//{
+//    if (self.searchBar.text.length > 0) {
+//        
+//        if (!self.filteredCountries) {
+//            self.filteredCountries = [NSMutableArray new];
+//        }
+//        
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", self.searchBar.text];
+//        self.filteredCountries = [[self.countries filteredArrayUsingPredicate:predicate] mutableCopy];
+//        
+//        NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+//        [self.filteredCountries sortUsingDescriptors:@[sorter]];
+//    }
+//    else {
+//        self.filteredCountries = nil;
+//    }
+//    
+//    [self.tableView reloadData];
+//    [self.tableView setContentOffset:CGPointZero];
+//}
 
 
 #pragma mark - DZNEmptyDataSetSource Methods
@@ -388,6 +324,140 @@
 }
 
 
+#pragma mark - UITableViewDataSource Methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [[self.fetchedResultsController sections] count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.detailTextLabel.textColor = [UIColor grayColor];
+        
+        cell.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        cell.imageView.layer.shadowOpacity = 0.4;
+        cell.imageView.layer.shadowRadius = 1.5;
+        cell.imageView.layer.shadowOffset = CGSizeZero;
+        cell.imageView.layer.shouldRasterize = YES;
+        cell.imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    }
+    
+    [self configureCell:cell atIndexPath:indexPath];
+    
+    return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    Country *country = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.textLabel.text = country.name;
+    cell.detailTextLabel.text = country.code;
+    
+    UIImage *image = [UIImage imageNamed:[country.code lowercaseString]];
+    if (!image) image = [UIImage imageNamed:@"unknown"];
+    cell.imageView.image = image;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (!_fetchedResultsController)
+    {
+        NSManagedObjectContext *context = [NSManagedObjectContext sharedContext];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Country class])];
+        fetchRequest.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
+
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+        _fetchedResultsController.delegate = self;
+    }
+    
+    if (self.searching) {
+        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", self.searchBar.text];
+    }
+    else {
+        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
+    }
+    
+    NSError *error = nil;
+    if (![_fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
+}
+
+
 #pragma mark - UISearchBarDelegate Methods
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
@@ -413,10 +483,8 @@
     
     [searchBar setShowsCancelButton:NO animated:YES];
     
-    if (self.filteredCountries) {
-        self.filteredCountries = nil;
-        [self.tableView reloadData];
-    }
+    self.searching = NO;
+    [self.tableView reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -431,11 +499,14 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [self filtercountries];
+//    // If the data set is visiable, but the user keeps typing text
+//    // let's force the data set to redraw data according to the data source updates.
     
-    // If the data set is visiable, but the user keeps typing text
-    // let's force the data set to redraw data according to the data source updates.
-    if (self.tableView.isEmptyDataSetVisible && self.filteredCountries.count == 0) {
+    self.searching = YES;
+    
+    [self.tableView reloadData];
+    
+    if (self.tableView.isEmptyDataSetVisible && self.fetchedResultsController.fetchedObjects.count == 0) {
         [self.tableView reloadDataSetIfNeeded];
     }
 }

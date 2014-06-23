@@ -1,8 +1,10 @@
 PODS:
   - DZNEmptyDataSet (1.2)
+  - NSManagedObjectContext-Hydrate (1.0.3)
 
 DEPENDENCIES:
   - DZNEmptyDataSet (from `../../`)
+  - NSManagedObjectContext-Hydrate (~> 1.0.3)
 
 EXTERNAL SOURCES:
   DZNEmptyDataSet:
@@ -10,5 +12,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DZNEmptyDataSet: ed0cb50a9aacf9a7369211cf1af86f5f16109010
+  NSManagedObjectContext-Hydrate: 82dc81ce445774ad9ca386811d03ebf44dc702a8
 
 COCOAPODS: 0.33.1

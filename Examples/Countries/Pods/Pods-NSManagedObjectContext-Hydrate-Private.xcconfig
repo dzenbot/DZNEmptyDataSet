@@ -1,0 +1,5 @@
+#include "Pods-NSManagedObjectContext-Hydrate.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/NSManagedObjectContext-Hydrate" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/DZNEmptyDataSet" "${PODS_ROOT}/Headers/NSManagedObjectContext-Hydrate"
+OTHER_LDFLAGS = -ObjC ${PODS_NSMANAGEDOBJECTCONTEXT_HYDRATE_OTHER_LDFLAGS}
+PODS_ROOT = ${SRCROOT}
