@@ -24,7 +24,7 @@
 {
     self = [super init];
     if (self) {
-        [self serialize];
+        
     }
     return self;
 }
@@ -45,6 +45,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.loading = YES;
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -139,60 +141,13 @@
     [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:attributes forEntityName:entityName];
 }
 
-//- (void)loadContent
-//{
-//    if (_countries) {
-//        _countries = nil;
-//    }
-//    
-//    // A list of countries in JSON by Félix Bellanger
-//    // https://gist.github.com/Keeguon/2310008
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
-//    NSData *data = [NSData dataWithContentsOfFile:path];
-//    self.countries = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];
-//}
-
 - (void)reloadContent
 {
-    self.loading = !self.loading;
+    self.loading = NO;
     
+    [self serialize];
     [self.tableView reloadData];
 }
-
-//- (void)addMissingUser
-//{
-//    NSString *name = self.searchBar.text;
-//    
-//    if ([self.countries containsObject:name]) {
-//        return;
-//    }
-//    
-//    [self.countries addObject:name];
-//    
-//    [self filtercountries];
-//}
-//
-//- (void)filtercountries
-//{
-//    if (self.searchBar.text.length > 0) {
-//        
-//        if (!self.filteredCountries) {
-//            self.filteredCountries = [NSMutableArray new];
-//        }
-//        
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", self.searchBar.text];
-//        self.filteredCountries = [[self.countries filteredArrayUsingPredicate:predicate] mutableCopy];
-//        
-//        NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
-//        [self.filteredCountries sortUsingDescriptors:@[sorter]];
-//    }
-//    else {
-//        self.filteredCountries = nil;
-//    }
-//    
-//    [self.tableView reloadData];
-//    [self.tableView setContentOffset:CGPointZero];
-//}
 
 
 #pragma mark - DZNEmptyDataSetSource Methods
@@ -499,13 +454,12 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-//    // If the data set is visiable, but the user keeps typing text
-//    // let's force the data set to redraw data according to the data source updates.
-    
     self.searching = YES;
     
     [self.tableView reloadData];
     
+    // If the data set is visiable, but the user keeps typing text
+    // let's force the data set to redraw data according to the data source updates.
     if (self.tableView.isEmptyDataSetVisible && self.fetchedResultsController.fetchedObjects.count == 0) {
         [self.tableView reloadDataSetIfNeeded];
     }
