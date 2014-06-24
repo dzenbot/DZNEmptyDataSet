@@ -46,6 +46,10 @@
 - (void)didMoveToSuperview
 {
     self.frame = self.superview.bounds;
+    
+    [UIView animateWithDuration:0.25
+                     animations:^{_contentView.alpha = 1.0;}
+                     completion:NULL];
 }
 
 
@@ -58,6 +62,7 @@
         _contentView = [UIView new];
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
+        _contentView.alpha = 0;
     }
     return _contentView;
 }
@@ -304,7 +309,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.backgroundColor = nil;
         view.hidden = YES;
-        view.alpha = 0;
         
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
         gesture.delegate = self;
@@ -591,10 +595,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         
         [view updateConstraints];
         [view layoutIfNeeded];
-        
-        [UIView animateWithDuration:0.25
-                         animations:^{view.alpha = 1.0;}
-                         completion:NULL];
     }
     else if (self.isEmptyDataSetVisible) {
         [self invalidateContent];
