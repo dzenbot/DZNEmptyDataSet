@@ -278,12 +278,14 @@ static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
 static char const * const kEmptyDataSetEnabled =    "emptyDataSetEnabled";
+static char const * const kStoryboardEnabled =      "storyboardEnabled";
 static NSString * const kContentSize =              @"contentSize";
 static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
 @property (nonatomic, getter = isEmptyDataSetEnabled) BOOL emptyDataSetEnabled;
+@property (nonatomic, getter = isStoryboardEnabled) BOOL storyboardEnabled;
 @end
 
 @implementation UIScrollView (DZNEmptyDataSet)
@@ -330,6 +332,11 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 - (BOOL)isEmptyDataSetEnabled
 {
     return [objc_getAssociatedObject(self, kEmptyDataSetEnabled) boolValue];
+}
+
+- (BOOL)isStoryboardEnabled
+{
+    return [objc_getAssociatedObject(self, kStoryboardEnabled) boolValue];
 }
 
 - (BOOL)isTouchAllowed
@@ -434,8 +441,8 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     if (!([UIImagePNGRepresentation(self.emptyDataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
         return YES;
     }
-    if (self.emptyDataSetView) {
-        return YES;
+    if (self.emptyDataSetView.customView) {
+        return NO;
     }
     
     return NO;
@@ -504,6 +511,11 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     objc_setAssociatedObject(self, kEmptyDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (void)setStoryboardEnabled:(BOOL)enabled
+{
+    objc_setAssociatedObject(self, kStoryboardEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)enableObservers:(BOOL)enable
 {
     if (self.isEmptyDataSetEnabled && !enable) {
@@ -553,7 +565,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 }
 
 - (void)reloadDataSet
-{    
+{
     if ([self itemsCount] == 0)
     {
         UIView *customView = [self customView];
@@ -563,6 +575,8 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         
         if (!customView && [self needsReloadSets])
         {
+            view.customView = nil;
+            
             // Configure labels
             view.detailLabel.attributedText = [self detailLabelText];
             view.titleLabel.attributedText = [self titleLabelText];
@@ -628,7 +642,13 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         NSValue *new = [change objectForKey:@"new"];
         NSValue *old = [change objectForKey:@"old"];
         
-        if ((!new && old) || (new && old && ![new isEqualToValue:old])) {
+        // When no constraints are assigned, we can assume the tableview is created by a storyboard
+        if (self.constraints.count == 0) {
+            self.storyboardEnabled = YES;
+        }
+        
+        // The contenSize property behave differently when using storyboard, so we have 2 case scenarios to detect real changes
+        if ((self.isStoryboardEnabled && !new && old) || (new && old && ![new isEqualToValue:old])) {
             [self didReloadData];
         }
     }
