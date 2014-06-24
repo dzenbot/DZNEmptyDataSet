@@ -598,17 +598,15 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
             view.customView = customView;
         }
         
-        // Configure scroll permission
-        self.scrollEnabled = [self isScrollAllowed];
-        
-        // Configure background color
+        // Configure the empty dataset view
         view.backgroundColor = [self dataSetBackgroundColor];
-        if (self.scrollEnabled && [self dataSetBackgroundColor]) self.backgroundColor = [self dataSetBackgroundColor];
-        
         view.hidden = NO;
         
         [view updateConstraints];
         [view layoutIfNeeded];
+        
+        // Configure scroll permission
+        self.scrollEnabled = [self isScrollAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
         [self invalidateContent];
