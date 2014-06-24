@@ -22,7 +22,8 @@ Most applications show lists of content (datasets), which many turn out to be em
 * Background color customisation.
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
-* iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
+* Compatible with Storyboard.
+* iPhone (3.5" & 4") and iPad support. iOS7 & iOS8 compatible.
 * ARC & 64bits support.
 * **App Store ready**
 
@@ -198,7 +199,7 @@ This project replicates several popular application's empty datasets (~20) with 
 This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController results, for filtering search. Whenever no content is matched when searching, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
 
 #### Colors
-This project is a simple example of how this library also works with UICollectionView.
+This project is a simple example of how this library also works with UICollectionView and Storyboards.
 
 
 ## Collaboration
