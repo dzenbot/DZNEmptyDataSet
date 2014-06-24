@@ -13,6 +13,7 @@
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate> {
     CGFloat _bottomMargin;
+    UIView *_loadingView;
 }
 @property (nonatomic) BOOL loading;
 @property (nonatomic) BOOL searching;
@@ -55,47 +56,7 @@
 }
 
 
-#pragma mark - Auto-Layout Methods
-
-- (void)updateViewConstraints
-{
-    [super updateViewConstraints];
-    
-    [self.view removeConstraints:self.view.constraints];
-    
-    NSDictionary *views = @{@"searchBar": self.searchBar, @"tableView": self.tableView};
-    NSDictionary *metrics = @{@"bottomMargin": @(_bottomMargin)};
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[searchBar]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tableView]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[searchBar(44)][tableView]-bottomMargin-|" options:0 metrics:metrics views:views]];
-}
-
-- (void)updateTableViewConstraints:(NSNotification *)note
-{
-    CGRect endFrame = CGRectZero;
-    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&endFrame];
-    
-    CGFloat minY = CGRectGetMinY(endFrame);
-    CGFloat keyboardHeight = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? endFrame.size.width : endFrame.size.height;
-    if (keyboardHeight == CGRectGetHeight([UIScreen mainScreen].bounds)) keyboardHeight = 0;
-    _bottomMargin = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : keyboardHeight;
-    
-    CGFloat duration = [[note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    CGFloat curve = [[note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] floatValue];
-    
-    [self updateViewConstraints];
-    [self.tableView updateConstraintsIfNeeded];
-    
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:curve
-                     animations:^{
-                         [self.view layoutIfNeeded];
-                         [self.tableView layoutIfNeeded];
-                     }
-                     completion:NULL];
-}
+#pragma mark - Getter Methods
 
 - (UITableView *)tableView
 {
@@ -210,35 +171,40 @@
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return [UIColor whiteColor];
+    return [UIColor redColor];
 }
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (self.loading) {
         
-        UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
+        if (!_loadingView) {
+            _loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
+            
+            UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            activityView.translatesAutoresizingMaskIntoConstraints = NO;
+            [activityView startAnimating];
+            [_loadingView addSubview:activityView];
+            
+            UILabel *label = [[UILabel alloc] init];
+            label.translatesAutoresizingMaskIntoConstraints = NO;
+            label.textAlignment = NSTextAlignmentCenter;
+            label.textColor = activityView.color;
+            label.font = [UIFont systemFontOfSize:14.0];
+            label.text = @"Loading countries...";
+            [_loadingView addSubview:label];
+            
+            NSDictionary *views = NSDictionaryOfVariableBindings(activityView, label);
+            
+            [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[activityView]|" options:0 metrics:nil views:views]];
+            [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[label]|" options:0 metrics:nil views:views]];
+            [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[activityView][label(25)]|" options:0 metrics:nil views:views]];
+        }
         
-        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activityView.translatesAutoresizingMaskIntoConstraints = NO;
-        [activityView startAnimating];
-        [contentView addSubview:activityView];
+        NSLog(@"%s",__FUNCTION__);
+        NSLog(@"contentView : %@", _loadingView);
         
-        UILabel *label = [[UILabel alloc] init];
-        label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = activityView.color;
-        label.font = [UIFont systemFontOfSize:14.0];
-        label.text = @"Loading countries...";
-        [contentView addSubview:label];
-        
-        NSDictionary *views = NSDictionaryOfVariableBindings(activityView, label);
-        
-        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[activityView]|" options:0 metrics:nil views:views]];
-        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[label]|" options:0 metrics:nil views:views]];
-        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[activityView][label(25)]|" options:0 metrics:nil views:views]];
-        
-        return contentView;
+        return _loadingView;
     }
     return nil;
 }
@@ -469,6 +435,49 @@
 }
 
 
+#pragma mark - Auto-Layout Methods
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    
+    [self.view removeConstraints:self.view.constraints];
+    
+    NSDictionary *views = @{@"searchBar": self.searchBar, @"tableView": self.tableView};
+    NSDictionary *metrics = @{@"bottomMargin": @(_bottomMargin)};
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[searchBar]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tableView]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[searchBar(44)][tableView]-bottomMargin-|" options:0 metrics:metrics views:views]];
+}
+
+- (void)updateTableViewConstraints:(NSNotification *)note
+{
+    CGRect endFrame = CGRectZero;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&endFrame];
+    
+    CGFloat minY = CGRectGetMinY(endFrame);
+    CGFloat keyboardHeight = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? endFrame.size.width : endFrame.size.height;
+    if (keyboardHeight == CGRectGetHeight([UIScreen mainScreen].bounds)) keyboardHeight = 0;
+    _bottomMargin = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : keyboardHeight;
+    
+    CGFloat duration = [[note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGFloat curve = [[note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] floatValue];
+    
+    [self updateViewConstraints];
+    [self.tableView updateConstraintsIfNeeded];
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:curve
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                         [self.tableView layoutIfNeeded];
+                     }
+                     completion:NULL];
+}
+
+
 #pragma mark - Keyboard Events
 
 - (void)keyboardWillShow:(NSNotification *)note
@@ -479,6 +488,19 @@
 - (void)keyboardWillHide:(NSNotification *)note
 {
     [self updateTableViewConstraints:note];
+}
+
+
+#pragma mark - View Auto-Rotation
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 
@@ -503,19 +525,5 @@
     _tableView.emptyDataSetDelegate = nil;
     _tableView = nil;
 }
-
-
-#pragma mark - View Auto-Rotation
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
-
 
 @end

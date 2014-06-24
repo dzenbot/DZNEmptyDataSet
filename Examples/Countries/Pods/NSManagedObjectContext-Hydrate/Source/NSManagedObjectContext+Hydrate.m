@@ -157,7 +157,25 @@ static NSString *_preferredDateFormat = nil;
             // An exception will be raised in case that a key doesn't match to its property.
             [newObject setValue:value forKey:attributeDescription.name];
         }
+        
+        NSError *error = nil;
+        if (![self save:&error]) {
+            NSLog(@"%s ERROR : %@",__FUNCTION__, error.localizedDescription);
+        }
     }];
+    
+    
+    // Test by fetching all the saved entities.
+#if DEBUG
+    NSArray *fetchedObjects = [self testByFetchingEntity:entityName];
+    
+    [fetchedObjects enumerateObjectsUsingBlock:^(NSObject *obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@"object: %@", obj.description);
+    }];
+#endif
+    
+    NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores objectAtIndex:0];
+    NSLog(@"Successfully preloaded content into the SQLite's %@ table at URL : %@",entityName,[store.URL absoluteString]);
 }
 
 

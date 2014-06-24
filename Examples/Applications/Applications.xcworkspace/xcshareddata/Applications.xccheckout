@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>A3E6B270-BAF3-4208-9BDD-1352DD189001</string>
+	<string>F8AEDF21-FDE7-42D4-847C-FC6CF1EB21B0</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Applications</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>2A0632BA-442B-4639-97B0-E7C348E1BF51</key>
+		<key>06188250-544C-4657-A310-8623162141D1</key>
 		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Examples/Applications/Applications.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>2A0632BA-442B-4639-97B0-E7C348E1BF51</key>
+		<key>06188250-544C-4657-A310-8623162141D1</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2A0632BA-442B-4639-97B0-E7C348E1BF51</string>
+	<string>06188250-544C-4657-A310-8623162141D1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>2A0632BA-442B-4639-97B0-E7C348E1BF51</string>
+			<string>06188250-544C-4657-A310-8623162141D1</string>
 			<key>IDESourceControlWCCName</key>
 			<string>DZNEmptyDataSet</string>
 		</dict>
