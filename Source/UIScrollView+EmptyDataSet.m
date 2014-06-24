@@ -284,14 +284,13 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 }
 
 - (void)reloadDataSet
-{
+{    
     if ([self itemsCount] == 0)
     {
         UIView *customView = [self customView];
         
         DZNEmptyDataSetView *view = self.emptyDataSetView;
-        [view invalidateContent];
-//        [view updateConstraintsIfNeeded];
+        [view updateConstraintsIfNeeded];
         
         if (!customView && [self needsReloadSets])
         {
@@ -348,7 +347,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     [self.emptyDataSetView invalidateContent];
     [self.emptyDataSetView removeFromSuperview];
     
-    objc_setAssociatedObject(self, kEmptyDataSetView, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setEmptyDataSetView:nil];
     
     self.scrollEnabled = YES;
 }
@@ -356,7 +355,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 #pragma mark - NSKeyValueObserving methods
 
-// Based on Abdullah Umer's answer http://stackoverflow.com/a/14920005/590010
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == DZNContentSizeCtx)
@@ -365,9 +363,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         NSValue *old = [change objectForKey:@"old"];
         
         if (new && old && ![new isEqualToValue:old]) {
-            if ([keyPath isEqualToString:kContentSize]) {
-                [self didReloadData];
-            }
+            [self didReloadData];
         }
     }
     else {
@@ -375,14 +371,13 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     }
 }
 
-- (void)willChangeValueForKey:(NSString *)key
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
 {
-    [super willChangeValueForKey:key];
-}
-
-- (void)didChangeValueForKey:(NSString *)key
-{
-    [super didChangeValueForKey:key];
+    if ([key isEqualToString:kContentSize]) {
+        return YES;
+    }
+    
+    return [super automaticallyNotifiesObserversForKey:key];
 }
 
 
