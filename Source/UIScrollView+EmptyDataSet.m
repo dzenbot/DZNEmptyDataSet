@@ -194,7 +194,9 @@
 {
     [super updateConstraints];
     
-    [_contentView removeConstraints:_contentView.constraints];
+    if (_contentView.constraints.count > 0) {
+        [_contentView removeConstraints:_contentView.constraints];
+    }
     
     NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:NSDictionaryOfVariableBindings(self,_contentView)];
     
@@ -211,10 +213,10 @@
     if (!CGPointEqualToPoint(self.offset, CGPointZero)) {
         
         NSLayoutConstraint *hConstraint = self.constraints[3];
-        hConstraint.constant = self.offset.x;
+        hConstraint.constant = self.offset.x*-1;
         
         NSLayoutConstraint *vConstraint = self.constraints[1];
-        vConstraint.constant = self.offset.y;
+        vConstraint.constant = self.offset.y*-1;
     }
     
     if (_customView) {

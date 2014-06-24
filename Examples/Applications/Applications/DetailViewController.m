@@ -612,7 +612,7 @@
 - (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (self.application.type == ApplicationTypePinterest) {
-        return CGPointMake(0, -self.tableView.tableHeaderView.frame.size.height/2);
+        return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
     }
     return CGPointZero;
 }
