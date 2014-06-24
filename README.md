@@ -18,10 +18,10 @@ Most applications show lists of content (datasets), which many turn out to be em
 * Uses KVO to observe whenever the tableview calls -reloadData.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
-* Uses auto-layout to automagically center the content to the tableview, with auto-rotation support.
-* Allows tap gesture on the whole tableview bounds (useful for resigning first responder or similar actions).
+* Uses auto-layout to automagically center the content to the tableview, with auto-rotation support. Also accepts custom vertical and horizontal alignment.
 * Background color customisation.
-* For more advanced customisation, it accepts a custom view.
+* Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
+* For more advanced customisation, it allows a custom view.
 * iPhone (3.5" & 4") and iPad support. iOS7 compatible only.
 * ARC & 64bits support.
 * **App Store ready**
