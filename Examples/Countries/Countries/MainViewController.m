@@ -131,22 +131,25 @@
 
 #pragma mark - MainViewController Methods
 
-- (void)serialize
-{
-    NSDictionary *attributes = @{@"name":@"name", @"code":@"code"};
-    NSString *entityName = NSStringFromClass([Country class]);
-    
-    // A list of countries in JSON by Félix Bellanger https://gist.github.com/Keeguon/2310008
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
-    [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:attributes forEntityName:entityName];
-}
-
 - (void)reloadContent
 {
+    if (!self.loading) {
+        [self.tableView reloadData];
+        return;
+    }
+    
     self.loading = NO;
     
-    [self serialize];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        // A list of countries in JSON by Félix Bellanger https://gist.github.com/Keeguon/2310008
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+        [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:nil forEntityName:@"Country"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 
@@ -349,8 +352,8 @@
         _fetchedResultsController.delegate = self;
     }
     
-    if (self.searching) {
-        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", self.searchBar.text];
+    if (self.searching && self.searchBar.text.length > 0) {
+        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || code CONTAINS[cd] %@", self.searchBar.text, self.searchBar.text];
     }
     else {
         _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
