@@ -38,7 +38,6 @@
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
-//    self.tableView.backgroundColor = [UIColor colorWithHex:@"efeff4"]; //TODO: Fix this
     
     if (self.application.type == ApplicationTypePinterest) {
         self.tableView.tableHeaderView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_pinterest"]];
@@ -608,6 +607,14 @@
         case ApplicationTypeWhatsapp:   return [UIColor colorWithHex:@"f2f2f2"];
         default:                        return nil;
     }
+}
+
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    if (self.application.type == ApplicationTypePinterest) {
+        return CGPointMake(0, -self.tableView.tableHeaderView.frame.size.height/2);
+    }
+    return CGPointZero;
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView

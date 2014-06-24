@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>D2E56875-2098-4C34-B13F-674A925FAB7E</string>
+	<string>A3E6B270-BAF3-4208-9BDD-1352DD189001</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Applications</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</key>
-		<string>https://github.com/dzenbot/UITableView-DataSet.git</string>
+		<key>2A0632BA-442B-4639-97B0-E7C348E1BF51</key>
+		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Examples/Applications/Applications.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</key>
+		<key>2A0632BA-442B-4639-97B0-E7C348E1BF51</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/dzenbot/UITableView-DataSet.git</string>
+	<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</string>
+	<string>2A0632BA-442B-4639-97B0-E7C348E1BF51</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>A545E323-FD8A-47F8-ADB2-5B2621D8F1A0</string>
+			<string>2A0632BA-442B-4639-97B0-E7C348E1BF51</string>
 			<key>IDESourceControlWCCName</key>
-			<string>UITableView-DataSet</string>
+			<string>DZNEmptyDataSet</string>
 		</dict>
 	</array>
 </dict>
