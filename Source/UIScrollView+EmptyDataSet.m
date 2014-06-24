@@ -141,6 +141,10 @@
 
 - (void)setCustomView:(UIView *)view
 {
+    if (!view) {
+        return;
+    }
+    
     [self invalidateContent];
     
     _customView = view;
@@ -278,7 +282,6 @@ static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
 static char const * const kEmptyDataSetEnabled =    "emptyDataSetEnabled";
-static char const * const kStoryboardEnabled =      "storyboardEnabled";
 static NSString * const kContentSize =              @"contentSize";
 static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
@@ -316,9 +319,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         gesture.delegate = self;
         [view addGestureRecognizer:gesture];
         
-        [self insertSubview:view atIndex:0];
-        
-        self.emptyDataSetView = view;
+        [self setEmptyDataSetView:view];
     }
     return view;
 }
@@ -336,7 +337,8 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (BOOL)isStoryboardEnabled
 {
-    return [objc_getAssociatedObject(self, kStoryboardEnabled) boolValue];
+    NSString *filename = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UIMainStoryboardFile"];
+    return filename.length > 0;
 }
 
 - (BOOL)isTouchAllowed
@@ -511,11 +513,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     objc_setAssociatedObject(self, kEmptyDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setStoryboardEnabled:(BOOL)enabled
-{
-    objc_setAssociatedObject(self, kStoryboardEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 - (void)enableObservers:(BOOL)enable
 {
     if (self.isEmptyDataSetEnabled && !enable) {
@@ -530,7 +527,13 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     }
     else if (enable) {
         @try {
-            [self addObserver:self forKeyPath:kContentSize options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld|NSKeyValueObservingOptionPrior context:DZNContentSizeCtx];
+            
+            NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld;
+            
+            // For storyboard enabled applications, we requiere another notification for prior the contenSize value changes.
+            if (self.isStoryboardEnabled) options = options|NSKeyValueObservingOptionPrior;
+            
+            [self addObserver:self forKeyPath:kContentSize options:options context:DZNContentSizeCtx];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
         }
@@ -566,15 +569,22 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (void)reloadDataSet
 {
-    if ([self itemsCount] == 0)
+    if ([self itemsCount] == 0 && [self needsReloadSets])
     {
+        DZNEmptyDataSetView *view = self.emptyDataSetView;
         UIView *customView = [self customView];
         
-        DZNEmptyDataSetView *view = self.emptyDataSetView;
+        if (!view.superview) {
+            [self insertSubview:view atIndex:0];
+        }
+        
         [view updateConstraintsIfNeeded];
         
-        if (!customView && [self needsReloadSets])
-        {
+        // If a non-nil custom view is available, let's configure it instead
+        if (customView) {
+            view.customView = customView;
+        }
+        else {
             view.customView = nil;
             
             // Configure labels
@@ -593,9 +603,6 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
             // Configure offset and spacing
             view.offset = [self offset];
             view.verticalSpace = [self verticalSpace];
-        }
-        else {
-            view.customView = customView;
         }
         
         // Configure the empty dataset view
@@ -635,22 +642,21 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    // We check for the KVO context notifications
     if (context == DZNContentSizeCtx)
     {
         NSValue *new = [change objectForKey:@"new"];
         NSValue *old = [change objectForKey:@"old"];
         
-        // When no constraints are assigned, we can assume the tableview is created by a storyboard
-        if (self.constraints.count == 0) {
-            self.storyboardEnabled = YES;
-        }
-        
         // The contenSize property behave differently when using storyboard, so we have 2 case scenarios to detect real changes
         if ((self.isStoryboardEnabled && !new && old) || (new && old && ![new isEqualToValue:old])) {
+            
+            // We then assume that -reloadData was called, by adding or removing cells to the table
             [self didReloadData];
         }
     }
     else {
+        // We must call super in case the object is expecting more KVO notifications
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
