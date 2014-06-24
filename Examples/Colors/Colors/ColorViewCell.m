@@ -11,18 +11,6 @@
 @implementation ColorViewCell
 @synthesize textLabel = _textLabel;
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.selectedBackgroundView = [UIView new];
-        self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-        
-        [self.contentView addSubview:self.textLabel];
-    }
-    return self;
-}
-
 - (UILabel *)textLabel
 {
     if (!_textLabel)
@@ -31,6 +19,11 @@
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.textColor = [UIColor whiteColor];
         _textLabel.font = [UIFont boldSystemFontOfSize:12.0];
+        
+        [self.contentView addSubview:self.textLabel];
+        
+        self.selectedBackgroundView = [UIView new];
+        self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     }
     return _textLabel;
 }

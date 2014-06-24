@@ -26,25 +26,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 @implementation MainViewController
 
-+ (instancetype)new
-{
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = 2.0;
-    layout.minimumInteritemSpacing = 2;
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
-    return [[MainViewController alloc] initWithCollectionViewLayout:layout];
-}
-
-- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
-{
-    self = [super initWithCollectionViewLayout:layout];
-    if (self) {
-        
-    }
-    return self;
-}
-
 #pragma mark - View lifecycle
 
 - (void)loadView
@@ -56,6 +37,9 @@ static NSString *CellIdentifier = @"ColorViewCell";
     self.automaticallyAdjustsScrollViewInsets = YES;
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
+    layout.minimumLineSpacing = 2.0;
+    layout.minimumInteritemSpacing = 2;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     CGFloat inset = layout.minimumLineSpacing*1.5;
     
     self.collectionView.backgroundView = [UIView new];
@@ -116,6 +100,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     }
     
     _colors = nil;
+    _selectedIndexPath = nil;
     
     [self.collectionView reloadData];
 }

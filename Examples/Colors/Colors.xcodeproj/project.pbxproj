@@ -17,6 +17,7 @@
 		4F3E12F71953EF1000D8CB5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12ED1953EF1000D8CB5A /* main.m */; };
 		4F3E12F81953EF1000D8CB5A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12EF1953EF1000D8CB5A /* MainViewController.m */; };
 		4F3E12F91953EF1000D8CB5A /* UIColor+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */; };
+		4F4AFAFE1959D8300022FC97 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */; };
 		ACBAEAF1427842F28B7038B2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C4998538C64921AFBF1CB8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		4F3E12EF1953EF1000D8CB5A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4F3E12F01953EF1000D8CB5A /* UIColor+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Random.h"; sourceTree = "<group>"; };
 		4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Random.m"; sourceTree = "<group>"; };
+		4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +95,13 @@
 			children = (
 				4F3E12E41953EF1000D8CB5A /* AppDelegate.h */,
 				4F3E12E51953EF1000D8CB5A /* AppDelegate.m */,
-				4F3E12E81953EF1000D8CB5A /* ColorViewCell.h */,
-				4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */,
 				4F3E12EE1953EF1000D8CB5A /* MainViewController.h */,
 				4F3E12EF1953EF1000D8CB5A /* MainViewController.m */,
+				4F3E12E81953EF1000D8CB5A /* ColorViewCell.h */,
+				4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */,
 				4F3E12F01953EF1000D8CB5A /* UIColor+Random.h */,
 				4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */,
+				4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */,
 				4F3E12FA1953EF2300D8CB5A /* Supporting Files */,
 			);
 			path = Colors;
@@ -171,6 +174,7 @@
 			files = (
 				4F3E12F61953EF1000D8CB5A /* Images.xcassets in Resources */,
 				4F3E12F51953EF1000D8CB5A /* InfoPlist.strings in Resources */,
+				4F4AFAFE1959D8300022FC97 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
