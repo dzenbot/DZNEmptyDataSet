@@ -310,7 +310,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         gesture.delegate = self;
         [view addGestureRecognizer:gesture];
         
-        [self addSubview:view];
+        [self insertSubview:view atIndex:0];
         
         self.emptyDataSetView = view;
     }
