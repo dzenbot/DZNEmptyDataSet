@@ -628,7 +628,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         NSValue *new = [change objectForKey:@"new"];
         NSValue *old = [change objectForKey:@"old"];
         
-        if (new && old && ![new isEqualToValue:old]) {
+        if ((!new && old) || (new && old && ![new isEqualToValue:old])) {
             [self didReloadData];
         }
     }
