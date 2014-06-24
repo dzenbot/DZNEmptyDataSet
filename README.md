@@ -59,13 +59,16 @@ Conform to datasource and/or delegate.
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
+    
+    // A little trick for removing the cell separators
+    self.tableView.tableFooterView = [UIView new];
 }
 ```
 
 ### Step 3: Data Source Implementation
 Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to customise the text appearance.
 
-The title of the empty dataset:
+The attributed string for the title of the empty dataset:
 ```
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
 
@@ -78,7 +81,7 @@ The title of the empty dataset:
 }
 ```
 
-The description of the empty dataset:
+The attributed string for the description of the empty dataset:
 ```
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
 
@@ -96,7 +99,7 @@ The description of the empty dataset:
 }
 ```
 
-The title to be used for the specified button state:
+The attributed string to be used for the specified button state:
 ```
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
 
@@ -108,27 +111,35 @@ The title to be used for the specified button state:
 
 The image for the empty dataset:
 ```
-- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
-{
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+
     return [UIImage imageNamed:@"empty_placeholder"];
 }
 ```
 
 The background color for the empty dataset:
 ```
-- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
-{
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+
     return [UIColor whiteColor];
 }
 ```
 
-You can also return a custom view if your layout requieres much more appearance flexibility:
+If you need a more complex layout, you can return a custom view instead:
 ```
-- (UIView *)customViewForTableViewDataSet:(UITableView *)tableView
-{
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
+
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [activityView startAnimating];
     return activityView;
+}
+```
+
+Additionally, you can modify the horizontal and/or vertical alignments (as when using a tableHeaderView):
+```
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView {
+
+    return CGPointMake(0, -self.tableView.tableHeaderView.frame.size.height/2);
 }
 ```
 
@@ -139,6 +150,7 @@ Return the behaviours you would expect from the empty datasets, and receive the 
 Asks for interaction permission (Default is YES) :
 ```
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+
     return YES;
 }
 ```
@@ -146,6 +158,7 @@ Asks for interaction permission (Default is YES) :
 Asks for scrolling permission (Default is NO) :
 ```
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+
     return YES;
 }
 ```
