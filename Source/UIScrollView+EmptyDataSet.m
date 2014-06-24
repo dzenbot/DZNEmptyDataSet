@@ -141,6 +141,12 @@
 
 - (void)setCustomView:(UIView *)view
 {
+    if (_customView) {
+        [_customView removeFromSuperview];
+        _customView = nil;
+        return;
+    }
+    
     if (!view) {
         return;
     }
