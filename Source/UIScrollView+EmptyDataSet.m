@@ -21,8 +21,9 @@
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UIButton *button;
 @property (nonatomic, readonly) UIView *contentView;
-@property (nonatomic, strong) UIView *customView;
 @property (nonatomic, assign) CGFloat verticalSpace;
+@property (nonatomic, assign) CGPoint offset;
+@property (nonatomic, strong) UIView *customView;
 @property (nonatomic) BOOL didConfigureConstraints;
 
 - (void)invalidateContent;
@@ -190,6 +191,15 @@
         
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+    }
+    
+    if (!CGPointEqualToPoint(self.offset, CGPointZero)) {
+        
+        NSLayoutConstraint *hConstraint = self.constraints[3];
+        hConstraint.constant = self.offset.x;
+        
+        NSLayoutConstraint *vConstraint = self.constraints[1];
+        vConstraint.constant = self.offset.y;
     }
     
     if (_customView) {
@@ -382,6 +392,14 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
+- (CGPoint)offset
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(offsetForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource offsetForEmptyDataSet:self];
+    }
+    return CGPointZero;
+}
+
 - (CGFloat)verticalSpace
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
@@ -554,7 +572,8 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
             [view.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
             [view.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
             
-            // Configure vertical spacing
+            // Configure offset and spacing
+            view.offset = [self offset];
             view.verticalSpace = [self verticalSpace];
         }
         else {

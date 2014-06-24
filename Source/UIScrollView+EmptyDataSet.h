@@ -102,21 +102,30 @@
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
- Asks the data source for a custom vertical space. Default is 11 pts.
- 
- @param scrollView A scrollView subclass object informing the delegate.
- @return The space height between elements.
- */
-- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView;
-
-/**
  Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
  Use this method to show an activity view indicator for loading feedback, or for complete custom empty data set.
+ Returning a custom view will ignore -offsetForEmptyDataSet and -spaceHeightForEmptyDataSet configurations.
  
  @param scrollView A scrollView subclass object informing the delegate.
  @return The custom view.
  */
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for a offset for vertical and horizontal alignment of the content. Default is CGPointZero.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The offset for vertical and horizontal alignment.
+ */
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for a vertical space between elements. Default is 11 pts.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The space height between elements.
+ */
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView;
 
 @end
 
