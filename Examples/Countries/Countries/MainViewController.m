@@ -171,7 +171,7 @@
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return [UIColor redColor];
+    return [UIColor whiteColor];
 }
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
@@ -200,10 +200,6 @@
             [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[label]|" options:0 metrics:nil views:views]];
             [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[activityView][label(25)]|" options:0 metrics:nil views:views]];
         }
-        
-        NSLog(@"%s",__FUNCTION__);
-        NSLog(@"contentView : %@", _loadingView);
-        
         return _loadingView;
     }
     return nil;
@@ -426,12 +422,6 @@
     self.searching = YES;
     
     [self.tableView reloadData];
-    
-    // If the data set is visiable, but the user keeps typing text
-    // let's force the data set to redraw data according to the data source updates.
-    if (self.tableView.isEmptyDataSetVisible && self.fetchedResultsController.fetchedObjects.count == 0) {
-        [self.tableView reloadDataSetIfNeeded];
-    }
 }
 
 

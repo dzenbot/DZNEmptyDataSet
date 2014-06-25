@@ -646,7 +646,7 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return YES;
+    return NO;
 }
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView

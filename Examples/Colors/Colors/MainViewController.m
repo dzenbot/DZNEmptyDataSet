@@ -213,17 +213,26 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([indexPath isEqual:_selectedIndexPath]) {
+        return YES;
+    }
     return NO;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
+    if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
+        return YES;
+    }
     return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
-
+    if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
+        NSString *string = [_colors[indexPath.row] hexFromColor];
+        if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
+    }
 }
 
 

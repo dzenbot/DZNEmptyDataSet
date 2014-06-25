@@ -1,5 +1,5 @@
 PODS:
-  - DZNEmptyDataSet (1.2.2)
+  - DZNEmptyDataSet (1.2.3)
 
 DEPENDENCIES:
   - DZNEmptyDataSet (from `../../`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  DZNEmptyDataSet: 2a92761f46b359c73c9cfab7c4ff7b9f415404cb
+  DZNEmptyDataSet: 81f756f3787225c0a1d331e5733b3211a39f0fdd
 
 COCOAPODS: 0.33.1

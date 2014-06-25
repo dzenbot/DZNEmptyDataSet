@@ -9,22 +9,20 @@ This category class helps you by parsing and saving automagically every object f
 
 Available in [Cocoa Pods](http://cocoapods.org/?q=NSManagedObjectContext-Hydrate)
 ```
-pod 'NSManagedObjectContext-Hydrate', '~> 1.0.2'
+pod 'NSManagedObjectContext-Hydrate', '~> 1.0.3'
 ```
 
 ## How to use
 
+[Check out the Doc Set](http://cocoadocs.org/docsets/NSManagedObjectContext-Hydrate/1.0.3/)
+
 ### Step 1
 ```
-Import "NSManagedObjectContext+Hydrate.h" to your Application Delegate class.
+#import <CoreData/CoreData.h>
+#import "NSManagedObjectContext+Hydrate.h"
 ```
 
 ### Step 2
-```
-Import Apple's CoreData framework.
-```
-
-### Step 3
 After initialising your Managed Object Context, you are ready to preload your JSON content into the store.
 Call the following method:
 ```

@@ -28,13 +28,4 @@
     return _textLabel;
 }
 
-- (void)setHighlighted:(BOOL)highlighted
-{
-    [super setHighlighted:highlighted];
-    
-    if (!highlighted && self.textLabel.text) {
-        self.textLabel.text = nil;
-    }
-}
-
 @end
