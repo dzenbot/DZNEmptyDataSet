@@ -23,7 +23,8 @@ Most applications show lists of content (datasets), which many turn out to be em
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* iPhone (3.5" & 4") and iPad support. iOS7 & iOS8 compatible.
+* Compatible with iOS6 >
+* iPhone (3.5" & 4") and iPad support.
 * ARC & 64bits support.
 * **App Store ready**
 
