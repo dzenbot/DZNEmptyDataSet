@@ -62,6 +62,7 @@
         _contentView = [UIView new];
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
+        _contentView.userInteractionEnabled = YES;
         _contentView.alpha = 0;
     }
     return _contentView;
@@ -164,6 +165,8 @@
 
 - (void)didTapButton:(id)sender
 {
+    NSLog(@"%s",__FUNCTION__);
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kDZNEmptyDataSetDidTapButtonNotification object:nil];
 }
 
@@ -289,14 +292,9 @@
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
-static char const * const kEmptyDataSetEnabled =    "emptyDataSetEnabled";
-static NSString * const kContentSize =              @"contentSize";
-static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
-@property (nonatomic, getter = isEmptyDataSetEnabled) BOOL emptyDataSetEnabled;
-@property (nonatomic, getter = isStoryboardEnabled) BOOL storyboardEnabled;
 @end
 
 @implementation UIScrollView (DZNEmptyDataSet)
@@ -323,7 +321,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
         view.backgroundColor = nil;
         view.hidden = YES;
         
-        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapContentView:)];
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
         gesture.delegate = self;
         [view addGestureRecognizer:gesture];
         
@@ -338,18 +336,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return !view.hidden;
 }
 
-- (BOOL)isEmptyDataSetEnabled
-{
-    return [objc_getAssociatedObject(self, kEmptyDataSetEnabled) boolValue];
-}
-
-- (BOOL)isStoryboardEnabled
-{
-    NSString *filename = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UIMainStoryboardFile"];
-    return filename.length > 0;
-}
-
-- (BOOL)isTouchAllowed
+- (BOOL)dzn_isTouchAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAllowTouch:self];
@@ -357,7 +344,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return YES;
 }
 
-- (BOOL)isScrollAllowed
+- (BOOL)dzn_isScrollAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAllowScroll:self];
@@ -365,7 +352,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return NO;
 }
 
-- (UIColor *)dataSetBackgroundColor
+- (UIColor *)dzn_dataSetBackgroundColor
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
         return [self.emptyDataSetSource backgroundColorForEmptyDataSet:self];
@@ -373,7 +360,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return [UIColor clearColor];
 }
 
-- (NSAttributedString *)titleLabelText
+- (NSAttributedString *)dzn_titleLabelText
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(titleForEmptyDataSet:)]) {
         return [self.emptyDataSetSource titleForEmptyDataSet:self];
@@ -381,7 +368,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (NSAttributedString *)detailLabelText
+- (NSAttributedString *)dzn_detailLabelText
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(descriptionForEmptyDataSet:)]) {
         return [self.emptyDataSetSource descriptionForEmptyDataSet:self];
@@ -389,7 +376,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (NSAttributedString *)buttonTitleForState:(UIControlState)state
+- (NSAttributedString *)dzn_buttonTitleForState:(UIControlState)state
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
         return [self.emptyDataSetSource buttonTitleForEmptyDataSet:self forState:state];
@@ -397,7 +384,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (UIImage *)buttonBackgroundImageForState:(UIControlState)state
+- (UIImage *)dzn_buttonBackgroundImageForState:(UIControlState)state
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
         return [self.emptyDataSetSource buttonBackgroundImageForEmptyDataSet:self forState:state];
@@ -405,7 +392,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (UIImage *)image
+- (UIImage *)dzn_image
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageForEmptyDataSet:)]) {
         return [self.emptyDataSetSource imageForEmptyDataSet:self];
@@ -413,7 +400,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (CGPoint)offset
+- (CGPoint)dzn_offset
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(offsetForEmptyDataSet:)]) {
         return [self.emptyDataSetSource offsetForEmptyDataSet:self];
@@ -421,7 +408,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return CGPointZero;
 }
 
-- (CGFloat)verticalSpace
+- (CGFloat)dzn_verticalSpace
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
         return [self.emptyDataSetSource spaceHeightForEmptyDataSet:self];
@@ -429,7 +416,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return 0.0;
 }
 
-- (UIView *)customView
+- (UIView *)dzn_customView
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
         return [self.emptyDataSetSource customViewForEmptyDataSet:self];
@@ -437,28 +424,7 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     return nil;
 }
 
-- (BOOL)needsReloadSets
-{
-    if (![self.emptyDataSetView.titleLabel.attributedText.string isEqualToString:[self titleLabelText].string]) {
-        return YES;
-    }
-    if (![self.emptyDataSetView.detailLabel.attributedText.string isEqualToString:[self detailLabelText].string]) {
-        return YES;
-    }
-    if (![[self.emptyDataSetView.button attributedTitleForState:UIControlStateNormal].string isEqualToString:[self buttonTitleForState:UIControlStateNormal].string]) {
-        return YES;
-    }
-    if (!([UIImagePNGRepresentation(self.emptyDataSetView.imageView.image) isEqualToData:UIImagePNGRepresentation([self image])])) {
-        return YES;
-    }
-    if (self.emptyDataSetView.customView) {
-        return NO;
-    }
-    
-    return NO;
-}
-
-- (NSInteger)itemsCount
+- (NSInteger)dzn_itemsCount
 {
     NSInteger rows = 0;
     
@@ -495,14 +461,33 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
-    self.emptyDataSetEnabled = source ? YES : NO;
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
+    
+    if (![self respondsToSelector:@selector(reloadData)] || ![source conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+        return;
+    }
+    
+    // We add method sizzling for detecting when -reloadData is called
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        Method originalMethod = class_getInstanceMethod(class, @selector(reloadData));
+        Method swizzledMethod = class_getInstanceMethod(class, @selector(dzn_reloadData));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
 {
-    self.emptyDataSetEnabled = delegate ? YES : NO;
     objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
+    
+    if (delegate) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
+    }
+    else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
+        [self invalidateContent];
+    }
 }
 
 - (void)setEmptyDataSetView:(DZNEmptyDataSetView *)view
@@ -510,51 +495,10 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setEmptyDataSetEnabled:(BOOL)enabled
-{
-    if (self.isEmptyDataSetEnabled == enabled) {
-        return;
-    }
-    
-    [self enableObservers:enabled];
-    
-    objc_setAssociatedObject(self, kEmptyDataSetEnabled, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)enableObservers:(BOOL)enable
-{
-    if (self.isEmptyDataSetEnabled && !enable) {
-        @try {
-            [self removeObserver:self forKeyPath:kContentSize context:DZNContentSizeCtx];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
-            [self invalidateContent];
-        }
-        @catch(id anException) {
-            // Do nothing. An exception might araise due to removing an none existent observer.
-        }
-    }
-    else if (enable) {
-        @try {
-            
-            NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld;
-            
-            // For storyboard enabled applications, we requiere another notification for prior the contenSize value changes.
-            if (self.isStoryboardEnabled) options = options|NSKeyValueObservingOptionPrior;
-            
-            [self addObserver:self forKeyPath:kContentSize options:options context:DZNContentSizeCtx];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
-        }
-        @catch(id anException) {
-            // Do nothing. An exception might araise due to removing an none existent observer.
-        }
-    }
-}
-
 
 #pragma mark - Action Methods
 
-- (void)didTapContentView:(id)sender
+- (void)dzn_didTapContentView:(id)sender
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
@@ -568,19 +512,23 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
     }
 }
 
-- (void)didReloadData
+- (void)dzn_reloadData
 {
-    if (self.emptyDataSetSource) {
-        [self reloadDataSet];
+    // In the process of swizzling, -dzn_reloadData has been reassigned to the original implementation of -reloadData
+    // It is necessary to call -dzn_reloadData inside of its own method to make the swizzling work.
+    [self dzn_reloadData];
+    
+    if ([self.emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+        [self dzn_reloadEmptyDataSet];
     }
 }
 
-- (void)reloadDataSet
+- (void)dzn_reloadEmptyDataSet
 {
-    if ([self itemsCount] == 0 && [self needsReloadSets])
+    if ([self dzn_itemsCount] == 0)
     {
         DZNEmptyDataSetView *view = self.emptyDataSetView;
-        UIView *customView = [self customView];
+        UIView *customView = [self dzn_customView];
         
         if (!view.superview) {
             [self insertSubview:view atIndex:0];
@@ -596,42 +544,35 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
             view.customView = nil;
             
             // Configure labels
-            view.detailLabel.attributedText = [self detailLabelText];
-            view.titleLabel.attributedText = [self titleLabelText];
+            view.detailLabel.attributedText = [self dzn_detailLabelText];
+            view.titleLabel.attributedText = [self dzn_titleLabelText];
             
             // Configure imageview
-            view.imageView.image = [self image];
+            view.imageView.image = [self dzn_image];
             
             // Configure button
-            [view.button setAttributedTitle:[self buttonTitleForState:0] forState:0];
-            [view.button setAttributedTitle:[self buttonTitleForState:1] forState:1];
-            [view.button setBackgroundImage:[self buttonBackgroundImageForState:0] forState:0];
-            [view.button setBackgroundImage:[self buttonBackgroundImageForState:1] forState:1];
-            
+            [view.button setAttributedTitle:[self dzn_buttonTitleForState:0] forState:0];
+            [view.button setAttributedTitle:[self dzn_buttonTitleForState:1] forState:1];
+            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:0] forState:0];
+            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:1] forState:1];
+
             // Configure offset and spacing
-            view.offset = [self offset];
-            view.verticalSpace = [self verticalSpace];
+            view.offset = [self dzn_offset];
+            view.verticalSpace = [self dzn_verticalSpace];
         }
         
         // Configure the empty dataset view
-        view.backgroundColor = [self dataSetBackgroundColor];
+        view.backgroundColor = [self dzn_dataSetBackgroundColor];
         view.hidden = NO;
         
         [view updateConstraints];
         [view layoutIfNeeded];
         
         // Configure scroll permission
-        self.scrollEnabled = [self isScrollAllowed];
+        self.scrollEnabled = [self dzn_isScrollAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
         [self invalidateContent];
-    }
-}
-
-- (void)reloadDataSetIfNeeded
-{
-    if ([self needsReloadSets]) {
-        [self reloadDataSet];
     }
 }
 
@@ -646,45 +587,12 @@ static void *DZNContentSizeCtx =                    &DZNContentSizeCtx;
 }
 
 
-#pragma mark - KVO Methods
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    // We check for the KVO context notifications
-    if (context == DZNContentSizeCtx)
-    {
-        NSValue *new = [change objectForKey:@"new"];
-        NSValue *old = [change objectForKey:@"old"];
-        
-        // The contenSize property behave differently when using storyboard, so we have 2 case scenarios to detect real changes
-        if ((self.isStoryboardEnabled && !new && old) || (new && old && ![new isEqualToValue:old])) {
-            
-            // We then assume that -reloadData was called, by adding or removing cells to the table
-            [self didReloadData];
-        }
-    }
-    else {
-        // We must call super in case the object is expecting more KVO notifications
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
-{
-    if ([key isEqualToString:kContentSize]) {
-        return YES;
-    }
-    
-    return [super automaticallyNotifiesObserversForKey:key];
-}
-
-
 #pragma mark - UIGestureRecognizerDelegate methods
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer.view isEqual:self.emptyDataSetView]) {
-        return [self isTouchAllowed];
+        return [self dzn_isTouchAllowed];
     }
     
     return [super gestureRecognizerShouldBegin:gestureRecognizer];
