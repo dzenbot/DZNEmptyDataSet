@@ -15,7 +15,6 @@ Most applications show lists of content (datasets), which many turn out to be em
 
 ### Features
 * Compatible with UITableView and UICollectionView.
-* Uses KVO to observe whenever the tableview calls -reloadData.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support. Also accepts custom vertical and horizontal alignment.
@@ -23,9 +22,8 @@ Most applications show lists of content (datasets), which many turn out to be em
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* Compatible with iOS6 >
+* Compatible with iOS 6 or later.
 * iPhone (3.5" & 4") and iPad support.
-* ARC & 64bits support.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
@@ -179,15 +177,11 @@ Notifies when the dataset call to action button was tapped:
 }
 ```
 
-### Step 5: Deallocation
-It is (extremely) **important** to set the dataSetSource and dataSetDelegate to nil, whenever the view is going to be released. This class uses KVO under the hood, so it needs to remove the observer before dealocating the view..
+### Step 5: Refresh layout
+If you need to refresh the empty dataset layout, just call:
 
 ```
-- (void)dealloc
-{
-    self.tableView.emptyDataSetSource = nil;
-    self.tableView.emptyDataSetDelegate = nil;
-}
+[self.tableview reloadData];
 ```
 
 
@@ -197,7 +191,7 @@ It is (extremely) **important** to set the dataSetSource and dataSetDelegate to 
 This project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. See how easy and flexible it is to customize the appearance of your empty datasets.
 
 #### Countries
-This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController results, for filtering search. Whenever no content is matched when searching, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
+This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController for filtering search. When searching and no content is matched, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
 
 #### Colors
 This project is a simple example of how this library also works with UICollectionView and Storyboards.
