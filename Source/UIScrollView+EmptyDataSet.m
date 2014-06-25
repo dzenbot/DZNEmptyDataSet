@@ -437,7 +437,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         id <UITableViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UITableView *tableView = (UITableView *)self;
         
-        NSInteger sections = [dataSource numberOfSectionsInTableView:tableView];
+        NSInteger sections = 1;
+        if ([dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
+            sections = [dataSource numberOfSectionsInTableView:tableView];
+        }
+        
         for (NSInteger i = 0; i < sections; i++) {
             rows += [dataSource tableView:tableView numberOfRowsInSection:i];
         }
@@ -447,7 +451,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         id <UICollectionViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UICollectionView *collectionView = (UICollectionView *)self;
         
-        NSInteger sections = [dataSource numberOfSectionsInCollectionView:collectionView];
+        NSInteger sections = 1;
+        if ([dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
+            sections = [dataSource numberOfSectionsInCollectionView:collectionView];
+        }
+        
         for (NSInteger i = 0; i < sections; i++) {
             rows += [dataSource collectionView:collectionView numberOfItemsInSection:i];
         }
