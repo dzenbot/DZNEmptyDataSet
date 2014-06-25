@@ -13,20 +13,20 @@
 
 #pragma mark - DZNEmptyDataSetView
 
-#define kDZNEmptyDataSetDidTapButtonNotification @"com.dzn.notifications.emptyDataSet.didTapButton"
-
 @interface DZNEmptyDataSetView : UIView
 @property (nonatomic, readonly) UILabel *titleLabel;
 @property (nonatomic, readonly) UILabel *detailLabel;
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UIButton *button;
 @property (nonatomic, readonly) UIView *contentView;
-@property (nonatomic, assign) CGFloat verticalSpace;
-@property (nonatomic, assign) CGPoint offset;
 @property (nonatomic, strong) UIView *customView;
+@property (nonatomic, assign) UIScrollView *hostView;
+
+@property (nonatomic, assign) CGPoint offset;
+@property (nonatomic, assign) CGFloat verticalSpace;
 @property (nonatomic) BOOL didConfigureConstraints;
 
-- (void)invalidateContent;
+- (void)cleanContent;
 
 @end
 
@@ -152,7 +152,7 @@
         return;
     }
     
-    [self invalidateContent];
+    [self cleanContent];
     
     _customView = view;
     _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(view.frame);
@@ -165,12 +165,11 @@
 
 - (void)didTapButton:(id)sender
 {
-    NSLog(@"%s",__FUNCTION__);
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDZNEmptyDataSetDidTapButtonNotification object:nil];
+    SEL selector = NSSelectorFromString(@"dzn_didTapDataButton:");
+    [self.hostView performSelector:selector withObject:sender afterDelay:0.0f];
 }
 
-- (void)invalidateContent
+- (void)cleanContent
 {
     [_titleLabel removeFromSuperview];
     [_detailLabel removeFromSuperview];
@@ -317,7 +316,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (!view)
     {
         view = [[DZNEmptyDataSetView alloc] init];
+        view.hostView = self;
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        view.userInteractionEnabled = YES;
         view.backgroundColor = nil;
         view.hidden = YES;
         
@@ -426,14 +427,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (NSInteger)dzn_itemsCount
 {
-    NSInteger rows = 0;
+    NSInteger items = 0;
     
     if (![self respondsToSelector:@selector(dataSource)]) {
-        return rows;
+        return items;
     }
     
-    if ([self isKindOfClass:[UITableView class]])
-    {
+    if ([self isKindOfClass:[UITableView class]]) {
+        
         id <UITableViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UITableView *tableView = (UITableView *)self;
         
@@ -443,11 +444,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         }
         
         for (NSInteger i = 0; i < sections; i++) {
-            rows += [dataSource tableView:tableView numberOfRowsInSection:i];
+            items += [dataSource tableView:tableView numberOfRowsInSection:i];
         }
     }
-    else if ([self isKindOfClass:[UICollectionView class]])
-    {
+    else if ([self isKindOfClass:[UICollectionView class]]) {
+        
         id <UICollectionViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UICollectionView *collectionView = (UICollectionView *)self;
         
@@ -457,11 +458,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         }
         
         for (NSInteger i = 0; i < sections; i++) {
-            rows += [dataSource collectionView:collectionView numberOfItemsInSection:i];
+            items += [dataSource collectionView:collectionView numberOfItemsInSection:i];
         }
     }
     
-    return rows;
+    return items;
 }
 
 
@@ -489,12 +490,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
     
-    if (delegate) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didTapDataSetButton:) name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
-    }
-    else {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:kDZNEmptyDataSetDidTapButtonNotification object:nil];
-        [self invalidateContent];
+    if (!delegate) {
+        [self invalidate];
     }
 }
 
@@ -513,7 +510,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
-- (void)didTapDataSetButton:(id)sender
+- (void)dzn_didTapDataButton:(id)sender
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
@@ -539,7 +536,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         UIView *customView = [self dzn_customView];
         
         if (!view.superview) {
-            [self insertSubview:view atIndex:0];
+            NSInteger idx = (self.subviews.count > 0) ? 1 : 0;
+            [self insertSubview:view atIndex:idx];
         }
         
         [view updateConstraintsIfNeeded];
@@ -580,16 +578,18 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         self.scrollEnabled = [self dzn_isScrollAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
-        [self invalidateContent];
+        [self invalidate];
     }
 }
 
-- (void)invalidateContent
+- (void)invalidate
 {
-    [self.emptyDataSetView invalidateContent];
-    [self.emptyDataSetView removeFromSuperview];
-    
-    [self setEmptyDataSetView:nil];
+    if (self.emptyDataSetView) {
+        [self.emptyDataSetView cleanContent];
+        [self.emptyDataSetView removeFromSuperview];
+        
+        [self setEmptyDataSetView:nil];
+    }
     
     self.scrollEnabled = YES;
 }
