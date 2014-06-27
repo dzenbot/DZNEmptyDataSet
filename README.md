@@ -181,14 +181,19 @@ Notifies when the dataset call to action button was tapped:
 If you need to refresh the empty dataset layout, just call:
 
 ```
-[self.tableview reloadData];
+[self.tableView reloadData];
 ```
+or
+```
+[self.collectionView reloadData];
+```
+depending of which you are using.
 
 
 ## Sample projects
 
 #### Applications
-This project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. See how easy and flexible it is to customize the appearance of your empty datasets.
+This project replicates several popular application's empty datasets (~20) with their exact content and appearance, such as Airbnb, Dropbox, Facebook, Foursquare, and many others. See how easy and flexible it is to customize the appearance of your empty datasets. You can also use this project as a playground to test things.
 
 #### Countries
 This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController for filtering search. When searching and no content is matched, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
