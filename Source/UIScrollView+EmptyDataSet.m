@@ -477,13 +477,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
     
     // We add method sizzling for detecting when -reloadData is called
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Class class = [self class];
-        Method originalMethod = class_getInstanceMethod(class, @selector(reloadData));
-        Method swizzledMethod = class_getInstanceMethod(class, @selector(dzn_reloadData));
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-    });
+    [self swizzleReloadData];
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
@@ -514,17 +508,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
-    }
-}
-
-- (void)dzn_reloadData
-{
-    // In the process of swizzling, -dzn_reloadData has been reassigned to the original implementation of -reloadData
-    // It is necessary to call -dzn_reloadData inside of its own method to make the swizzling work.
-    [self dzn_reloadData];
-    
-    if ([self.emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
-        [self dzn_reloadEmptyDataSet];
     }
 }
 
@@ -592,6 +575,28 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
     
     self.scrollEnabled = YES;
+}
+
+
+#pragma mark - ReloadData Method Swizzling
+
+// Based on Bryce Buchanan's swizzling technique from http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
+static IMP dzn_reloadData_original;
+void dzn_reloadData_replacement(id self, SEL _cmd)
+{
+    assert([NSStringFromSelector(_cmd) isEqualToString:@"reloadData"]);
+    [self dzn_reloadEmptyDataSet];
+    return ((void(*)(id,SEL))dzn_reloadData_original)(self,_cmd);
+}
+
+- (void)swizzleReloadData
+{
+    // We make sure that setImplementation is called once
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method method = class_getInstanceMethod([self class], @selector(reloadData));
+        dzn_reloadData_original = method_setImplementation(method, (IMP)dzn_reloadData_replacement);
+    });
 }
 
 
