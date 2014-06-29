@@ -478,6 +478,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     
     // We add method sizzling for detecting when -reloadData is called
     [self swizzleReloadData];
+    
+    if ([self respondsToSelector:@selector(endUpdates)]) {
+        [self swizzleEndUpdates];
+    }
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
@@ -599,6 +603,23 @@ void dzn_reloadData_replacement(id self, SEL _cmd)
     });
 }
 
+static IMP dzn_endUpdates_original;
+void dzn_endUpdates_replacement(id self, SEL _cmd)
+{
+    assert([NSStringFromSelector(_cmd) isEqualToString:@"endUpdates"]);
+    ((void(*)(id,SEL))dzn_endUpdates_original)(self,_cmd);
+    [self dzn_reloadEmptyDataSet];
+}
+
+- (void)swizzleEndUpdates
+{
+    // We make sure that setImplementation is called once
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method method = class_getInstanceMethod([self class], @selector(endUpdates));
+        dzn_endUpdates_original = method_setImplementation(method, (IMP)dzn_endUpdates_replacement);
+    });
+}
 
 #pragma mark - UIGestureRecognizerDelegate methods
 
