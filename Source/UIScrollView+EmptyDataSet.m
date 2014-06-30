@@ -478,6 +478,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     
     // We add method sizzling for injecting -dzn_reloadEmptyDataSet implementation to the native -reloadData implementation
     [self swizzle:@selector(reloadData)];
+    
+    // If UITableView, we also inject -dzn_reloadEmptyDataSet to -endUpdates
+    if ([self isKindOfClass:[UITableView class]]) {
+        [self swizzle:@selector(endUpdates)];
+    }
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
