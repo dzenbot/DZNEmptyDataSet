@@ -639,6 +639,11 @@
 
 #pragma mark - DZNEmptyDataSetDelegate Methods
 
+- (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
 {
     return YES;
