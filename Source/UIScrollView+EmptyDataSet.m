@@ -476,8 +476,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         return;
     }
     
-    // We add method sizzling for detecting when -reloadData is called
-    [self swizzleReloadData];
+    // We add method sizzling for injecting -dzn_reloadEmptyDataSet implementation to the native -reloadData implementation
+    [self swizzle:@selector(reloadData)];
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
@@ -580,23 +580,66 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 #pragma mark - ReloadData Method Swizzling
 
-// Based on Bryce Buchanan's swizzling technique from http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
-static IMP dzn_reloadData_original;
-void dzn_reloadData_replacement(id self, SEL _cmd)
+static NSMutableDictionary *_impLookupTable;
+
+// Based on Bryce Buchanan's swizzling technique http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
+// And Juzzin's ideas https://github.com/juzzin/JUSEmptyViewController
+
+void dzn_original_implementation(id self, SEL _cmd)
 {
-    assert([NSStringFromSelector(_cmd) isEqualToString:@"reloadData"]);
+    // Fetch original implementation from lookup table
+    NSString *key = _implementationKey(self, _cmd);
+    NSValue *impValue = [_impLookupTable valueForKey:key];
+    
+    IMP reloadData_orig = [impValue pointerValue];
+    
+    // If found, call original implementation
+    if (reloadData_orig) {
+        ((void(*)(id,SEL))reloadData_orig)(self,_cmd);
+    }
+    
     [self dzn_reloadEmptyDataSet];
-    return ((void(*)(id,SEL))dzn_reloadData_original)(self,_cmd);
 }
 
-- (void)swizzleReloadData
+NSString *_implementationKey(id target, SEL selector)
 {
-    // We make sure that setImplementation is called once
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Method method = class_getInstanceMethod([self class], @selector(reloadData));
-        dzn_reloadData_original = method_setImplementation(method, (IMP)dzn_reloadData_replacement);
-    });
+    if (!target || !selector) {
+        return nil;
+    }
+    
+    NSString *className = NSStringFromClass([target class]);
+    NSString *selectorName = NSStringFromSelector(selector);
+    return [NSString stringWithFormat:@"%@_%@",className,selectorName];
+}
+
+
+- (void)swizzle:(SEL)selector
+{
+    // Check if the target responds to selector
+    if (![self respondsToSelector:selector]) {
+        return;
+    }
+    
+    // Create the lookup table
+    if (!_impLookupTable) {
+        _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:2];
+    }
+    
+    NSString *key = _implementationKey(self, selector);
+    NSString *pointer = [_impLookupTable valueForKey:key];
+    
+    // If the selector for the target was already used for swizzling, skip.
+    // Like this, we make sure that setImplementation is called once per class per selector.
+    if (pointer || !key) {
+        return;
+    }
+    
+    // Swizzle reloadData
+    Method method = class_getInstanceMethod([self class], selector);
+    IMP dzn_new_implementation = method_setImplementation(method, (IMP)dzn_original_implementation);
+    
+    // Store the new implementation in the lookup table
+    [_impLookupTable setValue:[NSValue valueWithPointer:dzn_new_implementation] forKey:key];
 }
 
 
