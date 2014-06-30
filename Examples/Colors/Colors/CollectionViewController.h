@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  CollectionViewController.h
 //  Colors
 //
 //  Created by Ignacio Romero Z. on 6/19/14.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UICollectionViewController
+@interface CollectionViewController : UICollectionViewController
+
+@property (nonatomic, weak) NSArray *colors;
 
 @end

@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A238x" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="KRq-QN-bap">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A238x" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="bdX-EZ-BiU">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--Root View Controller-->
+        <scene sceneID="7fJ-mQ-O3p">
+            <objects>
+                <viewController id="2K6-rQ-FTB" customClass="RootViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GZ7-58-O0a"/>
+                        <viewControllerLayoutGuide type="bottom" id="Frw-ow-k1h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="prJ-cV-2kQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ccg-ki-alN">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="OZi-he-IHt">
+                            <connections>
+                                <action selector="removeColors:" destination="2K6-rQ-FTB" id="lpt-AA-zOP"/>
+                            </connections>
+                        </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Rm6-p2-EF9">
+                            <rect key="frame" x="57" y="7" width="207" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="CollectionView"/>
+                                <segment title="TableView"/>
+                            </segments>
+                            <connections>
+                                <action selector="changeSegment:" destination="2K6-rQ-FTB" eventType="valueChanged" id="H62-8D-Hzz"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="mbI-7g-9cq">
+                            <connections>
+                                <action selector="reloadColors:" destination="2K6-rQ-FTB" id="Eqn-cF-OnZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="Rm6-p2-EF9" id="oi9-zQ-3n9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UWH-4h-Id8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="893" y="56"/>
+        </scene>
+        <!--Collection View Controller-->
         <scene sceneID="dqD-kU-Xrh">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="Bwl-Kc-CEM" customClass="MainViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="Bwl-Kc-CEM" customClass="CollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Sqf-PI-OWp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,26 +74,43 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7eE-aJ-h11" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="782" y="56"/>
+            <point key="canvasLocation" x="1308" y="56"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="bz0-WM-7np">
+            <objects>
+                <tableViewController id="bxI-rv-q80" customClass="TableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iz2-l0-vJh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="bxI-rv-q80" id="Gzc-6q-fJy"/>
+                            <outlet property="delegate" destination="bxI-rv-q80" id="Rzh-Mq-JCA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ym4-re-Gur" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1690" y="56"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="rmz-l0-27H">
+        <scene sceneID="jwL-IY-uw5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KRq-QN-bap" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bdX-EZ-BiU" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="G1f-Pa-aCL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lTv-CD-tpx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Bwl-Kc-CEM" kind="relationship" relationship="rootViewController" id="ymk-Bo-hwl"/>
+                        <segue destination="2K6-rQ-FTB" kind="relationship" relationship="rootViewController" id="hpq-RG-hDW"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hxW-QD-xRg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cs6-55-Kra" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="256" y="56"/>
+            <point key="canvasLocation" x="367" y="56"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
