@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
     
-    [self loadColors];
+    [self loadColors:80];
     [self setSelectedSegment:0];
 }
 
@@ -57,7 +57,7 @@
 	[super viewDidDisappear:animated];
 }
 
-- (void)loadColors
+- (void)loadColors:(NSUInteger)count
 {
     if (_colors.count > 0) {
         return;
@@ -65,7 +65,7 @@
     
     _colors = [NSMutableArray new];
     
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < count; i++) {
         UIColor *color = [UIColor randomColor];
         [_colors addObject:color];
     }
@@ -74,7 +74,8 @@
 - (IBAction)reloadColors:(id)sender
 {
     [self removeColors:sender];
-    [self loadColors];
+    
+    [self loadColors:80];
     
     [self updateChildColors];
 }
