@@ -134,10 +134,18 @@
 @optional
 
 /**
+ Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return YES if the empty dataset should show.
+ */
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView;
+
+/**
  Asks the delegate for touch permission. Default is YES.
  
  @param scrollView A scrollView subclass object informing the delegate.
- @return YES if the dataset receives touch gestures.
+ @return YES if the empty dataset receives touch gestures.
  */
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView;
 
@@ -145,12 +153,12 @@
  Asks the delegate for scroll permission. Default is NO.
  
  @param scrollView A scrollView subclass object informing the delegate.
- @return YES if the dataset is allowed to be scrollable.
+ @return YES if the empty dataset is allowed to be scrollable.
  */
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
 
 /**
- Tells the delegate that the dataset view was tapped.
+ Tells the delegate that the empty dataset view was tapped.
  Use this method either to resignFirstResponder of a textfield or searchBar.
  
  @param scrollView A scrollView subclass informing the delegate.
@@ -158,7 +166,7 @@
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView;
 
 /**
- Tells the delegate that the option button was tapped.
+ Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
  */

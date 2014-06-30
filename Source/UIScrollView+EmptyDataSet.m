@@ -337,6 +337,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return !view.hidden;
 }
 
+- (BOOL)dzn_shouldDisplay
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldDisplay:self];
+    }
+    return YES;
+}
+
 - (BOOL)dzn_isTouchAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
@@ -476,10 +484,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         return;
     }
     
-    // We add method sizzling for injecting -dzn_reloadEmptyDataSet implementation to the native -reloadData implementation
+    // We add method sizzling for injecting -dzn_reloadData implementation to the native -reloadData implementation
     [self swizzle:@selector(reloadData)];
     
-    // If UITableView, we also inject -dzn_reloadEmptyDataSet to -endUpdates
+    // If UITableView, we also inject -dzn_reloadData to -endUpdates
     if ([self isKindOfClass:[UITableView class]]) {
         [self swizzle:@selector(endUpdates)];
     }
@@ -490,7 +498,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
     
     if (!delegate) {
-        [self invalidate];
+        [self dzn_invalidate];
     }
 }
 
@@ -516,9 +524,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
-- (void)dzn_reloadEmptyDataSet
+- (void)dzn_reloadData
 {
-    if ([self dzn_itemsCount] == 0)
+    if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         UIView *customView = [self dzn_customView];
@@ -566,11 +574,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         self.scrollEnabled = [self dzn_isScrollAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
-        [self invalidate];
+        [self dzn_invalidate];
     }
 }
 
-- (void)invalidate
+- (void)dzn_invalidate
 {
     if (self.emptyDataSetView) {
         [self.emptyDataSetView cleanContent];
@@ -603,7 +611,7 @@ void dzn_original_implementation(id self, SEL _cmd)
         ((void(*)(id,SEL))reloadData_orig)(self,_cmd);
     }
     
-    [self dzn_reloadEmptyDataSet];
+    [self dzn_reloadData];
 }
 
 NSString *_implementationKey(id target, SEL selector)
