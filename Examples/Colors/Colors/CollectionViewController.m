@@ -40,6 +40,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     layout.minimumLineSpacing = 2.0;
     layout.minimumInteritemSpacing = 2;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    
     CGFloat inset = layout.minimumLineSpacing*1.5;
     
     self.collectionView.backgroundView = [UIView new];
@@ -84,7 +85,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"self.colors : %@", self.colors);
     return self.colors.count;
 }
 
@@ -149,19 +149,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
             if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
         }
     });
-}
-
-
-#pragma mark - View lifeterm
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
 }
 
 

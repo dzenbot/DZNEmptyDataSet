@@ -37,6 +37,29 @@
     [self.tableView reloadData];
 }
 
+- (UIImage *)colorPreviewAtRow:(NSInteger)row
+{
+    // Constants
+    CGRect bounds = CGRectMake(0, 0, 32, 32);
+    
+    // Create the image context
+    UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
+    
+    // Create the bezier path & drawing
+    UIColor *color = self.colors[row];
+    
+    //// Oval Drawing
+    UIBezierPath *ovalPath = [UIBezierPath bezierPathWithOvalInRect:bounds];
+    [color setFill];
+    [ovalPath fill];
+    
+    //Create the image using the current context.
+    UIImage *_image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return _image;
+}
+
 - (void)setColors:(NSArray *)colors
 {
     _colors = colors;
@@ -69,29 +92,6 @@
     cell.imageView.image = [self colorPreviewAtRow:indexPath.row];
     
     return cell;
-}
-
-- (UIImage *)colorPreviewAtRow:(NSInteger)row
-{
-    // Constants
-    CGRect bounds = CGRectMake(0, 0, 32, 32);
-    
-    // Create the image context
-    UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
-    
-    // Create the bezier path & drawing
-    UIColor *color = self.colors[row];
-    
-    //// Oval Drawing
-    UIBezierPath *ovalPath = [UIBezierPath bezierPathWithOvalInRect:bounds];
-    [color setFill];
-    [ovalPath fill];
-    
-    //Create the image using the current context.
-    UIImage *_image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return _image;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

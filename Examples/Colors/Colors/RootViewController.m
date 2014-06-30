@@ -127,12 +127,14 @@
         CollectionViewController *controller = [[CollectionViewController alloc] init];
         controller.collectionView.emptyDataSetSource = self;
         controller.collectionView.emptyDataSetDelegate = self;
+        controller.colors = self.colors;
         newChildViewController = controller;
     }
     else {
         TableViewController *controller = [[TableViewController alloc] init];
         controller.tableView.emptyDataSetSource = self;
         controller.tableView.emptyDataSetDelegate = self;
+        controller.colors = self.colors;
         newChildViewController = controller;
     }
         
@@ -149,8 +151,6 @@
         
         newChildViewController.view.frame = self.view.bounds;
         [self.view addSubview:newChildViewController.view];
-        
-//        [self updateChildColors];
     }
 }
 
@@ -159,8 +159,6 @@
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSLog(@"%s",__FUNCTION__);
-    
     NSString *text = @"No colors loaded";
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
