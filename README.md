@@ -147,6 +147,14 @@ Additionally, you can modify the horizontal and/or vertical alignments (as when 
 ### Step 4: Delegate Implementation
 Return the behaviours you would expect from the empty datasets, and receive the user events.
 
+Asks to know if the empty dataset should be rendered and displayed (Default is YES) :
+```
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+
+    return YES;
+}
+```
+
 Asks for interaction permission (Default is YES) :
 ```
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
