@@ -145,7 +145,6 @@
     if (_customView) {
         [_customView removeFromSuperview];
         _customView = nil;
-        return;
     }
     
     if (!view) {
