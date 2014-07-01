@@ -8,33 +8,40 @@
 
 #import "CollectionViewController.h"
 #import "ColorViewCell.h"
-#import "UIColor+Random.h"
+#import "ColorPalette.h"
+#import "UIColor+Name.h"
+
+#import "UIScrollView+EmptyDataSet.h"
 
 #define kColumnCountMax 7
 #define kColumnCountMin 5
 
 static NSString *CellIdentifier = @"ColorViewCell";
 
-@interface CollectionViewController ()
+@interface CollectionViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic) NSInteger columnCount;
 @end
 
 @implementation CollectionViewController
 
-- (instancetype)init
-{
-    self = [super initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
-    if (self) {
-        
-    }
-    return self;
-}
-
 #pragma mark - View lifecycle
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.title = @"Collection";
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_collection"] tag:self.title.hash];
+}
 
 - (void)loadView
 {
     [super loadView];
+    
+    self.collectionView.emptyDataSetSource = self;
+    self.collectionView.emptyDataSetDelegate = self;
+    
+    self.columnCount = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? kColumnCountMax : kColumnCountMin;
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     layout.minimumLineSpacing = 2.0;
@@ -42,22 +49,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
     CGFloat inset = layout.minimumLineSpacing*1.5;
-    
-    self.collectionView.backgroundView = [UIView new];
-    self.collectionView.backgroundView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
+
     self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
-}
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.columnCount = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? kColumnCountMax : kColumnCountMin;
+    [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,6 +63,9 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [self.collectionView reloadData];
 }
 
+
+#pragma mark - CollectionViewController Methods
+
 - (CGSize)cellSize
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
@@ -74,10 +73,99 @@ static NSString *CellIdentifier = @"ColorViewCell";
     return CGSizeMake(size, size);
 }
 
-- (void)setColors:(NSArray *)colors
+- (IBAction)refreshColors:(id)sender
 {
-    _colors = colors;
+    [[ColorPalette sharedPalette] reloadColors];
+    
     [self.collectionView reloadData];
+}
+
+- (IBAction)removeColors:(id)sender
+{
+    [[ColorPalette sharedPalette] removeAllColors];
+    
+    [self.collectionView reloadData];
+}
+
+
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"No colors loaded";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"To show a list of random colors, tap on the refresh icon in the right top corner.\n\nTo clean the list, tap on the trash icon.";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:15.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    return nil;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"empty_placeholder"];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor whiteColor];
+}
+
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return nil;
+}
+
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 0;
+}
+
+
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return NO;
+}
+
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 
@@ -85,7 +173,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.colors.count;
+    return [[[ColorPalette sharedPalette] colors] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -93,7 +181,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
     ColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    cell.backgroundColor = _colors[indexPath.row];
+    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+    cell.backgroundColor = color;
     
     if (cell.selected) {
         cell.textLabel.text = [cell.backgroundColor hexFromColor];
@@ -111,7 +200,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.textLabel.text = [_colors[indexPath.row] hexFromColor];
+    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+    cell.textLabel.text = [color hexFromColor];
     cell.selected = YES;
 }
 
@@ -145,7 +235,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            NSString *string = [_colors[indexPath.row] hexFromColor];
+            UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+            NSString *string = [color hexFromColor];
             if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
         }
     });

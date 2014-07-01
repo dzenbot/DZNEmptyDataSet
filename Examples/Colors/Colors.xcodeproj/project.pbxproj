@@ -18,8 +18,9 @@
 		4F3E12F81953EF1000D8CB5A /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12EF1953EF1000D8CB5A /* CollectionViewController.m */; };
 		4F3E12F91953EF1000D8CB5A /* UIColor+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */; };
 		4F48AECE1960B21000576D9A /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F48AECD1960B21000576D9A /* TableViewController.m */; };
-		4F48AED11960B22D00576D9A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F48AED01960B22D00576D9A /* RootViewController.m */; };
 		4F4AFAFE1959D8300022FC97 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */; };
+		4F7E779B19631228009D0C7A /* ColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E779A19631228009D0C7A /* ColorPalette.m */; };
+		4F7E779E1963139A009D0C7A /* UIColor+Name.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E779D1963139A009D0C7A /* UIColor+Name.m */; };
 		ACBAEAF1427842F28B7038B2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C4998538C64921AFBF1CB8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -46,9 +47,11 @@
 		4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Random.m"; sourceTree = "<group>"; };
 		4F48AECC1960B21000576D9A /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		4F48AECD1960B21000576D9A /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
-		4F48AECF1960B22D00576D9A /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		4F48AED01960B22D00576D9A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		4F7E779919631228009D0C7A /* ColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPalette.h; sourceTree = "<group>"; };
+		4F7E779A19631228009D0C7A /* ColorPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPalette.m; sourceTree = "<group>"; };
+		4F7E779C1963139A009D0C7A /* UIColor+Name.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Name.h"; sourceTree = "<group>"; };
+		4F7E779D1963139A009D0C7A /* UIColor+Name.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Name.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +104,8 @@
 			children = (
 				4F3E12E41953EF1000D8CB5A /* AppDelegate.h */,
 				4F3E12E51953EF1000D8CB5A /* AppDelegate.m */,
-				4F48AECF1960B22D00576D9A /* RootViewController.h */,
-				4F48AED01960B22D00576D9A /* RootViewController.m */,
+				4F7E779919631228009D0C7A /* ColorPalette.h */,
+				4F7E779A19631228009D0C7A /* ColorPalette.m */,
 				4F3E12EE1953EF1000D8CB5A /* CollectionViewController.h */,
 				4F3E12EF1953EF1000D8CB5A /* CollectionViewController.m */,
 				4F48AECC1960B21000576D9A /* TableViewController.h */,
@@ -111,6 +114,8 @@
 				4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */,
 				4F3E12F01953EF1000D8CB5A /* UIColor+Random.h */,
 				4F3E12F11953EF1000D8CB5A /* UIColor+Random.m */,
+				4F7E779C1963139A009D0C7A /* UIColor+Name.h */,
+				4F7E779D1963139A009D0C7A /* UIColor+Name.m */,
 				4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */,
 				4F3E12FA1953EF2300D8CB5A /* Supporting Files */,
 			);
@@ -228,13 +233,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F7E779E1963139A009D0C7A /* UIColor+Name.m in Sources */,
 				4F3E12F91953EF1000D8CB5A /* UIColor+Random.m in Sources */,
-				4F48AED11960B22D00576D9A /* RootViewController.m in Sources */,
 				4F48AECE1960B21000576D9A /* TableViewController.m in Sources */,
 				4F3E12F41953EF1000D8CB5A /* ColorViewCell.m in Sources */,
 				4F3E12F71953EF1000D8CB5A /* main.m in Sources */,
 				4F3E12F21953EF1000D8CB5A /* AppDelegate.m in Sources */,
 				4F3E12F81953EF1000D8CB5A /* CollectionViewController.m in Sources */,
+				4F7E779B19631228009D0C7A /* ColorPalette.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

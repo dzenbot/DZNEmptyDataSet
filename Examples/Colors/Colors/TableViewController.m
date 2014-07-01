@@ -7,26 +7,32 @@
 //
 
 #import "TableViewController.h"
-#import "UIColor+Random.h"
+#import "ColorPalette.h"
+#import "UIColor+Name.h"
 
-@interface TableViewController ()
+#import "UIScrollView+EmptyDataSet.h"
+
+@interface TableViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end
 
 @implementation TableViewController
 
-- (instancetype)init
-{
-    self = [super initWithStyle:UITableViewStylePlain];
-    if (self) {
+#pragma mark - View lifecycle
 
-    }
-    return self;
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.title = @"Table";
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_table"] tag:self.title.hash];
 }
 
 - (void)loadView
 {
     [super loadView];
 
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
 }
 
@@ -37,6 +43,9 @@
     [self.tableView reloadData];
 }
 
+
+#pragma mark - TableViewController Methods
+
 - (UIImage *)colorPreviewAtRow:(NSInteger)row
 {
     // Constants
@@ -46,7 +55,7 @@
     UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
     
     // Create the bezier path & drawing
-    UIColor *color = self.colors[row];
+    UIColor *color = [[ColorPalette sharedPalette] colors][row];
     
     //// Oval Drawing
     UIBezierPath *ovalPath = [UIBezierPath bezierPathWithOvalInRect:bounds];
@@ -60,10 +69,99 @@
     return _image;
 }
 
-- (void)setColors:(NSArray *)colors
+- (IBAction)refreshColors:(id)sender
 {
-    _colors = colors;
+    [[ColorPalette sharedPalette] reloadColors];
+    
     [self.tableView reloadData];
+}
+
+- (IBAction)removeColors:(id)sender
+{
+    [[ColorPalette sharedPalette] removeAllColors];
+    
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"No colors loaded";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"To show a list of random colors, tap on the refresh icon in the right top corner.\n\nTo clean the list, tap on the trash icon.";
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:15.0],
+                                 NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    return nil;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"empty_placeholder"];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor whiteColor];
+}
+
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return nil;
+}
+
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 0;
+}
+
+
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return NO;
+}
+
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 
@@ -71,7 +169,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.colors.count;
+    return [[ColorPalette sharedPalette] colors].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,7 +185,8 @@
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
     }
     
-    NSString *string = [_colors[indexPath.row] hexFromColor];
+    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+    NSString *string = [color hexFromColor];
     cell.textLabel.text = string;
     cell.imageView.image = [self colorPreviewAtRow:indexPath.row];
     
@@ -97,6 +196,32 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 56.0;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+        [[ColorPalette sharedPalette] removeColor:color];
+        
+        [tableView beginUpdates];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates];
+        
+//        /* Animate the table view reload */
+//        [UIView transitionWithView:self.tableView
+//                          duration:0.35f
+//                           options:UIViewAnimationOptionTransitionCrossDissolve
+//                        animations:^(void) { [self.tableView reloadData]; }
+//                        completion:^(BOOL isFinished) { /* TODO: Whatever you want here */ }];
+        
+    }
 }
 
 
@@ -125,7 +250,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            NSString *string = [_colors[indexPath.row] hexFromColor];
+            UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
+            NSString *string = [color hexFromColor];
             if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
         }
     });

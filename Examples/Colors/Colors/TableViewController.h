@@ -10,6 +10,7 @@
 
 @interface TableViewController : UITableViewController
 
-@property (nonatomic, weak) NSArray *colors;
+- (IBAction)refreshColors:(id)sender;
+- (IBAction)removeColors:(id)sender;
 
 @end

@@ -12,6 +12,4 @@
 
 + (UIColor *)randomColor;
 
-- (NSString *)hexFromColor;
-
 @end
