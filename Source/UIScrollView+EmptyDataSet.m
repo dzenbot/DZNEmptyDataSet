@@ -204,11 +204,19 @@
     if (!self.didConfigureConstraints) {
         self.didConfigureConstraints = YES;
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[_contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_contentView.superview
+                                                        attribute:NSLayoutAttributeCenterX
+                                                        multiplier:1.f constant:0.f]];
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                         attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:_contentView.superview
+                                                         attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1.f constant:0.f]];
     }
     
     if (!CGPointEqualToPoint(self.offset, CGPointZero)) {
@@ -523,7 +531,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
-- (void)dzn_reloadData
+- (void)dzn_reloadEmptyDataSet
 {
     if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
@@ -597,20 +605,23 @@ static NSMutableDictionary *_impLookupTable;
 // Based on Bryce Buchanan's swizzling technique http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
 // And Juzzin's ideas https://github.com/juzzin/JUSEmptyViewController
 
-void dzn_original_implementation(id self, SEL _cmd)
+IMP dzn_original_implementation(id self, SEL _cmd)
 {
     // Fetch original implementation from lookup table
     NSString *key = _implementationKey(self, _cmd);
     NSValue *impValue = [_impLookupTable valueForKey:key];
     
-    IMP reloadData_orig = [impValue pointerValue];
+    IMP impPointer = [impValue pointerValue];
     
     // If found, call original implementation
-    if (reloadData_orig) {
-        ((void(*)(id,SEL))reloadData_orig)(self,_cmd);
+    if (impPointer) {
+        ((void(*)(id,SEL))impPointer)(self,_cmd);
     }
     
-    [self dzn_reloadData];
+    // We then inject the additional implementation for reloading the empty dataset
+    [self dzn_reloadEmptyDataSet];
+    
+    return impPointer;
 }
 
 NSString *_implementationKey(id target, SEL selector)
@@ -646,12 +657,12 @@ NSString *_implementationKey(id target, SEL selector)
         return;
     }
     
-    // Swizzle reloadData
+    // Swizzle by injecting additional implementation
     Method method = class_getInstanceMethod([self class], selector);
-    IMP dzn_new_implementation = method_setImplementation(method, (IMP)dzn_original_implementation);
+    IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);
     
     // Store the new implementation in the lookup table
-    [_impLookupTable setValue:[NSValue valueWithPointer:dzn_new_implementation] forKey:key];
+    [_impLookupTable setValue:[NSValue valueWithPointer:dzn_newImplementation] forKey:key];
 }
 
 

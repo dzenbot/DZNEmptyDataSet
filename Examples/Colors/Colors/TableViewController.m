@@ -30,6 +30,8 @@
 - (void)loadView
 {
     [super loadView];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;

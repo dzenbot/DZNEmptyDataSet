@@ -38,6 +38,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
 {
     [super loadView];
     
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.collectionView.emptyDataSetSource = self;
     self.collectionView.emptyDataSetDelegate = self;
     

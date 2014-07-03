@@ -16,7 +16,9 @@
     UIView *_loadingView;
 }
 @property (nonatomic) BOOL loading;
+@property (nonatomic) BOOL loaded;
 @property (nonatomic) BOOL searching;
+@property (nonatomic) BOOL beganUpdates;
 @end
 
 @implementation MainViewController
@@ -47,7 +49,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.loading = YES;
+//    self.loading = YES;
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -94,12 +96,12 @@
 
 - (void)reloadContent
 {
-    if (!self.loading) {
+    if (self.loaded) {
         [self.tableView reloadData];
         return;
     }
     
-    self.loading = NO;
+    self.loaded = YES;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
@@ -109,6 +111,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+//            [[NSManagedObjectContext sharedContext] save:nil];
         });
     });
 }
@@ -314,24 +317,81 @@
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Country class])];
         fetchRequest.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
 
         _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
         _fetchedResultsController.delegate = self;
+        
+        NSError *error = nil;
+        if (![_fetchedResultsController performFetch:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
     }
     
     if (self.searching && self.searchBar.text.length > 0) {
         _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || code CONTAINS[cd] %@", self.searchBar.text, self.searchBar.text];
-    }
-    else {
-        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
-    }
-    
-    NSError *error = nil;
-    if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        
+        NSError *error = nil;
+        if (![_fetchedResultsController performFetch:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
     }
     
     return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    if (![self beganUpdates]) {
+        [self.tableView beginUpdates];
+        [self setBeganUpdates:YES];
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    if ([self beganUpdates]) {
+        [self.tableView endUpdates];
+        [self setBeganUpdates:NO];
+    }
 }
 
 
@@ -377,7 +437,6 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searching = YES;
-    
     [self.tableView reloadData];
 }
 
