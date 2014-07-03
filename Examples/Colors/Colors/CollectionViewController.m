@@ -66,8 +66,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self.collectionView reloadData];
 }
 
 
