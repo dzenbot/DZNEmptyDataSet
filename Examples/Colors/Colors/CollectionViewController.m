@@ -37,9 +37,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)loadView
 {
     [super loadView];
-    
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
+        
     self.collectionView.emptyDataSetSource = self;
     self.collectionView.emptyDataSetDelegate = self;
     
@@ -61,6 +59,13 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.collectionView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
     [self.collectionView reloadData];
 }
@@ -157,7 +162,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return NO;
+    return YES;
 }
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView

@@ -24,7 +24,7 @@
 
 @property (nonatomic, assign) CGPoint offset;
 @property (nonatomic, assign) CGFloat verticalSpace;
-@property (nonatomic) BOOL didConfigureConstraints;
+@property (nonatomic, getter = didCenterToSuperview) BOOL centerToSuperview;
 
 - (void)cleanContent;
 
@@ -201,8 +201,8 @@
     
     NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:NSDictionaryOfVariableBindings(self,_contentView)];
     
-    if (!self.didConfigureConstraints) {
-        self.didConfigureConstraints = YES;
+    if (!self.didCenterToSuperview) {
+        self.centerToSuperview = YES;
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
                                                         attribute:NSLayoutAttributeCenterX
