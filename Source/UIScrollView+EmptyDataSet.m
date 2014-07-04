@@ -204,22 +204,14 @@
     if (!self.didCenterToSuperview) {
         self.centerToSuperview = YES;
         
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
-                                                        attribute:NSLayoutAttributeCenterX
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_contentView.superview
-                                                        attribute:NSLayoutAttributeCenterX
-                                                        multiplier:1.f constant:0.f]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[_contentView]"
+                                                                     options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
         
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
-                                                         attribute:NSLayoutAttributeCenterY
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:_contentView.superview
-                                                         attribute:NSLayoutAttributeCenterY
-                                                        multiplier:1.f constant:0.f]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
+                                                                     options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
     }
     
-    if (!CGPointEqualToPoint(self.offset, CGPointZero)) {
+    if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
         
         NSLayoutConstraint *hConstraint = self.constraints[3];
         hConstraint.constant = self.offset.x*-1;
