@@ -344,6 +344,21 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return !view.hidden;
 }
 
+- (BOOL)dzn_canDisplay
+{
+    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
+        id source = self.emptyDataSetSource;
+        
+        if (source && [source conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+            return YES;
+        }
+        else {
+            return NO;
+        }
+    }
+    return NO;
+}
+
 - (BOOL)dzn_shouldDisplay
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
@@ -487,7 +502,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
     
-    if (![self respondsToSelector:@selector(reloadData)] || ![source conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+    if (![self dzn_canDisplay]) {
         return;
     }
     
@@ -533,6 +548,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_reloadEmptyDataSet
 {
+    if (![self dzn_canDisplay]) {
+        return;
+    }
+    
     if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
         DZNEmptyDataSetView *view = self.emptyDataSetView;
