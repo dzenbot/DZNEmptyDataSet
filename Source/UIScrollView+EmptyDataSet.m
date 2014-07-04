@@ -614,6 +614,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 static NSMutableDictionary *_impLookupTable;
 static NSString *const DZNSwizzleInfoPointerKey = @"pointer";
 static NSString *const DZNSwizzleInfoOwnerKey = @"owner";
+static NSString *const DZNSwizzleInfoSelectorKey = @"selector";
 
 // Based on Bryce Buchanan's swizzling technique http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
 // And Juzzin's ideas https://github.com/juzzin/JUSEmptyViewController
@@ -666,15 +667,24 @@ NSString *_implementationKey(id target, SEL selector)
     if (!_impLookupTable) {
         _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
-
-    NSString *key = _implementationKey(self, selector);
     
-    NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
-    Class class = [swizzleInfo valueForKey:DZNSwizzleInfoOwnerKey];
-
-    // If the selector for the target was already used for swizzling, skip.
-    // Like this, we make sure that setImplementation is called once per class kind, UITableView or UICollectionView.
-    if ([self isKindOfClass:class]) {
+    // We make sure that setImplementation is called once per class kind, UITableView or UICollectionView.
+    for (NSDictionary *info in [_impLookupTable allValues]) {
+        Class class = [info objectForKey:DZNSwizzleInfoOwnerKey];
+        NSString *selectorName = [info objectForKey:DZNSwizzleInfoSelectorKey];
+        
+        if ([selectorName isEqualToString:NSStringFromSelector(selector)]) {
+            if ([self isKindOfClass:class]) {
+                return;
+            }
+        }
+    }
+    
+    NSString *key = _implementationKey(self, selector);
+    NSValue *impValue = [[_impLookupTable objectForKey:key] valueForKey:DZNSwizzleInfoPointerKey];
+    
+    // If the implementation for this class already exist, skip!!
+    if (impValue) {
         return;
     }
     
@@ -684,7 +694,8 @@ NSString *_implementationKey(id target, SEL selector)
     
     // Store the new implementation in the lookup table
     NSDictionary *swizzledInfo = @{DZNSwizzleInfoOwnerKey: [self class],
-                                  DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]};
+                                   DZNSwizzleInfoSelectorKey: NSStringFromSelector(selector),
+                                   DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]};
     
     [_impLookupTable setObject:swizzledInfo forKey:key];
 }
