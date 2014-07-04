@@ -11,7 +11,6 @@
 		4F3E129C1952AEFC00D8CB5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3E129B1952AEFC00D8CB5A /* CoreGraphics.framework */; };
 		4F3E129E1952AEFC00D8CB5A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3E129D1952AEFC00D8CB5A /* UIKit.framework */; };
 		4F3E12F21953EF1000D8CB5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12E51953EF1000D8CB5A /* AppDelegate.m */; };
-		4F3E12F41953EF1000D8CB5A /* ColorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */; };
 		4F3E12F51953EF1000D8CB5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12EA1953EF1000D8CB5A /* InfoPlist.strings */; };
 		4F3E12F61953EF1000D8CB5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3E12EC1953EF1000D8CB5A /* Images.xcassets */; };
 		4F3E12F71953EF1000D8CB5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12ED1953EF1000D8CB5A /* main.m */; };
@@ -21,6 +20,7 @@
 		4FCD9A7F196705E4004DEA1B /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7B196705E4004DEA1B /* Palette.m */; };
 		4FCD9A80196705E4004DEA1B /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7C196705E4004DEA1B /* colors.json */; };
 		4FCD9A81196705E4004DEA1B /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7E196705E4004DEA1B /* Color.m */; };
+		4FCD9A8419675090004DEA1B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD9A8319675090004DEA1B /* SearchViewController.m */; };
 		ACBAEAF1427842F28B7038B2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C4998538C64921AFBF1CB8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -36,8 +36,6 @@
 		4F3E12E51953EF1000D8CB5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4F3E12E61953EF1000D8CB5A /* Colors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Colors-Info.plist"; sourceTree = "<group>"; };
 		4F3E12E71953EF1000D8CB5A /* Colors-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Colors-Prefix.pch"; sourceTree = "<group>"; };
-		4F3E12E81953EF1000D8CB5A /* ColorViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorViewCell.h; sourceTree = "<group>"; };
-		4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorViewCell.m; sourceTree = "<group>"; };
 		4F3E12EB1953EF1000D8CB5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4F3E12EC1953EF1000D8CB5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4F3E12ED1953EF1000D8CB5A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -51,6 +49,8 @@
 		4FCD9A7C196705E4004DEA1B /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		4FCD9A7D196705E4004DEA1B /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		4FCD9A7E196705E4004DEA1B /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
+		4FCD9A8219675090004DEA1B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		4FCD9A8319675090004DEA1B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +107,8 @@
 				4F3E12EF1953EF1000D8CB5A /* CollectionViewController.m */,
 				4F48AECC1960B21000576D9A /* TableViewController.h */,
 				4F48AECD1960B21000576D9A /* TableViewController.m */,
-				4F3E12E81953EF1000D8CB5A /* ColorViewCell.h */,
-				4F3E12E91953EF1000D8CB5A /* ColorViewCell.m */,
+				4FCD9A8219675090004DEA1B /* SearchViewController.h */,
+				4FCD9A8319675090004DEA1B /* SearchViewController.m */,
 				4F4AFAFD1959D8300022FC97 /* Storyboard.storyboard */,
 				4FCD9A79196705E4004DEA1B /* DataSource */,
 				4F3E12FA1953EF2300D8CB5A /* Supporting Files */,
@@ -241,11 +241,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F48AECE1960B21000576D9A /* TableViewController.m in Sources */,
-				4F3E12F41953EF1000D8CB5A /* ColorViewCell.m in Sources */,
 				4FCD9A81196705E4004DEA1B /* Color.m in Sources */,
 				4F3E12F71953EF1000D8CB5A /* main.m in Sources */,
 				4F3E12F21953EF1000D8CB5A /* AppDelegate.m in Sources */,
 				4F3E12F81953EF1000D8CB5A /* CollectionViewController.m in Sources */,
+				4FCD9A8419675090004DEA1B /* SearchViewController.m in Sources */,
 				4FCD9A7F196705E4004DEA1B /* Palette.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,20 +1,20 @@
 //
-//  TableViewController.m
+//  SearchViewController.m
 //  Colors
 //
-//  Created by Ignacio Romero Z. on 6/29/14.
+//  Created by Ignacio Romero Z. on 7/4/14.
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
 //
 
-#import "TableViewController.h"
+#import "SearchViewController.h"
 #import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
 
-@interface TableViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface SearchViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end
 
-@implementation TableViewController
+@implementation SearchViewController
 
 #pragma mark - View lifecycle
 
@@ -22,7 +22,7 @@
 {
     [super awakeFromNib];
     
-    self.title = @"Table";
+    self.title = @"Search";
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_table"] tag:self.title.hash];
 }
 
@@ -30,33 +30,32 @@
 {
     [super loadView];
     
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
-    self.tableView.tableFooterView = [UIView new];
+    self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    
+    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
+    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
+    
+    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    [self.searchDisplayController setValue:@"" forKey:@"_noResultsMessage"];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.tableView reloadData];
 }
 
 
-#pragma mark - TableViewController Methods
+#pragma mark - Getters
 
-- (IBAction)refreshColors:(id)sender
+- (NSArray *)searchResult
 {
-    [[Palette sharedPalette] reloadAll];
+    NSString *searchString = self.searchDisplayController.searchBar.text;
     
-    [self.tableView reloadData];
-}
-
-- (IBAction)removeColors:(id)sender
-{
-    [[Palette sharedPalette] removeAll];
+    NSArray *colors = [[Palette sharedPalette] colors];
+    NSPredicate *precidate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || hex CONTAINS[cd] %@", searchString, searchString];
     
-    [self.tableView reloadData];
+    return [colors filteredArrayUsingPredicate:precidate];
 }
 
 
@@ -64,7 +63,7 @@
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"No colors loaded";
+    NSString *text = @"No colors Found";
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -79,7 +78,7 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"To show a list of random colors, tap on the refresh icon in the right top corner.\n\nTo clean the list, tap on the trash icon.";
+    NSString *text = @"Make sure that all words are\nspelled correctly.";
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -92,14 +91,9 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
-{
-    return nil;
-}
-
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return [UIImage imageNamed:@"empty_placeholder"];
+    return [UIImage imageNamed:@"search_icon"];
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
@@ -112,9 +106,9 @@
     return nil;
 }
 
-- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return 0;
+    return CGPointMake(0, -80);
 }
 
 
@@ -132,7 +126,7 @@
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
 {
-    NSLog(@"%s",__FUNCTION__);
+    [self.searchDisplayController setActive:NO animated:YES];
 }
 
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
@@ -143,9 +137,14 @@
 
 #pragma mark - UITableViewDataSource Methods
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[Palette sharedPalette] colors].count;
+    return [self searchResult].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -161,11 +160,11 @@
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
     }
     
-    Color *color = [[Palette sharedPalette] colors][indexPath.row];
+    Color *color = [self searchResult][indexPath.row];
     
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
-
+    
     cell.imageView.image = [Color roundImageWithColor:color.color];
     
     return cell;
@@ -176,62 +175,20 @@
     return 56.0;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        Color *color = [[Palette sharedPalette] colors][indexPath.row];
-        [[Palette sharedPalette] removeColor:color];
-        
-        [tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
-        
-//        /* Animate the table view reload */
-//        [UIView transitionWithView:self.tableView
-//                          duration:0.35f
-//                           options:UIViewAnimationOptionTransitionCrossDissolve
-//                        animations:^(void) { [self.tableView reloadData]; }
-//                        completion:^(BOOL isFinished) { /* TODO: Whatever you want here */ }];
-        
-    }
-}
-
 
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.searchDisplayController setActive:NO animated:YES];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-        return YES;
-    }
-    return NO;
-}
 
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UISearchDisplayControllerDelegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     return YES;
-}
-
-- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
-        if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            Color *color = [[Palette sharedPalette] colors][indexPath.row];
-            if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
-        }
-    });
 }
 
 @end

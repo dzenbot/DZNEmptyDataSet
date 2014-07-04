@@ -31,4 +31,28 @@
     return [UIColor colorFromHex:self.hex];
 }
 
++ (UIImage *)roundImageWithColor:(UIColor *)color
+{
+    if (!color) {
+        return nil;
+    }
+    
+    // Constants
+    CGRect bounds = CGRectMake(0, 0, 32, 32);
+    
+    // Create the image context
+    UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
+    
+    //// Oval Drawing
+    UIBezierPath *ovalPath = [UIBezierPath bezierPathWithOvalInRect:bounds];
+    [color setFill];
+    [ovalPath fill];
+    
+    //Create the image using the current context.
+    UIImage *_image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return _image;
+}
+
 @end

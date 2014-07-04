@@ -18,4 +18,6 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
++ (UIImage *)roundImageWithColor:(UIColor *)color;
+
 @end

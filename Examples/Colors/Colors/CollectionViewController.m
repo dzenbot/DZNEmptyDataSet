@@ -7,7 +7,6 @@
 //
 
 #import "CollectionViewController.h"
-#import "ColorViewCell.h"
 #import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
@@ -16,6 +15,38 @@
 #define kColumnCountMin 5
 
 static NSString *CellIdentifier = @"ColorViewCell";
+
+@interface ColorViewCell : UICollectionViewCell
+@property (nonatomic, readonly) UILabel *textLabel;
+@end
+
+@implementation ColorViewCell
+@synthesize textLabel = _textLabel;
+
+- (UILabel *)textLabel
+{
+    if (!_textLabel)
+    {
+        _textLabel = [[UILabel alloc] initWithFrame:self.contentView.bounds];
+        _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.textColor = [UIColor whiteColor];
+        _textLabel.font = [UIFont boldSystemFontOfSize:12.0];
+        _textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        
+        _textLabel.numberOfLines = 2;
+        _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
+        _textLabel.minimumScaleFactor = 0.5;
+        
+        self.selectedBackgroundView = [UIView new];
+        self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        
+        [self addSubview:_textLabel];
+    }
+    return _textLabel;
+}
+
+@end
 
 @interface CollectionViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic) NSInteger columnCount;
@@ -74,7 +105,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 }
 
 
-#pragma mark - CollectionViewController Methods
+#pragma mark - Getters
 
 - (CGSize)cellSize
 {
@@ -82,6 +113,23 @@ static NSString *CellIdentifier = @"ColorViewCell";
     CGFloat size = (self.navigationController.view.bounds.size.width/self.columnCount) - flowLayout.minimumLineSpacing;
     return CGSizeMake(size, size);
 }
+
+- (NSMutableArray *)filteredPalette
+{
+    // Randomly filtered palette
+    if (!_filteredPalette)
+    {
+        _filteredPalette = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
+        
+        for (NSInteger i = _filteredPalette.count-1; i > 0; i--) {
+            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1)];
+        }
+    }
+    return _filteredPalette;
+}
+
+
+#pragma mark - Actions
 
 - (IBAction)refreshColors:(id)sender
 {
@@ -97,20 +145,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [_filteredPalette removeAllObjects];
     
     [self.collectionView reloadData];
-}
-
-- (NSMutableArray *)filteredPalette
-{
-    // Randomly filtered palette
-    if (!_filteredPalette)
-    {
-        _filteredPalette = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
-        
-        for (NSInteger i = _filteredPalette.count-1; i > 0; i--) {
-            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1)];
-        }
-    }
-    return _filteredPalette;
 }
 
 
