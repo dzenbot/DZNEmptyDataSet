@@ -7,6 +7,7 @@
 //
 
 #import "CollectionViewController.h"
+#import "SearchViewController.h"
 #import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
@@ -15,38 +16,6 @@
 #define kColumnCountMin 5
 
 static NSString *CellIdentifier = @"ColorViewCell";
-
-@interface ColorViewCell : UICollectionViewCell
-@property (nonatomic, readonly) UILabel *textLabel;
-@end
-
-@implementation ColorViewCell
-@synthesize textLabel = _textLabel;
-
-- (UILabel *)textLabel
-{
-    if (!_textLabel)
-    {
-        _textLabel = [[UILabel alloc] initWithFrame:self.contentView.bounds];
-        _textLabel.textAlignment = NSTextAlignmentCenter;
-        _textLabel.textColor = [UIColor whiteColor];
-        _textLabel.font = [UIFont boldSystemFontOfSize:12.0];
-        _textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        
-        _textLabel.numberOfLines = 2;
-        _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _textLabel.adjustsFontSizeToFitWidth = YES;
-        _textLabel.minimumScaleFactor = 0.5;
-        
-        self.selectedBackgroundView = [UIView new];
-        self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-        
-        [self addSubview:_textLabel];
-    }
-    return _textLabel;
-}
-
-@end
 
 @interface CollectionViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic) NSInteger columnCount;
@@ -84,7 +53,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 
-    [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
 
 - (void)viewDidLoad
@@ -145,6 +114,15 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [_filteredPalette removeAllObjects];
     
     [self.collectionView reloadData];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"collection_push_detail"])
+    {
+        SearchViewController *controller = [segue destinationViewController];
+        controller.selectedColor = sender;
+    }
 }
 
 
@@ -238,18 +216,10 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
     Color *color = self.filteredPalette[indexPath.row];
-
-    if (cell.selected) {
-        cell.textLabel.text = color.name;
-    }
-    else {
-        cell.textLabel.text = nil;
-    }
-    
     cell.backgroundColor = color.color;
 
     return cell;
@@ -260,18 +230,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     Color *color = self.filteredPalette[indexPath.row];
     
-    cell.textLabel.text = color.name;
-    cell.selected = YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.textLabel.text = nil;
-    cell.selected = NO;
+    if ([self shouldPerformSegueWithIdentifier:@"collection_push_detail" sender:color]) {
+        [self performSegueWithIdentifier:@"collection_push_detail" sender:color];
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

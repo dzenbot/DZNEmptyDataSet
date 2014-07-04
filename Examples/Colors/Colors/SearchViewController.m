@@ -30,7 +30,12 @@
 {
     [super loadView];
     
-    self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    if ([self.navigationController.viewControllers count] == 1) {
+        self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    }
+    else {
+        self.title = @"Detail";
+    }
     
     self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
     self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
@@ -38,7 +43,6 @@
     self.searchDisplayController.searchBar.placeholder = @"Search color";
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     [self.searchDisplayController setValue:@"" forKey:@"_noResultsMessage"];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated

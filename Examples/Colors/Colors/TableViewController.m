@@ -7,6 +7,7 @@
 //
 
 #import "TableViewController.h"
+#import "SearchViewController.h"
 #import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
@@ -43,7 +44,7 @@
 }
 
 
-#pragma mark - TableViewController Methods
+#pragma mark - Actions
 
 - (IBAction)refreshColors:(id)sender
 {
@@ -57,6 +58,15 @@
     [[Palette sharedPalette] removeAll];
     
     [self.tableView reloadData];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"table_push_detail"])
+    {
+        SearchViewController *controller = [segue destinationViewController];
+        controller.selectedColor = sender;
+    }
 }
 
 
@@ -191,14 +201,6 @@
         [tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates];
-        
-//        /* Animate the table view reload */
-//        [UIView transitionWithView:self.tableView
-//                          duration:0.35f
-//                           options:UIViewAnimationOptionTransitionCrossDissolve
-//                        animations:^(void) { [self.tableView reloadData]; }
-//                        completion:^(BOOL isFinished) { /* TODO: Whatever you want here */ }];
-        
     }
 }
 
@@ -207,6 +209,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    Color *color = [[Palette sharedPalette] colors][indexPath.row];
+    
+    if ([self shouldPerformSegueWithIdentifier:@"table_push_detail" sender:color]) {
+        [self performSegueWithIdentifier:@"table_push_detail" sender:color];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

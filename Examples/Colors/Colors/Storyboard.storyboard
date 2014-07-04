@@ -57,6 +57,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="5wu-h0-UoY" kind="push" identifier="collection_push_detail" id="86S-EI-aCd"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7eE-aJ-h11" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -87,6 +90,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="5wu-h0-UoY" kind="push" identifier="table_push_detail" id="lgP-PJ-c6y"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ym4-re-Gur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -241,4 +247,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="lgP-PJ-c6y"/>
+    </inferredMetricsTieBreakers>
 </document>
