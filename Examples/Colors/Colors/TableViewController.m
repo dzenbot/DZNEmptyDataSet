@@ -166,7 +166,7 @@
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
 
-    cell.imageView.image = [Color roundImageWithColor:color.color];
+    cell.imageView.image = [Color roundThumbWithColor:color.color];
     
     return cell;
 }

@@ -23,7 +23,7 @@
     [super awakeFromNib];
     
     self.title = @"Search";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_table"] tag:self.title.hash];
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_search"] tag:self.title.hash];
 }
 
 - (void)loadView
@@ -35,6 +35,7 @@
     self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
     self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
     
+    self.searchDisplayController.searchBar.placeholder = @"Search color";
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     [self.searchDisplayController setValue:@"" forKey:@"_noResultsMessage"];
 
@@ -43,6 +44,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self updateLayout];
 }
 
 
@@ -56,6 +59,26 @@
     NSPredicate *precidate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || hex CONTAINS[cd] %@", searchString, searchString];
     
     return [colors filteredArrayUsingPredicate:precidate];
+}
+
+
+#pragma mark - Actions
+
+- (void)updateLayout
+{
+    BOOL hide = self.selectedColor ? NO : YES;
+    self.colorView.hidden = hide;
+    self.nameLabel.hidden = hide;
+    self.hexLabel.hidden = hide;
+    self.rgbLabel.hidden = hide;
+    self.hexLegend.hidden = hide;
+    self.rgbLegend.hidden = hide;
+    
+    self.colorView.image = [Color roundImageForSize:self.colorView.frame.size withColor:self.selectedColor.color];
+    
+    self.nameLabel.text = self.selectedColor.name;
+    self.hexLabel.text = [NSString stringWithFormat:@"#%@", self.selectedColor.hex];
+    self.rgbLabel.text = self.selectedColor.rgb;
 }
 
 
@@ -165,7 +188,7 @@
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
     
-    cell.imageView.image = [Color roundImageWithColor:color.color];
+    cell.imageView.image = [Color roundThumbWithColor:color.color];
     
     return cell;
 }
@@ -180,6 +203,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.selectedColor = [self searchResult][indexPath.row];
+    [self updateLayout];
+    
     [self.searchDisplayController setActive:NO animated:YES];
 }
 

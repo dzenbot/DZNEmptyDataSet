@@ -18,6 +18,7 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
-+ (UIImage *)roundImageWithColor:(UIColor *)color;
++ (UIImage *)roundThumbWithColor:(UIColor *)color;
++ (UIImage *)roundImageForSize:(CGSize)size withColor:(UIColor *)color;
 
 @end

@@ -31,14 +31,19 @@
     return [UIColor colorFromHex:self.hex];
 }
 
-+ (UIImage *)roundImageWithColor:(UIColor *)color
++ (UIImage *)roundThumbWithColor:(UIColor *)color
+{
+    return [self roundImageForSize:CGSizeMake(32.0, 32.0) withColor:color];
+}
+
++ (UIImage *)roundImageForSize:(CGSize)size withColor:(UIColor *)color
 {
     if (!color) {
         return nil;
     }
     
     // Constants
-    CGRect bounds = CGRectMake(0, 0, 32, 32);
+    CGRect bounds = CGRectMake(0, 0, size.width, size.height);
     
     // Create the image context
     UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
