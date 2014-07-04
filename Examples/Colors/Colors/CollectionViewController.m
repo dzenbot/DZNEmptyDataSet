@@ -8,8 +8,7 @@
 
 #import "CollectionViewController.h"
 #import "ColorViewCell.h"
-#import "ColorPalette.h"
-#import "UIColor+Name.h"
+#import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
 
@@ -20,6 +19,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 @interface CollectionViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic) NSInteger columnCount;
+@property (nonatomic, strong) NSMutableArray *filteredPalette;
 @end
 
 @implementation CollectionViewController
@@ -56,6 +56,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [self.collectionView registerClass:[ColorViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -80,16 +85,32 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (IBAction)refreshColors:(id)sender
 {
-    [[ColorPalette sharedPalette] reloadColors];
+    [[Palette sharedPalette] reloadAll];
+    [self setFilteredPalette:nil];
     
     [self.collectionView reloadData];
 }
 
 - (IBAction)removeColors:(id)sender
 {
-    [[ColorPalette sharedPalette] removeAllColors];
+    [[Palette sharedPalette] removeAll];
+    [_filteredPalette removeAllObjects];
     
     [self.collectionView reloadData];
+}
+
+- (NSMutableArray *)filteredPalette
+{
+    // Randomly filtered palette
+    if (!_filteredPalette)
+    {
+        _filteredPalette = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
+        
+        for (NSInteger i = _filteredPalette.count-1; i > 0; i--) {
+            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1)];
+        }
+    }
+    return _filteredPalette;
 }
 
 
@@ -178,7 +199,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[[ColorPalette sharedPalette] colors] count];
+    return [self.filteredPalette count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -186,16 +207,17 @@ static NSString *CellIdentifier = @"ColorViewCell";
     ColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-    cell.backgroundColor = color;
-    
+    Color *color = self.filteredPalette[indexPath.row];
+
     if (cell.selected) {
-        cell.textLabel.text = [cell.backgroundColor hexFromColor];
+        cell.textLabel.text = color.name;
     }
     else {
         cell.textLabel.text = nil;
     }
     
+    cell.backgroundColor = color.color;
+
     return cell;
 }
 
@@ -205,8 +227,9 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ColorViewCell *cell = (ColorViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-    cell.textLabel.text = [color hexFromColor];
+    Color *color = self.filteredPalette[indexPath.row];
+    
+    cell.textLabel.text = color.name;
     cell.selected = YES;
 }
 
@@ -240,9 +263,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-            NSString *string = [color hexFromColor];
-            if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
+            Color *color = self.filteredPalette[indexPath.row];
+            if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
         }
     });
 }

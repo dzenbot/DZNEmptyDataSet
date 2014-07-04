@@ -7,8 +7,7 @@
 //
 
 #import "TableViewController.h"
-#import "ColorPalette.h"
-#import "UIColor+Name.h"
+#import "Palette.h"
 
 #import "UIScrollView+EmptyDataSet.h"
 
@@ -46,16 +45,17 @@
 
 #pragma mark - TableViewController Methods
 
-- (UIImage *)colorPreviewAtRow:(NSInteger)row
+- (UIImage *)roundImageWithColor:(UIColor *)color
 {
+    if (!color) {
+        return nil;
+    }
+    
     // Constants
     CGRect bounds = CGRectMake(0, 0, 32, 32);
     
     // Create the image context
     UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
-    
-    // Create the bezier path & drawing
-    UIColor *color = [[ColorPalette sharedPalette] colors][row];
     
     //// Oval Drawing
     UIBezierPath *ovalPath = [UIBezierPath bezierPathWithOvalInRect:bounds];
@@ -71,14 +71,14 @@
 
 - (IBAction)refreshColors:(id)sender
 {
-    [[ColorPalette sharedPalette] reloadColors];
+    [[Palette sharedPalette] reloadAll];
     
     [self.tableView reloadData];
 }
 
 - (IBAction)removeColors:(id)sender
 {
-    [[ColorPalette sharedPalette] removeAllColors];
+    [[Palette sharedPalette] removeAll];
     
     [self.tableView reloadData];
 }
@@ -169,7 +169,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[ColorPalette sharedPalette] colors].count;
+    return [[Palette sharedPalette] colors].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,17 +178,19 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.selectedBackgroundView = [UIView new];
         cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
     }
     
-    UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-    NSString *string = [color hexFromColor];
-    cell.textLabel.text = string;
-    cell.imageView.image = [self colorPreviewAtRow:indexPath.row];
+    Color *color = [[Palette sharedPalette] colors][indexPath.row];
+    
+    cell.textLabel.text = color.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
+
+    cell.imageView.image = [self roundImageWithColor:color.color];
     
     return cell;
 }
@@ -207,8 +209,8 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-        [[ColorPalette sharedPalette] removeColor:color];
+        Color *color = [[Palette sharedPalette] colors][indexPath.row];
+        [[Palette sharedPalette] removeColor:color];
         
         [tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -250,9 +252,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            UIColor *color = [[ColorPalette sharedPalette] colors][indexPath.row];
-            NSString *string = [color hexFromColor];
-            if (string.length > 0) [[UIPasteboard generalPasteboard] setString:string];
+            Color *color = [[Palette sharedPalette] colors][indexPath.row];
+            if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
         }
     });
 }

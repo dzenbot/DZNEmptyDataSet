@@ -6,9 +6,27 @@
 // project.
 
 
+// DZNCategories/CoreGraphics
+#define COCOAPODS_POD_AVAILABLE_DZNCategories_CoreGraphics
+#define COCOAPODS_VERSION_MAJOR_DZNCategories_CoreGraphics 1
+#define COCOAPODS_VERSION_MINOR_DZNCategories_CoreGraphics 1
+#define COCOAPODS_VERSION_PATCH_DZNCategories_CoreGraphics 1
+
+// DZNCategories/Foundation
+#define COCOAPODS_POD_AVAILABLE_DZNCategories_Foundation
+#define COCOAPODS_VERSION_MAJOR_DZNCategories_Foundation 1
+#define COCOAPODS_VERSION_MINOR_DZNCategories_Foundation 1
+#define COCOAPODS_VERSION_PATCH_DZNCategories_Foundation 1
+
+// DZNCategories/UIKit
+#define COCOAPODS_POD_AVAILABLE_DZNCategories_UIKit
+#define COCOAPODS_VERSION_MAJOR_DZNCategories_UIKit 1
+#define COCOAPODS_VERSION_MINOR_DZNCategories_UIKit 1
+#define COCOAPODS_VERSION_PATCH_DZNCategories_UIKit 1
+
 // DZNEmptyDataSet
 #define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
 #define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1
 #define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 3
-#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 0
+#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 1
 

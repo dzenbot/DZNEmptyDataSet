@@ -47,23 +47,8 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-
-#pragma mark - UITableViewDataSource Methods
+#pragma mark - Serialization
 
 - (void)serializeApplications
 {
@@ -137,19 +122,6 @@
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     
     [self.navigationController pushViewController:controller animated:YES];
-}
-
-
-#pragma mark - View Auto-Rotation
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
 }
 
 @end

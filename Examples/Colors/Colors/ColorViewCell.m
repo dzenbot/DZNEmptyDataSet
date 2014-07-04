@@ -21,10 +21,15 @@
         _textLabel.font = [UIFont boldSystemFontOfSize:12.0];
         _textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         
-        [self.contentView addSubview:self.textLabel];
+        _textLabel.numberOfLines = 2;
+        _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _textLabel.adjustsFontSizeToFitWidth = YES;
+        _textLabel.minimumScaleFactor = 0.5;
         
         self.selectedBackgroundView = [UIView new];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        
+        [self addSubview:_textLabel];
     }
     return _textLabel;
 }

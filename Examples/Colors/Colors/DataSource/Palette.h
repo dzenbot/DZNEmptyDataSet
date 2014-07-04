@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Color.h"
 
-@interface ColorPalette : NSObject
+@interface Palette : NSObject
 
 @property (nonatomic, readonly) NSMutableArray *colors;
-@property (nonatomic) NSUInteger lenght;
 
 + (instancetype)sharedPalette;
 
-- (void)reloadColors;
-- (void)removeColor:(UIColor *)color;
-- (void)removeAllColors;
+- (void)reloadAll;
+- (void)removeColor:(Color *)color;
+- (void)removeAll;
 
 @end
