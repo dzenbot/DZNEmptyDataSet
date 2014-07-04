@@ -612,15 +612,19 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 #pragma mark - ReloadData Method Swizzling
 
 static NSMutableDictionary *_impLookupTable;
+static NSString *const DZNSwizzleInfoPointerKey = @"pointer";
+static NSString *const DZNSwizzleInfoOwnerKey = @"owner";
 
 // Based on Bryce Buchanan's swizzling technique http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
 // And Juzzin's ideas https://github.com/juzzin/JUSEmptyViewController
 
-IMP dzn_original_implementation(id self, SEL _cmd)
+void dzn_original_implementation(id self, SEL _cmd)
 {
     // Fetch original implementation from lookup table
     NSString *key = _implementationKey(self, _cmd);
-    NSValue *impValue = [_impLookupTable valueForKey:key];
+    
+    NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
+    NSValue *impValue = [swizzleInfo valueForKey:DZNSwizzleInfoPointerKey];
     
     IMP impPointer = [impValue pointerValue];
     
@@ -631,8 +635,6 @@ IMP dzn_original_implementation(id self, SEL _cmd)
     
     // We then inject the additional implementation for reloading the empty dataset
     [self dzn_reloadEmptyDataSet];
-    
-    return impPointer;
 }
 
 NSString *_implementationKey(id target, SEL selector)
@@ -641,7 +643,13 @@ NSString *_implementationKey(id target, SEL selector)
         return nil;
     }
     
-    NSString *className = NSStringFromClass([target class]);
+    Class baseClass;
+    if ([target isKindOfClass:[UITableView class]]) baseClass = [UITableView class];
+    else if ([target isKindOfClass:[UICollectionView class]]) baseClass = [UICollectionView class];
+    else return nil;
+    
+    NSString *className = NSStringFromClass([baseClass class]);
+    
     NSString *selectorName = NSStringFromSelector(selector);
     return [NSString stringWithFormat:@"%@_%@",className,selectorName];
 }
@@ -658,13 +666,15 @@ NSString *_implementationKey(id target, SEL selector)
     if (!_impLookupTable) {
         _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
-    
+
     NSString *key = _implementationKey(self, selector);
-    NSString *pointer = [_impLookupTable valueForKey:key];
     
+    NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
+    Class class = [swizzleInfo valueForKey:DZNSwizzleInfoOwnerKey];
+
     // If the selector for the target was already used for swizzling, skip.
-    // Like this, we make sure that setImplementation is called once per class per selector.
-    if (pointer || !key) {
+    // Like this, we make sure that setImplementation is called once per class kind, UITableView or UICollectionView.
+    if ([self isKindOfClass:class]) {
         return;
     }
     
@@ -673,7 +683,10 @@ NSString *_implementationKey(id target, SEL selector)
     IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);
     
     // Store the new implementation in the lookup table
-    [_impLookupTable setValue:[NSValue valueWithPointer:dzn_newImplementation] forKey:key];
+    NSDictionary *swizzledInfo = @{DZNSwizzleInfoOwnerKey: [self class],
+                                  DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]};
+    
+    [_impLookupTable setObject:swizzledInfo forKey:key];
 }
 
 
