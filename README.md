@@ -14,7 +14,7 @@ Most applications show lists of content (datasets), which many turn out to be em
 
 
 ### Features
-* Compatible with UITableView and UICollectionView.
+* Compatible with UITableView, UICollectionView and UISearchDisplayController.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support. Also accepts custom vertical and horizontal alignment.
@@ -207,7 +207,7 @@ This project replicates several popular application's empty datasets (~20) with 
 This project shows a list of the world countries loaded from CoreData. It uses NSFecthedResultController for filtering search. When searching and no content is matched, a simple empty dataset is shown. See how to interact between the UITableViewDataSource and the DZNEmptyDataSetSource protocols, while using a typical CoreData stack.
 
 #### Colors
-This project is a simple example of how this library also works with UICollectionView and Storyboards.
+This project is a simple example of how this library also works with UICollectionView and UISearchDisplayController, while using Storyboards.
 
 
 ## Collaboration
