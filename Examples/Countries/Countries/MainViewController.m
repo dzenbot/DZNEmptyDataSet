@@ -317,7 +317,6 @@
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Country class])];
         fetchRequest.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
 
         _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
         _fetchedResultsController.delegate = self;
@@ -330,11 +329,14 @@
     
     if (self.searching && self.searchBar.text.length > 0) {
         _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || code CONTAINS[cd] %@", self.searchBar.text, self.searchBar.text];
-        
-        NSError *error = nil;
-        if (![_fetchedResultsController performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
+    }
+    else {
+        _fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name != nil"];
+    }
+    
+    NSError *error = nil;
+    if (![_fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
     return _fetchedResultsController;
@@ -426,12 +428,9 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [searchBar resignFirstResponder];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
+    searchBar.text = nil;
     
+    [searchBar resignFirstResponder];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
