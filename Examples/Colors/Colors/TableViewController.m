@@ -169,6 +169,7 @@
         cell.selectedBackgroundView = [UIView new];
         cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
+        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     }
     
     Color *color = [[Palette sharedPalette] colors][indexPath.row];

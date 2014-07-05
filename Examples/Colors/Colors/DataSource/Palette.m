@@ -28,6 +28,7 @@ static Palette *_sharedPalette = nil;
 
 - (void)loadColors
 {
+    // A list of crayola colors in JSON by Jjdelc https://gist.github.com/jjdelc/1868136
     NSString *path = [[NSBundle mainBundle] pathForResource:@"colors" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSArray *objects = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions|NSJSONWritingPrettyPrinted error:nil] mutableCopy];

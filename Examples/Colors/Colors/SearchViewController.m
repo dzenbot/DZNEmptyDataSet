@@ -12,6 +12,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface SearchViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@property (nonatomic, getter = isShowingLandscape) BOOL showingLandscape;
 @end
 
 @implementation SearchViewController
@@ -43,13 +44,25 @@
     self.searchDisplayController.searchBar.placeholder = @"Search color";
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     [self.searchDisplayController setValue:@"" forKey:@"_noResultsMessage"];
+    
+    for (UIView *subview in self.view.subviews) {
+        subview.autoresizingMask = UIViewAutoresizingNone;
+    }
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+    [self updateLayoutAnimatedWithDuration:0.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self updateLayout];
+    [self updateContent];
 }
 
 
@@ -68,9 +81,40 @@
 
 #pragma mark - Actions
 
-- (void)updateLayout
+- (void)updateLayoutAnimatedWithDuration:(NSTimeInterval)duration
+{
+    [UIView beginAnimations:@"" context:nil];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    
+    if (self.showingLandscape) {
+        self.colorView.frame = CGRectMake(45.0, 88.0, 160.0, 160.0);
+        self.nameLabel.frame = CGRectMake(240.0, 114.0, 280.0, 35.0);
+        self.hexLabel.frame = CGRectMake(300.0, 170.0, 140.0, 20.0);
+        self.rgbLabel.frame = CGRectMake(300.0, 200.0, 140.0, 20.0);
+        self.hexLegend.frame = CGRectMake(240.0, 170.0, 60.0, 20.0);
+        self.rgbLegend.frame = CGRectMake(240.0, 200.0, 60.0, 20.0);
+        
+        self.nameLabel.textAlignment = NSTextAlignmentLeft;
+    }
+    else {
+        self.colorView.frame = CGRectMake(60.0, 130.0, 200.0, 200.0);
+        self.nameLabel.frame = CGRectMake(20.0, 350.0, 280.0, 35.0);
+        self.hexLabel.frame = CGRectMake(120.0, 420.0, 140.0, 20.0);
+        self.rgbLabel.frame = CGRectMake(120.0, 450.0, 140.0, 20.0);
+        self.hexLegend.frame = CGRectMake(60.0, 420.0, 60.0, 20.0);
+        self.rgbLegend.frame = CGRectMake(60.0, 450.0, 60.0, 20.0);
+        
+        self.nameLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    
+    [UIView commitAnimations];
+}
+
+- (void)updateContent
 {
     BOOL hide = self.selectedColor ? NO : YES;
+    
     self.colorView.hidden = hide;
     self.nameLabel.hidden = hide;
     self.hexLabel.hidden = hide;
@@ -156,11 +200,6 @@
     [self.searchDisplayController setActive:NO animated:YES];
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
 
 #pragma mark - UITableViewDataSource Methods
 
@@ -185,6 +224,7 @@
         cell.selectedBackgroundView = [UIView new];
         cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
+        cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     }
     
     Color *color = [self searchResult][indexPath.row];
@@ -208,7 +248,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedColor = [self searchResult][indexPath.row];
-    [self updateLayout];
+    [self updateContent];
     
     [self.searchDisplayController setActive:NO animated:YES];
 }
@@ -217,6 +257,25 @@
 #pragma mark - UISearchDisplayControllerDelegate Methods
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    return YES;
+}
+
+
+#pragma mark - View Auto-Rotation
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+    [self updateLayoutAnimatedWithDuration:duration];
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate
 {
     return YES;
 }

@@ -41,8 +41,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
     self.collectionView.emptyDataSetSource = self;
     self.collectionView.emptyDataSetDelegate = self;
     
-    self.columnCount = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? kColumnCountMax : kColumnCountMin;
-    
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     layout.minimumLineSpacing = 2.0;
     layout.minimumInteritemSpacing = 2;
@@ -75,6 +73,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 
 #pragma mark - Getters
+
+- (NSInteger)columnCount
+{
+    return UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? kColumnCountMax : kColumnCountMin;
+}
 
 - (CGSize)cellSize
 {
@@ -217,7 +220,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.tag = indexPath.row;
+    cell.selectedBackgroundView = [UIView new];
+    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.25];
     
     Color *color = self.filteredPalette[indexPath.row];
     cell.backgroundColor = color.color;
@@ -271,8 +275,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    self.columnCount = UIDeviceOrientationIsLandscape(toInterfaceOrientation) ? kColumnCountMax : kColumnCountMin;
-    
     [self.collectionView reloadData];
 }
 

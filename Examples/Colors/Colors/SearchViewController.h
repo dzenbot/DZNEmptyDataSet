@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "Color.h"
 
 @interface SearchViewController : UIViewController <UISearchDisplayDelegate, UISearchBarDelegate>
