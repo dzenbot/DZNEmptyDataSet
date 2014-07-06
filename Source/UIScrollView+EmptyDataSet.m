@@ -26,7 +26,7 @@
 @property (nonatomic, assign) CGFloat verticalSpace;
 @property (nonatomic, getter = didCenterToSuperview) BOOL centerToSuperview;
 
-- (void)cleanContent;
+- (void)removeSubviews;
 
 @end
 
@@ -150,9 +150,7 @@
     if (!view) {
         return;
     }
-    
-    [self cleanContent];
-    
+        
     _customView = view;
     _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(view.frame);
     
@@ -168,7 +166,7 @@
     [self.hostView performSelector:selector withObject:sender afterDelay:0.0f];
 }
 
-- (void)cleanContent
+- (void)removeSubviews
 {
     [_titleLabel removeFromSuperview];
     [_detailLabel removeFromSuperview];
@@ -554,15 +552,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [self insertSubview:view atIndex:idx];
         }
         
-        [view updateConstraintsIfNeeded];
+        //
+        [view removeSubviews];
         
         // If a non-nil custom view is available, let's configure it instead
         if (customView) {
             view.customView = customView;
         }
         else {
-            view.customView = nil;
-            
             // Configure labels
             view.detailLabel.attributedText = [self dzn_detailLabelText];
             view.titleLabel.attributedText = [self dzn_titleLabelText];
@@ -575,6 +572,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setAttributedTitle:[self dzn_buttonTitleForState:1] forState:1];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:0] forState:0];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:1] forState:1];
+            [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
 
             // Configure offset and spacing
             view.offset = [self dzn_offset];
@@ -599,7 +597,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)dzn_invalidate
 {
     if (self.emptyDataSetView) {
-        [self.emptyDataSetView cleanContent];
+        [self.emptyDataSetView removeSubviews];
         [self.emptyDataSetView removeFromSuperview];
         
         [self setEmptyDataSetView:nil];

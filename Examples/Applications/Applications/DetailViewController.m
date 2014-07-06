@@ -614,6 +614,9 @@
     if (self.application.type == ApplicationTypePinterest) {
         return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
     }
+    if (self.application.type == ApplicationTypeTwitter) {
+        return CGPointMake(0, -roundf(self.tableView.frame.size.height/2.5));
+    }
     return CGPointZero;
 }
 
@@ -651,7 +654,7 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return NO;
+    return YES;
 }
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
