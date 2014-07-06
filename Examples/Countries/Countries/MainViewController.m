@@ -49,7 +49,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-//    self.loading = YES;
+    self.loading = YES;
     
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
@@ -96,12 +96,12 @@
 
 - (void)reloadContent
 {
-    if (self.loaded) {
+    if (!self.loading && self.loaded) {
         [self.tableView reloadData];
         return;
     }
     
-    self.loaded = YES;
+    self.loading = NO;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
@@ -112,6 +112,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
 //            [[NSManagedObjectContext sharedContext] save:nil];
+            self.loaded = YES;
         });
     });
 }
@@ -344,7 +345,7 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    if (![self beganUpdates]) {
+    if (![self beganUpdates] && self.loaded) {
         [self.tableView beginUpdates];
         [self setBeganUpdates:YES];
     }
@@ -353,6 +354,10 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
+    if (!self.loaded) {
+        return;
+    }
+    
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -368,6 +373,10 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
+    if (!self.loaded) {
+        return;
+    }
+    
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
