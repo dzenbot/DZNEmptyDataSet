@@ -103,7 +103,7 @@ The attributed string to be used for the specified button state:
 ```
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
 
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]};
 
     return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
 }
