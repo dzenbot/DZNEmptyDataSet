@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C62F71F6-00A0-45E8-86E0-9E281717619E</string>
+	<string>A0DE057C-6E26-43C2-8AA8-A05FD28E0ACB</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Colors</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>06188250-544C-4657-A310-8623162141D1</key>
-		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
+		<key>59623110-3EE5-4A2C-AC03-F10225891C58</key>
+		<string>https://github.com/Dysonapps/DZNEmptyDataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Examples/Colors/Colors.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>06188250-544C-4657-A310-8623162141D1</key>
+		<key>59623110-3EE5-4A2C-AC03-F10225891C58</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
+	<string>https://github.com/Dysonapps/DZNEmptyDataSet.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>06188250-544C-4657-A310-8623162141D1</string>
+	<string>59623110-3EE5-4A2C-AC03-F10225891C58</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>06188250-544C-4657-A310-8623162141D1</string>
+			<string>59623110-3EE5-4A2C-AC03-F10225891C58</string>
 			<key>IDESourceControlWCCName</key>
 			<string>DZNEmptyDataSet</string>
 		</dict>
