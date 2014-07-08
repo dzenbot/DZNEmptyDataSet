@@ -15,8 +15,7 @@
 
 /**
  A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.
- 
- @discussion It will work automatically, by just conforming to DZNEmptyDataSetSource, and returning the data you want to show. The -reloadData call will be observed so the empty dataset will be configured whenever needed. It is (extremely) important to set the dataSetSource and dataSetDelegate to nil, whenever the view is going to be released. This class uses KVO under the hood, so it needs to remove the observer before dealocating the view.
+ @discussion It will work automatically, by just conforming to DZNEmptyDataSetSource, and returning the data you want to show.
  */
 @interface UIScrollView (EmptyDataSet)
 
@@ -33,7 +32,7 @@
 /**
  The object that acts as the data source of the empty datasets.
  
- @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional. They will not be considered in the layout if they either return nil or the view controller doesn't conform to them.
+ @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional; they will not be considered if the view controller doesn't conform to them.
  */
 @protocol DZNEmptyDataSetSource <NSObject>
 @required
