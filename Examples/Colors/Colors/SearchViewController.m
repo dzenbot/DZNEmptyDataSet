@@ -162,6 +162,24 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    NSString *text = @"Add a New Color";
+    UIColor *color = nil;
+    
+    if (state == UIControlStateNormal) color = [UIColor colorWithRed:44/255.0 green:137/255.0 blue:202/255.0 alpha:1.0];
+    if (state == UIControlStateHighlighted) color = [UIColor colorWithRed:106/255.0 green:187/255.0 blue:227/255.0 alpha:1.0];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:14.0],
+                                 NSForegroundColorAttributeName: color,
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+}
+
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"search_icon"];
@@ -198,6 +216,11 @@
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
 {
     [self.searchDisplayController setActive:NO animated:YES];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 
