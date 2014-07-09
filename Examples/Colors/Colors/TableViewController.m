@@ -62,11 +62,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"table_push_detail"])
-    {
+    if ([[segue identifier] isEqualToString:@"table_push_detail"]) {
         SearchViewController *controller = [segue destinationViewController];
         controller.selectedColor = sender;
-    }
+	}
 }
 
 
@@ -104,7 +103,20 @@
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    return nil;
+    NSString *text = @"Refresh Colors";
+    UIColor *color = nil;
+    
+    if (state == UIControlStateNormal) color = [UIColor colorWithRed:44/255.0 green:137/255.0 blue:202/255.0 alpha:1.0];
+    if (state == UIControlStateHighlighted) color = [UIColor colorWithRed:106/255.0 green:187/255.0 blue:227/255.0 alpha:1.0];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:14.0],
+                                 NSForegroundColorAttributeName: color,
+                                 NSParagraphStyleAttributeName: paragraphStyle};
+    
+    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
@@ -148,6 +160,8 @@
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
 {
     NSLog(@"%s",__FUNCTION__);
+	
+	[self refreshColors:nil];
 }
 
 
@@ -155,7 +169,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[Palette sharedPalette] colors].count;
+	
+	NSInteger rowCount = [[Palette sharedPalette] colors].count;
+	
+	if (rowCount < 1) {
+		if (self.searchDisplayController.searchBar.superview) {
+			[self.searchDisplayController.searchBar removeFromSuperview];
+		}
+	}
+	
+	else {
+		if (!self.searchDisplayController.searchBar.superview) {
+			[self.tableView addSubview:self.searchDisplayController.searchBar];
+		}
+	}
+	
+    return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -176,7 +205,7 @@
     
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
-
+	
     cell.imageView.image = [Color roundThumbWithColor:color.color];
     
     return cell;
@@ -202,7 +231,7 @@
         [tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates];
-    }
+	}
 }
 
 
