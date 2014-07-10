@@ -101,24 +101,6 @@
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
-- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
-{
-    NSString *text = @"Refresh Colors";
-    UIColor *color = nil;
-    
-    if (state == UIControlStateNormal) color = [UIColor colorWithRed:44/255.0 green:137/255.0 blue:202/255.0 alpha:1.0];
-    if (state == UIControlStateHighlighted) color = [UIColor colorWithRed:106/255.0 green:187/255.0 blue:227/255.0 alpha:1.0];
-    
-    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:14.0],
-                                 NSForegroundColorAttributeName: color,
-                                 NSParagraphStyleAttributeName: paragraphStyle};
-    
-    return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
-}
-
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"empty_placeholder"];
@@ -157,34 +139,12 @@
     NSLog(@"%s",__FUNCTION__);
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
-{
-    NSLog(@"%s",__FUNCTION__);
-	
-	[self refreshColors:nil];
-}
-
 
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	
-	NSInteger rowCount = [[Palette sharedPalette] colors].count;
-	
-	if (rowCount < 1) {
-		if (self.searchDisplayController.searchBar.superview) {
-			[self.searchDisplayController.searchBar removeFromSuperview];
-		}
-	}
-	
-	else {
-		if (!self.searchDisplayController.searchBar.superview) {
-			[self.tableView addSubview:self.searchDisplayController.searchBar];
-		}
-	}
-	
-    return rowCount;
+	return [[Palette sharedPalette] colors].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -194,6 +154,7 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.selectedBackgroundView = [UIView new];
         cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];

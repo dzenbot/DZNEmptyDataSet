@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface TableViewController : UITableViewController
 
 - (IBAction)refreshColors:(id)sender;
 - (IBAction)removeColors:(id)sender;
