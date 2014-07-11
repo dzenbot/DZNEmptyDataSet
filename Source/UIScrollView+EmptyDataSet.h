@@ -25,7 +25,7 @@
 @property (nonatomic, weak) id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
 /** YES if any empty dataset is visible. */
 @property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
-
+/** Programmatically force an update. **/
 - (void)reloadEmptyDataSet;
 
 @end
