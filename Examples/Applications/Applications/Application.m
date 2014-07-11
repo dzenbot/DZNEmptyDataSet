@@ -45,6 +45,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Foursquare",
                      @"iCloud",
                      @"Instagram",
+                     @"Kickstarter",
                      @"Path",
                      @"Pinterest",
                      @"Photos",

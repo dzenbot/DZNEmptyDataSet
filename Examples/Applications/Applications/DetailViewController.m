@@ -57,8 +57,6 @@
     UIColor *tintColor = nil;
     UIStatusBarStyle barstyle = UIStatusBarStyleDefault;
     
-    return;
-    
     switch (self.application.type) {
         case ApplicationTypeAirbnb:
         {
@@ -105,6 +103,12 @@
             barColor = [UIColor colorWithHex:@"2e5e86"];
             tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
+        case ApplicationTypeKickstarter:
+        {
+            barColor = [UIColor colorWithHex:@"f7f8f8"];
+            tintColor = [UIColor colorWithHex:@"2bde73"];
             break;
         }
         case ApplicationTypePath:
@@ -259,6 +263,14 @@
             textColor = [UIColor colorWithHex:@"444444"];
             break;
         }
+        case ApplicationTypeKickstarter:
+        {
+            text = @"Activity empty";
+            font = [UIFont boldSystemFontOfSize:16.0];
+            textColor = [UIColor colorWithHex:@"828587"];
+            [attributes setObject:@(-0.10) forKey:NSKernAttributeName];
+            break;
+        }
         case ApplicationTypePath:
         {
             text = @"Message Your Friends";
@@ -405,6 +417,13 @@
             paragraph.lineSpacing = 4.0;
             break;
         }
+        case ApplicationTypeKickstarter:
+        {
+            text = @"When you back a project or follow a friend,\ntheir activity will show up here.";
+            font = [UIFont systemFontOfSize:14.0];
+            textColor = [UIColor colorWithHex:@"828587"];
+            break;
+        }
         case ApplicationTypePath:
         {
             text = @"Send a message or create a group.";
@@ -548,6 +567,13 @@
             textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"999999" : @"ebebeb"];
             break;
         }
+        case ApplicationTypeKickstarter:
+        {
+            text = @"Discover projects";
+            font = [UIFont boldSystemFontOfSize:14.0];
+            textColor = [UIColor whiteColor];
+            break;
+        }
         default:
             return nil;
     }
@@ -574,15 +600,17 @@
     UIEdgeInsets rectInsets = UIEdgeInsetsZero;
     
     switch (self.application.type) {
-        case ApplicationTypeiCloud:
-            rectInsets = UIEdgeInsetsMake(-19.0, -61.0, -19.0, -61.0);
-            break;
-            
         case ApplicationTypeFoursquare:
             capInsets = UIEdgeInsetsMake(25.0, 25.0, 25.0, 25.0);
             rectInsets = UIEdgeInsetsMake(0.0, 10, 0.0, 10);
             break;
-            
+        case ApplicationTypeiCloud:
+            rectInsets = UIEdgeInsetsMake(-19.0, -61.0, -19.0, -61.0);
+            break;
+        case ApplicationTypeKickstarter:
+            capInsets = UIEdgeInsetsMake(22.0, 22.0, 22.0, 22.0);
+            rectInsets = UIEdgeInsetsMake(0.0, -20, 0.0, -20);
+            break;
         default:
             break;
     }
@@ -599,6 +627,7 @@
         case ApplicationTypeFancy:      return [UIColor colorWithHex:@"f0f0f0"];
         case ApplicationTypeFoursquare: return [UIColor colorWithHex:@"fcfcfa"];
         case ApplicationTypeInstagram:  return [UIColor whiteColor];
+        case ApplicationTypeKickstarter:return [UIColor colorWithHex:@"f7fafa"];
         case ApplicationTypePath:       return [UIColor colorWithHex:@"726d67"];
         case ApplicationTypePinterest:  return [UIColor colorWithHex:@"e1e1e1"];
         case ApplicationTypeSlack:      return [UIColor whiteColor];
@@ -613,6 +642,9 @@
 
 - (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
 {
+    if (self.application.type == ApplicationTypeKickstarter) {
+        return CGPointMake(0, -100.0);
+    }
     if (self.application.type == ApplicationTypePinterest) {
         return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
     }
@@ -631,6 +663,7 @@
         case ApplicationTypeFancy:      return 1.0;
         case ApplicationTypeFoursquare: return 9.0;
         case ApplicationTypeInstagram:  return 24.0;
+        case ApplicationTypeKickstarter:return 15.0;
         case ApplicationTypePath:       return 1.0;
         case ApplicationTypeTumblr:     return 10.0;
         case ApplicationTypeTwitter:    return 0.1;
