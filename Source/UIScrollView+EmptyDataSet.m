@@ -519,6 +519,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+#pragma mark - Public Methods
+
+- (void)reloadEmptyDataSet
+{
+    [self dzn_reloadEmptyDataSet];
+}
 
 #pragma mark - Action Methods
 
