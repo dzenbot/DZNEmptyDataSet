@@ -26,6 +26,8 @@
 /** YES if any empty dataset is visible. */
 @property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
 
+- (void)reloadEmptyDataSet;
+
 @end
 
 
