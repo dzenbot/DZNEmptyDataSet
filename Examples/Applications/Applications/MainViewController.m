@@ -7,22 +7,21 @@
 //
 
 #import "MainViewController.h"
-#import "DetailViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-@interface MainViewController ()
+#import "UIScrollView+EmptyDataSet.h"
+
+@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) NSMutableArray *applications;
 @end
 
 @implementation MainViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)awakeFromNib
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
-    if (self) {
-        [self serializeApplications];
-    }
-    return self;
+    [super awakeFromNib];
+    
+    [self serializeApplications];
 }
 
 #pragma mark - View lifecycle
@@ -32,6 +31,14 @@
     [super viewDidLoad];
     
     self.title = @"Popular Applications";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    
+    self.tableView.tableFooterView = [UIView new];
+    
+    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
+    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
+    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    [self.searchDisplayController setValue:@"" forKey:@"noResultsMessage"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -42,9 +49,22 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];;
     self.navigationController.navigationBar.translucent = NO;
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
-    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+}
+
+
+#pragma mark - Getters
+
+- (NSArray *)filteredApps
+{
+    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+
+    if ([searchBar isFirstResponder] && searchBar.text.length > 0)
+    {
+        NSPredicate *precidate = [NSPredicate predicateWithFormat:@"displayName CONTAINS[cd] %@", searchBar.text];
+        return [self.applications filteredArrayUsingPredicate:precidate];
+    }
+    return self.applications;
 }
 
 
@@ -65,6 +85,89 @@
 }
 
 
+#pragma mark - DZNEmptyDataSetSource Methods
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"No Application Found";
+    return [[NSAttributedString alloc] initWithString:text attributes:nil];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+    
+    NSString *text = [NSString stringWithFormat:@"There are no empty dataset examples for \"%@\".", searchBar.text];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:nil];
+    
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:[attributedString.string rangeOfString:searchBar.text]];
+    
+    return attributedString;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:nil];
+}
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+{
+    NSString *text = @"Search on the App Store";
+    UIFont *font = [UIFont boldSystemFontOfSize:16.0];
+    UIColor *textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007aff" : @"c6def9"];
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    [attributes setObject:font forKey:NSFontAttributeName];
+    [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor whiteColor];
+}
+
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return CGPointMake(0, -64.0);
+}
+
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+{
+    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@", searchBar.text]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:URL]) {
+        [[UIApplication sharedApplication] openURL:URL];
+    }
+}
+
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -74,7 +177,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.applications.count;
+    NSInteger rowCount = [self filteredApps].count;
+
+    return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -89,7 +194,7 @@
         cell.detailTextLabel.textColor = [UIColor grayColor];
     }
     
-    Application *app = [self.applications objectAtIndex:indexPath.row];
+    Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     
     cell.textLabel.text = app.displayName;
     cell.detailTextLabel.text = app.developerName;
@@ -118,10 +223,71 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Application *app = [self.applications objectAtIndex:indexPath.row];
+    Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+
+#pragma mark - UISearchBarDelegate Methods
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    return YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    
+}
+
+
+#pragma mark - UISearchDisplayDelegate Methods
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+{
+    
 }
 
 @end

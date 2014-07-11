@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DetailViewController.h"
 #import "Application.h"
 
 @interface MainViewController : UITableViewController
