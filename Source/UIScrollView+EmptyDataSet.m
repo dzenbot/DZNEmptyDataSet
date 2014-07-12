@@ -14,13 +14,14 @@
 #pragma mark - DZNEmptyDataSetView
 
 @interface DZNEmptyDataSetView : UIView
+@property (nonatomic, readonly) UIView *contentView;
 @property (nonatomic, readonly) UILabel *titleLabel;
 @property (nonatomic, readonly) UILabel *detailLabel;
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UIButton *button;
-@property (nonatomic, readonly) UIView *contentView;
 @property (nonatomic, strong) UIView *customView;
-@property (nonatomic, assign) UIScrollView *hostView;
+
+@property (nonatomic, weak) UIScrollView *hostView;
 
 @property (nonatomic, assign) CGPoint offset;
 @property (nonatomic, assign) CGFloat verticalSpace;
@@ -74,7 +75,7 @@
     {
         _titleLabel = [UILabel new];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleLabel.backgroundColor = [UIColor clearColor];
+        _titleLabel.backgroundColor = [UIColor blueColor];
         
         _titleLabel.font = [UIFont systemFontOfSize:27.0];
         _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
@@ -84,25 +85,6 @@
         [_contentView addSubview:_titleLabel];
     }
     return _titleLabel;
-}
-
-- (UILabel *)detailLabel
-{
-    if (!_detailLabel)
-    {
-        _detailLabel = [UILabel new];
-        _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _detailLabel.backgroundColor = [UIColor clearColor];
-        
-        _detailLabel.font = [UIFont systemFontOfSize:17.0];
-        _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
-        _detailLabel.textAlignment = NSTextAlignmentCenter;
-        _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _detailLabel.numberOfLines = 0;
-        
-        [_contentView addSubview:_detailLabel];
-    }
-    return _detailLabel;
 }
 
 - (UIImageView *)imageView
@@ -119,6 +101,25 @@
     return _imageView;
 }
 
+- (UILabel *)detailLabel
+{
+    if (!_detailLabel)
+    {
+        _detailLabel = [UILabel new];
+        _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _detailLabel.backgroundColor = [UIColor greenColor];
+        
+        _detailLabel.font = [UIFont systemFontOfSize:17.0];
+        _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+        _detailLabel.textAlignment = NSTextAlignmentCenter;
+        _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _detailLabel.numberOfLines = 0;
+        
+        [_contentView addSubview:_detailLabel];
+    }
+    return _detailLabel;
+}
+
 - (UIButton *)button
 {
     if (!_button)
@@ -129,6 +130,7 @@
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         _button.adjustsImageWhenHighlighted = YES;
         _button.userInteractionEnabled = YES;
+        _button.backgroundColor = [UIColor redColor];
         
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -235,25 +237,25 @@
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
     
-    if (_titleLabel.superview) {
+    if ([self canShowTitle]) {
         [views setObject:_titleLabel forKey:@"_titleLabel"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if (_detailLabel.superview) {
+    if ([self canShowDetail]) {
         [views setObject:_detailLabel forKey:@"_detailLabel"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_detailLabel]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if (_imageView) {
+    if ([self canShowImage]) {
         [views setObject:_imageView forKey:@"_imageView"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[_imageView(imgWidth)]-trailing-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if (_button) {
+    if ([self canShowButton]) {
         [views setObject:_button forKey:@"_button"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_button]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
@@ -262,10 +264,14 @@
     NSMutableString *format = [NSMutableString new];
     NSMutableArray *subviews = [NSMutableArray new];
     
-    if (_imageView.image) [subviews addObject:@"[_imageView(imgHeight)]"];
-    if (_titleLabel.attributedText.string.length > 0) [subviews addObject:@"[_titleLabel]"];
-    if (_detailLabel.attributedText.string.length > 0) [subviews addObject:@"[_detailLabel]"];
-    if ([_button attributedTitleForState:UIControlStateNormal].string.length > 0) [subviews addObject:@"[_button]"];
+    if ([self canShowImage]) [subviews addObject:@"[_imageView(imgHeight)]"];
+    if ([self canShowTitle]) [subviews addObject:@"[_titleLabel]"];
+    if ([self canShowDetail]) [subviews addObject:@"[_detailLabel]"];
+    if ([self canShowButton]) [subviews addObject:@"[_button]"];
+    else {
+        [_button removeFromSuperview];
+        _button = nil;
+    }
     
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [format appendString:obj];
@@ -279,6 +285,22 @@
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
                                                                              options:0 metrics:metrics views:views]];
     }
+}
+
+- (BOOL)canShowImage {
+    return (_imageView.image && _imageView.superview);
+}
+
+- (BOOL)canShowTitle {
+    return (_titleLabel.attributedText.string.length > 0 && _titleLabel.superview);
+}
+
+- (BOOL)canShowDetail {
+    return (_detailLabel.attributedText.string.length > 0 && _detailLabel.superview);
+}
+
+- (BOOL)canShowButton {
+    return ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 && _button.superview);
 }
 
 @end
