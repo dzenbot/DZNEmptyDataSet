@@ -73,25 +73,6 @@
     return _contentView;
 }
 
-- (UILabel *)titleLabel
-{
-    if (_titleLabel) {
-        return _titleLabel;
-    }
-    
-    _titleLabel = [UILabel new];
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _titleLabel.backgroundColor = [UIColor clearColor];
-    
-    _titleLabel.font = [UIFont systemFontOfSize:27.0];
-    _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.numberOfLines = 2;
-    
-    [_contentView addSubview:_titleLabel];
-    return _titleLabel;
-}
-
 - (UIImageView *)imageView
 {
     if (_imageView) {
@@ -106,6 +87,26 @@
     
     [_contentView addSubview:_imageView];
     return _imageView;
+}
+
+- (UILabel *)titleLabel
+{
+    if (_titleLabel) {
+        return _titleLabel;
+    }
+    
+    _titleLabel = [UILabel new];
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    
+    _titleLabel.font = [UIFont systemFontOfSize:27.0];
+    _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _titleLabel.numberOfLines = 2;
+    
+    [_contentView addSubview:_titleLabel];
+    return _titleLabel;
 }
 
 - (UILabel *)detailLabel
@@ -320,6 +321,18 @@
     }
 }
 
+//
+//#pragma mark - UIView Constraints & Layout Methods
+//
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+//{
+//    UIView *view = [super hitTest:point withEvent:event];
+//    
+//    NSLog(@"view : %@", view);
+//    
+//    return view;
+//}
+
 @end
 
 
@@ -350,23 +363,21 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (DZNEmptyDataSetView *)emptyDataSetView
 {
     DZNEmptyDataSetView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
+    
     if (!view)
     {
+        view = [DZNEmptyDataSetView new];
+        view.hostView = self;
+        view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+        view.userInteractionEnabled = YES;
+        view.hidden = YES;
         
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
+        gesture.delegate = self;
+        [view addGestureRecognizer:gesture];
+        
+        [self setEmptyDataSetView:view];
     }
-    
-    view = [[DZNEmptyDataSetView alloc] init];
-    view.hostView = self;
-    view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    view.userInteractionEnabled = YES;
-    view.backgroundColor = [UIColor clearColor];
-    view.hidden = YES;
-    
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
-    gesture.delegate = self;
-    [view addGestureRecognizer:gesture];
-    
-    [self setEmptyDataSetView:view];
     return view;
 }
 
@@ -586,6 +597,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+}
+
 - (void)dzn_reloadEmptyDataSet
 {
     if (![self dzn_canDisplay]) {
@@ -602,7 +618,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [self insertSubview:view atIndex:idx];
         }
         
-        //
+        // Moves all its subviews
         [view removeSubviews];
         
         // If a non-nil custom view is available, let's configure it instead

@@ -39,9 +39,7 @@
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     
-    if (self.application.type == ApplicationTypePinterest) {
-        self.tableView.tableHeaderView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header_pinterest"]];
-    }
+    [self configureTableHeaderView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -198,6 +196,33 @@
     [[UIApplication sharedApplication] setStatusBarStyle:barstyle animated:YES];
 }
 
+- (void)configureTableHeaderView
+{
+    NSString *imageName = nil;
+    
+    if (self.application.type == ApplicationTypePinterest) {
+        imageName = @"header_pinterest";
+    }
+    if (self.application.type == ApplicationTypePodcasts) {
+        imageName = @"header_podcasts";
+    }
+    
+    if (imageName) {
+        UIImageView *headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+        headerView.alpha = 0.5;
+        
+        UIGestureRecognizer *tapGesture = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeaderView:)];
+        [headerView addGestureRecognizer:tapGesture];
+        
+        self.tableView.tableHeaderView = headerView;
+    }
+}
+
+- (void)didTapHeaderView:(id)sender
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
 
 #pragma mark - UITableViewDataSource Methods
 
@@ -282,6 +307,12 @@
             textColor = [UIColor colorWithHex:@"444444"];
             break;
         }
+        case ApplicationTypeiTunesConnect:
+        {
+            text = @"No Favorites";
+            font = [UIFont systemFontOfSize:22.0];
+            break;
+        }
         case ApplicationTypeKickstarter:
         {
             text = @"Activity empty";
@@ -304,16 +335,21 @@
             textColor = [UIColor colorWithHex:@"666666"];
             break;
         }
+        case ApplicationTypePhotos:
+        {
+            text = @"No Photos or Videos";
+            break;
+        }
+        case ApplicationTypePodcasts:
+        {
+            text = @"No Podcasts";
+            break;
+        }
         case ApplicationTypeRemote:
         {
             text = @"Cannot Connect to a\nLocal Network";
             font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18.0];
             textColor = [UIColor colorWithHex:@"555555"];
-            break;
-        }
-        case ApplicationTypePhotos:
-        {
-            text = @"No Photos or Videos";
             break;
         }
         case ApplicationTypeTumblr:
@@ -457,6 +493,12 @@
             paragraph.lineSpacing = 4.0;
             break;
         }
+        case ApplicationTypeiTunesConnect:
+        {
+            text = @"To add a favorite, tap the star icon next\nto an App's name.";
+            font = [UIFont systemFontOfSize:14.0];
+            break;
+        }
         case ApplicationTypeKickstarter:
         {
             text = @"When you back a project or follow a friend,\ntheir activity will show up here.";
@@ -474,6 +516,11 @@
         case ApplicationTypePhotos:
         {
             text = @"You can sync photos and videos onto your iPhone using iTunes.";
+            break;
+        }
+        case ApplicationTypePodcasts:
+        {
+            text = @"You can subscribe to podcasts in\nTop Charts or Featured.";
             break;
         }
         case ApplicationTypeRemote:
@@ -575,7 +622,9 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *imageName = [[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString];
+    NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
+                           stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    
     return [UIImage imageNamed:imageName];
 }
 
@@ -710,6 +759,9 @@
     if (self.application.type == ApplicationTypePinterest) {
         return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
     }
+    if (self.application.type == ApplicationTypePodcasts) {
+        return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
+    }
     if (self.application.type == ApplicationTypeTwitter) {
         return CGPointMake(0, -roundf(self.tableView.frame.size.height/2.5));
     }
@@ -719,22 +771,24 @@
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
 {
     switch (self.application.type) {
-        case ApplicationType500px:      return 9.0;
-        case ApplicationTypeAirbnb:     return 24.0;
-        case ApplicationTypeAppstore:   return 34.0;
-        case ApplicationTypeFacebook:   return 30.0;
-        case ApplicationTypeFancy:      return 1.0;
-        case ApplicationTypeFoursquare: return 9.0;
-        case ApplicationTypeInstagram:  return 24.0;
-        case ApplicationTypeKickstarter:return 15.0;
-        case ApplicationTypePath:       return 1.0;
-        case ApplicationTypeTumblr:     return 10.0;
-        case ApplicationTypeTwitter:    return 0.1;
-        case ApplicationTypeVesper:     return 22.0;
-        case ApplicationTypeVideos:     return 0.1;
-        case ApplicationTypeVine:       return 0.1;
-        case ApplicationTypeWWDC:       return 18.0;
-        default:                        return 0.0;
+        case ApplicationType500px:          return 9.0;
+        case ApplicationTypeAirbnb:         return 24.0;
+        case ApplicationTypeAppstore:       return 34.0;
+        case ApplicationTypeFacebook:       return 30.0;
+        case ApplicationTypeFancy:          return 1.0;
+        case ApplicationTypeFoursquare:     return 9.0;
+        case ApplicationTypeInstagram:      return 24.0;
+        case ApplicationTypeiTunesConnect:  return 9.0;
+        case ApplicationTypeKickstarter:    return 15.0;
+        case ApplicationTypePath:           return 1.0;
+        case ApplicationTypePodcasts:       return 35.0;
+        case ApplicationTypeTumblr:         return 10.0;
+        case ApplicationTypeTwitter:        return 0.1;
+        case ApplicationTypeVesper:         return 22.0;
+        case ApplicationTypeVideos:         return 0.1;
+        case ApplicationTypeVine:           return 0.1;
+        case ApplicationTypeWWDC:           return 18.0;
+        default:                            return 0.0;
     }
 }
 

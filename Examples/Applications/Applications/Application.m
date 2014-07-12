@@ -29,7 +29,8 @@
 {
     _displayName = displayName;
     
-    self.iconName = [[NSString stringWithFormat:@"icon_%@", self.displayName] lowercaseString];
+    self.iconName = [[[NSString stringWithFormat:@"icon_%@", self.displayName] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    
     self.type = applicationTypeFromString(self.displayName);
 }
 
@@ -46,11 +47,13 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Foursquare",
                      @"iCloud",
                      @"Instagram",
+                     @"iTunes Connect",
                      @"Kickstarter",
                      @"Path",
                      @"Pinterest",
-                     @"Remote",
                      @"Photos",
+                     @"Podcasts",
+                     @"Remote",
                      @"Safari",
                      @"Skype",
                      @"Slack",
