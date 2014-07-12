@@ -35,6 +35,9 @@
 @synthesize contentView = _contentView;
 @synthesize titleLabel = _titleLabel, detailLabel = _detailLabel, imageView = _imageView, button = _button;
 
+
+#pragma mark - Initialization Methods
+
 - (instancetype)init
 {
     self =  [super init];
@@ -75,7 +78,7 @@
     {
         _titleLabel = [UILabel new];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleLabel.backgroundColor = [UIColor blueColor];
+        _titleLabel.backgroundColor = [UIColor clearColor];
         
         _titleLabel.font = [UIFont systemFontOfSize:27.0];
         _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
@@ -93,9 +96,10 @@
     {
         _imageView = [UIImageView new];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _imageView.backgroundColor = [UIColor clearColor];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         _imageView.userInteractionEnabled = NO;
-        
+
         [_contentView addSubview:_imageView];
     }
     return _imageView;
@@ -107,14 +111,14 @@
     {
         _detailLabel = [UILabel new];
         _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _detailLabel.backgroundColor = [UIColor greenColor];
+        _detailLabel.backgroundColor = [UIColor clearColor];
         
         _detailLabel.font = [UIFont systemFontOfSize:17.0];
         _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailLabel.numberOfLines = 0;
-        
+
         [_contentView addSubview:_detailLabel];
     }
     return _detailLabel;
@@ -126,17 +130,31 @@
     {
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.translatesAutoresizingMaskIntoConstraints = NO;
+        _button.backgroundColor = [UIColor clearColor];
         _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        _button.adjustsImageWhenHighlighted = YES;
-        _button.userInteractionEnabled = YES;
-        _button.backgroundColor = [UIColor redColor];
         
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
         
         [_contentView addSubview:_button];
     }
     return _button;
+}
+
+- (BOOL)canShowImage {
+    return (_imageView.image && _imageView.superview);
+}
+
+- (BOOL)canShowTitle {
+    return (_titleLabel.attributedText.string.length > 0 && _titleLabel.superview);
+}
+
+- (BOOL)canShowDetail {
+    return (_detailLabel.attributedText.string.length > 0 && _detailLabel.superview);
+}
+
+- (BOOL)canShowButton {
+    return ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 && _button.superview);
 }
 
 
@@ -209,15 +227,15 @@
         
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
-    }
-    
-    if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
         
-        NSLayoutConstraint *hConstraint = self.constraints[3];
-        hConstraint.constant = self.offset.x*-1;
-        
-        NSLayoutConstraint *vConstraint = self.constraints[1];
-        vConstraint.constant = self.offset.y*-1;
+        if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
+            
+            NSLayoutConstraint *hConstraint = self.constraints[3];
+            hConstraint.constant = self.offset.x*-1;
+            
+            NSLayoutConstraint *vConstraint = self.constraints[1];
+            vConstraint.constant = self.offset.y*-1;
+        }
     }
     
     if (_customView) {
@@ -287,23 +305,8 @@
     }
 }
 
-- (BOOL)canShowImage {
-    return (_imageView.image && _imageView.superview);
-}
-
-- (BOOL)canShowTitle {
-    return (_titleLabel.attributedText.string.length > 0 && _titleLabel.superview);
-}
-
-- (BOOL)canShowDetail {
-    return (_detailLabel.attributedText.string.length > 0 && _detailLabel.superview);
-}
-
-- (BOOL)canShowButton {
-    return ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 && _button.superview);
-}
-
 @end
+
 
 #pragma mark - UIScrollView+EmptyDataSet
 
@@ -316,6 +319,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 @end
 
 @implementation UIScrollView (DZNEmptyDataSet)
+
 
 #pragma mark - Getter Methods
 
@@ -338,7 +342,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.hostView = self;
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.userInteractionEnabled = YES;
-        view.backgroundColor = nil;
+        view.backgroundColor = [UIColor clearColor];
         view.hidden = YES;
         
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
@@ -541,12 +545,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     objc_setAssociatedObject(self, kEmptyDataSetView, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+
 #pragma mark - Public Methods
 
 - (void)reloadEmptyDataSet
 {
     [self dzn_reloadEmptyDataSet];
 }
+
 
 #pragma mark - Action Methods
 
@@ -648,7 +654,7 @@ static NSString *const DZNSwizzleInfoSelectorKey = @"selector";
 void dzn_original_implementation(id self, SEL _cmd)
 {
     // Fetch original implementation from lookup table
-    NSString *key = _implementationKey(self, _cmd);
+    NSString *key = dzn_implementationKey(self, _cmd);
     
     NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
     NSValue *impValue = [swizzleInfo valueForKey:DZNSwizzleInfoPointerKey];
@@ -664,7 +670,7 @@ void dzn_original_implementation(id self, SEL _cmd)
     [self dzn_reloadEmptyDataSet];
 }
 
-NSString *_implementationKey(id target, SEL selector)
+NSString *dzn_implementationKey(id target, SEL selector)
 {
     if (!target || !selector) {
         return nil;
@@ -706,7 +712,7 @@ NSString *_implementationKey(id target, SEL selector)
         }
     }
     
-    NSString *key = _implementationKey(self, selector);
+    NSString *key = dzn_implementationKey(self, selector);
     NSValue *impValue = [[_impLookupTable objectForKey:key] valueForKey:DZNSwizzleInfoPointerKey];
     
     // If the implementation for this class already exist, skip!!
