@@ -178,6 +178,11 @@
             barstyle = UIStatusBarStyleLightContent;
             break;
         }
+        case ApplicationTypeWWDC:
+        {
+            tintColor = [UIColor colorWithHex:@"fc6246"];
+            break;
+        }
         default:
             barColor = [UIColor colorWithHex:@"f8f8f8"];
             tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
@@ -347,6 +352,12 @@
             textColor = [UIColor colorWithHex:@"808080"];
             break;
         }
+        case ApplicationTypeWWDC:
+        {
+            text = @"No Favorites";
+            font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0];
+            break;
+        }
         default:
             return nil;
     }
@@ -426,7 +437,7 @@
         }
         case ApplicationTypeiCloud:
         {
-            text = @"Share photos and videos with\njust the people you choose,\nand let them add photos,\nvideos, and comments.";
+            text = @"Share photos and videos with\njust the people you choose, and let them add photos,\nvideos, and comments.";
             paragraph.lineSpacing = 2.0;
             break;
         }
@@ -514,6 +525,12 @@
             textColor = [UIColor colorWithHex:@"989898"];
             break;
         }
+        case ApplicationTypeWWDC:
+        {
+            text = @"Favorites are only available to Registered Apple Developers.";
+            font = [UIFont systemFontOfSize:16.0];
+            break;
+        }
         default:
             return nil;
     }
@@ -593,6 +610,13 @@
             text = @"Discover projects";
             font = [UIFont boldSystemFontOfSize:14.0];
             textColor = [UIColor whiteColor];
+            break;
+        }
+        case ApplicationTypeWWDC:
+        {
+            text = @"Sign In";
+            font = [UIFont systemFontOfSize:16.0];
+            textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"fc6246" : @"fdbbb2"];
             break;
         }
         default:
@@ -700,7 +724,7 @@
 
 #pragma mark - DZNEmptyDataSetDelegate Methods
 
-- (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
 {
     return YES;
 }
@@ -712,7 +736,7 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return YES;
+    return NO;
 }
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView

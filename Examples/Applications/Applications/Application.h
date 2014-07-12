@@ -31,7 +31,8 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeVideos,
     ApplicationTypeVesper,
     ApplicationTypeVine,
-    ApplicationTypeWhatsapp
+    ApplicationTypeWhatsapp,
+    ApplicationTypeWWDC
 };
 
 @interface Application : NSObject
