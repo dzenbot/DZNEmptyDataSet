@@ -57,87 +57,92 @@
 }
 
 
-#pragma mark - Getter Methods
+#pragma mark - Getters
 
 - (UIView *)contentView
 {
-    if (!_contentView)
-    {
-        _contentView = [UIView new];
-        _contentView.translatesAutoresizingMaskIntoConstraints = NO;
-        _contentView.backgroundColor = [UIColor clearColor];
-        _contentView.userInteractionEnabled = YES;
-        _contentView.alpha = 0;
+    if (_contentView) {
+        return _contentView;
     }
+    
+    _contentView = [UIView new];
+    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    _contentView.backgroundColor = [UIColor clearColor];
+    _contentView.userInteractionEnabled = YES;
+    _contentView.alpha = 0;
     return _contentView;
 }
 
 - (UILabel *)titleLabel
 {
-    if (!_titleLabel)
-    {
-        _titleLabel = [UILabel new];
-        _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleLabel.backgroundColor = [UIColor clearColor];
-        
-        _titleLabel.font = [UIFont systemFontOfSize:27.0];
-        _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.numberOfLines = 1;
-        
-        [_contentView addSubview:_titleLabel];
+    if (_titleLabel) {
+        return _titleLabel;
     }
+    
+    _titleLabel = [UILabel new];
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    
+    _titleLabel.font = [UIFont systemFontOfSize:27.0];
+    _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.numberOfLines = 1;
+    
+    [_contentView addSubview:_titleLabel];
     return _titleLabel;
 }
 
 - (UIImageView *)imageView
 {
-    if (!_imageView)
-    {
-        _imageView = [UIImageView new];
-        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _imageView.backgroundColor = [UIColor clearColor];
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        _imageView.userInteractionEnabled = NO;
-
-        [_contentView addSubview:_imageView];
+    if (_imageView) {
+        return _imageView;
     }
+    
+    _imageView = [UIImageView new];
+    _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    _imageView.backgroundColor = [UIColor clearColor];
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _imageView.userInteractionEnabled = NO;
+    
+    [_contentView addSubview:_imageView];
     return _imageView;
 }
 
 - (UILabel *)detailLabel
 {
-    if (!_detailLabel)
-    {
-        _detailLabel = [UILabel new];
-        _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _detailLabel.backgroundColor = [UIColor clearColor];
-        
-        _detailLabel.font = [UIFont systemFontOfSize:17.0];
-        _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
-        _detailLabel.textAlignment = NSTextAlignmentCenter;
-        _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _detailLabel.numberOfLines = 0;
-
-        [_contentView addSubview:_detailLabel];
+    if (_detailLabel) {
+        return _detailLabel;
     }
+    
+    _detailLabel = [UILabel new];
+    _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _detailLabel.backgroundColor = [UIColor clearColor];
+    
+    _detailLabel.font = [UIFont systemFontOfSize:17.0];
+    _detailLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+    _detailLabel.textAlignment = NSTextAlignmentCenter;
+    _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _detailLabel.numberOfLines = 0;
+    
+    [_contentView addSubview:_detailLabel];
     return _detailLabel;
 }
 
 - (UIButton *)button
 {
-    if (!_button)
-    {
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        _button.translatesAutoresizingMaskIntoConstraints = NO;
-        _button.backgroundColor = [UIColor clearColor];
-        _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        
-        [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [_contentView addSubview:_button];
+    if (_button) {
+        return _button;
     }
+    
+    _button = [UIButton buttonWithType:UIButtonTypeCustom];
+    _button.translatesAutoresizingMaskIntoConstraints = NO;
+    _button.backgroundColor = [UIColor clearColor];
+    _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_contentView addSubview:_button];
     return _button;
 }
 
@@ -158,7 +163,7 @@
 }
 
 
-#pragma mark - Setter Methods
+#pragma mark - Setters
 
 - (void)setCustomView:(UIView *)view
 {
@@ -239,9 +244,9 @@
     }
     
     if (_customView) {
-        if (_customView) [views setObject:_customView forKey:@"_customView"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_customView]|" options:0 metrics:nil views:views]];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_customView]|" options:0 metrics:nil views:views]];
+        if (_customView) [views setObject:_customView forKey:@"customView"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
         return;
     }
     
@@ -255,42 +260,51 @@
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
     
-    if ([self canShowTitle]) {
-        [views setObject:_titleLabel forKey:@"_titleLabel"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_titleLabel]-padding-|"
+    // Assign the image view's horizontal constraints to the content view
+    if (_imageView.superview) {
+        [views setObject:_imageView forKey:@"imageView"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[imageView(imgWidth)]-trailing-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if ([self canShowDetail]) {
-        [views setObject:_detailLabel forKey:@"_detailLabel"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_detailLabel]-padding-|"
+    // Assign the title label's horizontal constraints to the content view
+    if (_titleLabel.superview) {
+        [views setObject:_titleLabel forKey:@"titleLabel"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[titleLabel]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if ([self canShowImage]) {
-        [views setObject:_imageView forKey:@"_imageView"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[_imageView(imgWidth)]-trailing-|"
+    // Assign the detail label's horizontal constraints to the content view
+    if (_detailLabel.superview) {
+        [views setObject:_detailLabel forKey:@"detailLabel"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[detailLabel]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
-    if ([self canShowButton]) {
-        [views setObject:_button forKey:@"_button"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_button]-padding-|"
+    // Assign the button's horizontal constraints to the content view
+    if (_button.superview) {
+        [views setObject:_button forKey:@"button"];
+        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button]-padding-|"
                                                                              options:0 metrics:metrics views:views]];
     }
     
+    // Since any element could be missing from displaying, we need to create a dynamic string format
     NSMutableString *format = [NSMutableString new];
     NSMutableArray *subviews = [NSMutableArray new];
     
-    if ([self canShowImage]) [subviews addObject:@"[_imageView(imgHeight)]"];
-    if ([self canShowTitle]) [subviews addObject:@"[_titleLabel]"];
-    if ([self canShowDetail]) [subviews addObject:@"[_detailLabel]"];
-    if ([self canShowButton]) [subviews addObject:@"[_button]"];
+    // Add any valid element
+    if ([self canShowImage]) [subviews addObject:@"[imageView(imgHeight)]"];
+    if ([self canShowTitle]) [subviews addObject:@"[titleLabel]"];
+    if ([self canShowDetail]) [subviews addObject:@"[detailLabel]"];
+    if ([self canShowButton]) [subviews addObject:@"[button]"];
     else {
+        // Button force its bounds because of intrinsicContentSize, so even if there is no content on it, it shows up
+        // We need to remove and invalidate it
         [_button removeFromSuperview];
         _button = nil;
     }
     
+    // Build the string format for the vertical constraints, adding a gap between each element
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [format appendString:obj];
         if (idx < subviews.count-1) {
@@ -299,6 +313,7 @@
         }
     }];
     
+    // Assign the vertical constraints to the content view
     if (format.length > 0) {
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
                                                                              options:0 metrics:metrics views:views]];
@@ -320,8 +335,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 @implementation UIScrollView (DZNEmptyDataSet)
 
-
-#pragma mark - Getter Methods
+#pragma mark - Getters
 
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
@@ -338,19 +352,21 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     DZNEmptyDataSetView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
     if (!view)
     {
-        view = [[DZNEmptyDataSetView alloc] init];
-        view.hostView = self;
-        view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        view.userInteractionEnabled = YES;
-        view.backgroundColor = [UIColor clearColor];
-        view.hidden = YES;
         
-        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
-        gesture.delegate = self;
-        [view addGestureRecognizer:gesture];
-        
-        [self setEmptyDataSetView:view];
     }
+    
+    view = [[DZNEmptyDataSetView alloc] init];
+    view.hostView = self;
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    view.userInteractionEnabled = YES;
+    view.backgroundColor = [UIColor clearColor];
+    view.hidden = YES;
+    
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
+    gesture.delegate = self;
+    [view addGestureRecognizer:gesture];
+    
+    [self setEmptyDataSetView:view];
     return view;
 }
 
@@ -512,7 +528,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Setter Methods
+#pragma mark - Setters
 
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
