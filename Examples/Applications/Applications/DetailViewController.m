@@ -304,6 +304,13 @@
             textColor = [UIColor colorWithHex:@"666666"];
             break;
         }
+        case ApplicationTypeRemote:
+        {
+            text = @"Cannot Connect to a\nLocal Network";
+            font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18.0];
+            textColor = [UIColor colorWithHex:@"555555"];
+            break;
+        }
         case ApplicationTypePhotos:
         {
             text = @"No Photos or Videos";
@@ -356,6 +363,7 @@
         {
             text = @"No Favorites";
             font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0];
+            textColor = [UIColor colorWithHex:@"b9b9b9"];
             break;
         }
         default:
@@ -468,6 +476,13 @@
             text = @"You can sync photos and videos onto your iPhone using iTunes.";
             break;
         }
+        case ApplicationTypeRemote:
+        {
+            text = @"You must connect to a Wi-Fi network to control iTunes or Apple TV";
+            font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:11.75];
+            textColor = [UIColor colorWithHex:@"555555"];
+            break;
+        }
         case ApplicationTypeSafari:
         {
             text = @"Safari cannot open the page because your iPhone is not connected to the Internet.";
@@ -529,6 +544,7 @@
         {
             text = @"Favorites are only available to Registered Apple Developers.";
             font = [UIFont systemFontOfSize:16.0];
+            textColor = [UIColor colorWithHex:@"b9b9b9"];
             break;
         }
         default:
@@ -717,6 +733,7 @@
         case ApplicationTypeVesper:     return 22.0;
         case ApplicationTypeVideos:     return 0.1;
         case ApplicationTypeVine:       return 0.1;
+        case ApplicationTypeWWDC:       return 18.0;
         default:                        return 0.0;
     }
 }

@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeKickstarter,
     ApplicationTypePath,
     ApplicationTypePinterest,
+    ApplicationTypeRemote,
     ApplicationTypePhotos,
     ApplicationTypeSafari,
     ApplicationTypeSkype,

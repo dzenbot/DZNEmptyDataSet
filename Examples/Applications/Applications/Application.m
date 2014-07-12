@@ -49,6 +49,7 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Kickstarter",
                      @"Path",
                      @"Pinterest",
+                     @"Remote",
                      @"Photos",
                      @"Safari",
                      @"Skype",
