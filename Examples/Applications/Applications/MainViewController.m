@@ -187,13 +187,6 @@
     static NSString *cellIdentifier = @"app_cell_identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.textColor = [UIColor darkGrayColor];
-        cell.detailTextLabel.textColor = [UIColor grayColor];
-    }
-    
     Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     
     cell.textLabel.text = app.displayName;

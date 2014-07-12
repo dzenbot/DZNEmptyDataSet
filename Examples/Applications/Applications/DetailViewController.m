@@ -58,6 +58,13 @@
     UIStatusBarStyle barstyle = UIStatusBarStyleDefault;
     
     switch (self.application.type) {
+        case ApplicationType500px:
+        {
+            barColor = [UIColor colorWithHex:@"242424"];
+            tintColor = [UIColor colorWithHex:@"d7d7d7"];
+            barstyle = UIStatusBarStyleLightContent;
+            break;
+        }
         case ApplicationTypeAirbnb:
         {
             barColor = [UIColor colorWithHex:@"f8f8f8"];
@@ -211,6 +218,13 @@
     NSMutableDictionary *attributes = [NSMutableDictionary new];
     
     switch (self.application.type) {
+        case ApplicationType500px:
+        {
+            text = @"No Photos";
+            font = [UIFont boldSystemFontOfSize:17.0];
+            textColor = [UIColor colorWithHex:@"545454"];
+            break;
+        }
         case ApplicationTypeAirbnb:
         {
             text = @"No Messages";
@@ -360,6 +374,13 @@
     paragraph.alignment = NSTextAlignmentCenter;
     
     switch (self.application.type) {
+        case ApplicationType500px:
+        {
+            text = @"Get started by uploading a\nphoto.";
+            font = [UIFont boldSystemFontOfSize:15.0];
+            textColor = [UIColor colorWithHex:@"545454"];
+            break;
+        }
         case ApplicationTypeAirbnb:
         {
             text = @"When you have messages, you’ll\nsee them here.";
@@ -621,6 +642,7 @@
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     switch (self.application.type) {
+        case ApplicationType500px:      return [UIColor blackColor];
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
@@ -657,6 +679,7 @@
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
 {
     switch (self.application.type) {
+        case ApplicationType500px:      return 9.0;
         case ApplicationTypeAirbnb:     return 24.0;
         case ApplicationTypeAppstore:   return 34.0;
         case ApplicationTypeFacebook:   return 30.0;

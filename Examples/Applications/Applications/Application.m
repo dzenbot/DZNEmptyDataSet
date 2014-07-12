@@ -36,6 +36,7 @@
 ApplicationType applicationTypeFromString(NSString *string)
 {
     NSArray *arr = @[
+                     @"500px",
                      @"Airbnb",
                      @"AppStore",
                      @"Camera",

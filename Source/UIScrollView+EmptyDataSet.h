@@ -37,7 +37,6 @@
 
 /**
  The object that acts as the data source of the empty datasets.
- 
  @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional; they will not be considered if the view controller doesn't conform to them.
  */
 @protocol DZNEmptyDataSetSource <NSObject>
