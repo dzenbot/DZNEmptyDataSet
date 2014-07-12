@@ -13,7 +13,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <searchBar key="tableHeaderView" appearanceType="aqua" alpha="0.75" contentMode="redraw" searchBarStyle="minimal" text="" id="Zhb-Pe-mgA">
+                        <searchBar key="tableHeaderView" appearanceType="aqua" contentMode="redraw" searchBarStyle="minimal" text="" id="Zhb-Pe-mgA">
                             <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" red="0.046561669559999998" green="0.41276246309999998" blue="0.99838423730000003" alpha="1" colorSpace="calibratedRGB"/>

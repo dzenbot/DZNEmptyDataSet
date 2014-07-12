@@ -113,7 +113,7 @@
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     NSString *text = @"Search on the App Store";
-    UIFont *font = [UIFont boldSystemFontOfSize:16.0];
+    UIFont *font = [UIFont systemFontOfSize:16.0];
     UIColor *textColor = [UIColor colorWithHex:(state == UIControlStateNormal) ? @"007aff" : @"c6def9"];
     
     NSMutableDictionary *attributes = [NSMutableDictionary new];
@@ -186,6 +186,10 @@
 {
     static NSString *cellIdentifier = @"app_cell_identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
     
     Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     
