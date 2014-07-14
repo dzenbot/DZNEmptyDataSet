@@ -538,20 +538,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return items;
 }
 
-- (void)dzn_willWillAppear
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
-        [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
-    }
-}
-
-- (void)dzn_willDisappear
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
-        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
-    }
-}
-
 
 #pragma mark - Setters
 
@@ -587,15 +573,21 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Public Methods
+#pragma mark - Events
 
-- (void)reloadEmptyDataSet
+- (void)dzn_willWillAppear
 {
-    [self dzn_reloadEmptyDataSet];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
+    }
 }
 
-
-#pragma mark - Action Methods
+- (void)dzn_willDisappear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
+    }
+}
 
 - (void)dzn_didTapContentView:(id)sender
 {
@@ -611,10 +603,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
-- (void)layoutSubviews
+
+#pragma mark - Public Methods
+
+- (void)reloadEmptyDataSet
 {
-    [super layoutSubviews];
+    [self dzn_reloadEmptyDataSet];
 }
+
+
+#pragma mark - Private Methods
 
 - (void)dzn_reloadEmptyDataSet
 {
@@ -693,7 +691,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - ReloadData Method Swizzling
+#pragma mark - Method Swizzling
 
 static NSMutableDictionary *_impLookupTable;
 static NSString *const DZNSwizzleInfoPointerKey = @"pointer";
@@ -785,7 +783,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 }
 
 
-#pragma mark - UIGestureRecognizerDelegate methods
+#pragma mark - UIGestureRecognizerDelegate Methods
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
