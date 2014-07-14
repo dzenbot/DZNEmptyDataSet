@@ -620,6 +620,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Moves all its subviews
         [view removeSubviews];
+
+        if ([self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+            [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
+        }
         
         // If a non-nil custom view is available, let's configure it instead
         if (customView) {
@@ -662,6 +666,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_invalidate
 {
+    if ([self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
+    }
+
     if (self.emptyDataSetView) {
         [self.emptyDataSetView removeSubviews];
         [self.emptyDataSetView removeFromSuperview];
