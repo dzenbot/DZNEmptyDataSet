@@ -538,6 +538,20 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return items;
 }
 
+- (void)dzn_willWillAppear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
+    }
+}
+
+- (void)dzn_willDisappear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
+    }
+}
+
 
 #pragma mark - Setters
 
@@ -610,6 +624,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     
     if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
+        // Notifies that the empty dataset view will appear
+        [self dzn_willWillAppear];
+        
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         UIView *customView = [self dzn_customView];
         
@@ -620,10 +637,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Moves all its subviews
         [view removeSubviews];
-
-        if ([self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
-            [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
-        }
         
         // If a non-nil custom view is available, let's configure it instead
         if (customView) {
@@ -666,9 +679,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_invalidate
 {
-    if ([self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
-        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
-    }
+    // Notifies that the empty dataset view will disappear
+    [self dzn_willDisappear];
 
     if (self.emptyDataSetView) {
         [self.emptyDataSetView removeSubviews];
