@@ -20,9 +20,9 @@
 @interface UIScrollView (EmptyDataSet)
 
 /** The empty datasets data source. */
-@property (nonatomic, weak) id <DZNEmptyDataSetSource> emptyDataSetSource;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource;
 /** The empty datasets delegate. */
-@property (nonatomic, weak) id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
 /** YES if any empty dataset is visible. */
 @property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
 
