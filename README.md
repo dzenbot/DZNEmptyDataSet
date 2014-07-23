@@ -1,6 +1,6 @@
 DZNEmptyDataSet
 =================
-[![Pod Version - Thanks to https://github.com/badges/cocoapod-badges](https://cocoapod-badges.herokuapp.com/v/DZNEmptyDataSet/badge.png)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
+[![Pod Version - Thanks to https://github.com/badges/cocoapod-badges](https://betabadges.herokuapp.com/v/DZNEmptyDataSet/badge.svg)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
 [![Gittip](http://img.shields.io/gittip/dzenbot.svg)](https://www.gittip.com/dzenbot/)
 ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
 
