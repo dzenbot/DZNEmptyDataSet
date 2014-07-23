@@ -1,11 +1,10 @@
 DZNEmptyDataSet
 =================
-
-If you are using DZNEmptyDataSet in your application, [please take a screenshot of your empty dataset render and submit it here](https://github.com/dzenbot/DZNEmptyDataSet/issues/4).
-
 [![Pod Version - Thanks to https://github.com/badges/cocoapod-badges](https://cocoapod-badges.herokuapp.com/v/DZNEmptyDataSet/badge.png)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
 [![Gittip](http://img.shields.io/gittip/dzenbot.svg)](https://www.gittip.com/dzenbot/)
 ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
+
+If you are using DZNEmptyDataSet in your application, [please take a screenshot of your empty dataset render and submit it here](https://github.com/dzenbot/DZNEmptyDataSet/issues/4).
 
 ![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
 ![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
