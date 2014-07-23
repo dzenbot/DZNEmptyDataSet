@@ -1,3 +1,12 @@
+DZNEmptyDataSet
+=================
+
+If you are using DZNEmptyDataSet in your application, [please take a screenshot of your empty dataset render and submit it here](https://github.com/dzenbot/DZNEmptyDataSet/issues/4).
+
+[![Pod Version - Thanks to https://github.com/badges/cocoapod-badges](https://cocoapod-badges.herokuapp.com/v/DZNEmptyDataSet/badge.png)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
+[![Gittip      ](http://img.shields.io/gittip/dzenbot.svg)                      ](https://www.gittip.com/dzenbot/)
+![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
+
 ![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
 ![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
 (These are real life examples, available in the sample project)
@@ -28,8 +37,6 @@ Most applications show lists of content (datasets), which many turn out to be em
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
 By just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will be able to fully customize the content and appearance of the empty datasets for your application.
-
-If you are using DZNEmptyDataSet in your application, [please take a screenshot of your empty dataset render and submit it here](https://github.com/dzenbot/DZNEmptyDataSet/issues/4).
 
 
 ## Installation
