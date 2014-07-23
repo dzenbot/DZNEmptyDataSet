@@ -1,8 +1,8 @@
 DZNEmptyDataSet
 =================
-[![Pod Version - Thanks to https://github.com/badges/cocoapod-badges](https://betabadges.herokuapp.com/v/DZNEmptyDataSet/badge.svg)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
+[![Pod Version](https://betabadges.herokuapp.com/v/DZNEmptyDataSet/badge.svg)](https://cocoadocs.org/docsets/DZNEmptyDataSet)
 [![Gittip](http://img.shields.io/gittip/dzenbot.svg)](https://www.gittip.com/dzenbot/)
-![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 If you are using DZNEmptyDataSet in your application, [please take a screenshot of your empty dataset render and submit it here](https://github.com/dzenbot/DZNEmptyDataSet/issues/4).
 
