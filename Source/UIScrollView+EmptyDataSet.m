@@ -794,4 +794,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
     return [super gestureRecognizerShouldBegin:gestureRecognizer];
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
 @end
