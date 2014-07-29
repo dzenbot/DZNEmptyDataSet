@@ -110,6 +110,7 @@
 
 /**
  Asks the data source for a offset for vertical and horizontal alignment of the content. Default is CGPointZero.
+ @discussion If called when using a tableView, a value sum between the header and footer view's height will be added to any value you assign to vertical offset.
  
  @param scrollView A scrollView subclass object informing the delegate.
  @return The offset for vertical and horizontal alignment.

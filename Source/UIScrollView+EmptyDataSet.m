@@ -321,18 +321,6 @@
     }
 }
 
-//
-//#pragma mark - UIView Constraints & Layout Methods
-//
-//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-//{
-//    UIView *view = [super hitTest:point withEvent:event];
-//    
-//    NSLog(@"view : %@", view);
-//    
-//    return view;
-//}
-
 @end
 
 
@@ -476,10 +464,20 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (CGPoint)dzn_offset
 {
+    CGPoint offset = CGPointZero;
+    
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(offsetForEmptyDataSet:)]) {
-        return [self.emptyDataSetSource offsetForEmptyDataSet:self];
+        offset = [self.emptyDataSetSource offsetForEmptyDataSet:self];
     }
-    return CGPointZero;
+    
+    if ([self respondsToSelector:@selector(tableHeaderView)] && [self respondsToSelector:@selector(tableFooterView)]) {
+        UIView *headerView = [self performSelector:@selector(tableHeaderView)];
+        UIView *footerView = [self performSelector:@selector(tableFooterView)];
+        
+        offset.y += (headerView.frame.size.height-footerView.frame.size.height)/2;
+    }
+    
+    return offset;
 }
 
 - (CGFloat)dzn_verticalSpace
@@ -629,8 +627,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         UIView *customView = [self dzn_customView];
         
         if (!view.superview) {
-            NSInteger idx = (self.subviews.count > 0) ? 1 : 0;
-            [self insertSubview:view atIndex:idx];
+
+            // Send the view to back, in case a header and/or footer is present
+            if (self.subviews.count > 1) {
+                [self insertSubview:view atIndex:1];
+            }
+            else {
+                [self addSubview:view];
+            }
         }
         
         // Moves all its subviews
