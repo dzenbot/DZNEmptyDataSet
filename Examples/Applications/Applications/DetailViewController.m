@@ -37,9 +37,8 @@
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
-    self.tableView.tableFooterView = [UIView new];
     
-    [self configureTableHeaderView];
+    [self configureHeaderAndFooter];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -196,7 +195,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:barstyle animated:YES];
 }
 
-- (void)configureTableHeaderView
+- (void)configureHeaderAndFooter
 {
     NSString *imageName = nil;
     
@@ -208,14 +207,17 @@
     }
     
     if (imageName) {
-        UIImageView *headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-        headerView.alpha = 0.5;
         
-        UIGestureRecognizer *tapGesture = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeaderView:)];
-        [headerView addGestureRecognizer:tapGesture];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+        imageView.userInteractionEnabled = YES;
         
-        self.tableView.tableHeaderView = headerView;
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeaderView:)];
+        [imageView addGestureRecognizer:tapGesture];
+        
+        self.tableView.tableHeaderView = imageView;
     }
+    
+    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)didTapHeaderView:(id)sender
@@ -234,6 +236,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    return cell;
 }
 
 
@@ -756,12 +769,6 @@
     if (self.application.type == ApplicationTypeKickstarter) {
         return CGPointMake(0, -100.0);
     }
-    if (self.application.type == ApplicationTypePinterest) {
-        return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
-    }
-    if (self.application.type == ApplicationTypePodcasts) {
-        return CGPointMake(0, self.tableView.tableHeaderView.frame.size.height/2);
-    }
     if (self.application.type == ApplicationTypeTwitter) {
         return CGPointMake(0, -roundf(self.tableView.frame.size.height/2.5));
     }
@@ -807,7 +814,7 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return NO;
+    return YES;
 }
 
 - (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
