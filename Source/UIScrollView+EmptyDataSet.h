@@ -37,7 +37,7 @@
 
 /**
  The object that acts as the data source of the empty datasets.
- @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional; they will not be considered if the view controller doesn't conform to them.
+ @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
  */
 @protocol DZNEmptyDataSetSource <NSObject>
 @required
@@ -130,7 +130,7 @@
 
 /**
  The object that acts as the delegate of the empty datasets.
- The delegate must adopt the DZNEmptyDataSetDelegate protocol. The delegate is not retained.
+ @discussion The delegate can adopt the DZNEmptyDataSetDelegate protocol. The delegate is not retained. All delegate methods are optional.
  
  @discussion All delegate methods are optional. Use this delegate for receiving action callbacks.
  */
