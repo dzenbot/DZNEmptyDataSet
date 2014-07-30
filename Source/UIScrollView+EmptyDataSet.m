@@ -372,7 +372,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (BOOL)isEmptyDataSetVisible
 {
     UIView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
-    return !view.hidden;
+    return view ? !view.hidden : NO;
 }
 
 - (BOOL)dzn_canDisplay
@@ -715,13 +715,14 @@ void dzn_original_implementation(id self, SEL _cmd)
     
     IMP impPointer = [impValue pointerValue];
     
+    // We then inject the additional implementation for reloading the empty dataset
+    // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
+    [self dzn_reloadEmptyDataSet];
+
     // If found, call original implementation
     if (impPointer) {
         ((void(*)(id,SEL))impPointer)(self,_cmd);
     }
-    
-    // We then inject the additional implementation for reloading the empty dataset
-    [self dzn_reloadEmptyDataSet];
 }
 
 NSString *dzn_implementationKey(id target, SEL selector)
