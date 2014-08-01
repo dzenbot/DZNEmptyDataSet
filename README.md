@@ -8,7 +8,7 @@ If you are using DZNEmptyDataSet in your application, [please take a screenshot 
 
 ![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
 ![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
-(These are real life examples, available in the sample project)
+(These are real life examples, available in the 'Applications' sample project)
 
 ### The Empty DataSet Pattern
 Most applications show lists of content (datasets), which many turn out to be empty at one point, specially for new users with blank accounts. Empty screens create confusion by not being clear about what's going on, if there is an error/bug or if the user is supposed to do something within your app to be able to consume the content.
