@@ -22,7 +22,7 @@ Most applications show lists of content (datasets), which many turn out to be em
 
 
 ### Features
-* Compatible with UITableView, UICollectionView and UISearchDisplayController.
+* Compatible with UITableView, UICollectionView, UISearchDisplayController and UIScrollView.
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support. Also accepts custom vertical and horizontal alignment.
@@ -49,12 +49,12 @@ pod 'DZNEmptyDataSet'
 ## How to use
 For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoadocs.org/docsets/DZNEmptyDataSet/)
 
-### Step 1: Import
+### Import
 ```
 #import "UIScrollView+EmptyDataSet.h"
 ```
 
-### Step 2: Protocol Conformance
+### Protocol Conformance
 Conform to datasource and/or delegate.
 ```
 @interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -71,7 +71,7 @@ Conform to datasource and/or delegate.
 }
 ```
 
-### Step 3: Data Source Implementation
+### Data Source Implementation
 Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to customise the text appearance.
 
 The attributed string for the title of the empty dataset:
@@ -150,7 +150,7 @@ Additionally, you can modify the horizontal and/or vertical alignments (as when 
 ```
 
 
-### Step 4: Delegate Implementation
+### Delegate Implementation
 Return the behaviours you would expect from the empty datasets, and receive the user events.
 
 Asks to know if the empty dataset should be rendered and displayed (Default is YES) :
@@ -191,7 +191,7 @@ Notifies when the dataset call to action button was tapped:
 }
 ```
 
-### Step 5: Refresh layout
+### Refresh layout
 If you need to refresh the empty dataset layout, just call:
 
 ```
@@ -202,6 +202,9 @@ or
 [self.collectionView reloadData];
 ```
 depending of which you are using.
+
+### Force layout update
+You may also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty dataset layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on the delegates that you can avoid calling if not needed. As well, this is the only way to refresh content when using with UIScrollView.
 
 
 ## Sample projects
