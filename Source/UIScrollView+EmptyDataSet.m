@@ -660,10 +660,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:1] forState:1];
             [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
 
-            // Configure offset and spacing
-            view.offset = [self dzn_offset];
+            // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
         }
+        
+        // Configure Offset
+        view.offset = [self dzn_offset];
         
         // Configure the empty dataset view
         view.backgroundColor = [self dzn_dataSetBackgroundColor];
