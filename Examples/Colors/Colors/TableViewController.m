@@ -31,8 +31,6 @@
 {
     [super loadView];
     
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
 }
 

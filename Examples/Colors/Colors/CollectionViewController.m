@@ -38,9 +38,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
 {
     [super loadView];
         
-    self.collectionView.emptyDataSetSource = self;
-    self.collectionView.emptyDataSetDelegate = self;
-    
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     layout.minimumLineSpacing = 2.0;
     layout.minimumInteritemSpacing = 2;

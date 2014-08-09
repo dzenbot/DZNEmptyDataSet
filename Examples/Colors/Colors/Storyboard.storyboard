@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="GvD-b2-ath">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="GvD-b2-ath">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -43,6 +43,8 @@
                         <connections>
                             <outlet property="dataSource" destination="Bwl-Kc-CEM" id="QaH-oL-krX"/>
                             <outlet property="delegate" destination="Bwl-Kc-CEM" id="Ykr-jN-BQe"/>
+                            <outlet property="emptyDataSetDelegate" destination="Bwl-Kc-CEM" id="2jA-9e-K6o"/>
+                            <outlet property="emptyDataSetSource" destination="Bwl-Kc-CEM" id="3mT-FZ-yw3"/>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="TH1-YO-7w8">
@@ -76,6 +78,8 @@
                         <connections>
                             <outlet property="dataSource" destination="bxI-rv-q80" id="Gzc-6q-fJy"/>
                             <outlet property="delegate" destination="bxI-rv-q80" id="Rzh-Mq-JCA"/>
+                            <outlet property="emptyDataSetDelegate" destination="bxI-rv-q80" id="xfk-6m-ahr"/>
+                            <outlet property="emptyDataSetSource" destination="bxI-rv-q80" id="qYo-WU-a3J"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="fD4-hx-v8N">
@@ -245,6 +249,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="lgP-PJ-c6y"/>
+        <segue reference="86S-EI-aCd"/>
     </inferredMetricsTieBreakers>
 </document>
