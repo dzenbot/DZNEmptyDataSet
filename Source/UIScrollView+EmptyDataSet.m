@@ -414,13 +414,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)dzn_invalidate
 {
     // Notifies that the empty dataset view will disappear
-    if (self.isEmptyDataSetVisible) {
-        [self dzn_willDisappear];
-    }
+    [self dzn_willDisappear];
 
     if (self.emptyDataSetView) {
         [self.emptyDataSetView removeAllSubviews];
         [self.emptyDataSetView removeFromSuperview];
+        
         [self setEmptyDataSetView:nil];
     }
     
@@ -699,7 +698,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)removeAllSubviews
 {
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     _titleLabel = nil;
     _detailLabel = nil;
@@ -724,24 +723,29 @@ NSString *dzn_implementationKey(id target, SEL selector)
         [_contentView removeConstraints:_contentView.constraints];
     }
     
-    NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:NSDictionaryOfVariableBindings(self,_contentView)];
+    NSMutableDictionary *views = [NSMutableDictionary dictionary];
     
     if (!self.didCenterToSuperview) {
         self.centerToSuperview = YES;
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[_contentView]"
+        [views setObject:self forKey:@"self"];
+        [views setObject:_contentView forKey:@"contentView"];
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[_contentView]"
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
         
+        // If a custom offset is available, we modify the contentView's constraints constants
         if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
             
-            NSLayoutConstraint *hConstraint = self.constraints[3];
-            hConstraint.constant = self.offset.x*-1;
-            
             NSLayoutConstraint *vConstraint = self.constraints[1];
+            NSLayoutConstraint *hConstraint = [self.constraints lastObject];
+            
+            // the values must be inverted to follow the up-bottom and left-right directions
             vConstraint.constant = self.offset.y*-1;
+            hConstraint.constant = self.offset.x*-1;
         }
     }
     
