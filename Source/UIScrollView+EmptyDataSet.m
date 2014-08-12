@@ -752,6 +752,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
         if (_customView) [views setObject:_customView forKey:@"customView"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
+        [super updateConstraints];
         return;
     }
     
