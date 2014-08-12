@@ -717,7 +717,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)updateConstraints
 {
-    [super updateConstraints];
     
     if (_contentView.constraints.count > 0) {
         [_contentView removeConstraints:_contentView.constraints];
@@ -753,6 +752,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
         if (_customView) [views setObject:_customView forKey:@"customView"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
+        [super updateConstraints];
         return;
     }
     
@@ -824,6 +824,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
                                                                              options:0 metrics:metrics views:views]];
     }
+    
+    [super updateConstraints];
 }
 
 @end
