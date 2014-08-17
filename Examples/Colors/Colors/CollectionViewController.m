@@ -226,6 +226,12 @@ static NSString *CellIdentifier = @"ColorViewCell";
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
+{
+    
+    return nil;
+}
+
 
 #pragma mark - UICollectionViewDataDelegate methods
 

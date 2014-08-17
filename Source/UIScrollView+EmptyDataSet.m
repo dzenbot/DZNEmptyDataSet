@@ -268,6 +268,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
+    // Registers for device orientation changes
+    if (source && !self.emptyDataSetSource) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    }
+    else if (!source && self.emptyDataSetSource) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    }
+    
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
     
     if (![self dzn_canDisplay]) {
@@ -424,6 +432,18 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
     
     self.scrollEnabled = YES;
+}
+
+
+
+#pragma mark - Notification Events
+
+- (void)deviceDidChangeOrientation:(NSNotification *)notification
+{
+    if (self.isEmptyDataSetVisible) {
+        [self.emptyDataSetView updateConstraints];
+        [self.emptyDataSetView layoutIfNeeded];
+    }
 }
 
 
@@ -758,13 +778,13 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
     
-    NSInteger multiplier = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 16 : 4;
-    NSNumber *padding = @(roundf(width/multiplier));
+    NSNumber *padding =  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? @20 : @(roundf(width/16.0));
     NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
     NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
     NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
+    NSLog(@"metrics : %@", metrics);
     
     // Assign the image view's horizontal constraints to the content view
     if (_imageView.superview) {
