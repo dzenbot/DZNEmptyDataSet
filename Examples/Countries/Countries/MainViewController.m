@@ -12,13 +12,16 @@
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate> {
-    CGFloat _bottomMargin;
+
     UIView *_loadingView;
 }
 @property (nonatomic) BOOL loading;
 @property (nonatomic) BOOL loaded;
 @property (nonatomic) BOOL searching;
 @property (nonatomic) BOOL beganUpdates;
+
+@property (nonatomic, strong) NSLayoutConstraint *keyboardHC;
+
 @end
 
 @implementation MainViewController
@@ -27,7 +30,7 @@
 {
     self = [super init];
     if (self) {
-        
+        [self populateContent];
     }
     return self;
 }
@@ -45,16 +48,16 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent)];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.loading = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent:)];
     
-    [self.view addSubview:self.searchBar];
+    self.loading = NO;
+    
     [self.view addSubview:self.tableView];
-    
-    [self updateViewConstraints];
+    [self.view addSubview:self.searchBar];
+
+    [self setupViewConstraints];
 }
 
 
@@ -64,7 +67,7 @@
 {
     if (!_tableView)
     {
-        _tableView = [[UITableView alloc] init];
+        _tableView = [UITableView new];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -81,7 +84,7 @@
 {
     if (!_searchBar)
     {
-        _searchBar = [[UISearchBar alloc] init];
+        _searchBar = [UISearchBar new];
         _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
         _searchBar.delegate = self;
         
@@ -94,27 +97,25 @@
 
 #pragma mark - MainViewController Methods
 
-- (void)reloadContent
+- (void)populateContent
 {
-    if (!self.loading && self.loaded) {
+    // A list of countries in JSON by Félix Bellanger https://gist.github.com/Keeguon/2310008
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+    [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:nil forEntityName:@"Country"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
-        return;
-    }
-    
-    self.loading = NO;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        
-        // A list of countries in JSON by Félix Bellanger https://gist.github.com/Keeguon/2310008
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
-        [[NSManagedObjectContext sharedContext] hydrateStoreWithJSONAtPath:path attributeMappings:nil forEntityName:@"Country"];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-//            [[NSManagedObjectContext sharedContext] save:nil];
-            self.loaded = YES;
-        });
     });
+}
+
+- (void)reloadContent:(id)sender
+{
+    self.loading = !self.loading;
+    
+    self.searchBar.userInteractionEnabled = !self.loading;
+    self.searchBar.alpha = self.loading ? 0.5 : 1.0;
+    
+    [self.tableView reloadData];
 }
 
 
@@ -262,6 +263,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.loading) {
+        return 0;
+    }
+    
     id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
     return [sectionInfo numberOfObjects];
 }
@@ -366,6 +371,9 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
+            
+        default:
+            return;
     }
 }
 
@@ -451,42 +459,44 @@
 
 #pragma mark - Auto-Layout Methods
 
-- (void)updateViewConstraints
+- (void)setupViewConstraints
 {
-    [super updateViewConstraints];
-    
-    [self.view removeConstraints:self.view.constraints];
-    
     NSDictionary *views = @{@"searchBar": self.searchBar, @"tableView": self.tableView};
-    NSDictionary *metrics = @{@"bottomMargin": @(_bottomMargin)};
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[searchBar]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tableView]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[searchBar(44)][tableView]-bottomMargin-|" options:0 metrics:metrics views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[searchBar(==44)]-0@999-[tableView(>=0@750)]|" options:0 metrics:nil views:views]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"firstAttribute = %d", NSLayoutAttributeBottom];
+    self.keyboardHC = [[self.view.constraints filteredArrayUsingPredicate:predicate] firstObject];
 }
 
-- (void)updateTableViewConstraints:(NSNotification *)note
+- (void)updateViewConstraintsAnimated:(NSNotification *)note
 {
+    CGFloat duration = [[note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGFloat curve = [[note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] floatValue];
+    
     CGRect endFrame = CGRectZero;
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&endFrame];
     
     CGFloat minY = CGRectGetMinY(endFrame);
-    CGFloat keyboardHeight = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? endFrame.size.width : endFrame.size.height;
+    CGFloat keyboardHeight = endFrame.size.height;
+    
+    // Invert values when landscape, for iOS7 or prior
+    // In iOS8, Apple finally fixed the keyboard endframe values by returning the correct height in landscape orientation
+    if (![UIInputViewController class] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        keyboardHeight = endFrame.size.width;
+    }
+    
     if (keyboardHeight == CGRectGetHeight([UIScreen mainScreen].bounds)) keyboardHeight = 0;
-    _bottomMargin = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : keyboardHeight;
     
-    CGFloat duration = [[note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    CGFloat curve = [[note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] floatValue];
-    
-    [self updateViewConstraints];
-    [self.tableView updateConstraintsIfNeeded];
+    self.keyboardHC.constant = (minY == [UIScreen mainScreen].bounds.size.height) ? 0.0 : keyboardHeight;
     
     [UIView animateWithDuration:duration
                           delay:0.0
                         options:curve
                      animations:^{
                          [self.view layoutIfNeeded];
-                         [self.tableView layoutIfNeeded];
                      }
                      completion:NULL];
 }
@@ -496,16 +506,28 @@
 
 - (void)keyboardWillShow:(NSNotification *)note
 {
-    [self updateTableViewConstraints:note];
+    [self updateViewConstraintsAnimated:note];
 }
 
 - (void)keyboardWillHide:(NSNotification *)note
 {
-    [self updateTableViewConstraints:note];
+    [self updateViewConstraintsAnimated:note];
 }
 
 
 #pragma mark - View Auto-Rotation
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (![UIInputViewController class]) {
+        [self.tableView reloadEmptyDataSet];
+    }
+}
+
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{    
+    [self.tableView reloadEmptyDataSet];
+}
 
 - (NSUInteger)supportedInterfaceOrientations
 {

@@ -16,6 +16,7 @@
 		4F3E12F71953EF1000D8CB5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12ED1953EF1000D8CB5A /* main.m */; };
 		4F3E12F81953EF1000D8CB5A /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E12EF1953EF1000D8CB5A /* CollectionViewController.m */; };
 		4F48AECE1960B21000576D9A /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F48AECD1960B21000576D9A /* TableViewController.m */; };
+		4F657CBE19CD18BB00347199 /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F657CBD19CD18BB00347199 /* System.xcassets */; };
 		4FCD9A7F196705E4004DEA1B /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7B196705E4004DEA1B /* Palette.m */; };
 		4FCD9A80196705E4004DEA1B /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7C196705E4004DEA1B /* colors.json */; };
 		4FCD9A81196705E4004DEA1B /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD9A7E196705E4004DEA1B /* Color.m */; };
@@ -43,6 +44,7 @@
 		4F3E12EF1953EF1000D8CB5A /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		4F48AECC1960B21000576D9A /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		4F48AECD1960B21000576D9A /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		4F657CBD19CD18BB00347199 /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = System.xcassets; sourceTree = "<group>"; };
 		4FCD9A7A196705E4004DEA1B /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
 		4FCD9A7B196705E4004DEA1B /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
 		4FCD9A7C196705E4004DEA1B /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				4F3E12E61953EF1000D8CB5A /* Colors-Info.plist */,
 				4F3E12E71953EF1000D8CB5A /* Colors-Prefix.pch */,
 				4F3E12EA1953EF1000D8CB5A /* InfoPlist.strings */,
+				4F657CBD19CD18BB00347199 /* System.xcassets */,
 				4F3E12EC1953EF1000D8CB5A /* Images.xcassets */,
 				4F3E12ED1953EF1000D8CB5A /* main.m */,
 			);
@@ -195,6 +198,7 @@
 			files = (
 				4F3E12F61953EF1000D8CB5A /* Images.xcassets in Resources */,
 				CC5692A9196CA6D60018AF45 /* Storyboard.storyboard in Resources */,
+				4F657CBE19CD18BB00347199 /* System.xcassets in Resources */,
 				4FCD9A80196705E4004DEA1B /* colors.json in Resources */,
 				4F3E12F51953EF1000D8CB5A /* InfoPlist.strings in Resources */,
 			);

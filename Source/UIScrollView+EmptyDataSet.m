@@ -784,7 +784,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     NSNumber *trailing = @(roundf((width-[imgWidth floatValue])/2.0));
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
-    NSLog(@"metrics : %@", metrics);
     
     // Assign the image view's horizontal constraints to the content view
     if (_imageView.superview) {

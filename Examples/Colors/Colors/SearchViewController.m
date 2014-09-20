@@ -129,6 +129,14 @@
     self.rgbLabel.text = self.selectedColor.rgb;
 }
 
+- (void)adjustToDeviceOrientation
+{
+    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+    [self updateLayoutAnimatedWithDuration:0.25];
+    
+    [self.searchDisplayController.searchResultsTableView reloadEmptyDataSet];
+}
+
 
 #pragma mark - DZNEmptyDataSetSource Methods
 
@@ -182,6 +190,9 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        return nil;
+    }
     return [UIImage imageNamed:@"search_icon"];
 }
 
@@ -290,8 +301,14 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
-    [self updateLayoutAnimatedWithDuration:duration];
+    if (![self respondsToSelector:@selector(willTransitionToTraitCollection:withTransitionCoordinator:)]) {
+        [self adjustToDeviceOrientation];
+    }
+}
+
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [self adjustToDeviceOrientation];
 }
 
 - (NSUInteger)supportedInterfaceOrientations

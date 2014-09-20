@@ -91,7 +91,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
         _filteredPalette = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
         
         for (NSInteger i = _filteredPalette.count-1; i > 0; i--) {
-            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1)];
+            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1.0)];
         }
     }
     return _filteredPalette;
@@ -277,6 +277,13 @@ static NSString *CellIdentifier = @"ColorViewCell";
 #pragma mark - View Auto-Rotation
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (![self respondsToSelector:@selector(willTransitionToTraitCollection:withTransitionCoordinator:)]) {
+        [self.collectionView reloadData];
+    }
+}
+
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [self.collectionView reloadData];
 }

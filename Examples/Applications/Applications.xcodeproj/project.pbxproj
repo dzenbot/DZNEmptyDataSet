@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F36C06919CD11E40073E4BE /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F36C06819CD11E40073E4BE /* System.xcassets */; };
 		4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F805142196FBB2400FD61AA /* Storyboard.storyboard */; };
 		4FB5CE8319421BB70051C6BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8219421BB70051C6BD /* Foundation.framework */; };
 		4FB5CE8519421BB70051C6BD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		13F1742E09D146FD830BAED4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4F36C06819CD11E40073E4BE /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = System.xcassets; sourceTree = "<group>"; };
 		4F805142196FBB2400FD61AA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		4FB5CE7F19421BB70051C6BD /* Applications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Applications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB5CE8219421BB70051C6BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -178,6 +180,7 @@
 				4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */,
 				4FB5CEC31942210E0051C6BD /* applications.json */,
 				4FB5CE9A19421BB70051C6BD /* Images.xcassets */,
+				4F36C06819CD11E40073E4BE /* System.xcassets */,
 				4FB5CECE1942944A0051C6BD /* Fonts */,
 				4FB5CE8919421BB70051C6BD /* Supporting Files */,
 			);
@@ -326,6 +329,7 @@
 				4FB5CE9B19421BB70051C6BD /* Images.xcassets in Resources */,
 				4FB5CEED1942944A0051C6BD /* IdealSans-ThinItalic-Pro.otf in Resources */,
 				4FB5CF0E1943BA140051C6BD /* Lato-Heavy.ttf in Resources */,
+				4F36C06919CD11E40073E4BE /* System.xcassets in Resources */,
 				4FB5CF081943BA140051C6BD /* Lato-Black.ttf in Resources */,
 				4FB5CEE51942944A0051C6BD /* IdealSans-BookItalic-Pro.otf in Resources */,
 				4FB5CF0A1943BA140051C6BD /* Lato-Bold.ttf in Resources */,

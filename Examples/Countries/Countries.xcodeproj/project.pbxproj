@@ -20,6 +20,7 @@
 		4F4C75F61957AD7B00C32957 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4C75EA1957AD7B00C32957 /* MainViewController.m */; };
 		4F4C75F71957AD7B00C32957 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F4C75EB1957AD7B00C32957 /* Model.xcdatamodeld */; };
 		4F4C75F91957AD7B00C32957 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4C75F01957AD7B00C32957 /* main.m */; };
+		4F657CC219CD4A8700347199 /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F657CC119CD4A8700347199 /* System.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		4F4C75EE1957AD7B00C32957 /* Countries-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Countries-Info.plist"; sourceTree = "<group>"; };
 		4F4C75EF1957AD7B00C32957 /* Countries-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Countries-Prefix.pch"; sourceTree = "<group>"; };
 		4F4C75F01957AD7B00C32957 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F657CC119CD4A8700347199 /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = System.xcassets; path = Countries/System.xcassets; sourceTree = SOURCE_ROOT; };
 		AED14F1ABCD94E898178FF50 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				4F4C75E81957AD7B00C32957 /* Images.xcassets */,
+				4F657CC119CD4A8700347199 /* System.xcassets */,
 				4F4C75E61957AD7B00C32957 /* InfoPlist.strings */,
 				4F4C75EE1957AD7B00C32957 /* Countries-Info.plist */,
 				4F4C75EF1957AD7B00C32957 /* Countries-Prefix.pch */,
@@ -149,7 +152,7 @@
 		4F44C932193FD8B000E34052 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "DZN Labs";
 			};
 			buildConfigurationList = 4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Countries" */;
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F4C75F21957AD7B00C32957 /* countries.json in Resources */,
+				4F657CC219CD4A8700347199 /* System.xcassets in Resources */,
 				4F4C75F51957AD7B00C32957 /* Images.xcassets in Resources */,
 				4F4C75F41957AD7B00C32957 /* InfoPlist.strings in Resources */,
 			);
@@ -325,7 +329,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Countries/Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = Countries;
-				SDKROOT = iphoneos7.1;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -342,7 +346,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Countries/Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = Countries;
-				SDKROOT = iphoneos7.1;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
