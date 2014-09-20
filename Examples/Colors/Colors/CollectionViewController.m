@@ -42,11 +42,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
     layout.minimumLineSpacing = 2.0;
     layout.minimumInteritemSpacing = 2;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
+
     CGFloat inset = layout.minimumLineSpacing*1.5;
 
-    self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
-    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.collectionView.contentInset = UIEdgeInsetsMake(inset, 0.0, inset, 0.0);
+    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
 
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
 }
@@ -209,6 +209,11 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 #pragma mark - UICollectionViewDataSource methods
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.filteredPalette count];
@@ -224,12 +229,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
     cell.backgroundColor = color.color;
 
     return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
-{
-    
-    return nil;
 }
 
 
@@ -278,7 +277,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (![self respondsToSelector:@selector(willTransitionToTraitCollection:withTransitionCoordinator:)]) {
+    if (![UIInputViewController class]) {
         [self.collectionView reloadData];
     }
 }
