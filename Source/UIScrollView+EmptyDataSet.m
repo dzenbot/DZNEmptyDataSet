@@ -22,7 +22,6 @@
 
 @property (nonatomic, assign) CGPoint offset;
 @property (nonatomic, assign) CGFloat verticalSpace;
-@property (nonatomic, getter = didCenterToSuperview) BOOL centerToSuperview;
 
 - (void)removeAllSubviews;
 
@@ -742,35 +741,29 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)updateConstraints
 {
-    
-    if (_contentView.constraints.count > 0) {
-        [_contentView removeConstraints:_contentView.constraints];
+    if (self.constraints.count > 0) {
+        [self removeConstraints:self.constraints];
     }
     
     NSMutableDictionary *views = [NSMutableDictionary dictionary];
     
-    if (!self.didCenterToSuperview) {
-        self.centerToSuperview = YES;
+    [views setObject:self forKey:@"self"];
+    [views setObject:_contentView forKey:@"contentView"];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
+                                                                 options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[contentView]"
+                                                                 options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+    
+    // If a custom offset is available, we modify the contentView's constraints constants
+    if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
+        NSLayoutConstraint *vConstraint = self.constraints[1];
+        NSLayoutConstraint *hConstraint = [self.constraints lastObject];
         
-        [views setObject:self forKey:@"self"];
-        [views setObject:_contentView forKey:@"contentView"];
-        
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
-        
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[contentView]"
-                                                                     options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
-        
-        // If a custom offset is available, we modify the contentView's constraints constants
-        if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
-            
-            NSLayoutConstraint *vConstraint = self.constraints[1];
-            NSLayoutConstraint *hConstraint = [self.constraints lastObject];
-            
-            // the values must be inverted to follow the up-bottom and left-right directions
-            vConstraint.constant = self.offset.y*-1;
-            hConstraint.constant = self.offset.x*-1;
-        }
+        // the values must be inverted to follow the up-bottom and left-right directions
+        vConstraint.constant = self.offset.y*-1;
+        hConstraint.constant = self.offset.x*-1;
     }
     
     if (_customView) {
