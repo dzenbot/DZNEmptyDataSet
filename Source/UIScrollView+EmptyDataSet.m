@@ -217,14 +217,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(offsetForEmptyDataSet:)]) {
         offset = [self.emptyDataSetSource offsetForEmptyDataSet:self];
     }
-    
-    if ([self respondsToSelector:@selector(tableHeaderView)] && [self respondsToSelector:@selector(tableFooterView)]) {
-        UIView *headerView = [self performSelector:@selector(tableHeaderView)];
-        UIView *footerView = [self performSelector:@selector(tableFooterView)];
-        
-        offset.y += (headerView.frame.size.height-footerView.frame.size.height)/2;
-    }
-    
     return offset;
 }
 
@@ -755,10 +747,10 @@ NSString *dzn_implementationKey(id target, SEL selector)
         [views setObject:self forKey:@"self"];
         [views setObject:_contentView forKey:@"contentView"];
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0@250)-[contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[contentView]"
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0@250)-[contentView]"
                                                                      options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
         
         // If a custom offset is available, we modify the contentView's constraints constants
