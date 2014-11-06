@@ -40,8 +40,6 @@
  @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
  */
 @protocol DZNEmptyDataSetSource <NSObject>
-@required
-
 @optional
 
 /**

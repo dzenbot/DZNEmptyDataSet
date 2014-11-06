@@ -40,7 +40,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 @implementation UIScrollView (DZNEmptyDataSet)
 
-#pragma mark - Public Getters
+#pragma mark - Getters (Public)
 
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
@@ -59,7 +59,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Private Getters
+#pragma mark - Getters (Private)
 
 - (DZNEmptyDataSetView *)emptyDataSetView
 {
@@ -229,7 +229,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Delegate Getters
+#pragma mark - Delegate Getters & Events (Private)
 
 - (BOOL)dzn_shouldDisplay
 {
@@ -255,8 +255,36 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
+- (void)dzn_willWillAppear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
+    }
+}
 
-#pragma mark - Public Setters
+- (void)dzn_willDisappear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
+    }
+}
+
+- (void)dzn_didTapContentView:(id)sender
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
+    }
+}
+
+- (void)dzn_didTapDataButton:(id)sender
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
+    }
+}
+
+
+#pragma mark - Setters (Public)
 
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
@@ -293,7 +321,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Private Setters
+#pragma mark - Setters (Private)
 
 - (void)setEmptyDataSetView:(DZNEmptyDataSetView *)view
 {
@@ -301,38 +329,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Public Delegate Events
-
-- (void)dzn_willWillAppear
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
-        [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
-    }
-}
-
-- (void)dzn_willDisappear
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
-        [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
-    }
-}
-
-- (void)dzn_didTapContentView:(id)sender
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
-        [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
-    }
-}
-
-- (void)dzn_didTapDataButton:(id)sender
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
-        [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
-    }
-}
-
-
-#pragma mark - Public Methods
+#pragma mark - Reload APIs (Public)
 
 - (void)reloadEmptyDataSet
 {
@@ -340,7 +337,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
-#pragma mark - Private Methods
+#pragma mark - Reload APIs (Private)
 
 - (void)dzn_reloadEmptyDataSet
 {
