@@ -68,7 +68,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (!view)
     {
         view = [DZNEmptyDataSetView new];
-        view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+        view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.userInteractionEnabled = YES;
         view.hidden = YES;
         
