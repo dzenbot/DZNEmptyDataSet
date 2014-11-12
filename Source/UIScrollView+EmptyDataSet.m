@@ -740,9 +740,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
     [self removeAllConstraints];
     
     NSMutableDictionary *views = [NSMutableDictionary dictionary];
-    
     [views setObject:self forKey:@"self"];
-    [views setObject:_contentView forKey:@"contentView"];
+    [views setObject:self.contentView forKey:@"contentView"];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
                                                                  options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
@@ -762,14 +761,14 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     if (_customView) {
         [views setObject:_customView forKey:@"customView"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
-        [super updateConstraints];
-        return;
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
+        
+        // Skips from any further configuration
+        return [super updateConstraints];;
     }
     
-    CGFloat width = (self.frame.size.width > 0) ? self.frame.size.width : [UIScreen mainScreen].bounds.size.width;
-    
+    CGFloat width = CGRectGetWidth(self.frame) ? : CGRectGetWidth([UIScreen mainScreen].bounds);
     NSNumber *padding =  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? @20 : @(roundf(width/16.0));
     NSNumber *imgWidth = @(roundf(_imageView.image.size.width));
     NSNumber *imgHeight = @(roundf(_imageView.image.size.height));
@@ -777,62 +776,78 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
     
-    // Assign the image view's horizontal constraints to the content view
+    // Since any element could be missing from displaying, we need to create a dynamic string format
+    NSMutableString *verticalFormat = [NSMutableString new];
+    NSMutableArray *verticalSubviews = [NSMutableArray new];
+    
+    // Assign the image view's horizontal constraints
     if (_imageView.superview) {
         [views setObject:_imageView forKey:@"imageView"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[imageView(imgWidth)]-trailing-|"
-                                                                             options:0 metrics:metrics views:views]];
+        [verticalSubviews addObject:@"[imageView(imgHeight)]"];
+        
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-trailing-[imageView(imgWidth)]-trailing-|"
+                                                                                 options:0 metrics:metrics views:views]];
     }
     
-    // Assign the title label's horizontal constraints to the content view
-    if (_titleLabel.superview) {
+    // Assign the title label's horizontal constraints
+    if ([self canShowTitle]) {
         [views setObject:_titleLabel forKey:@"titleLabel"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[titleLabel]-padding-|"
-                                                                             options:0 metrics:metrics views:views]];
+        [verticalSubviews addObject:@"[titleLabel]"];
+        
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[titleLabel]-padding-|"
+                                                                                 options:0 metrics:metrics views:views]];
+    }
+    // or removes from its superview
+    else {
+        [_titleLabel removeFromSuperview];
+        _titleLabel = nil;
     }
     
-    // Assign the detail label's horizontal constraints to the content view
-    if (_detailLabel.superview) {
+    // Assign the detail label's horizontal constraints
+    if ([self canShowDetail]) {
         [views setObject:_detailLabel forKey:@"detailLabel"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[detailLabel]-padding-|"
-                                                                             options:0 metrics:metrics views:views]];
+        [verticalSubviews addObject:@"[detailLabel]"];
+        
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[detailLabel]-padding-|"
+                                                                                 options:0 metrics:metrics views:views]];
+    }
+    // or removes from its superview
+    else {
+        [_detailLabel removeFromSuperview];
+        _detailLabel = nil;
     }
     
-    // Assign the button's horizontal constraints to the content view
+    // Assign the button's horizontal constraints
     if (_button.superview) {
         [views setObject:_button forKey:@"button"];
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button]-padding-|"
-                                                                             options:0 metrics:metrics views:views]];
+        [verticalSubviews addObject:@"[button]"];
+        
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button]-padding-|"
+                                                                                 options:0 metrics:metrics views:views]];
     }
-    
-    // Since any element could be missing from displaying, we need to create a dynamic string format
-    NSMutableString *format = [NSMutableString new];
-    NSMutableArray *subviews = [NSMutableArray new];
-    
-    // Add any valid element
-    if ([self canShowImage]) [subviews addObject:@"[imageView(imgHeight)]"];
-    if ([self canShowTitle]) [subviews addObject:@"[titleLabel]"];
-    if ([self canShowDetail]) [subviews addObject:@"[detailLabel]"];
-    if ([self canShowButton]) [subviews addObject:@"[button]"];
+    // or removes from its superview
     else {
-        // Button force its bounds because of intrinsicContentSize, so even if there is no content on it, it shows up
-        // We need to remove and invalidate it
         [_button removeFromSuperview];
         _button = nil;
     }
     
-    // Build the string format for the vertical constraints, adding a gap between each element
-    [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [format appendString:obj];
-        if (idx < subviews.count-1) {
-            if (_verticalSpace > 0) [format appendFormat:@"-%.f-", _verticalSpace];
-            else [format appendString:@"-11-"];
+
+    // Build the string format for the vertical constraints, adding a margin between each element. Default is 11.
+    [verticalSubviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        // Adds the subview
+        [verticalFormat appendString:obj];
+        
+        // Adds the margin
+        if (idx < verticalSubviews.count-1) {
+            if (self.verticalSpace > 0) [verticalFormat appendFormat:@"-%.f-", self.verticalSpace];
+            else [verticalFormat appendString:@"-11-"];
         }
     }];
     
     // Assign the vertical constraints to the content view
-    if (format.length > 0) {
-        [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", format]
+    if (verticalFormat.length > 0) {
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", verticalFormat]
                                                                              options:0 metrics:metrics views:views]];
     }
     
