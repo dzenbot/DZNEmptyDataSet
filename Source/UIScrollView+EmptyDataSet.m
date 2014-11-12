@@ -720,6 +720,12 @@ NSString *dzn_implementationKey(id target, SEL selector)
     _customView = nil;
 }
 
+- (void)removeAllConstraints
+{
+    [self removeConstraints:self.constraints];
+    [self.contentView removeConstraints:self.contentView.constraints];
+}
+
 
 #pragma mark - UIView Constraints & Layout Methods
 
@@ -730,9 +736,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)updateConstraints
 {
-    if (self.constraints.count > 0) {
-        [self removeConstraints:self.constraints];
-    }
+    // Cleans up any constraints
+    [self removeAllConstraints];
     
     NSMutableDictionary *views = [NSMutableDictionary dictionary];
     
@@ -756,7 +761,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
     
     if (_customView) {
-        if (_customView) [views setObject:_customView forKey:@"customView"];
+        [views setObject:_customView forKey:@"customView"];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
         [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
         [super updateConstraints];
