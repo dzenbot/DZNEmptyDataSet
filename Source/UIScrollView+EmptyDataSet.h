@@ -132,8 +132,7 @@
  @discussion All delegate methods are optional. Use this delegate for receiving action callbacks.
  */
 @protocol DZNEmptyDataSetDelegate <NSObject>
-
-@required
+@optional
 
 /**
  Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
@@ -158,8 +157,6 @@
  @return YES if the empty dataset is allowed to be scrollable.
  */
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
-
-@optional
 
 /**
  Tells the delegate that the empty dataset view was tapped.
