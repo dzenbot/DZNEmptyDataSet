@@ -211,16 +211,17 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (CGPoint)dzn_offset
 {
-    CGFloat top = self.contentInset.top / 2;
-    CGFloat left = self.contentInset.left / 2;
-    CGFloat bottom = self.contentInset.bottom / 2;
-    CGFloat right = self.contentInset.right / 2;
+    CGFloat top = self.contentInset.top / 2.0;
+    CGFloat left = self.contentInset.left / 2.0;
+    CGFloat bottom = self.contentInset.bottom / 2.0;
+    CGFloat right = self.contentInset.right / 2.0;
     
+    // Honors the scrollView's contentInset
     CGPoint offset = CGPointMake(left-right, top-bottom);
     
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(offsetForEmptyDataSet:)]) {
-        CGPoint userOffset = [self.emptyDataSetSource offsetForEmptyDataSet:self];
-        offset = CGPointMake(offset.x + userOffset.x, offset.y + userOffset.y);
+        CGPoint customOffset = [self.emptyDataSetSource offsetForEmptyDataSet:self];
+        offset = CGPointMake(offset.x + customOffset.x, offset.y + customOffset.y);
     }
     
     return offset;

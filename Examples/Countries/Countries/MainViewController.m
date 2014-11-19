@@ -253,6 +253,11 @@
     }
 }
 
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return CGPointZero;
+}
+
 
 #pragma mark - UITableViewDataSource Methods
 
