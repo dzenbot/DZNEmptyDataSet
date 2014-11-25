@@ -785,7 +785,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     NSDictionary *metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
     
     // Since any element could be missing from displaying, we need to create a dynamic string format
-    NSMutableString *verticalFormat = [NSMutableString new];
     NSMutableArray *verticalSubviews = [NSMutableArray new];
     
     // Assign the image view's horizontal constraints
@@ -841,17 +840,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
 
     // Build the string format for the vertical constraints, adding a margin between each element. Default is 11.
-    [verticalSubviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        // Adds the subview
-        [verticalFormat appendString:obj];
-        
-        // Adds the margin
-        if (idx < verticalSubviews.count-1) {
-            if (self.verticalSpace > 0) [verticalFormat appendFormat:@"-%.f-", self.verticalSpace];
-            else [verticalFormat appendString:@"-11-"];
-        }
-    }];
+    NSString *verticalFormat = [verticalSubviews componentsJoinedByString:[NSString stringWithFormat:@"-%.f-", self.verticalSpace ?: 11]];
     
     // Assign the vertical constraints to the content view
     if (verticalFormat.length > 0) {
