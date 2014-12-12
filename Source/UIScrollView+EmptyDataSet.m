@@ -608,7 +608,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
         _imageView.backgroundColor = [UIColor clearColor];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         _imageView.userInteractionEnabled = NO;
-        
+        _imageView.accessibilityLabel = @"empty set background image";
+
         [_contentView addSubview:_imageView];
     }
     return _imageView;
@@ -627,6 +628,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _titleLabel.numberOfLines = 2;
+        _titleLabel.accessibilityLabel = @"empty set title";
         
         [_contentView addSubview:_titleLabel];
     }
@@ -646,6 +648,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailLabel.numberOfLines = 0;
+        _detailLabel.accessibilityLabel = @"empty set detail label";
         
         [_contentView addSubview:_detailLabel];
     }
@@ -661,7 +664,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
         _button.backgroundColor = [UIColor clearColor];
         _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        
+        _button.accessibilityLabel = @"empty set button";
+
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
         
         [_contentView addSubview:_button];
