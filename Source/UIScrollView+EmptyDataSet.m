@@ -19,6 +19,7 @@
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UIButton *button;
 @property (nonatomic, strong) UIView *customView;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 @property (nonatomic, assign) CGPoint offset;
 @property (nonatomic, assign) CGFloat verticalSpace;
@@ -71,10 +72,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.userInteractionEnabled = YES;
         view.hidden = YES;
         
-        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
-        gesture.delegate = self;
-        [view addGestureRecognizer:gesture];
-        
+        view.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
+        view.tapGesture.delegate = self;
+        [view addGestureRecognizer:view.tapGesture];
+
         [self setEmptyDataSetView:view];
     }
     return view;
@@ -547,8 +548,27 @@ NSString *dzn_implementationKey(id target, SEL selector)
     return [super gestureRecognizerShouldBegin:gestureRecognizer];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    UIGestureRecognizer *tapGesture = self.emptyDataSetView.tapGesture;
+
+    if ([gestureRecognizer isEqual:tapGesture] || [otherGestureRecognizer isEqual:tapGesture]) {
+        return YES;
+    }
+
+    // check if the delegate is implemented
+    if (self.emptyDataSetDelegate == nil) {
+        return NO;
+    }
+    else{
+        // if it is then check if user has his own implementation of silmutaneous gestures
+        if ([self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+            return [[self.emptyDataSetDelegate performSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:) withObject:gestureRecognizer withObject:otherGestureRecognizer] boolValue];
+        }
+        else {
+            return NO;
+        }
+    }
 }
 
 
