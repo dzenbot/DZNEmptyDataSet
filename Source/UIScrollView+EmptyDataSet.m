@@ -849,7 +849,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
     
     // Assign the button's horizontal constraints
-    if (_button.superview) {
+    if ([self canShowButton]) {
         [views setObject:_button forKey:@"button"];
         [verticalSubviews addObject:@"[button]"];
         
