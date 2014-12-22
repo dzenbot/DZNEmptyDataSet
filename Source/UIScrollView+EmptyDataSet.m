@@ -724,9 +724,17 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
     
     _customView = view;
-    _customView.translatesAutoresizingMaskIntoConstraints = !CGRectIsEmpty(view.frame);
     
-    [_contentView addSubview:_customView];
+    BOOL autoresizes = !CGRectIsEmpty(view.frame);
+    _customView.translatesAutoresizingMaskIntoConstraints = autoresizes;
+    
+    if (autoresizes) {
+        [self addSubview:_customView];
+        [_contentView removeFromSuperview];
+    }
+    else {
+        [_contentView addSubview:_customView];
+    }
 }
 
 
@@ -755,7 +763,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 - (void)removeAllConstraints
 {
     [self removeConstraints:self.constraints];
-    [self.contentView removeConstraints:self.contentView.constraints];
+    [_contentView removeConstraints:_contentView.constraints];
 }
 
 
@@ -772,6 +780,22 @@ NSString *dzn_implementationKey(id target, SEL selector)
     [self removeAllConstraints];
     
     NSMutableDictionary *views = [NSMutableDictionary dictionary];
+    
+    if (_customView) {
+        
+        if (_customView.translatesAutoresizingMaskIntoConstraints == YES) {
+            // Skips since no need to update any custom constraints
+            return [super updateConstraints];
+        }
+        
+        [views setObject:_customView forKey:@"customView"];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
+        
+        // Skips from any further configuration
+        return [super updateConstraints];;
+    }
+    
     [views setObject:self forKey:@"self"];
     [views setObject:self.contentView forKey:@"contentView"];
     
@@ -789,15 +813,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
         // the values must be inverted to follow the up-bottom and left-right directions
         vConstraint.constant = self.offset.y*-1;
         hConstraint.constant = self.offset.x*-1;
-    }
-    
-    if (_customView) {
-        [views setObject:_customView forKey:@"customView"];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:views]];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:views]];
-        
-        // Skips from any further configuration
-        return [super updateConstraints];;
     }
     
     CGFloat width = CGRectGetWidth(self.frame) ? : CGRectGetWidth([UIScreen mainScreen].bounds);
