@@ -298,7 +298,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     // Registers for device orientation changes
     if (source && !self.emptyDataSetSource) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        __weak typeof(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification) {
+            [weakSelf deviceDidChangeOrientation:notification];
+        }];
+
     }
     else if (!source && self.emptyDataSetSource) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
