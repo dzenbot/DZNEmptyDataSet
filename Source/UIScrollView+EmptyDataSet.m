@@ -33,9 +33,11 @@
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
+static char const * const kEmptyDataSetDeviceOrientationObserver =   "emptyDataSetDeviceOrientationObserver";
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
+@property (nonatomic, strong) id <NSObject> deviceOrientationObserver;
 @end
 
 @implementation UIScrollView (DZNEmptyDataSet)
@@ -60,6 +62,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 
 #pragma mark - Getters (Private)
+
+- (id <NSObject>)deviceOrientationObserver
+{
+    return objc_getAssociatedObject(self, kEmptyDataSetDeviceOrientationObserver);
+}
 
 - (DZNEmptyDataSetView *)emptyDataSetView
 {
@@ -294,18 +301,25 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 #pragma mark - Setters (Public)
 
+
+- (void)setDeviceOrientationObserver:(id <NSObject>)observer
+{
+    objc_setAssociatedObject(self, kEmptyDataSetDeviceOrientationObserver, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)source
 {
     // Registers for device orientation changes
     if (source && !self.emptyDataSetSource) {
         __weak typeof(self) weakSelf = self;
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification) {
+        self.deviceOrientationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification) {
             [weakSelf deviceDidChangeOrientation:notification];
         }];
 
+        [self swizzleOriginalMethod:NSSelectorFromString(@"dealloc") toReplacementMethod:@selector(dzn_dealloc)];
     }
     else if (!source && self.emptyDataSetSource) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self.deviceOrientationObserver];
     }
     
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
@@ -460,21 +474,26 @@ static NSString *const DZNSwizzleInfoSelectorKey = @"selector";
 
 void dzn_original_implementation(id self, SEL _cmd)
 {
-    // Fetch original implementation from lookup table
-    NSString *key = dzn_implementationKey(self, _cmd);
-    
-    NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
-    NSValue *impValue = [swizzleInfo valueForKey:DZNSwizzleInfoPointerKey];
-    
-    IMP impPointer = [impValue pointerValue];
-    
     // We then inject the additional implementation for reloading the empty dataset
     // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
     [self dzn_reloadEmptyDataSet];
 
+    dzn_call_original_implementation(self, _cmd, _cmd);
+}
+
+void dzn_call_original_implementation(id self, SEL selectorKey, SEL selectorToCall)
+{
+    // Fetch original implementation from lookup table
+    NSString *key = dzn_implementationKey(self, selectorKey);
+
+    NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
+    NSValue *impValue = [swizzleInfo valueForKey:DZNSwizzleInfoPointerKey];
+
+    IMP impPointer = [impValue pointerValue];
+
     // If found, call original implementation
     if (impPointer) {
-        ((void(*)(id,SEL))impPointer)(self,_cmd);
+        ((void(*)(id,SEL))impPointer)(self,selectorToCall);
     }
 }
 
@@ -496,48 +515,60 @@ NSString *dzn_implementationKey(id target, SEL selector)
 }
 
 
-- (void)swizzle:(SEL)selector
+- (void)swizzleOriginalMethod:(SEL)originalMethodSelector toReplacementMethodImplementation:(IMP)replacementMethodImplementation
 {
     // Check if the target responds to selector
-    if (![self respondsToSelector:selector]) {
+    if (![self respondsToSelector:originalMethodSelector]) {
         return;
     }
-    
+
     // Create the lookup table
     if (!_impLookupTable) {
         _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
-    
+
     // We make sure that setImplementation is called once per class kind, UITableView or UICollectionView.
     for (NSDictionary *info in [_impLookupTable allValues]) {
         Class class = [info objectForKey:DZNSwizzleInfoOwnerKey];
         NSString *selectorName = [info objectForKey:DZNSwizzleInfoSelectorKey];
-        
-        if ([selectorName isEqualToString:NSStringFromSelector(selector)]) {
+
+        if ([selectorName isEqualToString:NSStringFromSelector(originalMethodSelector)]) {
             if ([self isKindOfClass:class]) {
                 return;
             }
         }
     }
-    
-    NSString *key = dzn_implementationKey(self, selector);
+
+    NSString *key = dzn_implementationKey(self, originalMethodSelector);
     NSValue *impValue = [[_impLookupTable objectForKey:key] valueForKey:DZNSwizzleInfoPointerKey];
-    
+
     // If the implementation for this class already exist, skip!!
     if (impValue) {
         return;
     }
-    
+
     // Swizzle by injecting additional implementation
-    Method method = class_getInstanceMethod([self class], selector);
-    IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);
-    
+    Method method = class_getInstanceMethod([self class], originalMethodSelector);
+    IMP dzn_newImplementation = method_setImplementation(method, replacementMethodImplementation);
+
     // Store the new implementation in the lookup table
     NSDictionary *swizzledInfo = @{DZNSwizzleInfoOwnerKey: [self class],
-                                   DZNSwizzleInfoSelectorKey: NSStringFromSelector(selector),
+                                   DZNSwizzleInfoSelectorKey: NSStringFromSelector(originalMethodSelector),
                                    DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]};
-    
+
     [_impLookupTable setObject:swizzledInfo forKey:key];
+}
+
+- (void)swizzleOriginalMethod:(SEL)originalMethodSelector toReplacementMethod:(SEL)replacementMethodSelector
+{
+    Method replacementMethod = class_getInstanceMethod([self class], replacementMethodSelector);
+
+    [self swizzleOriginalMethod:originalMethodSelector toReplacementMethodImplementation:(IMP)method_getImplementation(replacementMethod)];
+}
+
+- (void)swizzle:(SEL)selector
+{
+    [self swizzleOriginalMethod:selector toReplacementMethodImplementation:(IMP)dzn_original_implementation];
 }
 
 
@@ -575,9 +606,17 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
 }
 
+#pragma mark - dealloc
+
+- (void)dzn_dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self.deviceOrientationObserver];
+    self.deviceOrientationObserver = nil;
+
+    dzn_call_original_implementation(self, _cmd, @selector(dzn_dealloc));
+}
 
 @end
-
 
 #pragma mark - DZNEmptyDataSetView
 
