@@ -556,19 +556,12 @@ NSString *dzn_implementationKey(id target, SEL selector)
         return YES;
     }
 
-    // check if the delegate is implemented
-    if (self.emptyDataSetDelegate == nil) {
-        return NO;
+    // defer to emptyDataSetDelegate's implementation if available
+    if ([self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+        return [(id)self.emptyDataSetDelegate gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
     }
-    else{
-        // if it is then check if user has his own implementation of silmutaneous gestures
-        if ([self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
-            return [(id)self.emptyDataSetDelegate gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
-        }
-        else {
-            return NO;
-        }
-    }
+    
+    return NO;
 }
 
 
