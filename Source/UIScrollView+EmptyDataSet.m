@@ -364,7 +364,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         if (!view.superview) {
 
             // Send the view to back, in case a header and/or footer is present
-            if ([self isKindOfClass:[UITableView class]] && self.subviews.count > 1) {
+            if (self.subviews.count > 1) {
                 [self insertSubview:view atIndex:1];
             }
             else {
