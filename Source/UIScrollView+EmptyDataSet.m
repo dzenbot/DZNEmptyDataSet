@@ -40,6 +40,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 @implementation UIScrollView (DZNEmptyDataSet)
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Getters (Public)
 
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
