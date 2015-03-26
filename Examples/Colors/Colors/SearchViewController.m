@@ -12,6 +12,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 
 @interface SearchViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@property (nonatomic, strong) NSArray *searchResult;
 @property (nonatomic, getter = isShowingLandscape) BOOL showingLandscape;
 @end
 
@@ -70,12 +71,22 @@
 
 - (NSArray *)searchResult
 {
+    if (_searchResult) {
+        return _searchResult;
+    }
+    
     NSString *searchString = self.searchDisplayController.searchBar.text;
+    
+    if (searchString.length == 0) {
+        return nil;
+    }
     
     NSArray *colors = [[Palette sharedPalette] colors];
     NSPredicate *precidate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || hex CONTAINS[cd] %@", searchString, searchString];
     
-    return [colors filteredArrayUsingPredicate:precidate];
+    _searchResult = [colors filteredArrayUsingPredicate:precidate];
+    
+    return _searchResult;
 }
 
 
@@ -196,6 +207,11 @@
     return [UIImage imageNamed:@"search_icon"];
 }
 
+- (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor grayColor];
+}
+
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIColor whiteColor];
@@ -204,11 +220,6 @@
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
     return nil;
-}
-
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
-{
-    return CGPointMake(0, -80);
 }
 
 
@@ -244,7 +255,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self searchResult].count;
+    NSLog(@"%s",__FUNCTION__);
+    
+    return self.searchResult.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -262,7 +275,7 @@
         cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     }
     
-    Color *color = [self searchResult][indexPath.row];
+    Color *color = self.searchResult[indexPath.row];
     
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
@@ -282,7 +295,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedColor = [self searchResult][indexPath.row];
+    self.selectedColor = self.searchResult[indexPath.row];
     [self updateContent];
     
     [self.searchDisplayController setActive:NO animated:YES];
@@ -293,7 +306,19 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
+    _searchResult = nil;
+    
     return YES;
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+    // Do something
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
+{
+    // Do something
 }
 
 
