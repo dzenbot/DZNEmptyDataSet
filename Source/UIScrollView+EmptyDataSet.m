@@ -170,6 +170,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return nil;
 }
 
+- (UIColor *)dzn_imageTintColor
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageTintColorForEmptyDataSet:)]) {
+        UIColor *color = [self.emptyDataSetSource imageTintColorForEmptyDataSet:self];
+        if (color) NSAssert([color isKindOfClass:[UIColor class]], @"You must return a valid UIColor object -imageTintColorForEmptyDataSet:");
+        return color;
+    }
+    return nil;
+}
+
 - (NSAttributedString *)dzn_buttonTitleForState:(UIControlState)state
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
@@ -385,13 +395,18 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             view.titleLabel.attributedText = [self dzn_titleLabelText];
             
             // Configure imageview
-            view.imageView.image = [self dzn_image];
+            UIColor *tintColor = [self dzn_imageTintColor];
+            UIImage *image = [self dzn_image];
+            UIImageRenderingMode renderingMode = tintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+            
+            view.imageView.image = [image imageWithRenderingMode:renderingMode];
+            view.imageView.tintColor = tintColor;
             
             // Configure button
-            [view.button setAttributedTitle:[self dzn_buttonTitleForState:0] forState:0];
-            [view.button setAttributedTitle:[self dzn_buttonTitleForState:1] forState:1];
-            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:0] forState:0];
-            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:1] forState:1];
+            [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateNormal] forState:UIControlStateNormal];
+            [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
+            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
 
             // Configure spacing

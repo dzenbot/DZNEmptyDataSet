@@ -69,6 +69,14 @@
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
+ Asks the data source for a tint color of the image dataset. Default is nil.
+ 
+ @param scrollView A scrollView subclass object informing the data source.
+ @return A color to tint the image of the dataset.
+ */
+- (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
  Asks the data source for the title to be used for the specified button state.
  The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
  
@@ -92,7 +100,7 @@
  Asks the data source for the background color of the dataset. Default is clear color.
  
  @param scrollView A scrollView subclass object informing the data source.
- @return An color to be applied to the dataset background view.
+ @return A color to be applied to the dataset background view.
  */
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
 
