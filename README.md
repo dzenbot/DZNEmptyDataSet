@@ -73,7 +73,7 @@ Conform to datasource and/or delegate.
 ```
 
 ### Dealloc
-You MUST disable the datasource and/or delegate in your its parent's controller `dealloc` method.
+You MUST disable the datasource and/or delegate in your view controller's `dealloc` method.
 This will unregister internal observers and invalidate private states.
 ```objc
 @interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
