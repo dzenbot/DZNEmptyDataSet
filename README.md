@@ -72,6 +72,20 @@ Conform to datasource and/or delegate.
 }
 ```
 
+### Dealloc
+You MUST disable the datasource and/or delegate in your its parent's controller `dealloc` method.
+This will unregister internal observers and invalidate private states.
+```objc
+@interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+
+- (void)dealloc
+{
+    self.tableView.emptyDataSetSource = nil;
+    self.tableView.emptyDataSetDelegate = nil;
+}
+```
+
+
 ### Data Source Implementation
 Return the content you want to show on the empty datasets, and take advantage of NSAttributedString features to customise the text appearance.
 
