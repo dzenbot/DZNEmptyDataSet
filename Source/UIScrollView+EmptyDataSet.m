@@ -272,14 +272,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
-- (BOOL)dzn_isUserInteractionEnabled
-{
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldEnableUserInteraction:)]) {
-        return [self.emptyDataSetDelegate emptyDataSetShouldEnableUserInteraction:self];
-    }
-    return YES;
-}
-
 - (void)dzn_willWillAppear
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
@@ -414,7 +406,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-            [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
 
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
@@ -434,7 +425,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         self.scrollEnabled = [self dzn_isScrollAllowed];
 
         // Confiruge empty dataset userInteraction permission
-        view.userInteractionEnabled = [self dzn_isUserInteractionEnabled];
+        view.userInteractionEnabled = [self dzn_isTouchAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
         [self dzn_invalidate];

@@ -167,14 +167,6 @@
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
 
 /**
- Asks the delegate for empty dataset userInteraction permission. Default is YES.
- 
- @param scrollView A scrollView subclass object informing the delegate.
- @return YES if the empty dataset  userInteraction is enabled.
- */
-- (BOOL)emptyDataSetShouldEnableUserInteraction:(UIScrollView *)scrollView;
-
-/**
  Tells the delegate that the empty dataset view was tapped.
  Use this method either to resignFirstResponder of a textfield or searchBar.
  
