@@ -372,14 +372,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         UIView *customView = [self dzn_customView];
         
         if (!view.superview) {
-
-            // Send the view to back, in case a header and/or footer is present
-            if ([self isKindOfClass:[UITableView class]] && self.subviews.count > 1) {
-                [self insertSubview:view atIndex:1];
-            }
-            else {
-                [self addSubview:view];
-            }
+            [self insertSubview:view atIndex:[self indexForEmptyDataSetView]];
         }
         
         // Moves all its subviews
@@ -408,7 +401,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
-
+            
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
         }
@@ -428,6 +421,29 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
     else if (self.isEmptyDataSetVisible) {
         [self dzn_invalidate];
+    }
+}
+
+- (NSInteger)indexForEmptyDataSetView {
+    // Send the view to back, in case a header and/or footer is present
+    if ([self isKindOfClass:[UITableView class]] && self.subviews.count > 1) {
+        if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1 &&
+            floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
+            // annoying hack to work around an iOS 7 issue
+            __block NSUInteger *highestIndexOfTableViewFittingSubview = 0;
+            [self.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
+                if (CGRectEqualToRect(subview.bounds, self.frame)) {
+                    highestIndexOfTableViewFittingSubview = idx;
+                }
+            }];
+            return highestIndexOfTableViewFittingSubview+1;
+        }
+        else {
+            return 1;
+        }
+    }
+    else {
+        return self.subviews.count;
     }
 }
 
