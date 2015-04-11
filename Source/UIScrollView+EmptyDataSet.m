@@ -69,7 +69,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     {
         view = [DZNEmptyDataSetView new];
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        view.userInteractionEnabled = YES;
         view.hidden = YES;
         
         view.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
@@ -407,7 +406,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-            [view.button setUserInteractionEnabled:[self dzn_isTouchAllowed]];
 
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
@@ -425,6 +423,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
+
+        // Confiruge empty dataset userInteraction permission
+        view.userInteractionEnabled = [self dzn_isTouchAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
         [self dzn_invalidate];
