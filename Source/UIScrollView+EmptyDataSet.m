@@ -873,7 +873,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
 
     // Build the string format for the vertical constraints, adding a margin between each element. Default is 11.
-    NSString *verticalFormat = [verticalSubviews componentsJoinedByString:[NSString stringWithFormat:@"-%.f-", self.verticalSpace ?: 11]];
+    NSString *verticalFormat = [verticalSubviews componentsJoinedByString:[NSString stringWithFormat:@"-(%.f)-", self.verticalSpace ?: 11]];
     
     // Assign the vertical constraints to the content view
     if (verticalFormat.length > 0) {
