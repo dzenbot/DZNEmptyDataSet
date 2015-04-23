@@ -424,7 +424,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
 
-        // Confiruge empty dataset userInteraction permission
+        // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
