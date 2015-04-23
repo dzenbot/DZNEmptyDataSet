@@ -279,6 +279,13 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
+- (void)dzn_didAppear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidAppear:self];
+    }
+}
+
 - (void)dzn_willDisappear
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
@@ -426,6 +433,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
         // Confiruge empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
+
+        // Notifies that the empty dataset view did appear
+        [self dzn_didAppear];
     }
     else if (self.isEmptyDataSetVisible) {
         [self dzn_invalidate];
