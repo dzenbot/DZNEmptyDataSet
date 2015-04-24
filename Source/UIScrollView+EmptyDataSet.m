@@ -272,7 +272,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
-- (void)dzn_willWillAppear
+- (void)dzn_willAppear
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
         [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
@@ -365,7 +365,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
         // Notifies that the empty dataset view will appear
-        [self dzn_willWillAppear];
+        [self dzn_willAppear];
         
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         UIView *customView = [self dzn_customView];
@@ -424,7 +424,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
 
-        // Confiruge empty dataset userInteraction permission
+        // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
     }
     else if (self.isEmptyDataSetVisible) {
