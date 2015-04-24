@@ -221,10 +221,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (CGPoint)dzn_offset
 {
-    CGFloat top = self.contentInset.top / 2.0;
-    CGFloat left = self.contentInset.left / 2.0;
-    CGFloat bottom = self.contentInset.bottom / 2.0;
-    CGFloat right = self.contentInset.right / 2.0;
+    CGFloat top = roundf(self.contentInset.top / 2.0);
+    CGFloat left = roundf(self.contentInset.left / 2.0);
+    CGFloat bottom = roundf(self.contentInset.bottom / 2.0);
+    CGFloat right = roundf(self.contentInset.right / 2.0);
     
     // Honors the scrollView's contentInset
     CGPoint offset = CGPointMake(left-right, top-bottom);
