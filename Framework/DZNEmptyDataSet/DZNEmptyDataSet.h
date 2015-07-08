@@ -1,11 +1,3 @@
-//
-//  DZNEmptyDataSet.h
-//  DZNEmptyDataSet
-//
-//  Created by Marvin Nazari on 08/07/15.
-//  Copyright (c) 2015 Marvin Nazari. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for DZNEmptyDataSet.
