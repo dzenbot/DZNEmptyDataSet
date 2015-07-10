@@ -87,6 +87,16 @@
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
 
 /**
+ Asks the data source for the image to be used for the specified button state.
+ This method will override buttonTitleForEmptyDataSet:forState: and present the image only without any text.
+ 
+ @param scrollView A scrollView subclass object informing the data source.
+ @param state The state that uses the specified title. The possible values are described in UIControlState.
+ @return An image for the dataset button imageview.
+ */
+- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
+
+/**
  Asks the data source for a background image to be used for the specified button state.
  There is no default style for this call.
  
@@ -107,7 +117,7 @@
 /**
  Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
  Use this method to show an activity view indicator for loading feedback, or for complete custom empty data set.
- Returning a custom view will ignore -spaceHeightForEmptyDataSet configuration.
+ Returning a custom view will ignore -offsetForEmptyDataSet and -spaceHeightForEmptyDataSet configurations.
  
  @param scrollView A scrollView subclass object informing the delegate.
  @return The custom view.
