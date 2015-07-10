@@ -382,7 +382,7 @@
         case ApplicationTypeVesper:
         {
             text = @"No Notes";
-            font = [UIFont fontWithName:@"IdealSans-Medium" size:16.0];
+            font = [UIFont fontWithName:@"IdealSans-Book-Pro" size:16.0];
             textColor = [UIColor colorWithHex:@"d9dce1"];
             break;
         }
