@@ -189,6 +189,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return nil;
 }
 
+- (UIImage *)dzn_buttonImageForState:(UIControlState)state
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonImageForEmptyDataSet:forState:)]) {
+        UIImage *image = [self.emptyDataSetSource buttonImageForEmptyDataSet:self forState:state];
+        if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -buttonImageForEmptyDataSet:forState:");
+        return image;
+    }
+    return nil;
+}
+
 - (UIImage *)dzn_buttonBackgroundImageForState:(UIControlState)state
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
@@ -409,10 +419,19 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             view.imageView.tintColor = tintColor;
             
             // Configure button
-            [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateNormal] forState:UIControlStateNormal];
-            [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
-            [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            UIImage *buttonImage = [self dzn_buttonImageForState:UIControlStateNormal];
+            NSAttributedString *buttonTitle = [self dzn_buttonTitleForState:UIControlStateNormal];
+
+            if (buttonImage) {
+                [view.button setImage:buttonImage forState:UIControlStateNormal];
+                [view.button setImage:[self dzn_buttonImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            }
+            else if (buttonTitle) {
+                [view.button setAttributedTitle:buttonTitle forState:UIControlStateNormal];
+                [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+                [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
+                [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            }
 
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
@@ -725,7 +744,10 @@ NSString *dzn_implementationKey(id target, SEL selector)
 }
 
 - (BOOL)canShowButton {
-    return ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 && _button.superview);
+    if ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 || [_button imageForState:UIControlStateNormal]) {
+        return (_button.superview != nil) ? YES : NO;
+    }
+    return NO;
 }
 
 
