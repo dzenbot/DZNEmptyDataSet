@@ -315,9 +315,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     // Registers for device orientation changes
     if (source && !self.emptyDataSetSource) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    }
-    else if (!source && self.emptyDataSetSource) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+        [self swizzle:NSSelectorFromString(@"dealloc")];
     }
     
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
@@ -490,9 +488,12 @@ void dzn_original_implementation(id self, SEL _cmd)
     
     IMP impPointer = [impValue pointerValue];
     
-    // We then inject the additional implementation for reloading the empty dataset
-    // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
-    [self dzn_reloadEmptyDataSet];
+    // Prevent doing any logic over self during dealloc process
+    if (![key containsString:@"dealloc"]) {
+        // We then inject the additional implementation for reloading the empty dataset
+        // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
+        [self dzn_reloadEmptyDataSet];
+    }
 
     // If found, call original implementation
     if (impPointer) {
@@ -563,6 +564,14 @@ NSString *dzn_implementationKey(id target, SEL selector)
 }
 
 
+#pragma mark Swizzled methods
+
+- (void)dealloc {
+    // Remove observers through this swizzled 'dealloc'
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
 #pragma mark - UIGestureRecognizerDelegate Methods
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -583,7 +592,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
 
     // defer to emptyDataSetDelegate's implementation if available
-    if ( (self.emptyDataSetDelegate != self) && [self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+    if ( (self.emptyDataSetDelegate != (id)self) && [self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
         return [(id)self.emptyDataSetDelegate gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
     }
     
