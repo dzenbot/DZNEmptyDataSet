@@ -80,17 +80,10 @@ Conform to datasource and/or delegate.
 ```
 
 ### Dealloc
-You MUST disable the datasource and/or delegate in your view controller's `dealloc` method.
-This will unregister internal observers and invalidate private states.
-```objc
-@interface MainViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+~~You MUST disable the datasource and/or delegate in your view controller's `dealloc` method.
+This will unregister internal observers and invalidate private states.~~
 
-- (void)dealloc
-{
-    self.tableView.emptyDataSetSource = nil;
-    self.tableView.emptyDataSetDelegate = nil;
-}
-```
+Disabling the datasource and/or delegate in your the controller's `dealloc` method is no longer needed. Take a look at [#91](https://github.com/dzenbot/DZNEmptyDataSet/issues/91) for more information.
 
 
 ### Data Source Implementation
