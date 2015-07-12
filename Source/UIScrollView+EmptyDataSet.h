@@ -212,4 +212,11 @@
  */
 - (void)emptyDataSetWillDisappear:(UIScrollView *)scrollView;
 
+/**
+ Tells the delegate that the empty data set did disappear.
+
+ @param scrollView A scrollView subclass informing the delegate.
+ */
+- (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView;
+
 @end
