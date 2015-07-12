@@ -34,6 +34,8 @@ static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
+static NSString * const kEmptyDataSetDealloc =      @"dealloc";
+
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
 @end
@@ -331,8 +333,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     // Registers for device orientation changes
     if (source && !self.emptyDataSetSource) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
-        [self swizzle:NSSelectorFromString(@"dealloc")];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dzn_deviceDidChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        [self swizzle:NSSelectorFromString(kEmptyDataSetDealloc)];
+    }
+    // Skip if the datasource is already set up
+    else {
+        return;
     }
     
     objc_setAssociatedObject(self, kEmptyDataSetSource, source, OBJC_ASSOCIATION_ASSIGN);
@@ -344,7 +350,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     // We add method sizzling for injecting -dzn_reloadData implementation to the native -reloadData implementation
     [self swizzle:@selector(reloadData)];
     
-    // If UITableView, we also inject -dzn_reloadData to -endUpdates
+    // Exclusively for UITableView, we also inject -dzn_reloadData to -endUpdates
     if ([self isKindOfClass:[UITableView class]]) {
         [self swizzle:@selector(endUpdates)];
     }
@@ -485,10 +491,18 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 }
 
 
+#pragma mark - Lifeterm Methods (Private)
+
+- (void)dzn_dealloc
+{
+    // Remove observers
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
 
 #pragma mark - Notification Events
 
-- (void)deviceDidChangeOrientation:(NSNotification *)notification
+- (void)dzn_deviceDidChangeOrientation:(NSNotification *)notification
 {
     if (self.isEmptyDataSetVisible) {
         [self.emptyDataSetView updateConstraints];
@@ -518,7 +532,10 @@ void dzn_original_implementation(id self, SEL _cmd)
     IMP impPointer = [impValue pointerValue];
     
     // Prevent doing any logic over self during dealloc process
-    if (![key containsString:@"dealloc"]) {
+    if ([key containsString:kEmptyDataSetDealloc]) {
+        [self dzn_dealloc];
+    }
+    else {
         // We then inject the additional implementation for reloading the empty dataset
         // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
         [self dzn_reloadEmptyDataSet];
@@ -546,7 +563,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     NSString *selectorName = NSStringFromSelector(selector);
     return [NSString stringWithFormat:@"%@_%@",className,selectorName];
 }
-
 
 - (void)swizzle:(SEL)selector
 {
@@ -593,14 +609,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
 }
 
 
-#pragma mark Swizzled methods
-
-- (void)dealloc {
-    // Remove observers through this swizzled 'dealloc'
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
 #pragma mark - UIGestureRecognizerDelegate Methods
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -627,7 +635,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     return NO;
 }
-
 
 @end
 
@@ -660,6 +667,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
                      animations:^{_contentView.alpha = 1.0;}
                      completion:NULL];
 }
+
 
 #pragma mark - Getters
 
