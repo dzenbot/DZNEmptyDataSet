@@ -303,6 +303,13 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
 }
 
+- (void)dzn_didDisappear
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidDisappear:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidDisappear:self];
+    }
+}
+
 - (void)dzn_didTapContentView:(id)sender
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
@@ -474,6 +481,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     }
     
     self.scrollEnabled = YES;
+
+    // Notifies that the empty dataset view did disappear
+    [self dzn_didDisappear];
 }
 
 
