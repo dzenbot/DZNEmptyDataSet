@@ -532,7 +532,7 @@ void dzn_original_implementation(id self, SEL _cmd)
     IMP impPointer = [impValue pointerValue];
     
     // Prevent doing any logic over self during dealloc process
-    if ([key containsString:kEmptyDataSetDealloc]) {
+    if ([key rangeOfString:kEmptyDataSetDealloc].location != NSNotFound) {
         [self dzn_dealloc];
     }
     else {
