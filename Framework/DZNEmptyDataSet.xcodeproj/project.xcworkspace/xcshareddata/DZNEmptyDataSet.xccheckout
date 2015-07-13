@@ -7,21 +7,21 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>8F1FD1FA-D8A3-425C-8077-0CE8844BEF42</string>
 	<key>IDESourceControlProjectName</key>
-	<string>DZNEmptyDataSet</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
-		<string>https://github.com/MarvinNazari/DZNEmptyDataSet.git</string>
+		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Framework/DZNEmptyDataSet.xcodeproj</string>
+	<string>Framework/DZNEmptyDataSet.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/MarvinNazari/DZNEmptyDataSet.git</string>
+	<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

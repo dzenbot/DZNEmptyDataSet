@@ -547,24 +547,10 @@
 
 #pragma mark - View lifeterm
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    
-    _tableView.emptyDataSetSource = nil;
-    _tableView.emptyDataSetDelegate = nil;
-    _tableView = nil;
 }
 
 @end
