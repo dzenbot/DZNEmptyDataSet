@@ -1,7 +1,6 @@
 DZNEmptyDataSet
 =================
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dzenbot/DZNEmptyDataSet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Pod Version](http://img.shields.io/cocoapods/v/DZNEmptyDataSet.svg)](http://cocoadocs.org/docsets/DZNEmptyDataSet/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
@@ -40,7 +39,7 @@ Please read this very interesting article about [*Designing For The Empty States
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
 * Compatible with iOS 6 or later.
-* iPhone and iPad support.
+* Compatible with iPhone and iPad.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
@@ -95,6 +94,14 @@ Disabling the datasource and/or delegate in your the controller's `dealloc` meth
 ### Data Source Implementation
 Return the content you want to show on the empty state, and take advantage of NSAttributedString features to customise the text appearance.
 
+The image for the empty state:
+```objc
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"empty_placeholder"];
+}
+```
+
 The attributed string for the title of the empty state:
 ```objc
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
@@ -136,11 +143,11 @@ The attributed string to be used for the specified button state:
 }
 ```
 
-The image for the empty state:
+or the image to be used for the specified button state:
 ```objc
-- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    return [UIImage imageNamed:@"empty_placeholder"];
+    return [UIImage imageNamed:@"button_image"];
 }
 ```
 
