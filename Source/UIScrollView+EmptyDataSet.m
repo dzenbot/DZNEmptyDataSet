@@ -402,7 +402,7 @@ static NSString * const kEmptyDataSetDealloc =      @"dealloc";
 
             // Send the view to back, in case a header and/or footer is present
             if (([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) && self.subviews.count > 1) {
-                [self insertSubview:view atIndex:1];
+                [self insertSubview:view atIndex:0];
             }
             else {
                 [self addSubview:view];
