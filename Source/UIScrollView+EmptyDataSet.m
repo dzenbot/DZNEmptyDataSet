@@ -539,11 +539,11 @@ void dzn_original_implementation(id self, SEL _cmd)
         // We then inject the additional implementation for reloading the empty dataset
         // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
         [self dzn_reloadEmptyDataSet];
-    }
-
-    // If found, call original implementation
-    if (impPointer) {
-        ((void(*)(id,SEL))impPointer)(self,_cmd);
+        
+        // If found, call original implementation
+        if (impPointer) {
+            ((void(*)(id,SEL))impPointer)(self,_cmd);
+        }
     }
 }
 
