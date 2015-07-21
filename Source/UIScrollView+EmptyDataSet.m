@@ -556,6 +556,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     Class baseClass;
     if ([target isKindOfClass:[UITableView class]]) baseClass = [UITableView class];
     else if ([target isKindOfClass:[UICollectionView class]]) baseClass = [UICollectionView class];
+    else if ([target isKindOfClass:[UIScrollView class]]) baseClass = [UIScrollView class];
     else return nil;
     
     NSString *className = NSStringFromClass([baseClass class]);
@@ -592,7 +593,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     NSValue *impValue = [[_impLookupTable objectForKey:key] valueForKey:DZNSwizzleInfoPointerKey];
     
     // If the implementation for this class already exist, skip!!
-    if (impValue) {
+    if (impValue || !key) {
         return;
     }
     
