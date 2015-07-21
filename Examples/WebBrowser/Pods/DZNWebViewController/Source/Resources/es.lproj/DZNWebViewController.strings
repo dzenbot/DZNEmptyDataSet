@@ -1,0 +1,15 @@
+//
+//  DZNWebViewController.strings
+//  DZNWebViewController
+//  https://github.com/dzenbot/DZNWebViewController
+//
+//  Created by Paul Dziwoki on 25/07/14.
+//  Copyright (c) 2014 DZN Labs. All rights reserved.
+//  Licence: MIT-Licence
+//
+
+"Backward" = "Retroceder";
+"Forward" = "Avanzar";
+"History" = "Historial";
+"Stop" = "Parar";
+"Reload" = "Recargar";

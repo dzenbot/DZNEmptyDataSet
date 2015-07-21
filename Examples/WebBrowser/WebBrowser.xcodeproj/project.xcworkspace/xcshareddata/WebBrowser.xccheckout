@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>87DC30D9-A661-48C9-8E72-D2230E8F7372</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WebBrowser</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
+		<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Examples/WebBrowser/WebBrowser.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dzenbot/DZNEmptyDataSet.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DD091C5D03D23C2F1EC054BC9C018DF9A9125FD6</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DZNEmptyDataSet</string>
+		</dict>
+	</array>
+</dict>
+</plist>

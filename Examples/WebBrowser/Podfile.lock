@@ -1,0 +1,17 @@
+PODS:
+  - DZNEmptyDataSet (1.6.1)
+  - DZNWebViewController (3.1)
+
+DEPENDENCIES:
+  - DZNEmptyDataSet (from `../../`)
+  - DZNWebViewController
+
+EXTERNAL SOURCES:
+  DZNEmptyDataSet:
+    :path: ../../
+
+SPEC CHECKSUMS:
+  DZNEmptyDataSet: 79c3af39ea3c9c7f545c2940e8e00752ab2c1904
+  DZNWebViewController: 77c4fc70a397be476688f5b6a4577727be6d0f88
+
+COCOAPODS: 0.35.0
