@@ -12,6 +12,7 @@
 		4F6E68511B5EA3A800986BC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F6E68501B5EA3A800986BC6 /* Images.xcassets */; };
 		4F6E686E1B5EA53500986BC6 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6E686D1B5EA53500986BC6 /* WebViewController.m */; };
 		4F6E68701B5EA97700986BC6 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F6E686F1B5EA97700986BC6 /* Launch Screen.xib */; };
+		4F6E68731B5EAE7A00986BC6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6E68721B5EAE7A00986BC6 /* ViewController.m */; };
 		F6E1962583FABDF06543D258 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFBBB824ED40725AF3D1879 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,8 @@
 		4F6E686C1B5EA53500986BC6 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4F6E686D1B5EA53500986BC6 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4F6E686F1B5EA97700986BC6 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		4F6E68711B5EAE7A00986BC6 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4F6E68721B5EAE7A00986BC6 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		EBFBBB824ED40725AF3D1879 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -73,6 +76,8 @@
 			children = (
 				4F6E68471B5EA3A800986BC6 /* AppDelegate.h */,
 				4F6E68481B5EA3A800986BC6 /* AppDelegate.m */,
+				4F6E68711B5EAE7A00986BC6 /* ViewController.h */,
+				4F6E68721B5EAE7A00986BC6 /* ViewController.m */,
 				4F6E686C1B5EA53500986BC6 /* WebViewController.h */,
 				4F6E686D1B5EA53500986BC6 /* WebViewController.m */,
 				4F6E68501B5EA3A800986BC6 /* Images.xcassets */,
@@ -206,6 +211,7 @@
 			files = (
 				4F6E68491B5EA3A800986BC6 /* AppDelegate.m in Sources */,
 				4F6E68461B5EA3A800986BC6 /* main.m in Sources */,
+				4F6E68731B5EAE7A00986BC6 /* ViewController.m in Sources */,
 				4F6E686E1B5EA53500986BC6 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

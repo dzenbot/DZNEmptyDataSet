@@ -2,4 +2,4 @@ platform :ios, '8.0'
 
 pod 'DZNEmptyDataSet', :path => '../../'
 
-pod 'DZNWebViewController'
+pod 'DZNWebViewController', '2.0'

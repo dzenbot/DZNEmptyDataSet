@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "WebViewController.h"
+#import "ViewController.h"
 
 @interface AppDelegate ()
 @end
@@ -19,10 +19,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    WebViewController *webVC = [[WebViewController alloc] initWithURL:[NSURL URLWithString:@"https://github.com/dzenbot/"]];
-    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:webVC];
-    
-    self.window.rootViewController = rootVC;
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     [self.window  makeKeyAndVisible];
     
     return YES;

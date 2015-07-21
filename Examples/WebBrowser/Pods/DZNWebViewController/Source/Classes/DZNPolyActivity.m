@@ -11,6 +11,10 @@
 #import "DZNPolyActivity.h"
 
 @implementation DZNPolyActivity
+{
+    DZNPolyActivityType _type;
+	NSURL *_URL;
+}
 
 + (instancetype)activityWithType:(DZNPolyActivityType)type
 {
@@ -36,7 +40,7 @@
 
 - (NSString *)activityType
 {
-    switch (self.type) {
+    switch (_type) {
         case DZNPolyActivityTypeLink:           return @"com.dzn.DZNWebViewController.activity.CopyLink";
         case DZNPolyActivityTypeSafari:         return @"com.dzn.DZNWebViewController.activity.OpenInSafari";
         case DZNPolyActivityTypeChrome:         return @"com.dzn.DZNWebViewController.activity.OpenInChrome";
@@ -47,7 +51,7 @@
 
 - (NSString *)activityTitle
 {
-    switch (self.type) {
+    switch (_type) {
         case DZNPolyActivityTypeLink:           return NSLocalizedString(@"Copy Link", nil);
         case DZNPolyActivityTypeSafari:         return NSLocalizedString(@"Open in Safari", nil);
         case DZNPolyActivityTypeChrome:         return NSLocalizedString(@"Open in Chrome", nil);
@@ -58,12 +62,12 @@
 
 - (UIImage *)activityImage
 {
-    switch (self.type) {
-        case DZNPolyActivityTypeLink:           return [UIImage imageNamed:@"dzn_icn_activity_link" inBundle:[NSBundle bundleForClass:[DZNPolyActivity class]] compatibleWithTraitCollection:nil];
-        case DZNPolyActivityTypeSafari:         return [UIImage imageNamed:@"dzn_icn_activity_safari" inBundle:[NSBundle bundleForClass:[DZNPolyActivity class]] compatibleWithTraitCollection:nil];
-        case DZNPolyActivityTypeChrome:         return [UIImage imageNamed:@"dzn_icn_activity_chrome" inBundle:[NSBundle bundleForClass:[DZNPolyActivity class]] compatibleWithTraitCollection:nil];
-        case DZNPolyActivityTypeOpera:          return [UIImage imageNamed:@"dzn_icn_activity_opera" inBundle:[NSBundle bundleForClass:[DZNPolyActivity class]] compatibleWithTraitCollection:nil];
-        case DZNPolyActivityTypeDolphin:        return [UIImage imageNamed:@"dzn_icn_activity_dolphin" inBundle:[NSBundle bundleForClass:[DZNPolyActivity class]] compatibleWithTraitCollection:nil];
+    switch (_type) {
+        case DZNPolyActivityTypeLink:           return [UIImage imageNamed:@"Link7"];
+        case DZNPolyActivityTypeSafari:         return [UIImage imageNamed:@"Safari7"];
+        case DZNPolyActivityTypeChrome:         return [UIImage imageNamed:@"Chrome7"];
+        case DZNPolyActivityTypeOpera:          return [UIImage imageNamed:@"Opera7"];
+        case DZNPolyActivityTypeDolphin:        return [UIImage imageNamed:@"Dolphin7"];
         default:                                return nil;
     }
 }
@@ -117,19 +121,19 @@
 			NSURL *URL = [NSURL URLWithString:(NSString *)item];
             if (!URL) continue;
             
-            if (self.type == DZNPolyActivityTypeLink) {
+            if (_type == DZNPolyActivityTypeLink) {
                 return URL ? YES : NO;
             }
-            if (self.type == DZNPolyActivityTypeSafari) {
+            if (_type == DZNPolyActivityTypeSafari) {
                 return [[UIApplication sharedApplication] canOpenURL:URL];
             }
-            if (self.type == DZNPolyActivityTypeChrome) {
+            if (_type == DZNPolyActivityTypeChrome) {
                 return [[UIApplication sharedApplication] canOpenURL:[self chromeURLWithURL:URL]];
             }
-            if (self.type == DZNPolyActivityTypeOpera) {
+            if (_type == DZNPolyActivityTypeOpera) {
                 return [[UIApplication sharedApplication] canOpenURL:[self operaURLWithURL:URL]];
             }
-            if (self.type == DZNPolyActivityTypeDolphin) {
+            if (_type == DZNPolyActivityTypeDolphin) {
                 return [[UIApplication sharedApplication] canOpenURL:[self dolphinURLWithURL:URL]];
             }
             
@@ -146,7 +150,7 @@
         
 		if ([item isKindOfClass:[NSString class]]) {
 			_URL = [NSURL URLWithString:(NSString *)item];
-            if (!self.URL) continue;
+            if (!_URL) continue;
             else break;
 		}
 	}
@@ -156,27 +160,27 @@
 {
     BOOL completed = NO;
     
-    if (!self.URL) {
+    if (!_URL) {
         [self activityDidFinish:completed];
         return;
     }
     
-    switch (self.type) {
+    switch (_type) {
         case DZNPolyActivityTypeLink:
-            [[UIPasteboard generalPasteboard] setURL:self.URL];
+            [[UIPasteboard generalPasteboard] setURL:_URL];
             completed = YES;
             break;
         case DZNPolyActivityTypeSafari:
-            completed = [[UIApplication sharedApplication] openURL:self.URL];
+            completed = [[UIApplication sharedApplication] openURL:_URL];
             break;
         case DZNPolyActivityTypeChrome:
-            completed = [[UIApplication sharedApplication] openURL:[self chromeURLWithURL:self.URL]];
+            completed = [[UIApplication sharedApplication] openURL:[self chromeURLWithURL:_URL]];
             break;
         case DZNPolyActivityTypeOpera:
-            completed = [[UIApplication sharedApplication] openURL:[self operaURLWithURL:self.URL]];
+            completed = [[UIApplication sharedApplication] openURL:[self operaURLWithURL:_URL]];
             break;
         case DZNPolyActivityTypeDolphin:
-            completed = [[UIApplication sharedApplication] openURL:[self dolphinURLWithURL:self.URL]];
+            completed = [[UIApplication sharedApplication] openURL:[self dolphinURLWithURL:_URL]];
             break;
     }
     
