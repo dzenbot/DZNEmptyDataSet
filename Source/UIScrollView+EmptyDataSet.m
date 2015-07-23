@@ -534,16 +534,26 @@ void dzn_original_implementation(id self, SEL _cmd)
     // Prevent doing any logic over self during dealloc process
     if ([key rangeOfString:kEmptyDataSetDealloc].location != NSNotFound) {
         [self dzn_dealloc];
+        
+        // Call original dealloc implementation when NSZombie are not enabled
+        if (!getenv("NSZombieEnabled") && !getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
+            dzn_call_original_implementation(self, _cmd, impPointer);
+        }
     }
     else {
         // We then inject the additional implementation for reloading the empty dataset
         // Doing it before calling the original implementation does update the 'isEmptyDataSetVisible' flag on time.
         [self dzn_reloadEmptyDataSet];
         
-        // If found, call original implementation
-        if (impPointer) {
-            ((void(*)(id,SEL))impPointer)(self,_cmd);
-        }
+        dzn_call_original_implementation(self, _cmd, impPointer);
+    }
+}
+
+void dzn_call_original_implementation(id self, SEL _cmd, IMP impPointer)
+{
+    // If found, call original implementation
+    if (impPointer) {
+        ((void(*)(id,SEL))impPointer)(self,_cmd);
     }
 }
 
