@@ -197,18 +197,19 @@
 
 - (void)configureHeaderAndFooter
 {
-    NSString *imageName = nil;
+    UIImage *image = nil;
     
     if (self.application.type == ApplicationTypePinterest) {
-        imageName = @"header_pinterest";
+        image = [[UIImage imageNamed:@"header_pinterest"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, self.view.frame.size.width-5.0, 0.0, 5.0) resizingMode:UIImageResizingModeStretch];
+
     }
     if (self.application.type == ApplicationTypePodcasts) {
-        imageName = @"header_podcasts";
+        image = [[UIImage imageNamed:@"header_podcasts"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 200.0, 0.0, 220.0) resizingMode:UIImageResizingModeStretch];
     }
     
-    if (imageName) {
+    if (image) {
         
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         imageView.userInteractionEnabled = YES;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeaderView:)];
