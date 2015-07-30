@@ -32,7 +32,6 @@
 @property (nonatomic, assign) CGFloat verticalSpace;
 
 - (void)setupConstraints;
-- (void)removeAllConstraints;
 - (void)prepareForReuse;
 
 @end
@@ -398,7 +397,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             }
         }
         
-        // Moves all its subviews and constraints
+        // Removing view resetting the view and its constraints it very important to guarantee a good state
         [view prepareForReuse];
         
         UIView *customView = [self dzn_customView];
@@ -805,6 +804,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
     _imageView = nil;
     _button = nil;
     _customView = nil;
+    
+    [self removeAllConstraints];
 }
 
 
