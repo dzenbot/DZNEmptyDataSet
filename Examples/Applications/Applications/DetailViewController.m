@@ -196,6 +196,7 @@
     else {
         self.navigationItem.titleView = nil;
         self.navigationItem.title = self.application.displayName;
+        self.navigationController.navigationBar.titleTextAttributes = nil;
     }
     
     self.navigationController.navigationBar.barTintColor = barColor;
@@ -253,7 +254,7 @@
 {
     Application *randomApp = [self randomApplication];
     
-    while ([randomApp.identifier isEqualToString:self.application.identifier]) {
+    while ([randomApp.identifier isEqualToString:self.application.identifier] || randomApp.type == ApplicationTypeUndefined) {
         randomApp = [self randomApplication];
     }
     
