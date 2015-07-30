@@ -130,7 +130,8 @@
  @param scrollView A scrollView subclass object informing the delegate.
  @return The offset for vertical and horizontal alignment.
  */
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView;
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use -verticalOffsetForEmptyDataSet:");
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for a vertical space between elements. Default is 11 pts.
