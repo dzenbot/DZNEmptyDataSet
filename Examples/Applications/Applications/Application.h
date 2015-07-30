@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, ApplicationType) {
-    ApplicationType500px,
+    ApplicationType500px = 1,
     ApplicationTypeAirbnb,
     ApplicationTypeAppstore,
     ApplicationTypeCamera,
@@ -35,7 +35,9 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeVesper,
     ApplicationTypeVine,
     ApplicationTypeWhatsapp,
-    ApplicationTypeWWDC
+    ApplicationTypeWWDC,
+    
+    ApplicationCount // Used for count
 };
 
 @interface Application : NSObject

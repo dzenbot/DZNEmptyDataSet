@@ -34,7 +34,7 @@
     [super viewDidLoad];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
-
+    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
@@ -47,6 +47,9 @@
     
     [self configureNavigationBar];
 }
+
+
+#pragma mark - Configuration and Event Methods
 
 - (void)configureNavigationBar
 {
@@ -187,7 +190,13 @@
     }
     
     UIImage *logo = [UIImage imageNamed:[NSString stringWithFormat:@"logo_%@", [self.application.displayName lowercaseString]]];
-    if (logo) self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    if (logo) {
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    }
+    else {
+        self.navigationItem.titleView = nil;
+        self.navigationItem.title = self.application.displayName;
+    }
     
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
@@ -207,7 +216,6 @@
     }
     
     if (imageName) {
-        
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
         imageView.userInteractionEnabled = YES;
         
@@ -216,13 +224,54 @@
         
         self.tableView.tableHeaderView = imageView;
     }
+    else {
+        self.tableView.tableHeaderView = [UIView new];
+    }
     
     self.tableView.tableFooterView = [UIView new];
+}
+
+- (void)setAllowSuffling:(BOOL)allow
+{
+    _allowSuffling = allow;
+    
+    UIBarButtonItem *rightItem = nil;
+    
+    if (allow) {
+        rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(shuffle:)];
+    }
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didTapHeaderView:(id)sender
 {
     NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)shuffle:(id)sender
+{
+    Application *randomApp = [self randomApplication];
+    
+    while ([randomApp.identifier isEqualToString:self.application.identifier]) {
+        randomApp = [self randomApplication];
+    }
+    
+    self.application = randomApp;
+    
+    [self configureHeaderAndFooter];
+    [self configureNavigationBar];
+    
+    [self.tableView reloadEmptyDataSet];
+}
+
+- (Application *)randomApplication
+{
+    ApplicationType randomType = arc4random() % ApplicationCount;
+
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"type == %d", randomType];
+    
+    return [[self.applications filteredArrayUsingPredicate:query] firstObject];
 }
 
 
@@ -764,15 +813,15 @@
     }
 }
 
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (self.application.type == ApplicationTypeKickstarter) {
-        return CGPointMake(0, -100.0);
+        return -64.0;
     }
     if (self.application.type == ApplicationTypeTwitter) {
-        return CGPointMake(0, -roundf(self.tableView.frame.size.height/2.5));
+        return -roundf(self.tableView.frame.size.height/2.5);
     }
-    return CGPointZero;
+    return 0.0;
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
