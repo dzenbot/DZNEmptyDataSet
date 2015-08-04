@@ -223,7 +223,7 @@
     Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     controller.applications = self.applications;
-    controller.allowSuffling = YES;
+    controller.allowShuffling = YES;
     
     [self.navigationController pushViewController:controller animated:YES];
 }

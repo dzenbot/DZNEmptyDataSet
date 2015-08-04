@@ -232,9 +232,9 @@
     self.tableView.tableFooterView = [UIView new];
 }
 
-- (void)setAllowSuffling:(BOOL)allow
+- (void)setAllowShuffling:(BOOL)allow
 {
-    _allowSuffling = allow;
+    _allowShuffling = allow;
     
     UIBarButtonItem *rightItem = nil;
     
