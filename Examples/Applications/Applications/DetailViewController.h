@@ -12,7 +12,7 @@
 @interface DetailViewController : UITableViewController
 
 @property (nonatomic, weak) NSArray *applications;
-@property (nonatomic) BOOL allowSuffling;
+@property (nonatomic) BOOL allowShuffling;
 
 - (instancetype)initWithApplication:(Application *)app;
 
