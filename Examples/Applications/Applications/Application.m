@@ -31,7 +31,7 @@
     
     self.iconName = [[[NSString stringWithFormat:@"icon_%@", self.displayName] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     
-    self.type = applicationTypeFromString(self.displayName);
+    self.type = applicationTypeFromString(self.displayName) + 1;
 }
 
 ApplicationType applicationTypeFromString(NSString *string)

@@ -34,7 +34,7 @@
     [super viewDidLoad];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
-
+    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
@@ -47,6 +47,9 @@
     
     [self configureNavigationBar];
 }
+
+
+#pragma mark - Configuration and Event Methods
 
 - (void)configureNavigationBar
 {
@@ -187,7 +190,14 @@
     }
     
     UIImage *logo = [UIImage imageNamed:[NSString stringWithFormat:@"logo_%@", [self.application.displayName lowercaseString]]];
-    if (logo) self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    if (logo) {
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+    }
+    else {
+        self.navigationItem.titleView = nil;
+        self.navigationItem.title = self.application.displayName;
+        self.navigationController.navigationBar.titleTextAttributes = nil;
+    }
     
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
@@ -207,7 +217,6 @@
     }
     
     if (imageName) {
-        
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
         imageView.userInteractionEnabled = YES;
         
@@ -216,13 +225,54 @@
         
         self.tableView.tableHeaderView = imageView;
     }
+    else {
+        self.tableView.tableHeaderView = [UIView new];
+    }
     
     self.tableView.tableFooterView = [UIView new];
+}
+
+- (void)setAllowSuffling:(BOOL)allow
+{
+    _allowSuffling = allow;
+    
+    UIBarButtonItem *rightItem = nil;
+    
+    if (allow) {
+        rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(shuffle:)];
+    }
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didTapHeaderView:(id)sender
 {
     NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)shuffle:(id)sender
+{
+    Application *randomApp = [self randomApplication];
+    
+    while ([randomApp.identifier isEqualToString:self.application.identifier] || randomApp.type == ApplicationTypeUndefined) {
+        randomApp = [self randomApplication];
+    }
+    
+    self.application = randomApp;
+    
+    [self configureHeaderAndFooter];
+    [self configureNavigationBar];
+    
+    [self.tableView reloadEmptyDataSet];
+}
+
+- (Application *)randomApplication
+{
+    ApplicationType randomType = arc4random() % ApplicationCount;
+
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"type == %d", randomType];
+    
+    return [[self.applications filteredArrayUsingPredicate:query] firstObject];
 }
 
 
@@ -360,7 +410,7 @@
         }
         case ApplicationTypeRemote:
         {
-            text = @"Cannot Connect to a\nLocal Network";
+            text = @"Cannot Connect to a Local Network";
             font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18.0];
             textColor = [UIColor colorWithHex:@"555555"];
             break;
@@ -444,14 +494,14 @@
     switch (self.application.type) {
         case ApplicationType500px:
         {
-            text = @"Get started by uploading a\nphoto.";
+            text = @"Get started by uploading a photo.";
             font = [UIFont boldSystemFontOfSize:15.0];
             textColor = [UIColor colorWithHex:@"545454"];
             break;
         }
         case ApplicationTypeAirbnb:
         {
-            text = @"When you have messages, you’ll\nsee them here.";
+            text = @"When you have messages, you’ll see them here.";
             font = [UIFont systemFontOfSize:13.0];
             textColor = [UIColor colorWithHex:@"cfcfcf"];
             paragraph.lineSpacing = 4.0;
@@ -494,7 +544,7 @@
         }
         case ApplicationTypeiCloud:
         {
-            text = @"Share photos and videos with\njust the people you choose, and let them add photos,\nvideos, and comments.";
+            text = @"Share photos and videos with just the people you choose, and let them add photos, videos, and comments.";
             paragraph.lineSpacing = 2.0;
             break;
         }
@@ -508,13 +558,13 @@
         }
         case ApplicationTypeiTunesConnect:
         {
-            text = @"To add a favorite, tap the star icon next\nto an App's name.";
+            text = @"To add a favorite, tap the star icon next to an App's name.";
             font = [UIFont systemFontOfSize:14.0];
             break;
         }
         case ApplicationTypeKickstarter:
         {
-            text = @"When you back a project or follow a friend,\ntheir activity will show up here.";
+            text = @"When you back a project or follow a friend, their activity will show up here.";
             font = [UIFont systemFontOfSize:14.0];
             textColor = [UIColor colorWithHex:@"828587"];
             break;
@@ -533,7 +583,7 @@
         }
         case ApplicationTypePodcasts:
         {
-            text = @"You can subscribe to podcasts in\nTop Charts or Featured.";
+            text = @"You can subscribe to podcasts in Top Charts or Featured.";
             break;
         }
         case ApplicationTypeRemote:
@@ -552,7 +602,7 @@
         }
         case ApplicationTypeSkype:
         {
-            text = @"Keep all your favorite people\ntogether, add favorites.";
+            text = @"Keep all your favorite people together, add favorites.";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.75];
             textColor = [UIColor colorWithHex:@"a6c3d1"];
             paragraph.lineSpacing = 3.0;
@@ -560,7 +610,7 @@
         }
         case ApplicationTypeSlack:
         {
-            text = @"You don't have any\nrecent mentions";
+            text = @"You don't have any recent mentions";
             font = [UIFont fontWithName:@"Lato-Regular" size:19.0];
             textColor = [UIColor colorWithHex:@"d7d7d7"];
             break;
@@ -764,15 +814,15 @@
     }
 }
 
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (self.application.type == ApplicationTypeKickstarter) {
-        return CGPointMake(0, -100.0);
+        return -64.0;
     }
     if (self.application.type == ApplicationTypeTwitter) {
-        return CGPointMake(0, -roundf(self.tableView.frame.size.height/2.5));
+        return -roundf(self.tableView.frame.size.height/2.5);
     }
-    return CGPointZero;
+    return 0.0;
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView

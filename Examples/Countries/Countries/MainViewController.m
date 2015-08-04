@@ -52,7 +52,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadContent:)];
     
-    self.loading = NO;
+    self.loading = YES;
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.searchBar];
