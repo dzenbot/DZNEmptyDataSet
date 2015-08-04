@@ -689,7 +689,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
         _titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 0;
         _titleLabel.accessibilityLabel = @"empty set title";
         
         [_contentView addSubview:_titleLabel];

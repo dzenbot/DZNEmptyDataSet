@@ -410,7 +410,7 @@
         }
         case ApplicationTypeRemote:
         {
-            text = @"Cannot Connect to a\nLocal Network";
+            text = @"Cannot Connect to a Local Network";
             font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18.0];
             textColor = [UIColor colorWithHex:@"555555"];
             break;
@@ -494,14 +494,14 @@
     switch (self.application.type) {
         case ApplicationType500px:
         {
-            text = @"Get started by uploading a\nphoto.";
+            text = @"Get started by uploading a photo.";
             font = [UIFont boldSystemFontOfSize:15.0];
             textColor = [UIColor colorWithHex:@"545454"];
             break;
         }
         case ApplicationTypeAirbnb:
         {
-            text = @"When you have messages, you’ll\nsee them here.";
+            text = @"When you have messages, you’ll see them here.";
             font = [UIFont systemFontOfSize:13.0];
             textColor = [UIColor colorWithHex:@"cfcfcf"];
             paragraph.lineSpacing = 4.0;
@@ -544,7 +544,7 @@
         }
         case ApplicationTypeiCloud:
         {
-            text = @"Share photos and videos with\njust the people you choose, and let them add photos,\nvideos, and comments.";
+            text = @"Share photos and videos with just the people you choose, and let them add photos, videos, and comments.";
             paragraph.lineSpacing = 2.0;
             break;
         }
@@ -558,13 +558,13 @@
         }
         case ApplicationTypeiTunesConnect:
         {
-            text = @"To add a favorite, tap the star icon next\nto an App's name.";
+            text = @"To add a favorite, tap the star icon next to an App's name.";
             font = [UIFont systemFontOfSize:14.0];
             break;
         }
         case ApplicationTypeKickstarter:
         {
-            text = @"When you back a project or follow a friend,\ntheir activity will show up here.";
+            text = @"When you back a project or follow a friend, their activity will show up here.";
             font = [UIFont systemFontOfSize:14.0];
             textColor = [UIColor colorWithHex:@"828587"];
             break;
@@ -583,7 +583,7 @@
         }
         case ApplicationTypePodcasts:
         {
-            text = @"You can subscribe to podcasts in\nTop Charts or Featured.";
+            text = @"You can subscribe to podcasts in Top Charts or Featured.";
             break;
         }
         case ApplicationTypeRemote:
@@ -602,7 +602,7 @@
         }
         case ApplicationTypeSkype:
         {
-            text = @"Keep all your favorite people\ntogether, add favorites.";
+            text = @"Keep all your favorite people together, add favorites.";
             font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.75];
             textColor = [UIColor colorWithHex:@"a6c3d1"];
             paragraph.lineSpacing = 3.0;
@@ -610,7 +610,7 @@
         }
         case ApplicationTypeSlack:
         {
-            text = @"You don't have any\nrecent mentions";
+            text = @"You don't have any recent mentions";
             font = [UIFont fontWithName:@"Lato-Regular" size:19.0];
             textColor = [UIColor colorWithHex:@"d7d7d7"];
             break;
