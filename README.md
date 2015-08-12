@@ -84,13 +84,6 @@ Conform to datasource and/or delegate.
 }
 ```
 
-### Dealloc
-~~You MUST disable the datasource and/or delegate in your view controller's `dealloc` method.
-This will unregister internal observers and invalidate private states.~~
-
-Disabling the datasource and/or delegate in your the controller's `dealloc` method is no longer needed. Take a look at [#91](https://github.com/dzenbot/DZNEmptyDataSet/issues/91) for more information.
-
-
 ### Data Source Implementation
 Return the content you want to show on the empty state, and take advantage of NSAttributedString features to customise the text appearance.
 
@@ -108,7 +101,7 @@ The attributed string for the title of the empty state:
 {
     NSString *text = @"Please Allow Photo Access";
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName: [UIColor darkGrayColor]};
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
@@ -125,7 +118,7 @@ The attributed string for the description of the empty state:
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
     paragraph.alignment = NSTextAlignmentCenter;
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
                                  NSForegroundColorAttributeName: [UIColor lightGrayColor],
                                  NSParagraphStyleAttributeName: paragraph};
                                  
@@ -137,7 +130,7 @@ The attributed string to be used for the specified button state:
 ```objc
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0]};
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
 
     return [[NSAttributedString alloc] initWithString:@"Continue" attributes:attributes];
 }
@@ -169,11 +162,19 @@ If you need a more complex layout, you can return a custom view instead:
 }
 ```
 
-Additionally, you can modify the horizontal and/or vertical alignments (as when using a tableHeaderView):
+Additionally, you can also adjust the vertical alignment of the content view (ie: useful when there is tableHeaderView visible):
 ```objc
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return CGPointMake(0, -self.tableView.tableHeaderView.frame.size.height/2);
+    return -self.tableView.tableHeaderView.frame.size.height/2.0f;
+}
+```
+
+Finally, you can separate components from each other (default separation is 11 pts):
+```objc
+- (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return 20.0f;
 }
 ```
 
