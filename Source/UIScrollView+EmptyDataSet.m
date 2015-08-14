@@ -91,17 +91,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (BOOL)dzn_canDisplay
 {
-    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]] || [self isKindOfClass:[UIScrollView class]])
-    {
-        id source = self.emptyDataSetSource;
-        
-        if (source && [source conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+        if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]] || [self isKindOfClass:[UIScrollView class]]) {
             return YES;
         }
-        else {
-            return NO;
-        }
     }
+    
     return NO;
 }
 
