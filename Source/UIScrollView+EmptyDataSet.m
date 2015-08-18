@@ -911,6 +911,15 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if ([hitView isEqual:_button] || [hitView isEqual:_contentView]) {
+        return hitView;
+    }
+    return nil;
+}
+
 @end
 
 
