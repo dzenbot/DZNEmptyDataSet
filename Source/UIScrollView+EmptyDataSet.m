@@ -815,6 +815,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     [self addConstraint:centerXConstraint];
     [self addConstraint:centerYConstraint];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
     
     // When a custom offset is available, we adjust the vertical constraints' constants
     if (self.verticalOffset != 0 && self.constraints.count > 0) {
