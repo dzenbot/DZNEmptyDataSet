@@ -182,6 +182,7 @@
  Use this method either to resignFirstResponder of a textfield or searchBar.
  
  @param scrollView A scrollView subclass informing the delegate.
+ @param view the view tapped by the user
  */
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view;
 
@@ -189,6 +190,7 @@
  Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
+ @param button the button tapped by the user
  */
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button;
 
