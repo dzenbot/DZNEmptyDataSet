@@ -308,15 +308,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_didTapContentView:(id)sender
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
-        [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
+        [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
     }
 }
 
 - (void)dzn_didTapDataButton:(id)sender
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
-        [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapButton:)]) {
+        [self.emptyDataSetDelegate emptyDataSet:self didTapButton:sender];
     }
 }
 

@@ -183,14 +183,14 @@
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView;
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view;
 
 /**
  Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView;
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button;
 
 /**
  Tells the delegate that the empty data set will appear.
