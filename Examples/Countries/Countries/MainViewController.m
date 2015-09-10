@@ -233,15 +233,17 @@
     return YES;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
+
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
     }
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
+
     if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         return;
     }
