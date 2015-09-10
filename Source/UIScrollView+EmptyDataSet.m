@@ -311,6 +311,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
         [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
+    }
+#pragma clang diagnostic pop
 }
 
 - (void)dzn_didTapDataButton:(id)sender
@@ -318,6 +324,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapButton:)]) {
         [self.emptyDataSetDelegate emptyDataSet:self didTapButton:sender];
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
+        [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
+    }
+#pragma clang diagnostic pop
 }
 
 
