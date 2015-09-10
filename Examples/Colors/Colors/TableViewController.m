@@ -132,8 +132,9 @@
     return NO;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
+
     NSLog(@"%s",__FUNCTION__);
 }
 
