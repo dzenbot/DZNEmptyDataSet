@@ -177,20 +177,38 @@
  */
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
 
+
 /**
  Tells the delegate that the empty dataset view was tapped.
  Use this method either to resignFirstResponder of a textfield or searchBar.
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView;
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapView:");
 
 /**
  Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView;
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapButton:");
+
+/**
+ Tells the delegate that the empty dataset view was tapped.
+ Use this method either to resignFirstResponder of a textfield or searchBar.
+ 
+ @param scrollView A scrollView subclass informing the delegate.
+ @param view the view tapped by the user
+ */
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view;
+
+/**
+ Tells the delegate that the action button was tapped.
+ 
+ @param scrollView A scrollView subclass informing the delegate.
+ @param button the button tapped by the user
+ */
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button;
 
 /**
  Tells the delegate that the empty data set will appear.

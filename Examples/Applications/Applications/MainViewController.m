@@ -151,13 +151,14 @@
     return YES;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
     NSLog(@"%s",__FUNCTION__);
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
+
     UISearchBar *searchBar = self.searchDisplayController.searchBar;
 
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@", searchBar.text]];
