@@ -13,6 +13,7 @@
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
+@property (nonatomic, assign) BOOL isAnimate;
 @end
 
 @implementation DetailViewController
@@ -242,7 +243,10 @@
         rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(shuffle:)];
     }
     
-    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    UIBarButtonItem * rightAnimationItem = [[UIBarButtonItem alloc] initWithTitle:@"animate" style:UIBarButtonItemStylePlain target:self action:@selector(showAnimation)];
+    
+    [self.navigationItem setRightBarButtonItems:@[rightItem,rightAnimationItem,] animated:NO];
 }
 
 - (void)didTapHeaderView:(id)sender
@@ -263,6 +267,12 @@
     [self configureHeaderAndFooter];
     [self configureNavigationBar];
     
+    [self.tableView reloadEmptyDataSet];
+}
+
+- (void) showAnimation
+{
+    self.isAnimate = !self.isAnimate;
     [self.tableView reloadEmptyDataSet];
 }
 
@@ -691,6 +701,22 @@
     return [UIImage imageNamed:imageName];
 }
 
+- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [ CABasicAnimation
+                                   animationWithKeyPath: @"transform" ];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    
+    animation.toValue = [ NSValue valueWithCATransform3D:
+                         
+                         CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     NSString *text = nil;
@@ -878,6 +904,10 @@
     NSLog(@"%s",__FUNCTION__);
 }
 
+- (BOOL) emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView
+{
+    return self.isAnimate;
+}
 
 #pragma mark - View Auto-Rotation
 
