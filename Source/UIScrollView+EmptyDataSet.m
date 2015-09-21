@@ -505,7 +505,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         }
         else
         {
-            [self.emptyDataSetView.imageView.layer removeAnimationForKey:EmptyImageViewAnimationKey];
+            if([self.emptyDataSetView.imageView.layer animationForKey:EmptyImageViewAnimationKey])
+            {
+                [self.emptyDataSetView.imageView.layer removeAnimationForKey:EmptyImageViewAnimationKey];
+            }
         }
         
         // Notifies that the empty dataset view did appear

@@ -13,7 +13,7 @@
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
-@property (nonatomic, assign) BOOL isAnimate;
+@property (assign,nonatomic) BOOL isLoading;
 @end
 
 @implementation DetailViewController
@@ -243,10 +243,7 @@
         rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(shuffle:)];
     }
     
-    
-    UIBarButtonItem * rightAnimationItem = [[UIBarButtonItem alloc] initWithTitle:@"animate" style:UIBarButtonItemStylePlain target:self action:@selector(showAnimation)];
-    
-    [self.navigationItem setRightBarButtonItems:@[rightItem,rightAnimationItem,] animated:NO];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didTapHeaderView:(id)sender
@@ -267,12 +264,6 @@
     [self configureHeaderAndFooter];
     [self configureNavigationBar];
     
-    [self.tableView reloadEmptyDataSet];
-}
-
-- (void) showAnimation
-{
-    self.isAnimate = !self.isAnimate;
     [self.tableView reloadEmptyDataSet];
 }
 
@@ -695,10 +686,17 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
-                           stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    
-    return [UIImage imageNamed:imageName];
+    if(self.isLoading)
+    {
+        return [UIImage imageNamed:@"loading_imgBlue_78x78"];
+    }
+    else
+    {
+        NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
+                               stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        
+        return [UIImage imageNamed:imageName];
+    }
 }
 
 - (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
@@ -893,21 +891,36 @@
     return YES;
 }
 
+- (BOOL) emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView
+{
+    return self.isLoading;
+}
+
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
     NSLog(@"%s",__FUNCTION__);
+    self.isLoading = YES;
+    [self.tableView reloadData];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isLoading = NO;
+        [self.tableView reloadData];
+    });
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
-
+    
     NSLog(@"%s",__FUNCTION__);
+    self.isLoading = YES;
+    [self.tableView reloadData];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isLoading = NO;
+        [self.tableView reloadData];
+    });
 }
 
-- (BOOL) emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView
-{
-    return self.isAnimate;
-}
 
 #pragma mark - View Auto-Rotation
 

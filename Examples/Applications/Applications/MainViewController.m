@@ -134,7 +134,6 @@
 }
 
 
-
 #pragma mark - DZNEmptyDataSetDelegate Methods
 
 - (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
@@ -151,7 +150,6 @@
 {
     return YES;
 }
-
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
