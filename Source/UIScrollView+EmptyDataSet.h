@@ -192,7 +192,7 @@
  *  @param scrollView A scrollView subclass object informing the delegate.
  *  @return YES if the empty dataset is allowed to animate
  */
-- (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView;
+- (BOOL)emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView;
 
 /**
  Tells the delegate that the empty dataset view was tapped.

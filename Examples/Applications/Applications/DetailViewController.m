@@ -904,7 +904,7 @@
     NSLog(@"%s",__FUNCTION__);
 }
 
-- (BOOL) emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView
+- (BOOL) emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView
 {
     return self.isAnimate;
 }
