@@ -427,10 +427,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             view.verticalSpace = [self dzn_verticalSpace];
             
             // Configure Image
-            if (image) {
-                view.imageView.image = [image imageWithRenderingMode:renderingMode];
-                view.imageView.tintColor = imageTintColor;
-            }
+			if (image) {
+				if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
+					view.imageView.image = [image imageWithRenderingMode:renderingMode];
+				} else {
+					// iOS 6 fallback: insert code to convert imaged if needed
+					view.imageView.image = image;
+				}
+
+				view.imageView.tintColor = imageTintColor;
+			}
             
             // Configure title label
             if (titleLabelString) {
