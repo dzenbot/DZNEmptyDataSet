@@ -11,6 +11,8 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import <objc/runtime.h>
 
+#define EmptyImageViewAnimationKey @"com.emptyDataSet.imageViewAnimation"
+
 @interface UIView (DZNConstraintBasedLayoutExtensions)
 
 - (NSLayoutConstraint *)equallyRelatedConstraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
@@ -42,6 +44,7 @@
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
+
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
@@ -173,6 +176,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return nil;
 }
 
+- (CAAnimation *) dzn_imageAnimation
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageAnimationForEmptyDataSet:)]) {
+        CAAnimation *imageAnimation = [self.emptyDataSetSource imageAnimationForEmptyDataSet:self];
+        if (imageAnimation) NSAssert([imageAnimation isKindOfClass:[CAAnimation class]], @"You must return a valid UIImage object for -imageForEmptyDataSet:");
+        return imageAnimation;
+    }
+    return nil;
+}
+
 - (UIColor *)dzn_imageTintColor
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageTintColorForEmptyDataSet:)]) {
@@ -274,6 +287,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAllowScroll:self];
+    }
+    return NO;
+}
+
+- (BOOL)dzn_isImageViewAnimateAllow
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowImageViewAnimate:)])
+    {
+       return [self.emptyDataSetDelegate emptyDataSetShouldAllowImageViewAnimate:self];
     }
     return NO;
 }
@@ -477,6 +499,23 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
+        
+        BOOL isImageViewAnimateAllow = [self dzn_isImageViewAnimateAllow];
+        if(isImageViewAnimateAllow)
+        {
+            CAAnimation * animation = [self dzn_imageAnimation];
+            if(animation)
+            {
+                [self.emptyDataSetView.imageView.layer addAnimation:animation forKey:EmptyImageViewAnimationKey];
+            }
+        }
+        else
+        {
+            if([self.emptyDataSetView.imageView.layer animationForKey:EmptyImageViewAnimationKey])
+            {
+                [self.emptyDataSetView.imageView.layer removeAnimationForKey:EmptyImageViewAnimationKey];
+            }
+        }
         
         // Notifies that the empty dataset view did appear
         [self dzn_didAppear];

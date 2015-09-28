@@ -68,6 +68,7 @@
  */
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView;
 
+
 /**
  Asks the data source for a tint color of the image dataset. Default is nil.
  
@@ -75,6 +76,15 @@
  @return A color to tint the image of the dataset.
  */
 - (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ *  Asks the data source for the image animation of the dataset.
+ *
+ *  @param scrollView A scrollView subclass object informing the delegate.
+ *
+ *  @return image animation
+ */
+- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *) scrollView;
 
 /**
  Asks the data source for the title to be used for the specified button state.
@@ -177,6 +187,12 @@
  */
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
 
+/**
+ *  Asks the delegate for image view animate. Default is NO
+ *  @param scrollView A scrollView subclass object informing the delegate.
+ *  @return YES if the empty dataset is allowed to animate
+ */
+- (BOOL)emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView;
 
 /**
  Tells the delegate that the empty dataset view was tapped.

@@ -13,6 +13,7 @@
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
+@property (assign,nonatomic) BOOL isLoading;
 @end
 
 @implementation DetailViewController
@@ -687,10 +688,33 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
-                           stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    if(self.isLoading)
+    {
+        return [UIImage imageNamed:@"loading_imgBlue_78x78"];
+    }
+    else
+    {
+        NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
+                               stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        
+        return [UIImage imageNamed:imageName];
+    }
+}
+
+- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [ CABasicAnimation
+                                   animationWithKeyPath: @"transform" ];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
     
-    return [UIImage imageNamed:imageName];
+    animation.toValue = [ NSValue valueWithCATransform3D:
+                         
+                         CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
 }
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
@@ -869,15 +893,34 @@
     return YES;
 }
 
+- (BOOL) emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView
+{
+    return self.isLoading;
+}
+
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
     NSLog(@"%s",__FUNCTION__);
+    self.isLoading = YES;
+    [self.tableView reloadData];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isLoading = NO;
+        [self.tableView reloadData];
+    });
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
-
+    
     NSLog(@"%s",__FUNCTION__);
+    self.isLoading = YES;
+    [self.tableView reloadData];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isLoading = NO;
+        [self.tableView reloadData];
+    });
 }
 
 
