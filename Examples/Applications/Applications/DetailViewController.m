@@ -57,6 +57,8 @@
     UIColor *tintColor = nil;
     UIStatusBarStyle barstyle = UIStatusBarStyleDefault;
     
+    self.navigationController.navigationBar.titleTextAttributes = nil;
+
     switch (self.application.type) {
         case ApplicationType500px:
         {
@@ -74,8 +76,9 @@
         case ApplicationTypeCamera:
         {
             barColor = [UIColor colorWithHex:@"595959"];
+            tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: tintColor};
             break;
         }
         case ApplicationTypeDropbox:
@@ -196,7 +199,6 @@
     else {
         self.navigationItem.titleView = nil;
         self.navigationItem.title = self.application.displayName;
-        self.navigationController.navigationBar.titleTextAttributes = nil;
     }
     
     self.navigationController.navigationBar.barTintColor = barColor;
@@ -881,7 +883,7 @@
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }
