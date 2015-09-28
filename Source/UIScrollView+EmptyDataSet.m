@@ -862,7 +862,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"titleLabel"];
             views[[subviewStrings lastObject]] = _titleLabel;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[titleLabel(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[titleLabel(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -877,7 +877,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"detailLabel"];
             views[[subviewStrings lastObject]] = _detailLabel;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[detailLabel(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[detailLabel(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -892,7 +892,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"button"];
             views[[subviewStrings lastObject]] = _button;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[button(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -911,7 +911,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [verticalFormat appendFormat:@"[%@]", string];
             
             if (i < subviewStrings.count-1) {
-                [verticalFormat appendFormat:@"-(%.f)-", verticalSpace];
+                [verticalFormat appendFormat:@"-(%.f@750)-", verticalSpace];
             }
         }
         
