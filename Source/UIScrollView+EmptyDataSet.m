@@ -964,9 +964,17 @@ NSString *dzn_implementationKey(id target, SEL selector)
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     UIView *hitView = [super hitTest:point withEvent:event];
-    if ([hitView isEqual:_button] || [hitView isEqual:_contentView]) {
+    
+    // Return any UIControl instance such as buttons, segmented controls, switches, etc.
+    if ([hitView isKindOfClass:[UIControl class]]) {
         return hitView;
     }
+    
+    // Return either the contentView or customView
+    if ([hitView isEqual:_contentView] || [hitView isEqual:_customView]) {
+        return hitView;
+    }
+    
     return nil;
 }
 
