@@ -11,14 +11,11 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import <objc/runtime.h>
 
-#define EmptyImageViewAnimationKey @"com.emptyDataSet.imageViewAnimation"
-
 @interface UIView (DZNConstraintBasedLayoutExtensions)
 
 - (NSLayoutConstraint *)equallyRelatedConstraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
 
 @end
-
 
 @interface DZNEmptyDataSetView : UIView
 
@@ -45,6 +42,7 @@ static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
+#define kEmptyImageViewAnimationKey @"com.dzn.emptyDataSet.imageViewAnimation"
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
@@ -293,9 +291,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (BOOL)dzn_isImageViewAnimateAllow
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowImageViewAnimate:)])
-    {
-       return [self.emptyDataSetDelegate emptyDataSetShouldAllowImageViewAnimate:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
+       return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
     }
     return NO;
 }
@@ -500,21 +497,17 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
-        BOOL isImageViewAnimateAllow = [self dzn_isImageViewAnimateAllow];
-        if(isImageViewAnimateAllow)
+        // Configure image view animation
+        if ([self dzn_isImageViewAnimateAllow])
         {
-            CAAnimation * animation = [self dzn_imageAnimation];
-            if(animation)
-            {
-                [self.emptyDataSetView.imageView.layer addAnimation:animation forKey:EmptyImageViewAnimationKey];
+            CAAnimation *animation = [self dzn_imageAnimation];
+            
+            if (animation) {
+                [self.emptyDataSetView.imageView.layer addAnimation:animation forKey:kEmptyImageViewAnimationKey];
             }
         }
-        else
-        {
-            if([self.emptyDataSetView.imageView.layer animationForKey:EmptyImageViewAnimationKey])
-            {
-                [self.emptyDataSetView.imageView.layer removeAnimationForKey:EmptyImageViewAnimationKey];
-            }
+        else if ([self.emptyDataSetView.imageView.layer animationForKey:kEmptyImageViewAnimationKey]) {
+            [self.emptyDataSetView.imageView.layer removeAnimationForKey:kEmptyImageViewAnimationKey];
         }
         
         // Notifies that the empty dataset view did appear
