@@ -95,6 +95,23 @@ The image for the empty state:
 }
 ```
 
+The image view animation
+```objc
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+```
+
 The attributed string for the title of the empty state:
 ```objc
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
@@ -201,6 +218,14 @@ Asks for interaction permission (Default is YES) :
 Asks for scrolling permission (Default is NO) :
 ```objc
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
+}
+```
+
+Asks for image view animation permission (Default is NO) :
+```objc
+- (BOOL) emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView
 {
     return YES;
 }

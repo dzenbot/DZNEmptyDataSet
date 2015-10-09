@@ -2,16 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "icon_airbnb.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "icon_airbnb@2x.png"
+      "filename" : "loading_imgBlue_78x78@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "loading_imgBlue_78x78@3x.png",
       "scale" : "3x"
     }
   ],

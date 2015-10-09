@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DD24601BAFDFAD001647B5 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		4F36C06919CD11E40073E4BE /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F36C06819CD11E40073E4BE /* System.xcassets */; };
 		4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F805142196FBB2400FD61AA /* Storyboard.storyboard */; };
 		4FB5CE8319421BB70051C6BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8219421BB70051C6BD /* Foundation.framework */; };
@@ -15,7 +16,6 @@
 		4FB5CE8D19421BB70051C6BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CE8B19421BB70051C6BD /* InfoPlist.strings */; };
 		4FB5CE8F19421BB70051C6BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CE8E19421BB70051C6BD /* main.m */; };
 		4FB5CE9319421BB70051C6BD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CE9219421BB70051C6BD /* AppDelegate.m */; };
-		4FB5CE9B19421BB70051C6BD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CE9A19421BB70051C6BD /* Images.xcassets */; };
 		4FB5CEB919421CA40051C6BD /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CEB819421CA40051C6BD /* MainViewController.m */; };
 		4FB5CEBC19421D0F0051C6BD /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CEBB19421D0F0051C6BD /* DetailViewController.m */; };
 		4FB5CEC2194220F50051C6BD /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CEC1194220F50051C6BD /* Application.m */; };
@@ -27,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04DD24601BAFDFAD001647B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		13F1742E09D146FD830BAED4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		4F36C06819CD11E40073E4BE /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = System.xcassets; sourceTree = "<group>"; };
 		4F805142196FBB2400FD61AA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -40,7 +41,6 @@
 		4FB5CE9019421BB70051C6BD /* Applications-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Applications-Prefix.pch"; sourceTree = "<group>"; };
 		4FB5CE9119421BB70051C6BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FB5CE9219421BB70051C6BD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4FB5CE9A19421BB70051C6BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4FB5CEB719421CA40051C6BD /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		4FB5CEB819421CA40051C6BD /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4FB5CEBA19421D0F0051C6BD /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 				4FB5CEF0194383F90051C6BD /* UIColor+Hexadecimal.h */,
 				4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */,
 				4FB5CEC31942210E0051C6BD /* applications.json */,
-				4FB5CE9A19421BB70051C6BD /* Images.xcassets */,
+				04DD24601BAFDFAD001647B5 /* Images.xcassets */,
 				4F36C06819CD11E40073E4BE /* System.xcassets */,
 				4FB5CECE1942944A0051C6BD /* Fonts */,
 				4FB5CE8919421BB70051C6BD /* Supporting Files */,
@@ -186,7 +186,7 @@
 		4FB5CE7719421BB70051C6BD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "DZN Labs";
 			};
 			buildConfigurationList = 4FB5CE7A19421BB70051C6BD /* Build configuration list for PBXProject "Applications" */;
@@ -214,7 +214,7 @@
 			files = (
 				4FB5CF151943BA140051C6BD /* Lato-Regular.ttf in Resources */,
 				4FB5CEC41942210E0051C6BD /* applications.json in Resources */,
-				4FB5CE9B19421BB70051C6BD /* Images.xcassets in Resources */,
+				04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */,
 				4F36C06919CD11E40073E4BE /* System.xcassets in Resources */,
 				4FB5CE8D19421BB70051C6BD /* InfoPlist.strings in Resources */,
 				4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */,
@@ -303,6 +303,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -361,10 +362,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: fangwen huang (33TFM3RXM7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Applications/Applications-Prefix.pch";
 				INFOPLIST_FILE = "Applications/Applications-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dzn.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a84f8631-7134-4f99-8d95-ca7217404d91";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -375,10 +379,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: fangwen huang (33TFM3RXM7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Applications/Applications-Prefix.pch";
 				INFOPLIST_FILE = "Applications/Applications-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dzn.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a84f8631-7134-4f99-8d95-ca7217404d91";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

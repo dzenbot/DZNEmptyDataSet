@@ -13,6 +13,7 @@
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
+@property (nonatomic, getter=isLoading) BOOL loading;
 @end
 
 @implementation DetailViewController
@@ -57,6 +58,8 @@
     UIColor *tintColor = nil;
     UIStatusBarStyle barstyle = UIStatusBarStyleDefault;
     
+    self.navigationController.navigationBar.titleTextAttributes = nil;
+
     switch (self.application.type) {
         case ApplicationType500px:
         {
@@ -74,8 +77,9 @@
         case ApplicationTypeCamera:
         {
             barColor = [UIColor colorWithHex:@"595959"];
+            tintColor = [UIColor whiteColor];
             barstyle = UIStatusBarStyleLightContent;
-            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: tintColor};
             break;
         }
         case ApplicationTypeDropbox:
@@ -196,7 +200,6 @@
     else {
         self.navigationItem.titleView = nil;
         self.navigationItem.title = self.application.displayName;
-        self.navigationController.navigationBar.titleTextAttributes = nil;
     }
     
     self.navigationController.navigationBar.barTintColor = barColor;
@@ -273,6 +276,17 @@
     NSPredicate *query = [NSPredicate predicateWithFormat:@"type == %d", randomType];
     
     return [[self.applications filteredArrayUsingPredicate:query] firstObject];
+}
+
+- (void)setLoading:(BOOL)loading
+{
+    if (self.isLoading == loading) {
+        return;
+    }
+    
+    _loading = loading;
+    
+    [self.tableView reloadEmptyDataSet];
 }
 
 
@@ -685,10 +699,27 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
-                           stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    if (self.isLoading) {
+        return [UIImage imageNamed:@"loading_imgBlue_78x78"];
+    }
+    else {
+        NSString *imageName = [[[NSString stringWithFormat:@"placeholder_%@", self.application.displayName] lowercaseString]
+                               stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        
+        return [UIImage imageNamed:imageName];
+    }
+}
+
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D: CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
     
-    return [UIImage imageNamed:imageName];
+    return animation;
 }
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
@@ -817,7 +848,9 @@
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
     if (self.application.type == ApplicationTypeKickstarter) {
-        return -64.0;
+        CGFloat offset = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
+        offset += CGRectGetHeight(self.navigationController.navigationBar.frame);
+        return -offset;
     }
     if (self.application.type == ApplicationTypeTwitter) {
         return -roundf(self.tableView.frame.size.height/2.5);
@@ -867,21 +900,33 @@
     return YES;
 }
 
+- (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView
+{
+    return self.isLoading;
+}
+
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
-    NSLog(@"%s",__FUNCTION__);
+    self.loading = YES;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.loading = NO;
+    });
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
-
-    NSLog(@"%s",__FUNCTION__);
+    self.loading = YES;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.loading = NO;
+    });
 }
 
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }
