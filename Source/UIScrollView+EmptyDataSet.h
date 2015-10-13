@@ -84,7 +84,7 @@
  *
  *  @return image animation
  */
-- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *) scrollView;
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *) scrollView;
 
 /**
  Asks the data source for the title to be used for the specified button state.
@@ -142,6 +142,14 @@
  */
 - (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use -verticalOffsetForEmptyDataSet:");
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for an initial frame for the empty data set view. Default is the scroll view's bounds.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The initial frame for the empty data set view.
+ */
+- (CGRect)initialFrameForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for a vertical space between elements. Default is 11 pts.

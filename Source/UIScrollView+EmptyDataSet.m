@@ -254,6 +254,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return offset;
 }
 
+- (CGRect)dzn_initialFrame
+{
+    CGRect frame = self.bounds;
+    
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(initialFrameForEmptyDataSet:)]) {
+        frame = [self.emptyDataSetSource initialFrameForEmptyDataSet:self];
+    }
+    return frame;
+}
+
 - (CGFloat)dzn_verticalSpace
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
@@ -413,6 +423,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         
         if (!view.superview) {
+            view.frame = [self dzn_initialFrame];
+            
             // Send the view all the way to the back, in case a header and/or footer is present, as well as for sectionHeaders or any other content
             if (([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) && self.subviews.count > 1) {
                 [self insertSubview:view atIndex:0];
@@ -681,8 +693,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)didMoveToSuperview
 {
-    self.frame = self.superview.bounds;
-    
     [UIView animateWithDuration:0.25
                      animations:^{_contentView.alpha = 1.0;}
                      completion:NULL];
