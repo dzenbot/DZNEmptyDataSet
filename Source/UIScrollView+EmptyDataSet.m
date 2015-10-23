@@ -840,7 +840,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)prepareForReuse
 {
-    [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[[self contentView] subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     _titleLabel = nil;
     _detailLabel = nil;
