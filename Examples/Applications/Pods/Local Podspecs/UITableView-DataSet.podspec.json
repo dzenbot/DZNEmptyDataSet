@@ -1,0 +1,27 @@
+{
+  "name": "UITableView-DataSet",
+  "version": "1.0",
+  "summary": "A drop-in UITableView category for showing empty data sets whenever -reloadData returns no content to display.",
+  "description": "It will work automatically, by just setting the dataSetSource and dataSetDelegate, and returning the data source content requiered.",
+  "homepage": "https://github.com/dzenbot/UITableView-DataSet",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "dzenbot": "iromero@dzen.cl"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "source": {
+    "git": "https://github.com/dzenbot/UITableView-DataSet.git",
+    "tag": "v1.0"
+  },
+  "source_files": [
+    "Classes",
+    "Source/**/*.{h,m}"
+  ],
+  "requires_arc": true,
+  "frameworks": "UIKit"
+}

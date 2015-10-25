@@ -63,7 +63,8 @@ ApplicationType applicationTypeFromString(NSString *string)
                      @"Vesper",
                      @"Vine",
                      @"WhatsApp",
-                     @"WWDC"
+                     @"WWDC",
+                     @"Custom Empty"
                      ];
     return (ApplicationType)[arr indexOfObject:string];
 }
