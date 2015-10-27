@@ -289,6 +289,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
+- (BOOL)dzn_isTouchAllowedToPassThrough:(UIView *)sender
+{
+	if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:shouldAllowTouchPassThroughView:)]) {
+		return [self.emptyDataSetDelegate emptyDataSet:self shouldAllowTouchPassThroughView:sender];
+	}
+	return YES;
+}
+
 - (BOOL)dzn_isImageViewAnimateAllow
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
@@ -973,8 +981,17 @@ NSString *dzn_implementationKey(id target, SEL selector)
     if ([hitView isEqual:_contentView] || [hitView isEqual:_customView]) {
         return hitView;
     }
-    
-    return nil;
+	
+	if ([self.superview isKindOfClass:[UIScrollView class]] &&
+		[self.superview respondsToSelector:@selector(dzn_isTouchAllowedToPassThrough:)]) {
+		UIScrollView *scrollView = (UIScrollView *)self.superview;
+		
+		if (![scrollView dzn_isTouchAllowedToPassThrough:self]) {
+			return self;
+		}
+	}
+	
+	return nil;
 }
 
 @end
