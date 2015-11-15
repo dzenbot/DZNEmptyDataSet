@@ -30,6 +30,8 @@
 @property (nonatomic, assign) CGFloat verticalOffset;
 @property (nonatomic, assign) CGFloat verticalSpace;
 
+@property(nonatomic, strong) NSArray *customConstrains;
+
 - (void)setupConstraints;
 - (void)prepareForReuse;
 
@@ -262,6 +264,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return 0.0;
 }
 
+- (NSArray *)dzn_customConstraint
+{
+    if(self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customConstrainsForContentView:andItsSuperView:)]) {
+        return [self.emptyDataSetSource customConstrainsForContentView:self.emptyDataSetView.contentView andItsSuperView:self.emptyDataSetView];
+    }
+
+    return nil;
+}
+
 
 #pragma mark - Delegate Getters & Events (Private)
 
@@ -481,6 +492,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure offset
         view.verticalOffset = [self dzn_verticalOffset];
+        view.customConstrains = [self dzn_customConstraint];
         
         // Configure the empty dataset view
         view.backgroundColor = [self dzn_dataSetBackgroundColor];
@@ -856,20 +868,11 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 - (void)setupConstraints
 {
-    // First, configure the content view constaints
-    // The content view must alway be centered to its superview
-    NSLayoutConstraint *centerXConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterX];
-    NSLayoutConstraint *centerYConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
-    
-    [self addConstraint:centerXConstraint];
-    [self addConstraint:centerYConstraint];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
-    
-    // When a custom offset is available, we adjust the vertical constraints' constants
-    if (self.verticalOffset != 0 && self.constraints.count > 0) {
-        centerYConstraint.constant = self.verticalOffset;
-    }
-    
+    if([self shouldAddCustomConstrainsForContentView])
+        [self setupCustomConstraintsForContentView];
+    else
+        [self setupDefaultConstraintsForContentView];
+
     // If applicable, set the custom view's constraints
     if (_customView) {
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
@@ -957,6 +960,30 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", verticalFormat]
                                                                                      options:0 metrics:metrics views:views]];
         }
+    }
+}
+
+- (void)setupCustomConstraintsForContentView {
+    [self addConstraints:[self customConstrains]];
+}
+
+- (BOOL)shouldAddCustomConstrainsForContentView {
+    return [self.customConstrains count] > 0;
+}
+
+- (void)setupDefaultConstraintsForContentView {
+// First, configure the content view constaints
+    // The content view must alway be centered to its superview
+    NSLayoutConstraint *centerXConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterX];
+    NSLayoutConstraint *centerYConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
+
+    [self addConstraint:centerXConstraint];
+    [self addConstraint:centerYConstraint];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
+
+    // When a custom offset is available, we adjust the vertical constraints' constants
+    if (self.verticalOffset != 0 && self.constraints.count > 0) {
+        centerYConstraint.constant = self.verticalOffset;
     }
 }
 

@@ -151,6 +151,14 @@
  */
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView;
 
+/**
+ * Asks for data source if should apply custom constraint for EmptyView. Defaults behaviour is to center contentView on X and Y axis.
+ *
+ * @param superView A UIView subclass object informing the delegate. It is a superview for contentView
+ * @param contentView A view which holds every views returned by data source (defaults view or custom view)
+ */
+- (NSArray *)customConstrainsForContentView:(UIView*)contentView andItsSuperView:(UIView *)superView;
+
 @end
 
 
@@ -255,5 +263,5 @@
  @param scrollView A scrollView subclass informing the delegate.
  */
 - (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView;
-
 @end
+
