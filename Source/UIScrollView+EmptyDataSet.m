@@ -764,7 +764,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 {
     if (!_button)
     {
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button = [UIButton buttonWithType:UIButtonTypeSystem];
         _button.translatesAutoresizingMaskIntoConstraints = NO;
         _button.backgroundColor = [UIColor clearColor];
         _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
