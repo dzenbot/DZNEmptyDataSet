@@ -1,0 +1,6 @@
+#include "NSManagedObjectContext-Hydrate.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/NSManagedObjectContext-Hydrate" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DZNEmptyDataSet" "${PODS_ROOT}/Headers/Public/NSManagedObjectContext-Hydrate"
+OTHER_LDFLAGS = ${NSMANAGEDOBJECTCONTEXT_HYDRATE_OTHER_LDFLAGS}
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

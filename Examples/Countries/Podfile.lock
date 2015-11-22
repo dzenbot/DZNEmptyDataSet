@@ -1,5 +1,5 @@
 PODS:
-  - DZNEmptyDataSet (1.3)
+  - DZNEmptyDataSet (1.7.2)
   - NSManagedObjectContext-Hydrate (1.0.4)
 
 DEPENDENCIES:
@@ -8,10 +8,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DZNEmptyDataSet:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  DZNEmptyDataSet: c27af3478ce627b0cbf97d0d581c9752dd7a4b29
-  NSManagedObjectContext-Hydrate: efb82fdc5958b1c2e0c8bedb4ce8cfa57d335a79
+  DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
+  NSManagedObjectContext-Hydrate: a1bf99205a84366a3842074f74a534b16750e72f
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.38.2
