@@ -5,6 +5,10 @@ DZNEmptyDataSet
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
+### Changes on this fork
+* Added possibility to apply custom constrains for EmptyView. Default behaviour was to center the EmptyView
+
+
 ### Projects using this library
 
 [Add your project to the list here](https://github.com/dzenbot/DZNEmptyDataSet/wiki/Projects-using-DZNEmptyDataSet) and provide a (320px wide) render of the result.
