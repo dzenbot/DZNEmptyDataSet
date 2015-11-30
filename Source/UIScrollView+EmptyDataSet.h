@@ -164,6 +164,14 @@
 @optional
 
 /**
+ Asks the delegate to know if the empty dataset should fade in when displayed. Default is YES.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return YES if the empty dataset should fade in.
+ */
+- (BOOL)emptyDataSetShouldFadeIn:(UIScrollView *)scrollView;
+
+/**
  Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
  
  @param scrollView A scrollView subclass object informing the delegate.
