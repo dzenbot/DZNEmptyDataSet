@@ -30,6 +30,8 @@
 @property (nonatomic, assign) CGFloat verticalOffset;
 @property (nonatomic, assign) CGFloat verticalSpace;
 
+@property (nonatomic, assign) BOOL fadeInOnDisplay;
+
 - (void)setupConstraints;
 - (void)prepareForReuse;
 
@@ -265,6 +267,13 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 #pragma mark - Delegate Getters & Events (Private)
 
+- (BOOL)dzn_shouldFadeIn {
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldFadeIn:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldFadeIn:self];
+    }
+    return YES;
+}
+
 - (BOOL)dzn_shouldDisplay
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
@@ -489,6 +498,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
+
+        // Configure empty dataset fade in display
+        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
         [view setupConstraints];
         [view layoutIfNeeded];
@@ -683,9 +695,16 @@ NSString *dzn_implementationKey(id target, SEL selector)
 {
     self.frame = self.superview.bounds;
     
-    [UIView animateWithDuration:0.25
-                     animations:^{_contentView.alpha = 1.0;}
-                     completion:NULL];
+    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
+    
+    if (self.fadeInOnDisplay) {
+        [UIView animateWithDuration:0.25
+                         animations:fadeInBlock
+                         completion:NULL];
+    }
+    else {
+        fadeInBlock();
+    }
 }
 
 
