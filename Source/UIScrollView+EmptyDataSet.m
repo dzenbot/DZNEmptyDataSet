@@ -420,8 +420,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)dzn_reloadEmptyDataSet
 {
     if (![self dzn_canDisplay]) {
+        [self dzn_invalidate];
         return;
     }
+    
+    NSLog(@"%s",__FUNCTION__);
     
     if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
     {
