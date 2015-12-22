@@ -8,7 +8,10 @@
 
 import UIKit
 
+// TODO: Add documentation once completed
 @objc public protocol DZNEmptyDataSetSource : NSObjectProtocol {
+    
+    optional func sectionsToIgnore(scrollView: UIScrollView) -> NSIndexSet?
     
     optional func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
     
@@ -33,6 +36,7 @@ import UIKit
     optional func spaceHeightForEmptyDataSet(scrollView: UIScrollView) -> CGFloat
 }
 
+// TODO: Add documentation once completed
 @objc public protocol DZNEmptyDataSetDelegate : NSObjectProtocol {
     
     optional func emptyDataSetShouldDisplay(scrollView: UIScrollView) -> Bool
@@ -62,7 +66,7 @@ import UIKit
 extension UIScrollView {
     
     // MARK: - Public Properties
-
+    
     private struct AssociatedKeys {
         static var datasource = "emptyDataSetSource"
         static var delegate = "emptyDataSetDelegate"
@@ -92,6 +96,7 @@ extension UIScrollView {
         }
     }
     
+    // TODO: Not implemented yet
     var isEmptyDataSetVisible: Bool {
         get {
             return false
@@ -100,7 +105,7 @@ extension UIScrollView {
     
     
     // MARK: - Private Properties
-
+    
     private var didSwizzle: Bool {
         get {
             let value = objc_getAssociatedObject(self, &AssociatedKeys.didSwizzle) as? NSNumber
@@ -124,17 +129,7 @@ extension UIScrollView {
                 view?.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
                 view?.hidden = false
                 
-//                let gesture = UITapGestureRecognizer.init(target: self, action: Selector("didTapContentView:"))
-//                gesture.delegate = self
-//                
-//                
-//                view?.tapGesture =
-//                view?.tapGesture?.delegate = self
-//                view?.addGestureRecognizer((view?.tapGesture?)!)
-                
-//                view.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dzn_didTapContentView:)];
-//                view.tapGesture.delegate = self;
-//                [view addGestureRecognizer:view.tapGesture];
+                // TODO: Add tap gesture recognizer
                 
                 self.emptyDataSetView = view;
             }
@@ -146,70 +141,84 @@ extension UIScrollView {
         }
     }
     
-    private var itemsCount: Int {
-        get {
-            var items = 0
-            
-            if !self.respondsToSelector(Selector("dataSource")) {
-                return items
-            }
-            
-            if self is UITableView {
-                
-                let tableView = self as! UITableView
-                let sections = (tableView.dataSource?.numberOfSectionsInTableView!(tableView))!
-                
-                for i in 0..<sections {
-                    items += (tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i))!
-                }
-            }
-            else if self is UICollectionView {
-                
-                let collectionView = self as! UICollectionView
-                let sections = (collectionView.dataSource?.numberOfSectionsInCollectionView!(collectionView))!
-                
-                for i in 0..<sections {
-                    items += (collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i))!
-                }
-            }
-            
-            return items
-        }
-    }
-    
     
     // MARK: - Public Methods
-
+    
     func reloadEmptyDataSet() {
         self.reloadEmptyDataSet()
         
         print("reloadEmptyDataSet")
         
-        if (!canDisplay()) {
-            self.invalidateLayout()
+        if (!canDisplay() || !shouldDisplay()) {
+            invalidateLayout()
             return;
         }
         
-
         let view = self.emptyDataSetView
         view?.backgroundColor = backgroundColor()
-        
         
         if view != nil && view?.superview == nil {
             self.addSubview(view!)
         }
     }
     
+    private func sectionsToIgnore() -> NSIndexSet {
+        if emptyDataSetSource?.respondsToSelector(Selector("sectionsToIgnore")) == true {
+            if let indexSet = (emptyDataSetSource?.sectionsToIgnore!(self)) {
+                return indexSet
+            }
+        }
+        return NSIndexSet(index: -1) // Fallback to invalid index
+    }
+    
+    private func itemsCount() -> Int {
+        var items = 0
+        
+        if !self.respondsToSelector(Selector("dataSource")) {
+            return items
+        }
+        
+        let sectionsToIgnore = self.sectionsToIgnore()
+        
+        if self is UITableView {
+            
+            let tableView = self as! UITableView
+            let sections = (tableView.dataSource?.numberOfSectionsInTableView!(tableView))!
+            
+            for i in 0..<sections {
+                if sectionsToIgnore.containsIndex(i) == false {
+                    items += (tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i))!
+                }
+            }
+        }
+        else if self is UICollectionView {
+            
+            let collectionView = self as! UICollectionView
+            let sections = (collectionView.dataSource?.numberOfSectionsInCollectionView!(collectionView))!
+            
+            for i in 0..<sections {
+                if sectionsToIgnore.containsIndex(i) == false {
+                    items += (collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i))!
+                }
+            }
+        }
+        
+        return items
+    }
+    
     private func canDisplay() -> Bool {
-        return self.itemsCount == 0 ? true : false
+        return itemsCount() == 0 ? true : false
     }
     
     private func shouldDisplay() -> Bool {
-        return (self.emptyDataSetDelegate?.emptyDataSetShouldDisplay!(self))!
+        if emptyDataSetDelegate?.respondsToSelector("emptyDataSetShouldDisplay:") == true {
+            return (emptyDataSetDelegate?.emptyDataSetShouldDisplay!(self))!
+        }
+        return true
     }
     
     private func backgroundColor() -> UIColor {
-        if let color = (self.emptyDataSetSource?.backgroundColorForEmptyDataSet!(self)) {
+        if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet!(self)) {
             return color
         }
         return UIColor.clearColor()
@@ -226,20 +235,33 @@ extension UIScrollView {
     
     // MARK: - Swizzling
     
+    private func swizzleIfNeeded() {
+        
+        if didSwizzle == false {
+            let newSelector = Selector("reloadEmptyDataSet")
+            
+            didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
+            didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
+        }
+    }
+    
+    // TODO: Swizzling works, for it doesn't call the original implementation anymore! Need to fix this.
     private func swizzle(originalSelector: Selector, swizzledSelector: Selector) -> Bool {
         
         if self.respondsToSelector(originalSelector) == false {
             return false
         }
         
-        let originalMethod = class_getInstanceMethod(self.classForCoder, originalSelector)
-        let swizzledMethod = class_getInstanceMethod(self.classForCoder, swizzledSelector)
+        let thisClass: AnyClass = self.classForCoder
         
-        let targetedMethod = class_addMethod(self.classForCoder, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
+        let originalMethod = class_getInstanceMethod(thisClass, originalSelector)
+        let swizzledMethod = class_getInstanceMethod(thisClass, swizzledSelector)
+        
+        let targetedMethod = class_addMethod(thisClass, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
         
         if originalMethod != nil && swizzledMethod != nil {
             if targetedMethod {
-                class_replaceMethod(self.classForCoder, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
+                class_replaceMethod(thisClass, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
                 return true
             }
             else {
@@ -249,16 +271,6 @@ extension UIScrollView {
         }
         
         return false
-    }
-    
-    private func swizzleIfNeeded() {
-        
-        if didSwizzle == false {
-            let newSelector = Selector("reloadEmptyDataSet")
-            
-            didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
-            didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
-        }
     }
 }
 
@@ -299,7 +311,7 @@ class DZNEmptyDataSetView: UIView {
     }()
     
     var tapGesture: UITapGestureRecognizer?
-
+    
     var verticalOffset: CGFloat = 0.0
     var verticalSpace: CGFloat = 0.0
     
@@ -309,15 +321,17 @@ class DZNEmptyDataSetView: UIView {
         super.init(frame: frame)
         self.addSubview(self.contentView)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    // TODO: Not implemented yet
     func setupConstraints() {
         
     }
     
+    // TODO: Not implemented yet
     func prepareForReuse() {
         
     }
