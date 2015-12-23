@@ -301,7 +301,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (BOOL)dzn_isImageViewAnimateAllow
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
-       return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
+        return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
     }
     return NO;
 }
@@ -455,15 +455,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             view.verticalSpace = [self dzn_verticalSpace];
             
             // Configure Image
-			if (image) {
-				if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
-					view.imageView.image = [image imageWithRenderingMode:renderingMode];
-					view.imageView.tintColor = imageTintColor;
-				} else {
-					// iOS 6 fallback: insert code to convert imaged if needed
-					view.imageView.image = image;
-				}
-			}
+            if (image) {
+                if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
+                    view.imageView.image = [image imageWithRenderingMode:renderingMode];
+                    view.imageView.tintColor = imageTintColor;
+                } else {
+                    // iOS 6 fallback: insert code to convert imaged if needed
+                    view.imageView.image = image;
+                }
+            }
             
             // Configure title label
             if (titleLabelString) {
@@ -498,7 +498,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
-
+        
         // Configure empty dataset fade in display
         view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
@@ -883,7 +883,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     [self addConstraint:centerXConstraint];
     [self addConstraint:centerYConstraint];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
     
     // When a custom offset is available, we adjust the vertical constraints' constants
     if (self.verticalOffset != 0 && self.constraints.count > 0) {
@@ -892,6 +891,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     // If applicable, set the custom view's constraints
     if (_customView) {
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
+        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
     }
