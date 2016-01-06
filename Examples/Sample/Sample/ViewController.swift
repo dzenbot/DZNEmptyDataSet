@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+class ViewController: UIViewController {
 
-    var items = []
+    var items: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: self.view.bounds)
-        tableView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        tableView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         tableView.dataSource = self
         tableView.delegate = self
         tableView.emptyDataSetSource = self
@@ -44,9 +44,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         items = ["Hello", "Hello", "Hello", "Hello", "Hello", "Hello"]
         tableView.reloadData()
     }
-    
-    // MARK: - DZNEmptyDataSetSource
-    
+}
+
+// MARK: - DZNEmptyDataSetSource
+extension ViewController: DZNEmptyDataSetSource {
+
     func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString? {
         return nil
     }
@@ -60,13 +62,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
-        return UIColor.redColor()
+        return .redColor()
     }
-    
-    // MARK: - DZNEmptyDataSetDelegate
+}
 
-    
-    // MARK: - UITableViewDataSource
+// MARK: - DZNEmptyDataSetDelegate
+extension ViewController: DZNEmptyDataSetDelegate {
+  
+}
+
+// MARK: - UITableViewDataSource
+extension ViewController: UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -77,13 +83,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell: UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
-        
-        if let title = items[indexPath.row] as? String {
-            cell.textLabel?.text = title
-        }
-        
-        return cell
+        return tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
     }
+  
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.textLabel?.text = items[indexPath.row]
+    }
+}
+
+// mark: UITableViewDelegate
+extension ViewController: UITableViewDelegate {
+  
 }
