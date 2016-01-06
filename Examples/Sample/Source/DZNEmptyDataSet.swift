@@ -62,7 +62,7 @@ import UIKit
     optional func emptyDataSetDidDisappear(scrollView: UIScrollView)
 }
 
-
+// MARK: - UIScrollView extension
 extension UIScrollView {
     
     // MARK: - Public Properties
@@ -78,8 +78,8 @@ extension UIScrollView {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.datasource) as? DZNEmptyDataSetSource
         }
-        set(value) {
-            objc_setAssociatedObject(self,&AssociatedKeys.datasource, value ,objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.datasource, newValue, .OBJC_ASSOCIATION_ASSIGN)
             
             swizzleIfNeeded()
         }
@@ -89,8 +89,8 @@ extension UIScrollView {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.delegate) as? DZNEmptyDataSetDelegate
         }
-        set(value) {
-            objc_setAssociatedObject(self,&AssociatedKeys.delegate, value ,objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.delegate, newValue, .OBJC_ASSOCIATION_ASSIGN)
             
             swizzleIfNeeded()
         }
@@ -98,9 +98,7 @@ extension UIScrollView {
     
     // TODO: Not implemented yet
     var isEmptyDataSetVisible: Bool {
-        get {
-            return false
-        }
+        return false
     }
     
     
@@ -110,13 +108,10 @@ extension UIScrollView {
         get {
             let value = objc_getAssociatedObject(self, &AssociatedKeys.didSwizzle) as? NSNumber
             
-            if value != nil {
-                return (value?.boolValue)!
-            }
-            return false
+            return value?.boolValue ?? false // Returns false if the boolValue is nil.
         }
-        set(value) {
-            objc_setAssociatedObject(self,&AssociatedKeys.didSwizzle, NSNumber(bool: value) ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.didSwizzle, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -126,110 +121,97 @@ extension UIScrollView {
             
             if view == nil {
                 view = DZNEmptyDataSetView(frame: self.bounds)
-                view?.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+                view?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
                 view?.hidden = false
                 
                 // TODO: Add tap gesture recognizer
                 
-                self.emptyDataSetView = view;
+                self.emptyDataSetView = view
             }
             
             return view
         }
-        set(value) {
-            objc_setAssociatedObject(self,&AssociatedKeys.view, value ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.view, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     
     // MARK: - Public Methods
     
-    func reloadEmptyDataSet() {
+    public func reloadEmptyDataSet() {
         self.reloadEmptyDataSet()
         
         print("reloadEmptyDataSet")
         
-        if (!canDisplay() || !shouldDisplay()) {
-            invalidateLayout()
-            return;
-        }
+        guard canDisplay && shouldDisplay else { return invalidateLayout() }
         
         let view = self.emptyDataSetView
         view?.backgroundColor = backgroundColor()
         
-        if view != nil && view?.superview == nil {
-            self.addSubview(view!)
-        }
+        guard let _view = view where view?.superview == nil else { return }
+        self.addSubview(_view)
     }
     
-    private func sectionsToIgnore() -> NSIndexSet {
-        if emptyDataSetSource?.respondsToSelector(Selector("sectionsToIgnore")) == true {
-            if let indexSet = (emptyDataSetSource?.sectionsToIgnore!(self)) {
-                return indexSet
-            }
-        }
-        return NSIndexSet(index: -1) // Fallback to invalid index
+    private var sectionsToIgnore: NSIndexSet {
+        guard let emptyDataSetSource = emptyDataSetSource where emptyDataSetSource.respondsToSelector(Selector("sectionsToIgnore")) else { return NSIndexSet(index: -1) }
+        guard let indexSet = emptyDataSetSource.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
+        
+        return indexSet
     }
     
-    private func itemsCount() -> Int {
+    private var itemsCount: Int {
         var items = 0
         
-        if !self.respondsToSelector(Selector("dataSource")) {
-            return items
-        }
+        guard self.respondsToSelector(Selector("dataSource")) else { return items }
         
-        let sectionsToIgnore = self.sectionsToIgnore()
+        let sectionsToIgnore = self.sectionsToIgnore
         
-        if self is UITableView {
+        if let tableView = self as? UITableView {
+            guard let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) else { return items }
             
-            let tableView = self as! UITableView
-            let sections = (tableView.dataSource?.numberOfSectionsInTableView!(tableView))!
-            
-            for i in 0..<sections {
-                if sectionsToIgnore.containsIndex(i) == false {
-                    items += (tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i))!
-                }
+            for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+                guard let item = tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i) else { continue }
+                items += item
             }
-        }
-        else if self is UICollectionView {
+        } else if let collectionView = self as? UICollectionView {
+            guard let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) else { return items }
             
-            let collectionView = self as! UICollectionView
-            let sections = (collectionView.dataSource?.numberOfSectionsInCollectionView!(collectionView))!
-            
-            for i in 0..<sections {
-                if sectionsToIgnore.containsIndex(i) == false {
-                    items += (collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i))!
-                }
+            for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+                guard let item = collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i) else { continue }
+                items += item
             }
         }
         
         return items
     }
     
-    private func canDisplay() -> Bool {
-        return itemsCount() == 0 ? true : false
+    private var canDisplay: Bool {
+        return itemsCount == 0 ? true : false
     }
     
-    private func shouldDisplay() -> Bool {
-        if emptyDataSetDelegate?.respondsToSelector("emptyDataSetShouldDisplay:") == true {
-            return (emptyDataSetDelegate?.emptyDataSetShouldDisplay!(self))!
+    private var shouldDisplay: Bool {
+        if let
+            emptyDataSetDelegate = emptyDataSetDelegate,
+            emptyDataSetShouldDisplay = emptyDataSetDelegate.emptyDataSetShouldDisplay where emptyDataSetDelegate.respondsToSelector(Selector("emptyDataSetShouldDisplay")) {
+                return emptyDataSetShouldDisplay(self)
         }
+        
         return true
     }
     
     private func backgroundColor() -> UIColor {
-        if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet!(self)) {
+        if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet?(self)) {
             return color
         }
-        return UIColor.clearColor()
+        
+        return .clearColor()
     }
     
     private func invalidateLayout() {
-        
-        if let view = self.emptyDataSetView {
-            view.prepareForReuse()
-            view.removeFromSuperview()
-        }
+        guard let view = self.emptyDataSetView else { return }
+        view.prepareForReuse()
+        view.removeFromSuperview()
     }
     
     
@@ -237,7 +219,7 @@ extension UIScrollView {
     
     private func swizzleIfNeeded() {
         
-        if didSwizzle == false {
+        if !didSwizzle {
             let newSelector = Selector("reloadEmptyDataSet")
             
             didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
@@ -247,10 +229,7 @@ extension UIScrollView {
     
     // TODO: Swizzling works, for it doesn't call the original implementation anymore! Need to fix this.
     private func swizzle(originalSelector: Selector, swizzledSelector: Selector) -> Bool {
-        
-        if self.respondsToSelector(originalSelector) == false {
-            return false
-        }
+        guard self.respondsToSelector(originalSelector) else { return false }
         
         let thisClass: AnyClass = self.classForCoder
         
@@ -259,13 +238,13 @@ extension UIScrollView {
         
         let targetedMethod = class_addMethod(thisClass, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
         
-        if originalMethod != nil && swizzledMethod != nil {
+        if originalMethod != nil && swizzledMethod != nil { // Probably needed, as class_getInstanceMethod is not nullable.
             if targetedMethod {
                 class_replaceMethod(thisClass, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
                 return true
             }
             else {
-                method_exchangeImplementations(originalMethod, swizzledMethod);
+                method_exchangeImplementations(originalMethod, swizzledMethod)
                 return true
             }
         }
@@ -274,12 +253,13 @@ extension UIScrollView {
     }
 }
 
+// MARK: - DZNEmptyDataSetView
 class DZNEmptyDataSetView: UIView {
     
     private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = .clearColor()
         view.userInteractionEnabled = true
         view.alpha = 0.0
         return view
@@ -315,7 +295,7 @@ class DZNEmptyDataSetView: UIView {
     var verticalOffset: CGFloat = 0.0
     var verticalSpace: CGFloat = 0.0
     
-    var fadeInOnDisplay: Bool = false
+    var fadeInOnDisplay = false
     
     required override init(frame: CGRect) {
         super.init(frame: frame)
