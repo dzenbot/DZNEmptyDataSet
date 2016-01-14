@@ -11,14 +11,11 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import <objc/runtime.h>
 
-#define EmptyImageViewAnimationKey @"com.emptyDataSet.imageViewAnimation"
-
 @interface UIView (DZNConstraintBasedLayoutExtensions)
 
 - (NSLayoutConstraint *)equallyRelatedConstraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
 
 @end
-
 
 @interface DZNEmptyDataSetView : UIView
 
@@ -33,6 +30,8 @@
 @property (nonatomic, assign) CGFloat verticalOffset;
 @property (nonatomic, assign) CGFloat verticalSpace;
 
+@property (nonatomic, assign) BOOL fadeInOnDisplay;
+
 - (void)setupConstraints;
 - (void)prepareForReuse;
 
@@ -45,6 +44,7 @@ static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
+#define kEmptyImageViewAnimationKey @"com.dzn.emptyDataSet.imageViewAnimation"
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
 @property (nonatomic, readonly) DZNEmptyDataSetView *emptyDataSetView;
@@ -267,6 +267,13 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 #pragma mark - Delegate Getters & Events (Private)
 
+- (BOOL)dzn_shouldFadeIn {
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldFadeIn:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldFadeIn:self];
+    }
+    return YES;
+}
+
 - (BOOL)dzn_shouldDisplay
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
@@ -293,9 +300,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (BOOL)dzn_isImageViewAnimateAllow
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowImageViewAnimate:)])
-    {
-       return [self.emptyDataSetDelegate emptyDataSetShouldAllowImageViewAnimate:self];
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
     }
     return NO;
 }
@@ -450,8 +456,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             
             // Configure Image
             if (image) {
-                view.imageView.image = [image imageWithRenderingMode:renderingMode];
-                view.imageView.tintColor = imageTintColor;
+                if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
+                    view.imageView.image = [image imageWithRenderingMode:renderingMode];
+                    view.imageView.tintColor = imageTintColor;
+                }
+                else {
+                    // iOS 6 fallback: insert code to convert imaged if needed
+                    view.imageView.image = image;
+                }
             }
             
             // Configure title label
@@ -488,27 +500,26 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
         
+        // Configure empty dataset fade in display
+        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
+        
         [view setupConstraints];
         [view layoutIfNeeded];
         
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
-        BOOL isImageViewAnimateAllow = [self dzn_isImageViewAnimateAllow];
-        if(isImageViewAnimateAllow)
+        // Configure image view animation
+        if ([self dzn_isImageViewAnimateAllow])
         {
-            CAAnimation * animation = [self dzn_imageAnimation];
-            if(animation)
-            {
-                [self.emptyDataSetView.imageView.layer addAnimation:animation forKey:EmptyImageViewAnimationKey];
+            CAAnimation *animation = [self dzn_imageAnimation];
+            
+            if (animation) {
+                [self.emptyDataSetView.imageView.layer addAnimation:animation forKey:kEmptyImageViewAnimationKey];
             }
         }
-        else
-        {
-            if([self.emptyDataSetView.imageView.layer animationForKey:EmptyImageViewAnimationKey])
-            {
-                [self.emptyDataSetView.imageView.layer removeAnimationForKey:EmptyImageViewAnimationKey];
-            }
+        else if ([self.emptyDataSetView.imageView.layer animationForKey:kEmptyImageViewAnimationKey]) {
+            [self.emptyDataSetView.imageView.layer removeAnimationForKey:kEmptyImageViewAnimationKey];
         }
         
         // Notifies that the empty dataset view did appear
@@ -685,9 +696,16 @@ NSString *dzn_implementationKey(id target, SEL selector)
 {
     self.frame = self.superview.bounds;
     
-    [UIView animateWithDuration:0.25
-                     animations:^{_contentView.alpha = 1.0;}
-                     completion:NULL];
+    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
+    
+    if (self.fadeInOnDisplay) {
+        [UIView animateWithDuration:0.25
+                         animations:fadeInBlock
+                         completion:NULL];
+    }
+    else {
+        fadeInBlock();
+    }
 }
 
 
@@ -874,13 +892,15 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     // If applicable, set the custom view's constraints
     if (_customView) {
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
+        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
     }
     else {
         CGFloat width = CGRectGetWidth(self.frame) ? : CGRectGetWidth([UIScreen mainScreen].bounds);
-        CGFloat padding =  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? 20.0 : roundf(width/16.0);
-        CGFloat verticalSpace = self.verticalSpace ? : 11.0;
+        CGFloat padding = roundf(width/16.0);
+        CGFloat verticalSpace = self.verticalSpace ? : 11.0; // Default is 11 pts
         
         NSMutableArray *subviewStrings = [NSMutableArray array];
         NSMutableDictionary *views = [NSMutableDictionary dictionary];
@@ -901,7 +921,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"titleLabel"];
             views[[subviewStrings lastObject]] = _titleLabel;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[titleLabel(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[titleLabel(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -916,7 +936,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"detailLabel"];
             views[[subviewStrings lastObject]] = _detailLabel;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[detailLabel(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[detailLabel(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -931,7 +951,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [subviewStrings addObject:@"button"];
             views[[subviewStrings lastObject]] = _button;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button(>=0)]-padding-|"
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[button(>=0)]-(padding@750)-|"
                                                                                      options:0 metrics:metrics views:views]];
         }
         // or removes from its superview
@@ -950,7 +970,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [verticalFormat appendFormat:@"[%@]", string];
             
             if (i < subviewStrings.count-1) {
-                [verticalFormat appendFormat:@"-(%.f)-", verticalSpace];
+                [verticalFormat appendFormat:@"-(%.f@750)-", verticalSpace];
             }
         }
         
@@ -965,9 +985,17 @@ NSString *dzn_implementationKey(id target, SEL selector)
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     UIView *hitView = [super hitTest:point withEvent:event];
-    if ([hitView isEqual:_button] || [hitView isEqual:_contentView]) {
+    
+    // Return any UIControl instance such as buttons, segmented controls, switches, etc.
+    if ([hitView isKindOfClass:[UIControl class]]) {
         return hitView;
     }
+    
+    // Return either the contentView or customView
+    if ([hitView isEqual:_contentView] || [hitView isEqual:_customView]) {
+        return hitView;
+    }
+    
     return nil;
 }
 

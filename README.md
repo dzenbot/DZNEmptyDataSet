@@ -94,21 +94,20 @@ The image for the empty state:
     return [UIImage imageNamed:@"empty_placeholder"];
 }
 ```
-The animation for image view 
+
+The image view animation
 ```objc
-- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
 {
-    CABasicAnimation *animation = [ CABasicAnimation
-    animationWithKeyPath: @"transform" ];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
     animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-
-    animation.toValue = [ NSValue valueWithCATransform3D:
-
-    CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0) ];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
     animation.duration = 0.25;
     animation.cumulative = YES;
     animation.repeatCount = MAXFLOAT;
-
+    
     return animation;
 }
 ```
