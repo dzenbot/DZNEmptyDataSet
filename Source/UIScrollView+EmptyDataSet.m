@@ -504,7 +504,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
         [view setupConstraints];
-        [view layoutIfNeeded];
+        
+        [UIView performWithoutAnimation:^{
+            [view layoutIfNeeded];            
+        }];
         
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
