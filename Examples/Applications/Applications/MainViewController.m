@@ -131,7 +131,7 @@
 
 #pragma mark - DZNEmptyDataSetDelegate Methods
 
-- (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
 {
     return YES;
 }
