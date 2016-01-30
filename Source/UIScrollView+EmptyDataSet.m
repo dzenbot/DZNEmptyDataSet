@@ -981,17 +981,19 @@ NSString *dzn_implementationKey(id target, SEL selector)
     if ([hitView isEqual:_contentView] || [hitView isEqual:_customView]) {
         return hitView;
     }
-	
-	if ([self.superview isKindOfClass:[UIScrollView class]] &&
-		[self.superview respondsToSelector:@selector(dzn_isTouchAllowedToPassThrough:)]) {
-		UIScrollView *scrollView = (UIScrollView *)self.superview;
-		
-		if (![scrollView dzn_isTouchAllowedToPassThrough:self]) {
-			return self;
-		}
-	}
-	
-	return nil;
+    
+    if ([self.superview isKindOfClass:[UIScrollView class]] &&
+        [self.superview respondsToSelector:@selector(dzn_isTouchAllowedToPassThrough:)]) {
+        UIScrollView *scrollView = (UIScrollView *)self.superview;
+        
+        if (![scrollView dzn_isTouchAllowedToPassThrough:hitView]) {
+            return hitView;
+        } else {
+            return nil;
+        }
+    }
+    
+    return nil;
 }
 
 @end
