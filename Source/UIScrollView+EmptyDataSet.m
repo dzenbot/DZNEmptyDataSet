@@ -291,10 +291,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (BOOL)dzn_isTouchAllowedToPassThrough:(UIView *)sender
 {
-	if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:shouldAllowTouchPassThroughView:)]) {
-		return [self.emptyDataSetDelegate emptyDataSet:self shouldAllowTouchPassThroughView:sender];
-	}
-	return YES;
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:shouldAllowTouchPassThroughView:)]) {
+        return [self.emptyDataSetDelegate emptyDataSet:self shouldAllowTouchPassThroughView:sender];
+    }
+    return YES;
 }
 
 - (BOOL)dzn_isImageViewAnimateAllow
@@ -454,15 +454,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             view.verticalSpace = [self dzn_verticalSpace];
             
             // Configure Image
-			if (image) {
-				if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
-					view.imageView.image = [image imageWithRenderingMode:renderingMode];
-					view.imageView.tintColor = imageTintColor;
-				} else {
-					// iOS 6 fallback: insert code to convert imaged if needed
-					view.imageView.image = image;
-				}
-			}
+            if (image) {
+                if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
+                    view.imageView.image = [image imageWithRenderingMode:renderingMode];
+                    view.imageView.tintColor = imageTintColor;
+                } else {
+                    // iOS 6 fallback: insert code to convert imaged if needed
+                    view.imageView.image = image;
+                }
+            }
             
             // Configure title label
             if (titleLabelString) {
