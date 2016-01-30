@@ -107,36 +107,45 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     NSInteger items = 0;
     
+    // UIScollView doesn't respond to 'dataSource' so let's exit
     if (![self respondsToSelector:@selector(dataSource)]) {
         return items;
     }
     
+    // UITableView support
     if ([self isKindOfClass:[UITableView class]]) {
         
-        id <UITableViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UITableView *tableView = (UITableView *)self;
+        id <UITableViewDataSource> dataSource = tableView.dataSource;
         
         NSInteger sections = 1;
-        if ([dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
+        
+        if (dataSource && [dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
             sections = [dataSource numberOfSectionsInTableView:tableView];
         }
         
-        for (NSInteger i = 0; i < sections; i++) {
-            items += [dataSource tableView:tableView numberOfRowsInSection:i];
+        if (dataSource && [dataSource respondsToSelector:@selector(tableView:numberOfRowsInSection:)]) {
+            for (NSInteger section = 0; section < sections; section++) {
+                items += [dataSource tableView:tableView numberOfRowsInSection:section];
+            }
         }
     }
+    // UICollectionView support
     else if ([self isKindOfClass:[UICollectionView class]]) {
         
-        id <UICollectionViewDataSource> dataSource = [self performSelector:@selector(dataSource)];
         UICollectionView *collectionView = (UICollectionView *)self;
-        
+        id <UICollectionViewDataSource> dataSource = collectionView.dataSource;
+
         NSInteger sections = 1;
-        if ([dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
+        
+        if (dataSource && [dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
             sections = [dataSource numberOfSectionsInCollectionView:collectionView];
         }
         
-        for (NSInteger i = 0; i < sections; i++) {
-            items += [dataSource collectionView:collectionView numberOfItemsInSection:i];
+        if (dataSource && [dataSource respondsToSelector:@selector(collectionView:numberOfItemsInSection:)]) {
+            for (NSInteger section = 0; section < sections; section++) {
+                items += [dataSource collectionView:collectionView numberOfItemsInSection:section];
+            }
         }
     }
     

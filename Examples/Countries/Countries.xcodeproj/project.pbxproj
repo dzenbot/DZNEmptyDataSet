@@ -24,7 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		27AF644AB604AEC96EE0DBE6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4F44C93A193FD8B000E34052 /* Countries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Countries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F44C93D193FD8B000E34052 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4F44C93F193FD8B000E34052 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -46,6 +46,7 @@
 		4F4C75F01957AD7B00C32957 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F657CC119CD4A8700347199 /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = System.xcassets; path = Countries/System.xcassets; sourceTree = SOURCE_ROOT; };
 		AED14F1ABCD94E898178FF50 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2421B3CF1B527EDF568FAB8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +71,7 @@
 				4F4C75E01957AD7B00C32957 /* Countries */,
 				4F44C93C193FD8B000E34052 /* Frameworks */,
 				4F44C93B193FD8B000E34052 /* Products */,
-				4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */,
+				725D668220685F6554F26A22 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +125,15 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		725D668220685F6554F26A22 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D2421B3CF1B527EDF568FAB8 /* Pods.debug.xcconfig */,
+				27AF644AB604AEC96EE0DBE6 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,11 +141,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F44C96C193FD8B200E34052 /* Build configuration list for PBXNativeTarget "Countries" */;
 			buildPhases = (
-				4FA3E815F7424CF596319F5F /* Check Pods Manifest.lock */,
 				4F44C936193FD8B000E34052 /* Sources */,
 				4F44C937193FD8B000E34052 /* Frameworks */,
 				4F44C938193FD8B000E34052 /* Resources */,
-				B27381A97EF04420AFB7466C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,7 +160,7 @@
 		4F44C932193FD8B000E34052 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "DZN Labs";
 			};
 			buildConfigurationList = 4F44C935193FD8B000E34052 /* Build configuration list for PBXProject "Countries" */;
@@ -186,39 +194,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		4FA3E815F7424CF596319F5F /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B27381A97EF04420AFB7466C /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4F44C936193FD8B000E34052 /* Sources */ = {
@@ -266,6 +241,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -320,7 +296,7 @@
 		};
 		4F44C96D193FD8B200E34052 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */;
+			baseConfigurationReference = D2421B3CF1B527EDF568FAB8 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -328,6 +304,7 @@
 				GCC_PREFIX_HEADER = "Countries/Supporting Files/Countries-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Countries/Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dzn.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Countries;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -337,7 +314,7 @@
 		};
 		4F44C96E193FD8B200E34052 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4EA1E4B5F3114A9AB2B87E49 /* Pods.xcconfig */;
+			baseConfigurationReference = 27AF644AB604AEC96EE0DBE6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -345,6 +322,7 @@
 				GCC_PREFIX_HEADER = "Countries/Supporting Files/Countries-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Countries/Supporting Files/Countries-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dzn.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Countries;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
