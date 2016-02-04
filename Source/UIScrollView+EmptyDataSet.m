@@ -291,6 +291,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return YES;
 }
 
+- (BOOL)dzn_shouldBeForcedToDisplay {
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldBeForcedToDisplay:)]) {
+        return [self.emptyDataSetDelegate emptyDataSetShouldBeForcedToDisplay:self];
+    }
+    
+    return NO;
+}
+
 - (BOOL)dzn_isTouchAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
@@ -423,7 +431,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         return;
     }
     
-    if ([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0)
+    if (([self dzn_shouldDisplay] && [self dzn_itemsCount] == 0) || [self dzn_shouldBeForcedToDisplay])
     {
         // Notifies that the empty dataset view will appear
         [self dzn_willAppear];
