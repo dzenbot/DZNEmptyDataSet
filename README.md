@@ -48,7 +48,7 @@ By just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will 
 
 ## Installation
 
-Available in [Cocoa Pods](http://cocoapods.org/?q=DZNEmptyDataSet)
+Available in [CocoaPods](http://cocoapods.org/?q=DZNEmptyDataSet)
 ```ruby
 pod 'DZNEmptyDataSet'
 ```
