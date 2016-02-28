@@ -140,17 +140,20 @@ extension UIScrollView {
     // MARK: - Public Methods
     
     public func reloadEmptyDataSet() {
+        
+        // Calls the original implementation
         self.reloadEmptyDataSet()
+
+        guard self.canDisplay && self.shouldDisplay else { return self.invalidateLayout() }
         
         print("reloadEmptyDataSet")
-        
-        guard canDisplay && shouldDisplay else { return invalidateLayout() }
-        
+
         let view = self.emptyDataSetView
-        view?.backgroundColor = backgroundColor()
+        view?.backgroundColor = self.backgroundColor()
         
-        guard let _view = view where view?.superview == nil else { return }
-        self.addSubview(_view)
+        if let view = view where view.superview == nil {
+            self.addSubview(view)
+        }
     }
     
     private var sectionsToIgnore: NSIndexSet {
@@ -161,23 +164,23 @@ extension UIScrollView {
     }
     
     private var itemsCount: Int {
+        
         var items = 0
         
         guard self.respondsToSelector(Selector("dataSource")) else { return items }
         
-        let sectionsToIgnore = self.sectionsToIgnore
-        
         if let tableView = self as? UITableView {
             guard let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) else { return items }
             
-            for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
                 guard let item = tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i) else { continue }
                 items += item
             }
-        } else if let collectionView = self as? UICollectionView {
+        }
+        else if let collectionView = self as? UICollectionView {
             guard let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) else { return items }
             
-            for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
                 guard let item = collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i) else { continue }
                 items += item
             }
@@ -187,7 +190,7 @@ extension UIScrollView {
     }
     
     private var canDisplay: Bool {
-        return itemsCount == 0 ? true : false
+        return self.itemsCount > 0 ? false : true
     }
     
     private var shouldDisplay: Bool {
@@ -205,7 +208,7 @@ extension UIScrollView {
             return color
         }
         
-        return .clearColor()
+        return UIColor.clearColor()
     }
     
     private func invalidateLayout() {
@@ -223,35 +226,33 @@ extension UIScrollView {
             let newSelector = Selector("reloadEmptyDataSet")
             
             didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
-            didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
+            
+            // TODO: Swizzling works, but whenever we swizzle this other method, it breaks.
+//             didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
         }
     }
     
-    // TODO: Swizzling works, for it doesn't call the original implementation anymore! Need to fix this.
     private func swizzle(originalSelector: Selector, swizzledSelector: Selector) -> Bool {
         guard self.respondsToSelector(originalSelector) else { return false }
         
-        let thisClass: AnyClass = self.classForCoder
+        let originalMethod = class_getInstanceMethod(self.dynamicType, originalSelector)
+        let swizzledMethod = class_getInstanceMethod(self.dynamicType, swizzledSelector)
         
-        let originalMethod = class_getInstanceMethod(thisClass, originalSelector)
-        let swizzledMethod = class_getInstanceMethod(thisClass, swizzledSelector)
+        guard originalMethod != nil && swizzledMethod != nil else { return false }
         
-        let targetedMethod = class_addMethod(thisClass, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
+        let targetedMethod = class_addMethod(self.dynamicType, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
         
-        if originalMethod != nil && swizzledMethod != nil { // Probably needed, as class_getInstanceMethod is not nullable.
-            if targetedMethod {
-                class_replaceMethod(thisClass, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
-                return true
-            }
-            else {
-                method_exchangeImplementations(originalMethod, swizzledMethod)
-                return true
-            }
+        if targetedMethod {
+            class_replaceMethod(self.dynamicType, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
+            return true
         }
-        
-        return false
+        else {
+            method_exchangeImplementations(originalMethod, swizzledMethod)
+            return true
+        }
     }
 }
+
 
 // MARK: - DZNEmptyDataSetView
 class DZNEmptyDataSetView: UIView {

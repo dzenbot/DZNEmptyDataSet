@@ -16,9 +16,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: "deleteAll")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "assignAll")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addItem")
         
         self.view.addSubview(self.tableView)
+        
+        items = ["Hello", "Hello", "Hello", "Hello", "Hello", "Hello"]
     }
     
     lazy var tableView: UITableView = {
@@ -36,13 +38,35 @@ class ViewController: UIViewController {
     }()
     
     func deleteAll() {
-        items = []
-        tableView.reloadData()
+        
+//        let count = items.count
+//        self.items = []
+//        
+//        var idxPaths: [NSIndexPath] = []
+//        for i in 0..<count {
+//            idxPaths.append(NSIndexPath(forRow: i, inSection: 0))
+//        }
+//            
+//        self.tableView.beginUpdates()
+//        self.tableView.deleteRowsAtIndexPaths(idxPaths, withRowAnimation: .Bottom)
+//        self.tableView.endUpdates()
+        
+        
+        self.items = []
+        self.tableView.reloadData()
     }
     
-    func assignAll() {
-        items = ["Hello", "Hello", "Hello", "Hello", "Hello", "Hello"]
-        tableView.reloadData()
+    func addItem() {
+        
+//        self.items += ["Hello"]
+//
+//        self.tableView.beginUpdates()
+//        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: items.count-1, inSection: 0)], withRowAnimation: .Bottom)
+//        self.tableView.endUpdates()
+        
+        
+        self.items += ["Hello"]
+        self.tableView.reloadData()
     }
 }
 
@@ -62,7 +86,7 @@ extension ViewController: DZNEmptyDataSetSource {
     }
     
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
-        return .redColor()
+        return UIColor.redColor()
     }
 }
 
