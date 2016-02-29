@@ -994,6 +994,9 @@ NSString *dzn_implementationKey(id target, SEL selector)
             [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", verticalFormat]
                                                                                      options:0 metrics:metrics views:views]];
         }
+        
+        NSLog(@"verticalFormat : %@", verticalFormat);
+        NSLog(@"self.constraints : %@", self.constraints);
     }
 }
 

@@ -15,7 +15,7 @@ import UIKit
     
     optional func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
     
-    optional func scriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
+    optional func descriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
     
     optional func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage?
     
@@ -63,16 +63,10 @@ import UIKit
 }
 
 // MARK: - UIScrollView extension
+
 extension UIScrollView {
     
     // MARK: - Public Properties
-    
-    private struct AssociatedKeys {
-        static var datasource = "emptyDataSetSource"
-        static var delegate = "emptyDataSetDelegate"
-        static var view = "emptyDataSetView"
-        static var didSwizzle = "didSwizzle"
-    }
     
     weak public var emptyDataSetSource: DZNEmptyDataSetSource? {
         get {
@@ -115,7 +109,7 @@ extension UIScrollView {
         }
     }
     
-    weak private var emptyDataSetView: DZNEmptyDataSetView? {
+    private var emptyDataSetView: DZNEmptyDataSetView? {
         get {
             var view = objc_getAssociatedObject(self, &AssociatedKeys.view) as? DZNEmptyDataSetView
             
@@ -124,7 +118,8 @@ extension UIScrollView {
                 view?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
                 view?.hidden = false
                 
-                // TODO: Add tap gesture recognizer
+                let tapGesture = UITapGestureRecognizer.init(target: self, action: Selector("didTapView:"))
+                view?.addGestureRecognizer(tapGesture)
                 
                 self.emptyDataSetView = view
             }
@@ -139,30 +134,54 @@ extension UIScrollView {
     
     // MARK: - Public Methods
     
+    private struct AssociatedKeys {
+        static var datasource = "emptyDataSetSource"
+        static var delegate = "emptyDataSetDelegate"
+        static var view = "emptyDataSetView"
+        static var didSwizzle = "didSwizzle"
+    }
+    
     public func reloadEmptyDataSet() {
         
         // Calls the original implementation
         self.reloadEmptyDataSet()
 
         guard self.canDisplay && self.shouldDisplay else { return self.invalidateLayout() }
+        guard let view = self.emptyDataSetView else { return }
+        
+        if view.superview != nil {
+            self.invalidateLayout()
+        }
         
         print("reloadEmptyDataSet")
-
-        let view = self.emptyDataSetView
-        view?.backgroundColor = self.backgroundColor()
         
-        if let view = view where view.superview == nil {
-            self.addSubview(view)
+        self.addSubview(view)
+        
+        // Configure title label
+        if let attributedText = self.attributedTitle, let label = view.titleLabel {
+            label.attributedText = attributedText;
+            view.contentView.addSubview(label)
         }
-    }
-    
-    private var sectionsToIgnore: NSIndexSet {
-        guard let emptyDataSetSource = emptyDataSetSource where emptyDataSetSource.respondsToSelector(Selector("sectionsToIgnore")) else { return NSIndexSet(index: -1) }
-        guard let indexSet = emptyDataSetSource.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
         
-        return indexSet
+        // Configure detail label
+        if let attributedText = self.attributedDescription, let label = view.detailLabel {
+            label.attributedText = attributedText;
+            view.contentView.addSubview(label)
+        }
+        
+        // Configure the empty dataset view
+        view.backgroundColor = .blueColor()
+        view.contentView.backgroundColor = self.backgroundColor()
+        view.hidden = false
+        view.clipsToBounds = true
+        
+        self.scrollEnabled = self.shouldScroll
+        
+        view.setupConstraints();
+        view.layoutIfNeeded();
     }
     
+    // TODO: Add tests
     private var itemsCount: Int {
         
         var items = 0
@@ -189,32 +208,66 @@ extension UIScrollView {
         return items
     }
     
-    private var canDisplay: Bool {
-        return self.itemsCount > 0 ? false : true
+    // TODO: Add tests
+    private var sectionsToIgnore: NSIndexSet {
+        guard let emptyDataSetSource = emptyDataSetSource where emptyDataSetSource.respondsToSelector(Selector("sectionsToIgnore")) else { return NSIndexSet(index: -1) }
+        guard let indexSet = emptyDataSetSource.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
+        
+        return indexSet
     }
     
-    private var shouldDisplay: Bool {
-        if let
-            emptyDataSetDelegate = emptyDataSetDelegate,
-            emptyDataSetShouldDisplay = emptyDataSetDelegate.emptyDataSetShouldDisplay where emptyDataSetDelegate.respondsToSelector(Selector("emptyDataSetShouldDisplay")) {
-                return emptyDataSetShouldDisplay(self)
+    private var attributedTitle: NSAttributedString? {
+        if let datasource = emptyDataSetSource, callback = datasource.titleForEmptyDataSet where datasource.respondsToSelector(Selector("titleForEmptyDataSet:")) {
+            return callback(self)
         }
-        
-        return true
+        return nil
+    }
+    
+    private var attributedDescription: NSAttributedString? {
+        if let datasource = emptyDataSetSource, callback = datasource.descriptionForEmptyDataSet where datasource.respondsToSelector(Selector("descriptionForEmptyDataSet:")) {
+            return callback(self)
+        }
+        return nil
     }
     
     private func backgroundColor() -> UIColor {
         if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet?(self)) {
             return color
         }
-        
-        return UIColor.clearColor()
+        return .clearColor()
+    }
+    
+    private var canDisplay: Bool {
+        return self.itemsCount > 0 ? false : true
+    }
+    
+    private var shouldDisplay: Bool {
+        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldDisplay where delegate.respondsToSelector(Selector("emptyDataSetShouldDisplay:")) {
+            return callback(self)
+        }
+        return false
+    }
+    
+    private var shouldScroll: Bool {
+        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldAllowScroll where delegate.respondsToSelector(Selector("emptyDataSetShouldAllowScroll:")) {
+            return callback(self)
+        }
+        return false
+    }
+    
+    func didTapView(sender: UIView) {
+        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSet:didTapView:")) {
+            delegate.emptyDataSet?(self, didTapView: sender)
+        }
     }
     
     private func invalidateLayout() {
-        guard let view = self.emptyDataSetView else { return }
-        view.prepareForReuse()
-        view.removeFromSuperview()
+        
+        // Cleans up the empty data set view
+        self.emptyDataSetView?.removeFromSuperview()
+        self.emptyDataSetView = nil
+        
+        self.scrollEnabled = true
     }
     
     
@@ -255,65 +308,189 @@ extension UIScrollView {
 
 
 // MARK: - DZNEmptyDataSetView
-class DZNEmptyDataSetView: UIView {
+private class DZNEmptyDataSetView: UIView, UIGestureRecognizerDelegate {
     
-    private lazy var contentView: UIView = {
+    var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clearColor()
         view.userInteractionEnabled = true
-        view.alpha = 0.0
+        view.alpha = 0
         return view
     }()
     
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel? = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clearColor()
+        label.font = UIFont.systemFontOfSize(27)
+        label.textColor = UIColor(white: 0.6, alpha: 1)
+        label.textAlignment = .Center
+        label.lineBreakMode = .ByWordWrapping
+        label.numberOfLines = 0
+        label.accessibilityLabel = "empty set title"
         return label
     }()
     
-    var detailLabel: UILabel = {
+    lazy var detailLabel: UILabel? = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clearColor()
+        label.font = UIFont.systemFontOfSize(17)
+        label.textColor = UIColor(white: 0.6, alpha: 1)
+        label.textAlignment = .Center
+        label.lineBreakMode = .ByWordWrapping
+        label.numberOfLines = 0
+        label.accessibilityLabel = "empty set detail label"
         return label
     }()
     
-    var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let view = UIImageView()
         return view
     }()
     
-    var button: UIButton = {
+    lazy var button: UIButton = {
         let button = UIButton()
         return button
     }()
     
-    var customView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    var customView: UIView? {
+        get {
+            return nil
+        }
+        set {
+            if let view = self.customView {
+                view.removeFromSuperview()
+            }
+            
+            
+        }
+    }
     
     var tapGesture: UITapGestureRecognizer?
     
-    var verticalOffset: CGFloat = 0.0
-    var verticalSpace: CGFloat = 0.0
+    var verticalOffset: CGFloat = 0
+    var verticalSpace: CGFloat = 0
     
     var fadeInOnDisplay = false
     
+    var canShowTitle: Bool {
+        guard let label = self.titleLabel where label.superview != nil else { return false }
+        return label.attributedText?.string.characters.count > 0
+    }
+    
+    var canShowDetail: Bool {
+        guard let label = self.detailLabel where label.superview != nil else { return false }
+        return label.attributedText?.string.characters.count > 0
+    }
+    
     required override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(self.contentView)
+        self.commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.commonInit()
     }
     
-    // TODO: Not implemented yet
+    private func commonInit() {
+        self.addSubview(self.contentView)
+    }
+    
+    override func didMoveToSuperview() {
+        
+        guard let superview = self.superview else { return }
+        self.frame = superview.bounds;
+        
+        if self.fadeInOnDisplay {
+            
+        }
+        else {
+            self.contentView.alpha = 1
+        }
+    }
+    
     func setupConstraints() {
         
+        let width = self.frame.width
+        let padding = Double(width/16.0)
+        let space = self.verticalSpace > 0 ? self.verticalSpace : 11 // Default is 11 pts
+        let metrics:[String: Double] = ["padding": padding]
+
+        var views:[String: UIView] = [:]
+        
+        [self.addEquallyRelatedConstraint(contentView, attribute: .CenterY)]
+        [self.addEquallyRelatedConstraint(contentView, attribute: .CenterY)]
+
+        self.addConstraintsWithVisualFormat("|[contentView]|", metrics: nil, views: ["contentView": contentView])
+
+        // Assign the title label's horizontal constraints
+        if self.canShowTitle, let label = self.titleLabel {
+            
+            views.updateValue(label, forKey: "titleLabel")
+            contentView.addConstraintsWithVisualFormat("|-(padding@750)-[titleLabel]-(padding@750)-|", metrics: metrics, views: views)
+        }
+        
+        // Assign the detail label's horizontal constraints
+        if self.canShowDetail, let label = self.detailLabel {
+            
+            views.updateValue(label, forKey: "detailLabel")
+            contentView.addConstraintsWithVisualFormat("|-(padding@750)-[detailLabel]-(padding@750)-|", metrics: metrics, views: views)
+        }
+        
+        var verticalFormat = ""
+        
+        for i in 0..<views.count {
+            let name = Array(views.keys)[i]
+            
+            verticalFormat += "[\(name)]"
+            
+            if (i < views.count-1) {
+                verticalFormat += "-(\(space)@750)-"
+            }
+        }
+        
+        // Assign the vertical constraints to the content view
+        if (verticalFormat.characters.count > 0) {
+            contentView.addConstraintsWithVisualFormat("V:|\(verticalFormat)|", metrics: metrics, views: views)
+        }
     }
     
-    // TODO: Not implemented yet
     func prepareForReuse() {
         
+        guard contentView.subviews.count > 0 else { return }
+        
+        titleLabel?.text = nil
+        titleLabel?.frame = CGRectZero
+        
+        detailLabel?.text = nil
+        detailLabel?.frame = CGRectZero
+
+        // Removes all subviews
+        contentView.subviews.forEach({$0.removeFromSuperview()})
+        
+        // Removes all layout constraints
+        contentView.removeConstraints(contentView.constraints)
+        self.removeConstraints(self.constraints)
+    }
+}
+
+// MARK: - UIView extension
+private extension UIView {
+    
+    func addConstraintsWithVisualFormat(format: String, metrics: [String : AnyObject]?, views: [String : AnyObject]) {
+        
+        let noLayoutOptions = NSLayoutFormatOptions(rawValue: 0)
+        let constraints = NSLayoutConstraint.constraintsWithVisualFormat(format, options: noLayoutOptions, metrics: metrics, views: views)
+        
+        self.addConstraints(constraints)
+    }
+    
+    func addEquallyRelatedConstraint(view: UIView, attribute: NSLayoutAttribute) {
+        
+        let constraint = NSLayoutConstraint(item: view, attribute: attribute, relatedBy: .Equal, toItem: self, attribute: attribute, multiplier: 1, constant: 0)
+        self.addConstraint(constraint)
     }
 }

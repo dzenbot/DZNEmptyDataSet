@@ -74,11 +74,17 @@ class ViewController: UIViewController {
 extension ViewController: DZNEmptyDataSetSource {
 
     func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString? {
-        return nil
+        
+        let attributes = [NSFontAttributeName: UIFont.boldSystemFontOfSize(27), NSForegroundColorAttributeName: UIColor.lightGrayColor()]
+        
+        return NSAttributedString.init(string: "No items found", attributes: attributes)
     }
     
     func descriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString? {
-        return nil
+        
+        let attributes = [NSFontAttributeName: UIFont.systemFontOfSize(20), NSForegroundColorAttributeName: UIColor.lightGrayColor()]
+        
+        return NSAttributedString.init(string: "Tap on the Add button to insert new items to this list.", attributes: attributes)
     }
     
     func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage? {
@@ -86,13 +92,24 @@ extension ViewController: DZNEmptyDataSetSource {
     }
     
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
-        return UIColor.redColor()
+        return UIColor.whiteColor()
     }
 }
 
 // MARK: - DZNEmptyDataSetDelegate
 extension ViewController: DZNEmptyDataSetDelegate {
   
+    func emptyDataSetShouldDisplay(scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
+    func emptyDataSetShouldAllowScroll(scrollView: UIScrollView) -> Bool {
+        return false
+    }
+    
+    func emptyDataSet(scrollView: UIScrollView, didTapView: UIView) {
+        print("didTapView: \(view)")
+    }
 }
 
 // MARK: - UITableViewDataSource
