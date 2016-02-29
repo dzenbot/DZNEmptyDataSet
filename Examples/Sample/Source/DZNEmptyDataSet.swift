@@ -145,13 +145,10 @@ extension UIScrollView {
         
         // Calls the original implementation
         self.reloadEmptyDataSet()
-
-        guard self.canDisplay && self.shouldDisplay else { return self.invalidateLayout() }
-        guard let view = self.emptyDataSetView else { return }
+        self.invalidateLayout()
         
-        if view.superview != nil {
-            self.invalidateLayout()
-        }
+        guard self.canDisplay && self.shouldDisplay else { return }
+        guard let view = self.emptyDataSetView else { return }
         
         print("reloadEmptyDataSet")
         
