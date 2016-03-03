@@ -828,7 +828,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
 - (BOOL)canShowButton
 {
     if ([_button attributedTitleForState:UIControlStateNormal].string.length > 0 || [_button imageForState:UIControlStateNormal]) {
-        return (_button.superview != nil) ? YES : NO;
+        return (_button.superview != nil);
     }
     return NO;
 }
