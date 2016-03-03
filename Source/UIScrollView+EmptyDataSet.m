@@ -4,7 +4,7 @@
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
 //  Created by Ignacio Romero Zurbuchen on 6/20/14.
-//  Copyright (c) 2014 DZN Labs. All rights reserved.
+//  Copyright (c) 2016 DZN Labs. All rights reserved.
 //  Licence: MIT-Licence
 //
 
@@ -307,7 +307,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
-- (BOOL)dzn_isImageViewAnimateAllow
+- (BOOL)dzn_isImageViewAnimateAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
@@ -522,7 +522,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
         // Configure image view animation
-        if ([self dzn_isImageViewAnimateAllow])
+        if ([self dzn_isImageViewAnimateAllowed])
         {
             CAAnimation *animation = [self dzn_imageAnimation];
             
