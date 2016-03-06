@@ -260,7 +260,7 @@ or
 depending of which you are using.
 
 ### Force layout update
-You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty state layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on your data source that you want to avoid calling, when not needed. `[self.tableView reloadEmptyDataSet]` is the only way to refresh content when using with UIScrollView.
+You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty state layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on your data source that you want to avoid calling, when not needed. `[self.scrollView reloadEmptyDataSet]` is the only way to refresh content when using with UIScrollView.
 
 
 ## Sample projects
