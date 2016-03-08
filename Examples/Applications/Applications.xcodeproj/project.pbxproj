@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DD24601BAFDFAD001647B5 /* Images.xcassets */; };
 		4F36C06919CD11E40073E4BE /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F36C06819CD11E40073E4BE /* System.xcassets */; };
-		4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F805142196FBB2400FD61AA /* Storyboard.storyboard */; };
 		4FB5CE8319421BB70051C6BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8219421BB70051C6BD /* Foundation.framework */; };
 		4FB5CE8519421BB70051C6BD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */; };
 		4FB5CE8719421BB70051C6BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8619421BB70051C6BD /* UIKit.framework */; };
@@ -31,7 +30,6 @@
 		152F29797873D66C5376A0DE /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E577108973E7BDAB0034E2E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4F36C06819CD11E40073E4BE /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = System.xcassets; sourceTree = "<group>"; };
-		4F805142196FBB2400FD61AA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		4FB5CE7F19421BB70051C6BD /* Applications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Applications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB5CE8219421BB70051C6BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -125,7 +123,6 @@
 		4FB5CE8919421BB70051C6BD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F805142196FBB2400FD61AA /* Storyboard.storyboard */,
 				4FB5CE8A19421BB70051C6BD /* Applications-Info.plist */,
 				4FB5CE8B19421BB70051C6BD /* InfoPlist.strings */,
 				4FB5CE8E19421BB70051C6BD /* main.m */,
@@ -228,7 +225,6 @@
 				04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */,
 				4F36C06919CD11E40073E4BE /* System.xcassets in Resources */,
 				4FB5CE8D19421BB70051C6BD /* InfoPlist.strings in Resources */,
-				4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */,
 				4FB5CEE41942944A0051C6BD /* IdealSans-Book-Pro.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,7 +341,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = Applications;
 				SDKROOT = iphoneos;
@@ -379,7 +375,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_MODULE_NAME = Applications;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

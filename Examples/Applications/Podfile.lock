@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  DZNEmptyDataSet: cfba404b7f09528a5dc43b558bad188dd02520e9
+  DZNEmptyDataSet: 9e63fea9ea6f80fb926c038424ea62e1468e95d1
 
 COCOAPODS: 0.38.2

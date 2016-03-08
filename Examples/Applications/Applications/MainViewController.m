@@ -7,21 +7,29 @@
 //
 
 #import "MainViewController.h"
+#import "DetailViewController.h"
+
+#import "Application.h"
 #import "UIColor+Hexadecimal.h"
 
 @import DZNEmptyDataSet;
 
-@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+static NSString *cellIdentifier = @"Cell";
+
+@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
+@property (strong, nonatomic) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray *applications;
 @end
 
 @implementation MainViewController
 
-- (void)awakeFromNib
+- (instancetype)init
 {
-    [super awakeFromNib];
-    
-    [self serializeApplications];
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        [self serializeApplications];
+    }
+    return self;
 }
 
 #pragma mark - View lifecycle
@@ -30,21 +38,25 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Popular Applications";
+    self.title = NSLocalizedString(@"Popular Applications", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    self.navigationItem.titleView = self.searchBar;
     
+    self.searchBar.delegate = self;
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     
-    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
-    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
-    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    [self.searchDisplayController setValue:@"" forKey:@"noResultsMessage"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    // Restores any previous appearance change
     self.navigationController.navigationBar.titleTextAttributes = nil;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];;
     self.navigationController.navigationBar.translucent = NO;
@@ -55,13 +67,28 @@
 
 #pragma mark - Getters
 
+- (UISearchController *)searchController
+{
+    if (!_searchController) {
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+        _searchController.delegate = self;
+        _searchController.searchResultsUpdater = self;
+        _searchController.dimsBackgroundDuringPresentation = NO;
+        _searchController.hidesNavigationBarDuringPresentation = NO;
+    }
+    return _searchController;
+}
+
+- (UISearchBar *)searchBar
+{
+    return self.searchController.searchBar;
+}
+
 - (NSArray *)filteredApps
 {
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
-
-    if ([searchBar isFirstResponder] && searchBar.text.length > 0)
+    if ([self.searchBar isFirstResponder] && self.searchBar.text.length > 0)
     {
-        NSPredicate *precidate = [NSPredicate predicateWithFormat:@"displayName CONTAINS[cd] %@", searchBar.text];
+        NSPredicate *precidate = [NSPredicate predicateWithFormat:@"displayName CONTAINS[cd] %@", self.searchBar.text];
         return [self.applications filteredArrayUsingPredicate:precidate];
     }
     return self.applications;
@@ -95,12 +122,10 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
-    
-    NSString *text = [NSString stringWithFormat:@"There are no empty dataset examples for \"%@\".", searchBar.text];
+    NSString *text = [NSString stringWithFormat:@"There are no empty dataset examples for \"%@\".", self.searchBar.text];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:nil];
     
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:[attributedString.string rangeOfString:searchBar.text]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:[attributedString.string rangeOfString:self.searchBar.text]];
     
     return attributedString;
 }
@@ -123,9 +148,9 @@
     return [UIColor whiteColor];
 }
 
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return CGPointMake(0, -64.0);
+    return -CGRectGetMidY(self.navigationController.navigationBar.frame);
 }
 
 
@@ -153,10 +178,8 @@
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
-
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
-
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@", searchBar.text]];
+    NSString *text = self.searchBar.text;
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@",text]];
     
     if ([[UIApplication sharedApplication] canOpenURL:URL]) {
         [[UIApplication sharedApplication] openURL:URL];
@@ -180,12 +203,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"app_cell_identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    }
     
     Application *app = [[self filteredApps] objectAtIndex:indexPath.row];
     
@@ -263,39 +281,40 @@
 }
 
 
-#pragma mark - UISearchDisplayDelegate Methods
+#pragma mark - UISearchControllerDelegate Methods
 
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+- (void)presentSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+- (void)willPresentSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
+- (void)didPresentSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    // Do something
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
 
-#pragma mark - View Auto-Rotation
+#pragma mark - UISearchResultsUpdating Methods
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    return UIInterfaceOrientationMaskAll;
+    [self.tableView reloadData];
 }
 
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
 
 @end

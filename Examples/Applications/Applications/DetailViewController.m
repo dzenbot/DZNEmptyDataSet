@@ -38,6 +38,7 @@
     
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     [self configureHeaderAndFooter];
 }
@@ -836,6 +837,7 @@
     switch (self.application.type) {
         case ApplicationType500px:      return [UIColor blackColor];
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
+        case ApplicationTypeAppstore:   return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
         case ApplicationTypeFancy:      return [UIColor colorWithHex:@"f0f0f0"];
@@ -856,15 +858,12 @@
 
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (self.application.type == ApplicationTypeKickstarter) {
-        CGFloat offset = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-        offset += CGRectGetHeight(self.navigationController.navigationBar.frame);
-        return -offset;
-    }
     if (self.application.type == ApplicationTypeTwitter) {
         return -roundf(self.tableView.frame.size.height/2.5);
     }
-    return 0.0;
+    else {
+        return -CGRectGetMidY(self.navigationController.navigationBar.frame);
+    }
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
