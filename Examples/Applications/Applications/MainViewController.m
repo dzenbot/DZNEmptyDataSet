@@ -9,7 +9,7 @@
 #import "MainViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-#import "UIScrollView+EmptyDataSet.h"
+@import DZNEmptyDataSet;
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) NSMutableArray *applications;

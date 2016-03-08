@@ -39,34 +39,34 @@ class ViewController: UIViewController {
     
     func deleteAll() {
         
-//        let count = items.count
-//        self.items = []
-//        
-//        var idxPaths: [NSIndexPath] = []
-//        for i in 0..<count {
-//            idxPaths.append(NSIndexPath(forRow: i, inSection: 0))
-//        }
-//            
-//        self.tableView.beginUpdates()
-//        self.tableView.deleteRowsAtIndexPaths(idxPaths, withRowAnimation: .Bottom)
-//        self.tableView.endUpdates()
-        
-        
+        let count = items.count
         self.items = []
-        self.tableView.reloadData()
+        
+        var idxPaths: [NSIndexPath] = []
+        for i in 0..<count {
+            idxPaths.append(NSIndexPath(forRow: i, inSection: 0))
+        }
+            
+        self.tableView.beginUpdates()
+        self.tableView.deleteRowsAtIndexPaths(idxPaths, withRowAnimation: .Bottom)
+        self.tableView.endUpdates()
+        
+        
+//        self.items = []
+//        self.tableView.reloadData()
     }
     
     func addItem() {
         
-//        self.items += ["Hello"]
-//
-//        self.tableView.beginUpdates()
-//        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: items.count-1, inSection: 0)], withRowAnimation: .Bottom)
-//        self.tableView.endUpdates()
-        
-        
         self.items += ["Hello"]
-        self.tableView.reloadData()
+
+        self.tableView.beginUpdates()
+        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: items.count-1, inSection: 0)], withRowAnimation: .Bottom)
+        self.tableView.endUpdates()
+        
+        
+//        self.items += ["Hello"]
+//        self.tableView.reloadData()
     }
 }
 
@@ -88,11 +88,22 @@ extension ViewController: DZNEmptyDataSetSource {
     }
     
     func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage? {
-        return nil
+        return UIImage(named: "placeholder_instagram")
+    }
+    
+    func buttonTitleForEmptyDataSet(scrollView: UIScrollView, state: UIControlState) -> NSAttributedString? {
+        
+        let attributes = [NSFontAttributeName: UIFont.systemFontOfSize(18), NSForegroundColorAttributeName: UIColor.redColor()]
+        
+        return NSAttributedString.init(string: "Tap here to Add", attributes: attributes)
     }
     
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
         return UIColor.whiteColor()
+    }
+    
+    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView) -> CGFloat {
+        return 0
     }
 }
 
@@ -103,12 +114,36 @@ extension ViewController: DZNEmptyDataSetDelegate {
         return true
     }
     
+    func emptyDataSetShouldFadeIn(scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
     func emptyDataSetShouldAllowScroll(scrollView: UIScrollView) -> Bool {
-        return false
+        return true
+    }
+    
+    func emptyDataSetShouldAllowTouch(scrollView: UIScrollView) -> Bool {
+        return true
     }
     
     func emptyDataSet(scrollView: UIScrollView, didTapView: UIView) {
-        print("didTapView: \(view)")
+        print("didTapView: \(didTapView)")
+    }
+    
+    func emptyDataSetWillAppear(scrollView: UIScrollView) {
+        print("emptyDataSetWillAppear")
+    }
+    
+    func emptyDataSetDidAppear(scrollView: UIScrollView) {
+        print("emptyDataSetDidAppear")
+    }
+    
+    func emptyDataSetWillDisappear(scrollView: UIScrollView) {
+        print("emptyDataSetWillDisappear")
+    }
+    
+    func emptyDataSetDidDisappear(scrollView: UIScrollView) {
+        print("emptyDataSetDidDisappear")
     }
 }
 

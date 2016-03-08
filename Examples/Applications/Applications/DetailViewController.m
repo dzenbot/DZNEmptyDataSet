@@ -9,7 +9,7 @@
 #import "DetailViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-#import "UIScrollView+EmptyDataSet.h"
+@import DZNEmptyDataSet;
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
@@ -47,6 +47,11 @@
     [super viewWillAppear:animated];
     
     [self configureNavigationBar];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 
@@ -255,11 +260,15 @@
 
 - (void)shuffle:(id)sender
 {
+    NSLog(@"%s",__FUNCTION__);
+    
     Application *randomApp = [self randomApplication];
     
     while ([randomApp.identifier isEqualToString:self.application.identifier] || randomApp.type == ApplicationTypeUndefined) {
         randomApp = [self randomApplication];
     }
+    
+    NSLog(@"randomApp displayName : %@", randomApp.displayName);
     
     self.application = randomApp;
     
@@ -923,8 +932,32 @@
     });
 }
 
+- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidAppear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetWillDisappear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
 
 #pragma mark - View Auto-Rotation
+
+- (void)dealloc
+{
+    
+}
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
