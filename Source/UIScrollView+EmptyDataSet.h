@@ -23,7 +23,8 @@
 @property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> dzn_emptyDataSetSource;
 @property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource DEPRECATED_MSG_ATTRIBUTE("Use -dzn_emptyDataSetSource");
 /** The empty datasets delegate. */
-@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> dzn_emptyDataSetDelegate;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate DEPRECATED_MSG_ATTRIBUTE("Use -dzn_emptyDataSetDelegate");
 /** YES if any empty dataset is visible. */
 @property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
 
