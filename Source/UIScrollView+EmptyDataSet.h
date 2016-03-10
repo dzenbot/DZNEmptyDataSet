@@ -30,7 +30,8 @@
  Reloads the empty dataset content receiver.
  @discussion Call this method to force all the data to refresh. Calling -reloadData is similar, but this forces only the empty dataset to reload, not the entire table view or collection view.
  */
-- (void)reloadEmptyDataSet;
+- (void)dzn_reloadEmptyDataSet;
+- (void)reloadEmptyDataSet DEPRECATED_MSG_ATTRIBUTE("Use -dzn_reloadEmptyDataSet:");
 
 @end
 

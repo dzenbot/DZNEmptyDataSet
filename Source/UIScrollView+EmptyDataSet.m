@@ -414,9 +414,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     [self dzn_reloadEmptyDataSet];
 }
 
-
-#pragma mark - Reload APIs (Private)
-
 - (void)dzn_reloadEmptyDataSet
 {
     if (![self dzn_canDisplay]) {
@@ -515,7 +512,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [view setupConstraints];
         
         [UIView performWithoutAnimation:^{
-            [view layoutIfNeeded];            
+            [view layoutIfNeeded];
         }];
         
         // Configure scroll permission
@@ -541,6 +538,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self dzn_invalidate];
     }
 }
+
+#pragma mark - Reload APIs (Private)
 
 - (void)dzn_invalidate
 {
