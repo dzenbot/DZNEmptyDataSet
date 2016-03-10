@@ -23,8 +23,8 @@
 {
     [super viewDidLoad];
     
-    self.webView.scrollView.emptyDataSetSource = self;
-    self.webView.scrollView.emptyDataSetDelegate = self;
+    self.webView.scrollView.dzn_emptyDataSetSource = self;
+    self.webView.scrollView.dzn_emptyDataSetDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,7 +105,7 @@
     
     self.failedLoading = YES;
     
-    [self.webView.scrollView reloadEmptyDataSet];
+    [self.webView.scrollView dzn_reloadEmptyDataSet];
 }
 
 

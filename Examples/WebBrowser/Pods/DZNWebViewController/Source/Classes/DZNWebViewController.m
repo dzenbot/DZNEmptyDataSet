@@ -487,11 +487,22 @@
     
     [self presentViewController:controller animated:YES completion:nil];
     
-    controller.completionHandler = ^(NSString *activityType, BOOL completed) {
-        NSLog(@"completed dialog - activity: %@ - finished flag: %d", activityType, completed);
-
-        _presentingActivities = NO;
-    };
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 8.0) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        controller.completionHandler = ^(NSString *activityType, BOOL completed) {
+            NSLog(@"completed dialog - activity: %@ - finished flag: %d", activityType, completed);
+            
+            _presentingActivities = NO;
+        };
+#pragma clang diagnostic pop
+    } else {
+        controller.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            NSLog(@"completed dialog - activity: %@ - finished flag: %d", activityType, completed);
+            
+            _presentingActivities = NO;
+        };
+    }
 }
 
 - (void)handleLongPressGesture:(UIGestureRecognizer *)gesture
@@ -666,7 +677,7 @@
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

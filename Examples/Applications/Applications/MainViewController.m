@@ -35,8 +35,8 @@
     
     self.tableView.tableFooterView = [UIView new];
     
-    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
-    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
+    self.searchDisplayController.searchResultsTableView.dzn_emptyDataSetSource = self;
+    self.searchDisplayController.searchResultsTableView.dzn_emptyDataSetDelegate = self;
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     [self.searchDisplayController setValue:@"" forKey:@"noResultsMessage"];
 }

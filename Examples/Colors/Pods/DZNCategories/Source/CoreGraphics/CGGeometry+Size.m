@@ -22,8 +22,13 @@ CGSize CGSizeSquare(CGFloat square)
 
 CGSize CGSizeFromTwoPoints(CGPoint point1, CGPoint point2)
 {
-    CGFloat width = abs(roundf(point1.x)-roundf(point2.x));
-    CGFloat height = abs(roundf(point1.y)-roundf(point2.y));
+#if defined(__LP64__)
+    CGFloat width = fabs(roundf(point1.x)-roundf(point2.x));
+    CGFloat height = fabs(roundf(point1.y)-roundf(point2.y));
+#else
+    CGFloat width = fabsf(roundf(point1.x)-roundf(point2.x));
+    CGFloat height = fabsf(roundf(point1.y)-roundf(point2.y));
+#endif
     return CGSizeMake(width, height);
 }
 

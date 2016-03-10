@@ -72,8 +72,8 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
-        _tableView.emptyDataSetSource = self;
-        _tableView.emptyDataSetDelegate = self;
+        _tableView.dzn_emptyDataSetSource = self;
+        _tableView.dzn_emptyDataSetDelegate = self;
  
         _tableView.tableFooterView = [UIView new];
     }
@@ -503,13 +503,13 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if (![UIInputViewController class]) {
-        [self.tableView reloadEmptyDataSet];
+        [self.tableView dzn_reloadEmptyDataSet];
     }
 }
 
 - (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {    
-    [self.tableView reloadEmptyDataSet];
+    [self.tableView dzn_reloadEmptyDataSet];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
