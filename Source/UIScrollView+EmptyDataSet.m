@@ -642,7 +642,7 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
     
     // Swizzle by injecting additional implementation
-    Method method = class_getInstanceMethod([self class], selector);
+    Method method = class_getInstanceMethod([UITableView class], selector);
     IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);
     
     // Store the new implementation in the lookup table
