@@ -67,6 +67,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return objc_getAssociatedObject(self, kDZNEmptyDataSetDelegate);
 }
 
+- (BOOL)isDzn_emptyDataSetVisible
+{
+    UIView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
+    return view ? !view.hidden : NO;
+}
+
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
     return objc_getAssociatedObject(self, kEmptyDataSetSource);
@@ -744,9 +750,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Notifies that the empty dataset view did appear
         [self dzn_didAppear];
     }
-    else if (self.isEmptyDataSetVisible) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.isEmptyDataSetVisible || self.isDzn_emptyDataSetVisible) {
         [self dzn_invalidate];
     }
+#pragma clang diagnostic pop
 }
 
 #pragma mark - Reload APIs (Private)
