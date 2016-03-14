@@ -13,6 +13,8 @@
 @protocol DZNEmptyDataSetSource;
 @protocol DZNEmptyDataSetDelegate;
 
+#define DZNEmptyDataSetDeprecated(instead) DEPRECATED_MSG_ATTRIBUTE(" Use " # instead " instead")
+
 /**
  A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.
  @discussion It will work automatically, by just conforming to DZNEmptyDataSetSource, and returning the data you want to show.
