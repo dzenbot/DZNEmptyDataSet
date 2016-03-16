@@ -656,6 +656,10 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 #pragma mark - UIGestureRecognizerDelegate Methods
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return ![touch.view isKindOfClass:[UIControl class]];
+}
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer.view isEqual:self.emptyDataSetView]) {
@@ -904,8 +908,6 @@ NSString *dzn_implementationKey(id target, SEL selector)
     
     // If applicable, set the custom view's constraints
     if (_customView) {
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
-        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
     }
