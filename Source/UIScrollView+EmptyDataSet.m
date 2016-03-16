@@ -40,6 +40,9 @@
 
 #pragma mark - UIScrollView+EmptyDataSet
 
+static char const * const kDZNEmptyDataSetSource =     "dzn_emptyDataSetSource";
+static char const * const kDZNEmptyDataSetDelegate =   "dzn_emptyDataSetDelegate";
+
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
@@ -53,6 +56,22 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 @implementation UIScrollView (DZNEmptyDataSet)
 
 #pragma mark - Getters (Public)
+
+- (id<DZNEmptyDataSetSource>)dzn_emptyDataSetSource
+{
+    return objc_getAssociatedObject(self, kDZNEmptyDataSetSource);
+}
+
+- (id<DZNEmptyDataSetDelegate>)dzn_emptyDataSetDelegate
+{
+    return objc_getAssociatedObject(self, kDZNEmptyDataSetDelegate);
+}
+
+- (BOOL)isDzn_emptyDataSetVisible
+{
+    UIView *view = objc_getAssociatedObject(self, kEmptyDataSetView);
+    return view ? !view.hidden : NO;
+}
 
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
@@ -94,12 +113,19 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (BOOL)dzn_canDisplay
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
         if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]] || [self isKindOfClass:[UIScrollView class]]) {
             return YES;
         }
     }
-    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource conformsToProtocol:@protocol(DZNEmptyDataSetSource)]) {
+        if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]] || [self isKindOfClass:[UIScrollView class]]) {
+            return YES;
+        }
+    }
+#pragma clang diagnostic pop
     return NO;
 }
 
@@ -157,101 +183,181 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (NSAttributedString *)dzn_titleLabelString
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(titleForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(titleForEmptyDataSet:)]) {
+        NSAttributedString *string = [self.dzn_emptyDataSetSource titleForEmptyDataSet:self];
+        if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -titleForEmptyDataSet:");
+        return string;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(titleForEmptyDataSet:)]) {
         NSAttributedString *string = [self.emptyDataSetSource titleForEmptyDataSet:self];
         if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -titleForEmptyDataSet:");
         return string;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (NSAttributedString *)dzn_detailLabelString
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(descriptionForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(descriptionForEmptyDataSet:)]) {
+        NSAttributedString *string = [self.dzn_emptyDataSetSource descriptionForEmptyDataSet:self];
+        if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -descriptionForEmptyDataSet:");
+        return string;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(descriptionForEmptyDataSet:)]) {
         NSAttributedString *string = [self.emptyDataSetSource descriptionForEmptyDataSet:self];
         if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -descriptionForEmptyDataSet:");
         return string;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (UIImage *)dzn_image
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(imageForEmptyDataSet:)]) {
+        UIImage *image = [self.dzn_emptyDataSetSource imageForEmptyDataSet:self];
+        if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -imageForEmptyDataSet:");
+        return image;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageForEmptyDataSet:)]) {
         UIImage *image = [self.emptyDataSetSource imageForEmptyDataSet:self];
         if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -imageForEmptyDataSet:");
         return image;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (CAAnimation *)dzn_imageAnimation
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageAnimationForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(imageAnimationForEmptyDataSet:)]) {
+        CAAnimation *imageAnimation = [self.dzn_emptyDataSetSource imageAnimationForEmptyDataSet:self];
+        if (imageAnimation) NSAssert([imageAnimation isKindOfClass:[CAAnimation class]], @"You must return a valid CAAnimation object for -imageAnimationForEmptyDataSet:");
+        return imageAnimation;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageAnimationForEmptyDataSet:)]) {
         CAAnimation *imageAnimation = [self.emptyDataSetSource imageAnimationForEmptyDataSet:self];
         if (imageAnimation) NSAssert([imageAnimation isKindOfClass:[CAAnimation class]], @"You must return a valid CAAnimation object for -imageAnimationForEmptyDataSet:");
         return imageAnimation;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (UIColor *)dzn_imageTintColor
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageTintColorForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(imageTintColorForEmptyDataSet:)]) {
+        UIColor *color = [self.dzn_emptyDataSetSource imageTintColorForEmptyDataSet:self];
+        if (color) NSAssert([color isKindOfClass:[UIColor class]], @"You must return a valid UIColor object for -imageTintColorForEmptyDataSet:");
+        return color;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(imageTintColorForEmptyDataSet:)]) {
         UIColor *color = [self.emptyDataSetSource imageTintColorForEmptyDataSet:self];
         if (color) NSAssert([color isKindOfClass:[UIColor class]], @"You must return a valid UIColor object for -imageTintColorForEmptyDataSet:");
         return color;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (NSAttributedString *)dzn_buttonTitleForState:(UIControlState)state
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
+        NSAttributedString *string = [self.dzn_emptyDataSetSource buttonTitleForEmptyDataSet:self forState:state];
+        if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -buttonTitleForEmptyDataSet:forState:");
+        return string;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonTitleForEmptyDataSet:forState:)]) {
         NSAttributedString *string = [self.emptyDataSetSource buttonTitleForEmptyDataSet:self forState:state];
         if (string) NSAssert([string isKindOfClass:[NSAttributedString class]], @"You must return a valid NSAttributedString object for -buttonTitleForEmptyDataSet:forState:");
         return string;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (UIImage *)dzn_buttonImageForState:(UIControlState)state
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonImageForEmptyDataSet:forState:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(buttonImageForEmptyDataSet:forState:)]) {
+        UIImage *image = [self.dzn_emptyDataSetSource buttonImageForEmptyDataSet:self forState:state];
+        if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -buttonImageForEmptyDataSet:forState:");
+        return image;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonImageForEmptyDataSet:forState:)]) {
         UIImage *image = [self.emptyDataSetSource buttonImageForEmptyDataSet:self forState:state];
         if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -buttonImageForEmptyDataSet:forState:");
         return image;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (UIImage *)dzn_buttonBackgroundImageForState:(UIControlState)state
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
+        UIImage *image = [self.dzn_emptyDataSetSource buttonBackgroundImageForEmptyDataSet:self forState:state];
+        if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -buttonBackgroundImageForEmptyDataSet:forState:");
+        return image;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundImageForEmptyDataSet:forState:)]) {
         UIImage *image = [self.emptyDataSetSource buttonBackgroundImageForEmptyDataSet:self forState:state];
         if (image) NSAssert([image isKindOfClass:[UIImage class]], @"You must return a valid UIImage object for -buttonBackgroundImageForEmptyDataSet:forState:");
         return image;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
 - (UIColor *)dzn_dataSetBackgroundColor
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
+        UIColor *color = [self.dzn_emptyDataSetSource backgroundColorForEmptyDataSet:self];
+        if (color) NSAssert([color isKindOfClass:[UIColor class]], @"You must return a valid UIColor object for -backgroundColorForEmptyDataSet:");
+        return color;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
         UIColor *color = [self.emptyDataSetSource backgroundColorForEmptyDataSet:self];
         if (color) NSAssert([color isKindOfClass:[UIColor class]], @"You must return a valid UIColor object for -backgroundColorForEmptyDataSet:");
         return color;
     }
+#pragma clang diagnostic pop
     return [UIColor clearColor];
 }
 
 - (UIView *)dzn_customView
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
+        UIView *view = [self.dzn_emptyDataSetSource customViewForEmptyDataSet:self];
+        if (view) NSAssert([view isKindOfClass:[UIView class]], @"You must return a valid UIView object for -customViewForEmptyDataSet:");
+        return view;
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
         UIView *view = [self.emptyDataSetSource customViewForEmptyDataSet:self];
         if (view) NSAssert([view isKindOfClass:[UIView class]], @"You must return a valid UIView object for -customViewForEmptyDataSet:");
         return view;
     }
+#pragma clang diagnostic pop
     return nil;
 }
 
@@ -259,17 +365,29 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     CGFloat offset = 0.0;
     
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(verticalOffsetForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(verticalOffsetForEmptyDataSet:)]) {
+        offset = [self.dzn_emptyDataSetSource verticalOffsetForEmptyDataSet:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(verticalOffsetForEmptyDataSet:)]) {
         offset = [self.emptyDataSetSource verticalOffsetForEmptyDataSet:self];
     }
+#pragma clang diagnostic pop
     return offset;
 }
 
 - (CGFloat)dzn_verticalSpace
 {
-    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
+    if (self.dzn_emptyDataSetSource && [self.dzn_emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
+        return [self.dzn_emptyDataSetSource spaceHeightForEmptyDataSet:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(spaceHeightForEmptyDataSet:)]) {
         return [self.emptyDataSetSource spaceHeightForEmptyDataSet:self];
     }
+#pragma clang diagnostic pop
     return 0.0;
 }
 
@@ -277,79 +395,142 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 #pragma mark - Delegate Getters & Events (Private)
 
 - (BOOL)dzn_shouldFadeIn {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldFadeIn:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldFadeIn:)]) {
+        return [self.dzn_emptyDataSetDelegate emptyDataSetShouldFadeIn:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldFadeIn:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldFadeIn:self];
     }
+#pragma clang diagnostic pop
     return YES;
 }
 
 - (BOOL)dzn_shouldDisplay
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
+        return [self.dzn_emptyDataSetDelegate emptyDataSetShouldDisplay:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldDisplay:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldDisplay:self];
     }
+#pragma clang diagnostic pop
     return YES;
 }
 
 - (BOOL)dzn_isTouchAllowed
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
+        return [self.dzn_emptyDataSetDelegate emptyDataSetShouldAllowTouch:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowTouch:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAllowTouch:self];
     }
+#pragma clang diagnostic pop
     return YES;
 }
 
 - (BOOL)dzn_isScrollAllowed
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
+        return [self.dzn_emptyDataSetDelegate emptyDataSetShouldAllowScroll:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAllowScroll:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAllowScroll:self];
     }
+#pragma clang diagnostic pop
     return NO;
 }
 
 - (BOOL)dzn_isImageViewAnimateAllowed
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
+        return [self.dzn_emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldAnimateImageView:self];
     }
+#pragma clang diagnostic pop
     return NO;
 }
 
 - (void)dzn_willAppear
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetWillAppear:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillAppear:)]) {
         [self.emptyDataSetDelegate emptyDataSetWillAppear:self];
     }
+#pragma clang diagnostic pop
 }
 
 - (void)dzn_didAppear
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetDidAppear:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidAppear:self];
     }
+#pragma clang diagnostic pop
 }
 
 - (void)dzn_willDisappear
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetWillDisappear:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetWillDisappear:)]) {
         [self.emptyDataSetDelegate emptyDataSetWillDisappear:self];
     }
+#pragma clang diagnostic pop
 }
 
 - (void)dzn_didDisappear
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidDisappear:)]) {
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidDisappear:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetDidDisappear:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidDisappear:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidDisappear:self];
     }
+#pragma clang diagnostic pop
 }
 
 - (void)dzn_didTapContentView:(id)sender
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
-        [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
+    // dzn_emptyDataSetDelegate.
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSet:self didTapView:sender];
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetDidTapView:self];
+    }
+    
+    // emptyDataSetDelegate, without dzn_ prefix.
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
+        [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
+    }
     else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapView:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidTapView:self];
     }
@@ -358,11 +539,20 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_didTapDataButton:(id)sender
 {
-    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapButton:)]) {
-        [self.emptyDataSetDelegate emptyDataSet:self didTapButton:sender];
+    // dzn_emptyDataSetDelegate.
+    if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapButton:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSet:self didTapButton:sender];
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.dzn_emptyDataSetDelegate && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
+        [self.dzn_emptyDataSetDelegate emptyDataSetDidTapButton:self];
+    }
+    
+    // emptyDataSetDelegate, without dzn_ prefix.
+    else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapButton:)]) {
+        [self.emptyDataSetDelegate emptyDataSet:self didTapButton:sender];
+    }
     else if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidTapButton:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidTapButton:self];
     }
@@ -371,6 +561,23 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 
 #pragma mark - Setters (Public)
+
+- (void)setDzn_emptyDataSetSource:(id<DZNEmptyDataSetSource>)datasource
+{
+    if (!datasource || ![self dzn_canDisplay]) {
+        [self dzn_invalidate];
+    }
+    
+    objc_setAssociatedObject(self, kDZNEmptyDataSetSource, datasource, OBJC_ASSOCIATION_ASSIGN);
+    
+    // We add method sizzling for injecting -dzn_reloadData implementation to the native -reloadData implementation
+    [self swizzleIfPossible:@selector(reloadData)];
+    
+    // Exclusively for UITableView, we also inject -dzn_reloadData to -endUpdates
+    if ([self isKindOfClass:[UITableView class]]) {
+        [self swizzleIfPossible:@selector(endUpdates)];
+    }
+}
 
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)datasource
 {
@@ -387,6 +594,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if ([self isKindOfClass:[UITableView class]]) {
         [self swizzleIfPossible:@selector(endUpdates)];
     }
+}
+
+- (void)setDzn_emptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
+{
+    if (!delegate) {
+        [self dzn_invalidate];
+    }
+    
+    objc_setAssociatedObject(self, kDZNEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
@@ -413,9 +629,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 {
     [self dzn_reloadEmptyDataSet];
 }
-
-
-#pragma mark - Reload APIs (Private)
 
 - (void)dzn_reloadEmptyDataSet
 {
@@ -515,7 +728,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [view setupConstraints];
         
         [UIView performWithoutAnimation:^{
-            [view layoutIfNeeded];            
+            [view layoutIfNeeded];
         }];
         
         // Configure scroll permission
@@ -537,10 +750,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Notifies that the empty dataset view did appear
         [self dzn_didAppear];
     }
-    else if (self.isEmptyDataSetVisible) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if (self.isEmptyDataSetVisible || self.isDzn_emptyDataSetVisible) {
         [self dzn_invalidate];
     }
+#pragma clang diagnostic pop
 }
+
+#pragma mark - Reload APIs (Private)
 
 - (void)dzn_invalidate
 {
@@ -678,10 +896,15 @@ NSString *dzn_implementationKey(id target, SEL selector)
     }
     
     // defer to emptyDataSetDelegate's implementation if available
-    if ( (self.emptyDataSetDelegate != (id)self) && [self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+    if ( (self.dzn_emptyDataSetDelegate != (id)self) && [self.dzn_emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+        return [(id)self.dzn_emptyDataSetDelegate gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if ( (self.emptyDataSetDelegate != (id)self) && [self.emptyDataSetDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
         return [(id)self.emptyDataSetDelegate gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
     }
-    
+#pragma clang diagnostic pop
     return NO;
 }
 

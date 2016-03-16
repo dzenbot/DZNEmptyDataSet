@@ -36,8 +36,8 @@
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.dzn_emptyDataSetSource = self;
+    self.tableView.dzn_emptyDataSetDelegate = self;
     
     [self configureHeaderAndFooter];
 }
@@ -266,7 +266,7 @@
     [self configureHeaderAndFooter];
     [self configureNavigationBar];
     
-    [self.tableView reloadEmptyDataSet];
+    [self.tableView dzn_reloadEmptyDataSet];
 }
 
 - (Application *)randomApplication
@@ -286,7 +286,7 @@
     
     _loading = loading;
     
-    [self.tableView reloadEmptyDataSet];
+    [self.tableView dzn_reloadEmptyDataSet];
 }
 
 

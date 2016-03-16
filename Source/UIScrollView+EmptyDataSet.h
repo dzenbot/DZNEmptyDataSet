@@ -20,17 +20,21 @@
 @interface UIScrollView (EmptyDataSet)
 
 /** The empty datasets data source. */
-@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> dzn_emptyDataSetSource;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource DEPRECATED_MSG_ATTRIBUTE("Use -dzn_emptyDataSetSource");
 /** The empty datasets delegate. */
-@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> dzn_emptyDataSetDelegate;
+@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate DEPRECATED_MSG_ATTRIBUTE("Use -dzn_emptyDataSetDelegate");
 /** YES if any empty dataset is visible. */
-@property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
+@property (nonatomic, readonly, getter = isDzn_emptyDataSetVisible) BOOL dzn_emptyDataSetVisible;
+@property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible DEPRECATED_MSG_ATTRIBUTE("Use -dzn_emptyDataSetVisible");
 
 /**
  Reloads the empty dataset content receiver.
  @discussion Call this method to force all the data to refresh. Calling -reloadData is similar, but this forces only the empty dataset to reload, not the entire table view or collection view.
  */
-- (void)reloadEmptyDataSet;
+- (void)dzn_reloadEmptyDataSet;
+- (void)reloadEmptyDataSet DEPRECATED_MSG_ATTRIBUTE("Use -dzn_reloadEmptyDataSet:");
 
 @end
 

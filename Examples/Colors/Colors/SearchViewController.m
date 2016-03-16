@@ -39,8 +39,8 @@
         self.title = @"Detail";
     }
     
-    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
-    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
+    self.searchDisplayController.searchResultsTableView.dzn_emptyDataSetSource = self;
+    self.searchDisplayController.searchResultsTableView.dzn_emptyDataSetDelegate = self;
     
     self.searchDisplayController.searchBar.placeholder = @"Search color";
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
@@ -145,7 +145,7 @@
     self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
     [self updateLayoutAnimatedWithDuration:0.25];
     
-    [self.searchDisplayController.searchResultsTableView reloadEmptyDataSet];
+    [self.searchDisplayController.searchResultsTableView dzn_reloadEmptyDataSet];
 }
 
 
