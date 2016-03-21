@@ -9,7 +9,7 @@
 #import "DetailViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-#import "UIScrollView+EmptyDataSet.h"
+@import DZNEmptyDataSet;
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;
@@ -38,6 +38,7 @@
     
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     [self configureHeaderAndFooter];
 }
@@ -47,6 +48,11 @@
     [super viewWillAppear:animated];
     
     [self configureNavigationBar];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 
@@ -255,11 +261,15 @@
 
 - (void)shuffle:(id)sender
 {
+    NSLog(@"%s",__FUNCTION__);
+    
     Application *randomApp = [self randomApplication];
     
     while ([randomApp.identifier isEqualToString:self.application.identifier] || randomApp.type == ApplicationTypeUndefined) {
         randomApp = [self randomApplication];
     }
+    
+    NSLog(@"randomApp displayName : %@", randomApp.displayName);
     
     self.application = randomApp;
     
@@ -827,6 +837,7 @@
     switch (self.application.type) {
         case ApplicationType500px:      return [UIColor blackColor];
         case ApplicationTypeAirbnb:     return [UIColor whiteColor];
+        case ApplicationTypeAppstore:   return [UIColor whiteColor];
         case ApplicationTypeDropbox:    return [UIColor colorWithHex:@"f0f3f5"];
         case ApplicationTypeFacebook:   return [UIColor colorWithHex:@"eceef7"];
         case ApplicationTypeFancy:      return [UIColor colorWithHex:@"f0f0f0"];
@@ -847,15 +858,12 @@
 
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (self.application.type == ApplicationTypeKickstarter) {
-        CGFloat offset = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-        offset += CGRectGetHeight(self.navigationController.navigationBar.frame);
-        return -offset;
-    }
     if (self.application.type == ApplicationTypeTwitter) {
         return -roundf(self.tableView.frame.size.height/2.5);
     }
-    return 0.0;
+    else {
+        return -CGRectGetMidY(self.navigationController.navigationBar.frame);
+    }
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
@@ -923,8 +931,32 @@
     });
 }
 
+- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidAppear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetWillDisappear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
 
 #pragma mark - View Auto-Rotation
+
+- (void)dealloc
+{
+    
+}
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {

@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DD24601BAFDFAD001647B5 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DD24601BAFDFAD001647B5 /* Images.xcassets */; };
 		4F36C06919CD11E40073E4BE /* System.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F36C06819CD11E40073E4BE /* System.xcassets */; };
-		4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F805142196FBB2400FD61AA /* Storyboard.storyboard */; };
 		4FB5CE8319421BB70051C6BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8219421BB70051C6BD /* Foundation.framework */; };
 		4FB5CE8519421BB70051C6BD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */; };
 		4FB5CE8719421BB70051C6BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5CE8619421BB70051C6BD /* UIKit.framework */; };
@@ -23,14 +22,14 @@
 		4FB5CEE41942944A0051C6BD /* IdealSans-Book-Pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CED41942944A0051C6BD /* IdealSans-Book-Pro.otf */; };
 		4FB5CEF2194383F90051C6BD /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */; };
 		4FB5CF151943BA140051C6BD /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5CF021943BA140051C6BD /* Lato-Regular.ttf */; };
-		DC3D8C2CF037427184D94841 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C28AF233A3440BF861BEB87 /* libPods.a */; };
+		51D28644AFA75293C86A2132 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152F29797873D66C5376A0DE /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		04DD24601BAFDFAD001647B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		13F1742E09D146FD830BAED4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		152F29797873D66C5376A0DE /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E577108973E7BDAB0034E2E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4F36C06819CD11E40073E4BE /* System.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = System.xcassets; sourceTree = "<group>"; };
-		4F805142196FBB2400FD61AA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		4FB5CE7F19421BB70051C6BD /* Applications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Applications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB5CE8219421BB70051C6BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,7 +51,7 @@
 		4FB5CEF0194383F90051C6BD /* UIColor+Hexadecimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hexadecimal.h"; sourceTree = "<group>"; };
 		4FB5CEF1194383F90051C6BD /* UIColor+Hexadecimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hexadecimal.m"; sourceTree = "<group>"; };
 		4FB5CF021943BA140051C6BD /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
-		7C28AF233A3440BF861BEB87 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F05417ED9C39F6335B54C55D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +62,7 @@
 				4FB5CE8519421BB70051C6BD /* CoreGraphics.framework in Frameworks */,
 				4FB5CE8719421BB70051C6BD /* UIKit.framework in Frameworks */,
 				4FB5CE8319421BB70051C6BD /* Foundation.framework in Frameworks */,
-				DC3D8C2CF037427184D94841 /* libPods.a in Frameworks */,
+				51D28644AFA75293C86A2132 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +75,7 @@
 				4FB5CE8819421BB70051C6BD /* Applications */,
 				4FB5CE8119421BB70051C6BD /* Frameworks */,
 				4FB5CE8019421BB70051C6BD /* Products */,
-				13F1742E09D146FD830BAED4 /* Pods.xcconfig */,
+				C8A159A9D3B8DD5A7C2E19DE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,7 +93,7 @@
 				4FB5CE8219421BB70051C6BD /* Foundation.framework */,
 				4FB5CE8419421BB70051C6BD /* CoreGraphics.framework */,
 				4FB5CE8619421BB70051C6BD /* UIKit.framework */,
-				7C28AF233A3440BF861BEB87 /* libPods.a */,
+				152F29797873D66C5376A0DE /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -124,7 +123,6 @@
 		4FB5CE8919421BB70051C6BD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F805142196FBB2400FD61AA /* Storyboard.storyboard */,
 				4FB5CE8A19421BB70051C6BD /* Applications-Info.plist */,
 				4FB5CE8B19421BB70051C6BD /* InfoPlist.strings */,
 				4FB5CE8E19421BB70051C6BD /* main.m */,
@@ -158,6 +156,15 @@
 			path = Lato;
 			sourceTree = "<group>";
 		};
+		C8A159A9D3B8DD5A7C2E19DE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F05417ED9C39F6335B54C55D /* Pods.debug.xcconfig */,
+				3E577108973E7BDAB0034E2E /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,6 +177,7 @@
 				4FB5CE7C19421BB70051C6BD /* Frameworks */,
 				4FB5CE7D19421BB70051C6BD /* Resources */,
 				80DE751658C84F6E894FCE7A /* Copy Pods Resources */,
+				7379BD203DBC64AC4D412DA3 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,7 +225,6 @@
 				04DD24611BAFDFAD001647B5 /* Images.xcassets in Resources */,
 				4F36C06919CD11E40073E4BE /* System.xcassets in Resources */,
 				4FB5CE8D19421BB70051C6BD /* InfoPlist.strings in Resources */,
-				4F805143196FBB2400FD61AA /* Storyboard.storyboard in Resources */,
 				4FB5CEE41942944A0051C6BD /* IdealSans-Book-Pro.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,6 +232,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7379BD203DBC64AC4D412DA3 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		80DE751658C84F6E894FCE7A /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -237,7 +259,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		82691CA88C254035AC3A9848 /* Check Pods Manifest.lock */ = {
@@ -303,6 +325,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -318,8 +341,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_MODULE_NAME = Applications;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -342,6 +366,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -350,7 +375,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_MODULE_NAME = Applications;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -358,11 +384,12 @@
 		};
 		4FB5CEB219421BB70051C6BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13F1742E09D146FD830BAED4 /* Pods.xcconfig */;
+			baseConfigurationReference = F05417ED9C39F6335B54C55D /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: fangwen huang (33TFM3RXM7)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Applications/Applications-Prefix.pch";
 				INFOPLIST_FILE = "Applications/Applications-Info.plist";
@@ -375,11 +402,12 @@
 		};
 		4FB5CEB319421BB70051C6BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13F1742E09D146FD830BAED4 /* Pods.xcconfig */;
+			baseConfigurationReference = 3E577108973E7BDAB0034E2E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: fangwen huang (33TFM3RXM7)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Applications/Applications-Prefix.pch";
 				INFOPLIST_FILE = "Applications/Applications-Info.plist";

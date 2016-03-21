@@ -33,8 +33,6 @@
 		<string>IdealSans-Book-Pro.otf</string>
 		<string>Lato-Regular.ttf</string>
 	</array>
-	<key>UIMainStoryboardFile</key>
-	<string>Storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

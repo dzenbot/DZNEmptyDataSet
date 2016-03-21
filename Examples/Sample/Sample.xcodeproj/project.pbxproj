@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F516744D1C8448060043E515 /* DZNEmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F516744C1C8448060043E515 /* DZNEmptyDataSet.swift */; };
 		F51CCC5E1C240C4E008BC8EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC5D1C240C4E008BC8EE /* AppDelegate.swift */; };
 		F51CCC601C240C4E008BC8EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC5F1C240C4E008BC8EE /* ViewController.swift */; };
 		F51CCC631C240C4E008BC8EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F51CCC611C240C4E008BC8EE /* Main.storyboard */; };
@@ -15,8 +16,6 @@
 		F51CCC731C240C4E008BC8EE /* BasicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC721C240C4E008BC8EE /* BasicTests.swift */; };
 		F51CCC7E1C240C4E008BC8EE /* SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC7D1C240C4E008BC8EE /* SampleUITests.swift */; };
 		F51CCC901C27C98D008BC8EE /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC8F1C27C98D008BC8EE /* TableView.swift */; };
-		F51CCC961C27F414008BC8EE /* DZNEmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC8B1C240C74008BC8EE /* DZNEmptyDataSet.swift */; };
-		F51CCC971C27F414008BC8EE /* DZNEmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CCC8B1C240C74008BC8EE /* DZNEmptyDataSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F51674491C8447FE0043E515 /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+EmptyDataSet.h"; path = "../Old/UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
+		F516744A1C8447FE0043E515 /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+EmptyDataSet.m"; path = "../Old/UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
+		F516744C1C8448060043E515 /* DZNEmptyDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DZNEmptyDataSet.swift; path = ../../Source/DZNEmptyDataSet.swift; sourceTree = "<group>"; };
 		F51CCC5A1C240C4E008BC8EE /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51CCC5D1C240C4E008BC8EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F51CCC5F1C240C4E008BC8EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,10 +52,7 @@
 		F51CCC791C240C4E008BC8EE /* SampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51CCC7D1C240C4E008BC8EE /* SampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUITests.swift; sourceTree = "<group>"; };
 		F51CCC7F1C240C4E008BC8EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F51CCC8B1C240C74008BC8EE /* DZNEmptyDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DZNEmptyDataSet.swift; path = Source/DZNEmptyDataSet.swift; sourceTree = "<group>"; };
 		F51CCC8F1C27C98D008BC8EE /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
-		F51CCC921C27F18E008BC8EE /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
-		F51CCC931C27F18E008BC8EE /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
 		F51CCC951C27F227008BC8EE /* Sample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sample-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,7 +139,7 @@
 		F51CCC8D1C240C79008BC8EE /* Swift Source */ = {
 			isa = PBXGroup;
 			children = (
-				F51CCC8B1C240C74008BC8EE /* DZNEmptyDataSet.swift */,
+				F516744C1C8448060043E515 /* DZNEmptyDataSet.swift */,
 			);
 			name = "Swift Source";
 			sourceTree = "<group>";
@@ -148,8 +147,8 @@
 		F51CCC911C27F18E008BC8EE /* Objc Source */ = {
 			isa = PBXGroup;
 			children = (
-				F51CCC921C27F18E008BC8EE /* UIScrollView+EmptyDataSet.h */,
-				F51CCC931C27F18E008BC8EE /* UIScrollView+EmptyDataSet.m */,
+				F51674491C8447FE0043E515 /* UIScrollView+EmptyDataSet.h */,
+				F516744A1C8447FE0043E515 /* UIScrollView+EmptyDataSet.m */,
 			);
 			name = "Objc Source";
 			path = ../../Source;
@@ -289,7 +288,7 @@
 				F51CCC601C240C4E008BC8EE /* ViewController.swift in Sources */,
 				F51CCC901C27C98D008BC8EE /* TableView.swift in Sources */,
 				F51CCC5E1C240C4E008BC8EE /* AppDelegate.swift in Sources */,
-				F51CCC971C27F414008BC8EE /* DZNEmptyDataSet.swift in Sources */,
+				F516744D1C8448060043E515 /* DZNEmptyDataSet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F51CCC731C240C4E008BC8EE /* BasicTests.swift in Sources */,
-				F51CCC961C27F414008BC8EE /* DZNEmptyDataSet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +517,7 @@
 				F51CCC841C240C4E008BC8EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F51CCC851C240C4E008BC8EE /* Build configuration list for PBXNativeTarget "SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +526,7 @@
 				F51CCC871C240C4E008BC8EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F51CCC881C240C4E008BC8EE /* Build configuration list for PBXNativeTarget "SampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -535,6 +535,7 @@
 				F51CCC8A1C240C4E008BC8EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
