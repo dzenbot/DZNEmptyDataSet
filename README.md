@@ -25,7 +25,7 @@ Please read this very interesting article about [*Designing For The Empty States
 * Avoiding white-screens and communicating to your users why the screen is empty.
 * Calling to action (particularly as an onboarding process).
 * Avoiding other interruptive mechanisms like showing error alerts.
-* Beeing consistent and improving the user experience.
+* Being consistent and improving the user experience.
 * Delivering a brand presence.
 
 
