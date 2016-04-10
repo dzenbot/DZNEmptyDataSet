@@ -267,3 +267,6 @@
 - (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView;
 
 @end
+
+#undef DZNEmptyDataSetDeprecated
+
