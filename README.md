@@ -64,7 +64,7 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 
 ### Import
 ```objc
-#import "UIScrollView+EmptyDataSet.h"
+#import "DZNEmptyDataSet/UIScrollView+EmptyDataSet.h"
 ```
 
 ### Protocol Conformance
