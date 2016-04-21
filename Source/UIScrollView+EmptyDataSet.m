@@ -17,6 +17,14 @@
 
 @end
 
+@interface DZNWeakObjectContainer : NSObject
+
+@property (nonatomic, readonly, weak) id object;
+
+- (instancetype)initWithObject:(id)object;
+
+@end
+
 @interface DZNEmptyDataSetView : UIView
 
 @property (nonatomic, readonly) UIView *contentView;
@@ -56,12 +64,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
-    return objc_getAssociatedObject(self, kEmptyDataSetSource);
+    DZNWeakObjectContainer *container = objc_getAssociatedObject(self, kEmptyDataSetSource);
+    return container.object;
 }
 
 - (id<DZNEmptyDataSetDelegate>)emptyDataSetDelegate
 {
-    return objc_getAssociatedObject(self, kEmptyDataSetDelegate);
+    DZNWeakObjectContainer *container = objc_getAssociatedObject(self, kEmptyDataSetDelegate);
+    return container.object;
 }
 
 - (BOOL)isEmptyDataSetVisible
@@ -378,7 +388,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self dzn_invalidate];
     }
     
-    objc_setAssociatedObject(self, kEmptyDataSetSource, datasource, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, kEmptyDataSetSource, [[DZNWeakObjectContainer alloc] initWithObject:datasource], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // We add method sizzling for injecting -dzn_reloadData implementation to the native -reloadData implementation
     [self swizzleIfPossible:@selector(reloadData)];
@@ -395,7 +405,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self dzn_invalidate];
     }
     
-    objc_setAssociatedObject(self, kEmptyDataSetDelegate, delegate, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, kEmptyDataSetDelegate, [[DZNWeakObjectContainer alloc] initWithObject:delegate], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 
@@ -1029,6 +1039,21 @@ NSString *dzn_implementationKey(id target, SEL selector)
                                         attribute:attribute
                                        multiplier:1.0
                                          constant:0.0];
+}
+
+@end
+
+#pragma mark - DZNWeakObjectContainer
+
+@implementation DZNWeakObjectContainer
+
+- (instancetype)initWithObject:(id)object
+{
+    self = [super init];
+    if (self) {
+        _object = object;
+    }
+    return self;
 }
 
 @end
