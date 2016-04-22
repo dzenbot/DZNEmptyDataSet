@@ -19,9 +19,9 @@
 
 @interface DZNWeakObjectContainer : NSObject
 
-@property (nonatomic, readonly, weak) id object;
+@property (nonatomic, readonly, weak) id weakObject;
 
-- (instancetype)initWithObject:(id)object;
+- (instancetype)initWithWeakObject:(id)object;
 
 @end
 
@@ -65,13 +65,13 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (id<DZNEmptyDataSetSource>)emptyDataSetSource
 {
     DZNWeakObjectContainer *container = objc_getAssociatedObject(self, kEmptyDataSetSource);
-    return container.object;
+    return container.weakObject;
 }
 
 - (id<DZNEmptyDataSetDelegate>)emptyDataSetDelegate
 {
     DZNWeakObjectContainer *container = objc_getAssociatedObject(self, kEmptyDataSetDelegate);
-    return container.object;
+    return container.weakObject;
 }
 
 - (BOOL)isEmptyDataSetVisible
@@ -388,7 +388,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self dzn_invalidate];
     }
     
-    objc_setAssociatedObject(self, kEmptyDataSetSource, [[DZNWeakObjectContainer alloc] initWithObject:datasource], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kEmptyDataSetSource, [[DZNWeakObjectContainer alloc] initWithWeakObject:datasource], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // We add method sizzling for injecting -dzn_reloadData implementation to the native -reloadData implementation
     [self swizzleIfPossible:@selector(reloadData)];
@@ -405,7 +405,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self dzn_invalidate];
     }
     
-    objc_setAssociatedObject(self, kEmptyDataSetDelegate, [[DZNWeakObjectContainer alloc] initWithObject:delegate], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kEmptyDataSetDelegate, [[DZNWeakObjectContainer alloc] initWithWeakObject:delegate], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 
@@ -1047,11 +1047,11 @@ NSString *dzn_implementationKey(id target, SEL selector)
 
 @implementation DZNWeakObjectContainer
 
-- (instancetype)initWithObject:(id)object
+- (instancetype)initWithWeakObject:(id)object
 {
     self = [super init];
     if (self) {
-        _object = object;
+        _weakObject = object;
     }
     return self;
 }
