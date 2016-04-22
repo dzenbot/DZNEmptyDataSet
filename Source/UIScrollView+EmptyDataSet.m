@@ -301,11 +301,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return YES;
 }
 
-- (BOOL)dzn_shouldBeForcedToDisplay {
+- (BOOL)dzn_shouldBeForcedToDisplay
+{
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldBeForcedToDisplay:)]) {
         return [self.emptyDataSetDelegate emptyDataSetShouldBeForcedToDisplay:self];
     }
-    
     return NO;
 }
 
