@@ -549,7 +549,8 @@ static NSString *const DZNSwizzleInfoSelectorKey = @"selector";
 void dzn_original_implementation(id self, SEL _cmd)
 {
     // Fetch original implementation from lookup table
-    NSString *key = dzn_implementationKey(self, _cmd);
+    Class baseClass = dzn_baseClassToSwizzleForTarget(self);
+    NSString *key = dzn_implementationKey(baseClass, _cmd);
     
     NSDictionary *swizzleInfo = [_impLookupTable objectForKey:key];
     NSValue *impValue = [swizzleInfo valueForKey:DZNSwizzleInfoPointerKey];
@@ -566,22 +567,25 @@ void dzn_original_implementation(id self, SEL _cmd)
     }
 }
 
-NSString *dzn_implementationKey(id target, SEL selector)
+NSString *dzn_implementationKey(Class class, SEL selector)
 {
-    if (!target || !selector) {
+    if (!class || !selector) {
         return nil;
     }
     
-    Class baseClass;
-    if ([target isKindOfClass:[UITableView class]]) baseClass = [UITableView class];
-    else if ([target isKindOfClass:[UICollectionView class]]) baseClass = [UICollectionView class];
-    else if ([target isKindOfClass:[UIScrollView class]]) baseClass = [UIScrollView class];
-    else return nil;
-    
-    NSString *className = NSStringFromClass([baseClass class]);
+    NSString *className = NSStringFromClass([class class]);
     
     NSString *selectorName = NSStringFromSelector(selector);
     return [NSString stringWithFormat:@"%@_%@",className,selectorName];
+}
+
+Class dzn_baseClassToSwizzleForTarget(id target)
+{
+    Class baseClass = nil;
+    if ([target isKindOfClass:[UITableView class]]) baseClass = [UITableView class];
+    else if ([target isKindOfClass:[UICollectionView class]]) baseClass = [UICollectionView class];
+    else if ([target isKindOfClass:[UIScrollView class]]) baseClass = [UIScrollView class];
+    return baseClass;
 }
 
 - (void)swizzleIfPossible:(SEL)selector
@@ -608,20 +612,21 @@ NSString *dzn_implementationKey(id target, SEL selector)
         }
     }
     
-    NSString *key = dzn_implementationKey(self, selector);
+    Class baseClass = dzn_baseClassToSwizzleForTarget(self);
+    NSString *key = dzn_implementationKey(baseClass, selector);
     NSValue *impValue = [[_impLookupTable objectForKey:key] valueForKey:DZNSwizzleInfoPointerKey];
     
     // If the implementation for this class already exist, skip!!
-    if (impValue || !key) {
+    if (impValue || !key || !baseClass) {
         return;
     }
     
     // Swizzle by injecting additional implementation
-    Method method = class_getInstanceMethod([self class], selector);
+    Method method = class_getInstanceMethod(baseClass, selector);
     IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);
     
     // Store the new implementation in the lookup table
-    NSDictionary *swizzledInfo = @{DZNSwizzleInfoOwnerKey: [self class],
+    NSDictionary *swizzledInfo = @{DZNSwizzleInfoOwnerKey: baseClass,
                                    DZNSwizzleInfoSelectorKey: NSStringFromSelector(selector),
                                    DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]};
     
