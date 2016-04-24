@@ -4,7 +4,7 @@
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
 //  Created by Ignacio Romero Zurbuchen on 6/20/14.
-//  Copyright (c) 2014 DZN Labs. All rights reserved.
+//  Copyright (c) 2016 DZN Labs. All rights reserved.
 //  Licence: MIT-Licence
 //
 
@@ -12,6 +12,8 @@
 
 @protocol DZNEmptyDataSetSource;
 @protocol DZNEmptyDataSetDelegate;
+
+#define DZNEmptyDataSetDeprecated(instead) DEPRECATED_MSG_ATTRIBUTE(" Use " # instead " instead")
 
 /**
  A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.
@@ -140,7 +142,7 @@
  @param scrollView A scrollView subclass object informing the delegate.
  @return The offset for vertical and horizontal alignment.
  */
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use -verticalOffsetForEmptyDataSet:");
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-verticalOffsetForEmptyDataSet:);
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
@@ -170,6 +172,14 @@
  @return YES if the empty dataset should fade in.
  */
 - (BOOL)emptyDataSetShouldFadeIn:(UIScrollView *)scrollView;
+
+/**
+ Asks the delegate to know if the empty dataset should still be displayed when the amount of items is more than 0. Default is NO
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return YES if empty dataset should be forced to display
+ */
+- (BOOL)emptyDataSetShouldBeForcedToDisplay:(UIScrollView *)scrollView;
 
 /**
  Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
@@ -210,14 +220,14 @@
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapView:");
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-emptyDataSet:didTapView:);
 
 /**
  Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapButton:");
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-emptyDataSet:didTapButton:);
 
 /**
  Tells the delegate that the empty dataset view was tapped.
@@ -265,3 +275,6 @@
 - (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView;
 
 @end
+
+#undef DZNEmptyDataSetDeprecated
+
