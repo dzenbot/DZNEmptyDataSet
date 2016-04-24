@@ -493,6 +493,18 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    switch (self.application.type) {
+        case ApplicationTypeCustom:
+        {
+            return [[[NSBundle mainBundle] loadNibNamed:@"CustomEmptyScreen" owner:nil options:nil] firstObject];
+        }
+        default:
+            return nil;
+    }
+}
+
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = nil;
@@ -897,7 +909,7 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return YES;
+    return self.application.type != ApplicationTypeCustom;
 }
 
 - (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView

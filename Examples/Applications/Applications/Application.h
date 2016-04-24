@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
     ApplicationTypeVine,
     ApplicationTypeWhatsapp,
     ApplicationTypeWWDC,
+    ApplicationTypeCustom,
     
     ApplicationCount // Used for count (27)
 };
