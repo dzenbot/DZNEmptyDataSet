@@ -1,21 +1,14 @@
 PODS:
-  - DZNCategories/CoreGraphics (1.1.1)
-  - DZNCategories/Foundation (1.1.1)
-  - DZNCategories/UIKit (1.1.1):
-    - DZNCategories/CoreGraphics
-    - DZNCategories/Foundation
-  - DZNEmptyDataSet (1.3.1)
+  - DZNEmptyDataSet (1.8)
 
 DEPENDENCIES:
-  - DZNCategories/UIKit (= 1.1.1)
   - DZNEmptyDataSet (from `../../`)
 
 EXTERNAL SOURCES:
   DZNEmptyDataSet:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  DZNCategories: 365071e535d73a88710bf74588d42b10cfe7e356
-  DZNEmptyDataSet: 65e270314bf41f5cf959199b5303ddbf03b8ae71
+  DZNEmptyDataSet: d2351b2e8daefa40433ef292e246e21f6be31a7b
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.38.2
