@@ -624,11 +624,17 @@ NSString *dzn_implementationKey(Class class, SEL selector)
 
 Class dzn_baseClassToSwizzleForTarget(id target)
 {
-    Class baseClass = nil;
-    if ([target isKindOfClass:[UITableView class]]) baseClass = [UITableView class];
-    else if ([target isKindOfClass:[UICollectionView class]]) baseClass = [UICollectionView class];
-    else if ([target isKindOfClass:[UIScrollView class]]) baseClass = [UIScrollView class];
-    return baseClass;
+    if ([target isKindOfClass:[UITableView class]]) {
+        return [UITableView class];
+    }
+    else if ([target isKindOfClass:[UICollectionView class]]) {
+        return [UICollectionView class];
+    }
+    else if ([target isKindOfClass:[UIScrollView class]]) {
+        return [UIScrollView class];
+    }
+    
+    return nil;
 }
 
 - (void)swizzleIfPossible:(SEL)selector
@@ -640,7 +646,7 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     
     // Create the lookup table
     if (!_impLookupTable) {
-        _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:2];
+        _impLookupTable = [[NSMutableDictionary alloc] initWithCapacity:3]; // 3 represent the supported base classes
     }
     
     // We make sure that setImplementation is called once per class kind, UITableView or UICollectionView.
@@ -679,7 +685,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 #pragma mark - UIGestureRecognizerDelegate Methods
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
     return ![touch.view isKindOfClass:[UIControl class]];
 }
 
