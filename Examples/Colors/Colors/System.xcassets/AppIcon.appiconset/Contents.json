@@ -115,10 +115,10 @@
       "scale" : "2x"
     },
     {
-      "size" : "120x120",
-      "idiom" : "car",
+      "size" : "83.5x83.5",
+      "idiom" : "ipad",
       "filename" : "icon-120~car.png",
-      "scale" : "1x"
+      "scale" : "2x"
     }
   ],
   "info" : {

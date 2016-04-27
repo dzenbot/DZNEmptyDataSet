@@ -26,13 +26,11 @@
     [self.view addSubview:button];
     
     button.center = self.view.center;
-    
-    NSLog(@"button : %@", button);
 }
 
 - (IBAction)showWebBrowser:(id)sender
 {
-    WebViewController *webViewController = [[WebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.dzn.cl"]];
+    WebViewController *webViewController = [[WebViewController alloc] initWithURL:[NSURL URLWithString:@"https://www"]];
     [self.navigationController pushViewController:webViewController animated:YES];
 }
 

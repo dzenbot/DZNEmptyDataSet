@@ -7,7 +7,7 @@
 //
 
 #import "Color.h"
-#import <DZNCategories/UIKit/UIColor+Hex.h>
+#import "UIColor+Hex.h"
 
 @implementation Color
 

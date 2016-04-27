@@ -936,4 +936,17 @@
     return NO;
 }
 
+
+#pragma mark - View Auto-Rotation
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
 @end

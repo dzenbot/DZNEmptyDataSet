@@ -1,1 +1,0 @@
-PODS_DZNCATEGORIES_OTHER_LDFLAGS = -framework CoreGraphics -framework CoreImage -framework CoreText -framework Foundation -framework QuartzCore -framework UIKit

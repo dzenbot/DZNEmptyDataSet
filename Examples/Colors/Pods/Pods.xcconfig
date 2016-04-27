@@ -1,5 +1,0 @@
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/DZNCategories" "${PODS_ROOT}/Headers/DZNCategories/CoreGraphics" "${PODS_ROOT}/Headers/DZNCategories/Foundation" "${PODS_ROOT}/Headers/DZNCategories/UIKit" "${PODS_ROOT}/Headers/DZNEmptyDataSet"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/DZNCategories" -isystem "${PODS_ROOT}/Headers/DZNCategories/CoreGraphics" -isystem "${PODS_ROOT}/Headers/DZNCategories/Foundation" -isystem "${PODS_ROOT}/Headers/DZNCategories/UIKit" -isystem "${PODS_ROOT}/Headers/DZNEmptyDataSet"
-OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework CoreImage -framework CoreText -framework Foundation -framework QuartzCore -framework UIKit
-PODS_ROOT = ${SRCROOT}/Pods
