@@ -333,7 +333,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return YES;
 }
 
-- (BOOL)dzn_isImageViewAnimateAllow
 - (BOOL)dzn_isImageViewAnimateAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
