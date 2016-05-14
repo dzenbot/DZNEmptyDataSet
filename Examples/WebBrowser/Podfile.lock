@@ -1,5 +1,5 @@
 PODS:
-  - DZNEmptyDataSet (1.6.1)
+  - DZNEmptyDataSet (1.8)
   - DZNWebViewController (2.0):
     - NJKWebViewProgress (~> 0.2)
   - NJKWebViewProgress (0.2.3):
@@ -14,11 +14,11 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DZNEmptyDataSet:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  DZNEmptyDataSet: 79c3af39ea3c9c7f545c2940e8e00752ab2c1904
+  DZNEmptyDataSet: d2351b2e8daefa40433ef292e246e21f6be31a7b
   DZNWebViewController: 54e8ee1c5bcc43e341ad77737631098d0d76db69
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.38.2

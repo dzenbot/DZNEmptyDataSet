@@ -174,6 +174,14 @@
 - (BOOL)emptyDataSetShouldFadeIn:(UIScrollView *)scrollView;
 
 /**
+ Asks the delegate to know if the empty dataset should still be displayed when the amount of items is more than 0. Default is NO
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return YES if empty dataset should be forced to display
+ */
+- (BOOL)emptyDataSetShouldBeForcedToDisplay:(UIScrollView *)scrollView;
+
+/**
  Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
  
  @param scrollView A scrollView subclass object informing the delegate.

@@ -1,0 +1,5 @@
+#include "NJKWebViewProgress.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/NJKWebViewProgress" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DZNEmptyDataSet" "${PODS_ROOT}/Headers/Public/DZNWebViewController" "${PODS_ROOT}/Headers/Public/NJKWebViewProgress"
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
