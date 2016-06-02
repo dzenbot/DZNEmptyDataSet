@@ -38,8 +38,8 @@ Please read this very interesting article about [*Designing For The Empty States
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* Compatible with iOS 6 or later.
-* Compatible with iPhone and iPad.
+* Compatible with iOS 6, tvOS 9, or later.
+* Compatible with iPhone, iPad, and Apple TV.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
@@ -83,7 +83,7 @@ Conform to datasource and/or delegate.
 
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
-    
+
     // A little trick for removing the cell separators
     self.tableView.tableFooterView = [UIView new];
 }
@@ -105,14 +105,14 @@ The image view animation
 - (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    
+
     animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
     animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    
+
     animation.duration = 0.25;
     animation.cumulative = YES;
     animation.repeatCount = MAXFLOAT;
-    
+
     return animation;
 }
 ```
@@ -122,10 +122,10 @@ The attributed string for the title of the empty state:
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"Please Allow Photo Access";
-    
+
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
                                  NSForegroundColorAttributeName: [UIColor darkGrayColor]};
-    
+
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 ```
@@ -135,15 +135,15 @@ The attributed string for the description of the empty state:
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"This allows you to share photos from your library and save photos to your camera roll.";
-    
+
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
     paragraph.alignment = NSTextAlignmentCenter;
-    
+
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
                                  NSForegroundColorAttributeName: [UIColor lightGrayColor],
                                  NSParagraphStyleAttributeName: paragraph};
-                                 
+
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];                      
 }
 ```
