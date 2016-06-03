@@ -38,8 +38,8 @@ Please read this very interesting article about [*Designing For The Empty States
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* Compatible with iOS 6 or later.
-* Compatible with iPhone and iPad.
+* Compatible with iOS 6, tvOS 9, or later.
+* Compatible with iPhone, iPad, and Apple TV.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.

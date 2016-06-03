@@ -685,11 +685,6 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 #pragma mark - UIGestureRecognizerDelegate Methods
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    return ![touch.view isKindOfClass:[UIControl class]];
-}
-
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer.view isEqual:self.emptyDataSetView]) {
