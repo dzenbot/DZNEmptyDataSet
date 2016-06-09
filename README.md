@@ -100,23 +100,6 @@ The image for the empty state:
 }
 ```
 
-The image view animation
-```objc
-- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
-{
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    
-    return animation;
-}
-```
-
 The attributed string for the title of the empty state:
 ```objc
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
@@ -181,6 +164,23 @@ If you need a more complex layout, you can return a custom view instead:
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [activityView startAnimating];
     return activityView;
+}
+```
+
+The image view animation
+```objc
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
 }
 ```
 
