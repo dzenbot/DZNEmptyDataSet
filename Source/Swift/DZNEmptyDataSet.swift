@@ -120,7 +120,7 @@ extension UIScrollView {
                 view?.backgroundColor = .clearColor()
                 view?.hidden = false
                 
-                let tapGesture = UITapGestureRecognizer.init(target: self, action: Selector("didTapView:"))
+                let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapView(_:)))
                 view?.addGestureRecognizer(tapGesture)
                 
                 self.emptyDataSetView = view
@@ -162,7 +162,7 @@ extension UIScrollView {
             imageView.image = image;
             view.contentView.addSubview(imageView)
             
-            counter++
+            counter += 1
         }
         
         // Configure title label
@@ -170,7 +170,7 @@ extension UIScrollView {
             label.attributedText = attributedText;
             view.contentView.addSubview(label)
             
-            counter++
+            counter += 1
         }
         
         // Configure detail label
@@ -178,7 +178,7 @@ extension UIScrollView {
             label.attributedText = attributedText;
             view.contentView.addSubview(label)
             
-            counter++
+            counter += 1
         }
         
         // Configure button
@@ -186,9 +186,9 @@ extension UIScrollView {
             button.setAttributedTitle(attributedText, forState: .Normal)
             view.contentView.addSubview(button)
             
-            button.addTarget(self, action: Selector("didTapView:"), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: #selector(didTapView(_:)), forControlEvents: .TouchUpInside)
             
-            counter++
+            counter += 1
         }
         
         guard counter > 0 else { return }
@@ -244,52 +244,33 @@ extension UIScrollView {
     
     // TODO: Add tests
     private var sectionsToIgnore: NSIndexSet {
-        guard let emptyDataSetSource = emptyDataSetSource where emptyDataSetSource.respondsToSelector(Selector("sectionsToIgnore")) else { return NSIndexSet(index: -1) }
-        guard let indexSet = emptyDataSetSource.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
+        guard let indexSet = emptyDataSetSource?.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
         
         return indexSet
     }
     
     private var attributedTitle: NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.titleForEmptyDataSet where datasource.respondsToSelector(Selector("titleForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.titleForEmptyDataSet?(self)
     }
     
     private var attributedDescription: NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.descriptionForEmptyDataSet where datasource.respondsToSelector(Selector("descriptionForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.descriptionForEmptyDataSet?(self)
     }
     
     private var topImage: UIImage? {
-        if let datasource = emptyDataSetSource, callback = datasource.imageForEmptyDataSet where datasource.respondsToSelector(Selector("imageForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.imageForEmptyDataSet?(self)
     }
     
     private func attributedButtonTitle(state: UIControlState) -> NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.buttonTitleForEmptyDataSet:state: where datasource.respondsToSelector(Selector("buttonTitleForEmptyDataSet:state:")) {
-            return callback(self, state: state)
-        }
-        return nil
+        return emptyDataSetSource?.buttonTitleForEmptyDataSet?(self, state: state)
     }
     
     private var verticalOffset: CGFloat {
-        if let datasource = emptyDataSetSource, callback = datasource.verticalOffsetForEmptyDataSet where datasource.respondsToSelector(Selector("verticalOffsetForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return 0
+        return emptyDataSetSource?.verticalOffsetForEmptyDataSet?(self) ?? 0
     }
     
     private func backgroundColor() -> UIColor {
-        if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet?(self)) {
-            return color
-        }
-        return .clearColor()
+        return emptyDataSetSource?.backgroundColorForEmptyDataSet?(self) ?? .clearColor()
     }
     
     private var canDisplay: Bool {
@@ -297,67 +278,44 @@ extension UIScrollView {
     }
     
     private var shouldDisplay: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldDisplay where delegate.respondsToSelector(Selector("emptyDataSetShouldDisplay:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldDisplay?(self) ?? true
     }
     
     private var shouldFadeIn: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldFadeIn where delegate.respondsToSelector(Selector("emptyDataSetShouldFadeIn:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldFadeIn?(self) ?? true
     }
     
     private var shouldScroll: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldAllowScroll where delegate.respondsToSelector(Selector("emptyDataSetShouldAllowScroll:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldAllowScroll?(self) ?? true
     }
     
     private var shouldTouch: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldAllowTouch where delegate.respondsToSelector(Selector("emptyDataSetShouldAllowTouch:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldAllowTouch?(self) ?? true
     }
     
     func didTapView(sender: AnyObject?) {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSet:didTapView:")) {
-            
-            if let view = sender where sender is UIView {
-                delegate.emptyDataSet?(self, didTapView: view as! UIView)
-            }
-            else if let view = sender?.view where sender is UIGestureRecognizer {
-                delegate.emptyDataSet?(self, didTapView: view!)
-            }
+        if let view = sender where sender is UIView {
+            emptyDataSetDelegate?.emptyDataSet?(self, didTapView: view as! UIView)
+        }
+        else if let view = sender?.view where sender is UIGestureRecognizer {
+            emptyDataSetDelegate?.emptyDataSet?(self, didTapView: view)
         }
     }
     
     func willAppear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetWillAppear:")) {
-            delegate.emptyDataSetWillAppear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetWillAppear?(self)
     }
     
     func didAppear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetDidAppear:")) {
-            delegate.emptyDataSetDidAppear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetDidAppear?(self)
     }
     
     func willDisappear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetWillDisappear:")) {
-            delegate.emptyDataSetWillDisappear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetWillDisappear?(self)
     }
     
     func didDisappear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetDidDisappear:")) {
-            delegate.emptyDataSetDidDisappear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetDidDisappear?(self)
     }
     
     private func invalidateLayout() {
@@ -381,9 +339,9 @@ extension UIScrollView {
     private func swizzleIfNeeded() {
         
         if !didSwizzle {
-            let newSelector = Selector("reloadEmptyDataSet")
+            let newSelector = #selector(reloadEmptyDataSet)
             
-            didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
+            didSwizzle = swizzle(#selector(UITableView.reloadData), swizzledSelector: newSelector)
             
             // TODO: Swizzling works, but whenever we swizzle this other method, it breaks.
             //didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
