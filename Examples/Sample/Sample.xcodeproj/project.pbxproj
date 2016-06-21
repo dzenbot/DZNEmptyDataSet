@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		F51674491C8447FE0043E515 /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+EmptyDataSet.h"; path = "../Old/UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
 		F516744A1C8447FE0043E515 /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+EmptyDataSet.m"; path = "../Old/UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
-		F516744C1C8448060043E515 /* DZNEmptyDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DZNEmptyDataSet.swift; path = ../../Source/DZNEmptyDataSet.swift; sourceTree = "<group>"; };
+		F516744C1C8448060043E515 /* DZNEmptyDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DZNEmptyDataSet.swift; path = ../../Source/Swift/DZNEmptyDataSet.swift; sourceTree = "<group>"; };
 		F51CCC5A1C240C4E008BC8EE /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51CCC5D1C240C4E008BC8EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F51CCC5F1C240C4E008BC8EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };

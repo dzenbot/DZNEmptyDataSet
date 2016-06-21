@@ -383,7 +383,7 @@ extension UIScrollView {
         guard self.respondsToSelector(Selector("dataSource")) else { return items }
         
         if let tableView = self as? UITableView {
-            guard let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) else { return items }
+            let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) ?? 1
             
             for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
                 guard let item = tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i) else { continue }
@@ -391,7 +391,7 @@ extension UIScrollView {
             }
         }
         else if let collectionView = self as? UICollectionView {
-            guard let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) else { return items }
+            let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) ?? 1
             
             for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
                 guard let item = collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i) else { continue }

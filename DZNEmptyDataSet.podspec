@@ -1,4 +1,4 @@
-@version = "1.7.3"
+@version = "2.0.0beta"
 
 Pod::Spec.new do |s|
   s.name          = "DZNEmptyDataSet"
