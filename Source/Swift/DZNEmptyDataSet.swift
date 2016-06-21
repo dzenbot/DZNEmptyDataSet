@@ -305,9 +305,6 @@ extension UIScrollView {
     
     public func reloadEmptyDataSet() {
         
-        // Calls the original implementation
-        self.reloadEmptyDataSet()
-        
         self.invalidateLayout()
         
         guard self.canDisplay && self.shouldDisplay else { return }
@@ -496,15 +493,64 @@ extension UIScrollView {
     
     // MARK: - Swizzling
     
+    public func reloadDataEmptyDataSet()
+    {
+        
+        print("\(self.dynamicType).\(#function)")
+
+        // Calls the original implementation
+        self.reloadDataEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func endUpdatesEmptyDataSet()
+    {
+        
+        print("\(self.dynamicType).\(#function)")
+
+        // Calls the original implementation
+        self.endUpdatesEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func performBatchUpdatesEmptyDataSet(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+    {
+        print("\(self.dynamicType).\(#function)")
+
+        // Calls the original implementation
+        self.performBatchUpdatesEmptyDataSet(updates, completion: completion)
+        
+        reloadEmptyDataSet()
+    }
+    
     private func swizzleIfNeeded() {
         
         if !didSwizzle {
-            let newSelector = #selector(reloadEmptyDataSet)
             
-            didSwizzle = swizzle(#selector(UITableView.reloadData), swizzledSelector: newSelector)
+            if let _ = self as? UITableView {
+                
+                let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+                let originalReloadDataSelector = #selector(UITableView.reloadData)
+                didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+                
+                let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
+                let originalEndUpdatesSelector = #selector(UITableView.endUpdates)
+                didSwizzle = swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+               
+            } else if let _ = self as? UICollectionView {
+
+                let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+                let originalReloadDataSelector = #selector(UICollectionView.reloadData)
+                didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+                
+                let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
+                let originalEndUpdatesSelector = #selector(UICollectionView.performBatchUpdates(_:completion:))
+                didSwizzle = swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+                
+            }
             
-            // TODO: Swizzling works, but whenever we swizzle this other method, it breaks.
-            //didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
         }
     }
     
