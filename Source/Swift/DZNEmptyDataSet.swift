@@ -10,7 +10,7 @@ import UIKit
 
 // TODO: Add documentation once completed
 /**
- The object that acts as the data source of the empty datasets.
+ The protocol that acts as the data source of the empty datasets.
  
  The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
  */
@@ -129,7 +129,7 @@ import UIKit
 
 // TODO: Add documentation once completed
 /**
- The object that acts as the delegate of the empty datasets.
+ The protocol that acts as the delegate of the empty datasets.
  The delegate can adopt the DZNEmptyDataSetDelegate protocol. The delegate is not retained. All delegate methods are optional.
  
  All delegate methods are optional. Use this delegate for receiving action callbacks.
@@ -221,6 +221,16 @@ import UIKit
      - Parameter scrollView: A scrollView subclass informing the delegate.
      */
     optional func emptyDataSetDidDisappear(scrollView: UIScrollView)
+}
+
+// MARK: - EmptyDataSet protocol
+
+
+/// protocol EmptyDataSet
+/// Instances of conforming UIView subclasses can show empty datasets whenever the view has no content to display.
+protocol EmptyDataSet {
+    func doSwizzle() -> Bool
+    func isEmpty() -> Bool
 }
 
 // MARK: - UIScrollView extension
@@ -373,33 +383,6 @@ extension UIScrollView {
     }
     
     // TODO: Add tests
-    private var itemsCount: Int {
-        
-        var items = 0
-        
-        guard self.respondsToSelector(Selector("dataSource")) else { return items }
-        
-        if let tableView = self as? UITableView {
-            let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) ?? 1
-            
-            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
-                guard let item = tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i) else { continue }
-                items += item
-            }
-        }
-        else if let collectionView = self as? UICollectionView {
-            let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) ?? 1
-            
-            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
-                guard let item = collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i) else { continue }
-                items += item
-            }
-        }
-        
-        return items
-    }
-    
-    // TODO: Add tests
     private var sectionsToIgnore: NSIndexSet {
         guard let indexSet = emptyDataSetSource?.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
         
@@ -431,7 +414,12 @@ extension UIScrollView {
     }
     
     private var canDisplay: Bool {
-        return self.itemsCount > 0 ? false : true
+        if let selfAsEmptyDataSet = self as? EmptyDataSet {
+            return selfAsEmptyDataSet.isEmpty()
+        } else {
+            print("\(self.dynamicType) should conform to protocol EmptyDataset")
+            return false
+        }
     }
     
     private var shouldDisplay: Bool {
@@ -493,64 +481,14 @@ extension UIScrollView {
     
     // MARK: - Swizzling
     
-    public func reloadDataEmptyDataSet()
-    {
-        
-        print("\(self.dynamicType).\(#function)")
-
-        // Calls the original implementation
-        self.reloadDataEmptyDataSet()
-        
-        reloadEmptyDataSet()
-    }
-    
-    public func endUpdatesEmptyDataSet()
-    {
-        
-        print("\(self.dynamicType).\(#function)")
-
-        // Calls the original implementation
-        self.endUpdatesEmptyDataSet()
-        
-        reloadEmptyDataSet()
-    }
-    
-    public func performBatchUpdatesEmptyDataSet(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
-    {
-        print("\(self.dynamicType).\(#function)")
-
-        // Calls the original implementation
-        self.performBatchUpdatesEmptyDataSet(updates, completion: completion)
-        
-        reloadEmptyDataSet()
-    }
-    
     private func swizzleIfNeeded() {
         
         if !didSwizzle {
-            
-            if let _ = self as? UITableView {
-                
-                let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
-                let originalReloadDataSelector = #selector(UITableView.reloadData)
-                didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
-                
-                let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
-                let originalEndUpdatesSelector = #selector(UITableView.endUpdates)
-                didSwizzle = swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
-               
-            } else if let _ = self as? UICollectionView {
-
-                let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
-                let originalReloadDataSelector = #selector(UICollectionView.reloadData)
-                didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
-                
-                let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
-                let originalEndUpdatesSelector = #selector(UICollectionView.performBatchUpdates(_:completion:))
-                didSwizzle = swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
-                
+            if let selfAsEmptyDataSet = self as? EmptyDataSet {
+                didSwizzle = selfAsEmptyDataSet.doSwizzle()
+            } else {
+                print("\(self.dynamicType) should conform to protocol EmptyDataset")
             }
-            
         }
     }
     
@@ -575,6 +513,107 @@ extension UIScrollView {
     }
 }
 
+// MARK: -
+extension UITableView: EmptyDataSet {
+
+    func doSwizzle() -> Bool {
+        
+        var didSwizzle = false
+
+        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let originalReloadDataSelector = #selector(UITableView.reloadData)
+        didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+        
+        let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
+        let originalEndUpdatesSelector = #selector(UITableView.endUpdates)
+        didSwizzle = didSwizzle &&
+            swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+        
+        return didSwizzle
+    }
+    
+    func isEmpty() -> Bool {
+        var items = 0
+        let sections = dataSource?.numberOfSectionsInTableView?(self) ?? 1
+        
+        for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
+            guard let item = self.dataSource?.tableView(self, numberOfRowsInSection: i) else { continue }
+            items += item
+        }
+        return items == 0
+    }
+
+    public func reloadDataEmptyDataSet()
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.reloadDataEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func endUpdatesEmptyDataSet()
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.endUpdatesEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+}
+
+extension UICollectionView: EmptyDataSet {
+
+    func doSwizzle() -> Bool {
+
+        var didSwizzle = false
+
+        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let originalReloadDataSelector = #selector(UICollectionView.reloadData)
+        didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+        
+        let newEndUpdatesSelector = #selector(performBatchUpdatesEmptyDataSet)
+        let originalEndUpdatesSelector = #selector(UICollectionView.performBatchUpdates(_:completion:))
+        didSwizzle = didSwizzle &&
+            swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+        
+        return didSwizzle
+    }
+    
+    func isEmpty() -> Bool {
+        var items = 0
+        let sections = dataSource?.numberOfSectionsInCollectionView?(self) ?? 1
+        
+        for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+            guard let item = dataSource?.collectionView(self, numberOfItemsInSection: i) else { continue }
+            items += item
+        }
+        return items == 0
+    }
+    
+    public func reloadDataEmptyDataSet()
+    {
+        
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.reloadDataEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func performBatchUpdatesEmptyDataSet(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.performBatchUpdatesEmptyDataSet(updates, completion: completion)
+        
+        reloadEmptyDataSet()
+    }
+}
 
 // MARK: - DZNEmptyDataSetView
 private class DZNEmptyDataSetView: UIView, UIGestureRecognizerDelegate {
