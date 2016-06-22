@@ -8,59 +8,226 @@
 
 import UIKit
 
-// TODO: Add documentation once completed
+/// The protocol that acts as the data source of the empty datasets.
+///
+/// The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
 @objc public protocol DZNEmptyDataSetSource : NSObjectProtocol {
     
     ///
     optional func sectionsToIgnore(scrollView: UIScrollView) -> NSIndexSet?
     
+    /**
+     Asks the data source for the title of the dataset.
+     The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
+     
+     - Parameter scrollView: A scrollView subclass informing the data source.
+     - Returns: An attributed string for the dataset title, combining font, text color, text pararaph style, etc.
+     */
     optional func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
     
+    /**
+     Asks the data source for the description of the dataset.
+     The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
+     
+     - Parameter scrollView: A scrollView subclass informing the data source.
+     - Returns: An attributed string for the dataset description text, combining font, text color, text pararaph style, etc.
+     */
     optional func descriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
     
+    /**
+     Asks the data source for the image of the dataset.
+     
+     - Parameter scrollView: A scrollView subclass informing the data source.
+     - Returns: An image for the dataset.
+     */
     optional func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage?
     
+    /**
+     Asks the data source for a tint color of the image dataset. Default is nil.
+     
+     - Parameter scrollView: A scrollView subclass object informing the data source.
+     - Returns: A color to tint the image of the dataset.
+     */
     optional func imageTintColorForEmptyDataSet(scrollView: UIScrollView) -> UIImage?
     
+    /**
+     *  Asks the data source for the image animation of the dataset.
+     *
+     *  - Parameter scrollView: A scrollView subclass object informing the delegate.
+     *
+     *  - Returns: image animation
+     */
+    optional func imageAnimationForEmptyDataSet(scrollView: UIScrollView) -> CAAnimation
+    
+    /**
+     Asks the data source for the title to be used for the specified button state.
+     The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
+     
+     - Parameter scrollView: A scrollView subclass object informing the data source.
+     - Parameter state: The state that uses the specified title. The possible values are described in UIControlState.
+     - Returns: An attributed string for the dataset button title, combining font, text color, text pararaph style, etc.
+     */
     optional func buttonTitleForEmptyDataSet(scrollView: UIScrollView, state: UIControlState) -> NSAttributedString?
     
+    /**
+     Asks the data source for the image to be used for the specified button state.
+     This method will override buttonTitleForEmptyDataSet:forState: and present the image only without any text.
+     
+     - Parameter scrollView: A scrollView subclass object informing the data source.
+     - Parameter state: The state that uses the specified title. The possible values are described in UIControlState.
+     - Returns: An image for the dataset button imageview.
+     */
     optional func buttonImageForEmptyDataSet(scrollView: UIScrollView, state: UIControlState) -> UIImage?
     
+    /**
+     Asks the data source for a background image to be used for the specified button state.
+     There is no default style for this call.
+     
+     - Parameter scrollView: A scrollView subclass informing the data source.
+     - Parameter state: The state that uses the specified image. The values are described in UIControlState.
+     - Returns: An attributed string for the dataset button title, combining font, text color, text pararaph style, etc.
+     */
     optional func buttonBackgroundImageForEmptyDataSet(scrollView: UIScrollView, state: UIControlState) -> UIImage?
     
+    /**
+     Asks the data source for the background color of the dataset. Default is clear color.
+     
+     - Parameter scrollView: A scrollView subclass object informing the data source.
+     - Returns: A color to be applied to the dataset background view.
+     */
     optional func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor?
     
+    /**
+     Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
+     Use this method to show an activity view indicator for loading feedback, or for complete custom empty data set.
+     Returning a custom view will ignore -offsetForEmptyDataSet and -spaceHeightForEmptyDataSet configurations.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: The custom view.
+     */
     optional func customViewForEmptyDataSet(scrollView: UIScrollView) -> UIImage?
     
+    /**
+     Asks the data source for a offset for vertical and horizontal alignment of the content. Default is CGPointZero.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: The offset for vertical and horizontal alignment.
+     */
     optional func verticalOffsetForEmptyDataSet(scrollView: UIScrollView) -> CGFloat
     
+    /**
+     Asks the data source for a vertical space between elements. Default is 11 pts.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: The space height between elements.
+     */
     optional func spaceHeightForEmptyDataSet(scrollView: UIScrollView) -> CGFloat
 }
 
 // TODO: Add documentation once completed
+/**
+ The protocol that acts as the delegate of the empty datasets.
+ The delegate can adopt the DZNEmptyDataSetDelegate protocol. The delegate is not retained. All delegate methods are optional.
+ 
+ All delegate methods are optional. Use this delegate for receiving action callbacks.
+ */
 @objc public protocol DZNEmptyDataSetDelegate : NSObjectProtocol {
     
+    /**
+     Asks the delegate to know if the empty dataset should be rendered and displayed. Default is true.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: true if the empty dataset should show.
+     */
     optional func emptyDataSetShouldDisplay(scrollView: UIScrollView) -> Bool
     
+    /**
+     Asks the delegate for touch permission. Default is true.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: true if the empty dataset receives touch gestures.
+     */
     optional func emptyDataSetShouldAllowTouch(scrollView: UIScrollView) -> Bool
     
+    /**
+     Asks the delegate for scroll permission. Default is false.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: true if the empty dataset is allowed to be scrollable.
+     */
     optional func emptyDataSetShouldAllowScroll(scrollView: UIScrollView) -> Bool
     
+    /**
+     Asks the delegate to know if the empty dataset should fade in when displayed. Default is true.
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: true if the empty dataset should fade in.
+     */
     optional func emptyDataSetShouldFadeIn(scrollView: UIScrollView) -> Bool
     
+    /**
+     Asks the delegate for image view animation permission. Default is false.
+     Make sure to return a valid CAAnimation object from imageAnimationForEmptyDataSet:
+     
+     - Parameter scrollView: A scrollView subclass object informing the delegate.
+     - Returns: true if the empty dataset is allowed to animate
+     */
     optional func emptyDataSetShouldAnimateImageView(scrollView: UIScrollView) -> Bool
     
+    /**
+     Tells the delegate that the empty dataset view was tapped.
+     Use this method either to resignFirstResponder of a textfield or searchBar.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     - Parameter view: the view tapped by the user
+     */
     optional func emptyDataSet(scrollView: UIScrollView, didTapView: UIView)
     
+    /**
+     Tells the delegate that the action button was tapped.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     - Parameter button: the button tapped by the user
+     */
     optional func emptyDataSet(scrollView: UIScrollView, didTapButton: UIButton)
     
+    /**
+     Tells the delegate that the empty data set will appear.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     */
     optional func emptyDataSetWillAppear(scrollView: UIScrollView)
     
+    /**
+     Tells the delegate that the empty data set did appear.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     */
     optional func emptyDataSetDidAppear(scrollView: UIScrollView)
     
+    /**
+     Tells the delegate that the empty data set will disappear.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     */
     optional func emptyDataSetWillDisappear(scrollView: UIScrollView)
     
+    /**
+     Tells the delegate that the empty data set did disappear.
+     
+     - Parameter scrollView: A scrollView subclass informing the delegate.
+     */
     optional func emptyDataSetDidDisappear(scrollView: UIScrollView)
+}
+
+// MARK: - EmptyDataSet protocol
+
+
+/// protocol EmptyDataSet
+/// Instances of conforming UIView subclasses can show empty datasets whenever the view has no content to display.
+protocol EmptyDataSet {
+    func doSwizzle() -> Bool
+    func isEmpty() -> Bool
 }
 
 // MARK: - UIScrollView extension
@@ -91,9 +258,14 @@ extension UIScrollView {
         }
     }
     
-    // TODO: Not implemented yet
+    /// returns true if the Empty Data Set View is visible,
+    /// false otherwise
     var isEmptyDataSetVisible: Bool {
-        return false
+        if let view = emptyDataSetView {
+            return !view.hidden
+        } else {
+            return false
+        }
     }
     
     
@@ -118,9 +290,9 @@ extension UIScrollView {
                 view = DZNEmptyDataSetView(frame: self.bounds)
                 view?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
                 view?.backgroundColor = .clearColor()
-                view?.hidden = false
+                view?.hidden = true
                 
-                let tapGesture = UITapGestureRecognizer.init(target: self, action: Selector("didTapView:"))
+                let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapView(_:)))
                 view?.addGestureRecognizer(tapGesture)
                 
                 self.emptyDataSetView = view
@@ -145,9 +317,6 @@ extension UIScrollView {
     
     public func reloadEmptyDataSet() {
         
-        // Calls the original implementation
-        self.reloadEmptyDataSet()
-        
         self.invalidateLayout()
         
         guard self.canDisplay && self.shouldDisplay else { return }
@@ -162,7 +331,7 @@ extension UIScrollView {
             imageView.image = image;
             view.contentView.addSubview(imageView)
             
-            counter++
+            counter += 1
         }
         
         // Configure title label
@@ -170,7 +339,7 @@ extension UIScrollView {
             label.attributedText = attributedText;
             view.contentView.addSubview(label)
             
-            counter++
+            counter += 1
         }
         
         // Configure detail label
@@ -178,7 +347,7 @@ extension UIScrollView {
             label.attributedText = attributedText;
             view.contentView.addSubview(label)
             
-            counter++
+            counter += 1
         }
         
         // Configure button
@@ -186,16 +355,16 @@ extension UIScrollView {
             button.setAttributedTitle(attributedText, forState: .Normal)
             view.contentView.addSubview(button)
             
-            button.addTarget(self, action: Selector("didTapView:"), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: #selector(didTapView(_:)), forControlEvents: .TouchUpInside)
             
-            counter++
+            counter += 1
         }
         
         guard counter > 0 else { return }
         
         willAppear()
         
-        // Configure the contnet view
+        // Configure the content view
         view.hidden = false
         view.clipsToBounds = true
         view.fadeInOnDisplay = self.shouldFadeIn
@@ -216,148 +385,84 @@ extension UIScrollView {
     }
     
     // TODO: Add tests
-    private var itemsCount: Int {
-        
-        var items = 0
-        
-        guard self.respondsToSelector(Selector("dataSource")) else { return items }
-        
-        if let tableView = self as? UITableView {
-            guard let sections = tableView.dataSource?.numberOfSectionsInTableView?(tableView) else { return items }
-            
-            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
-                guard let item = tableView.dataSource?.tableView(tableView, numberOfRowsInSection: i) else { continue }
-                items += item
-            }
-        }
-        else if let collectionView = self as? UICollectionView {
-            guard let sections = collectionView.dataSource?.numberOfSectionsInCollectionView?(collectionView) else { return items }
-            
-            for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
-                guard let item = collectionView.dataSource?.collectionView(collectionView, numberOfItemsInSection: i) else { continue }
-                items += item
-            }
-        }
-        
-        return items
-    }
-    
-    // TODO: Add tests
     private var sectionsToIgnore: NSIndexSet {
-        guard let emptyDataSetSource = emptyDataSetSource where emptyDataSetSource.respondsToSelector(Selector("sectionsToIgnore")) else { return NSIndexSet(index: -1) }
-        guard let indexSet = emptyDataSetSource.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
+        guard let indexSet = emptyDataSetSource?.sectionsToIgnore?(self) else { return NSIndexSet(index: -1) }
         
         return indexSet
     }
     
     private var attributedTitle: NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.titleForEmptyDataSet where datasource.respondsToSelector(Selector("titleForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.titleForEmptyDataSet?(self)
     }
     
     private var attributedDescription: NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.descriptionForEmptyDataSet where datasource.respondsToSelector(Selector("descriptionForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.descriptionForEmptyDataSet?(self)
     }
     
     private var topImage: UIImage? {
-        if let datasource = emptyDataSetSource, callback = datasource.imageForEmptyDataSet where datasource.respondsToSelector(Selector("imageForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return nil
+        return emptyDataSetSource?.imageForEmptyDataSet?(self)
     }
     
     private func attributedButtonTitle(state: UIControlState) -> NSAttributedString? {
-        if let datasource = emptyDataSetSource, callback = datasource.buttonTitleForEmptyDataSet:state: where datasource.respondsToSelector(Selector("buttonTitleForEmptyDataSet:state:")) {
-            return callback(self, state: state)
-        }
-        return nil
+        return emptyDataSetSource?.buttonTitleForEmptyDataSet?(self, state: state)
     }
     
     private var verticalOffset: CGFloat {
-        if let datasource = emptyDataSetSource, callback = datasource.verticalOffsetForEmptyDataSet where datasource.respondsToSelector(Selector("verticalOffsetForEmptyDataSet:")) {
-            return callback(self)
-        }
-        return 0
+        return emptyDataSetSource?.verticalOffsetForEmptyDataSet?(self) ?? 0
     }
     
     private func backgroundColor() -> UIColor {
-        if let color = (emptyDataSetSource?.backgroundColorForEmptyDataSet?(self)) {
-            return color
-        }
-        return .clearColor()
+        return emptyDataSetSource?.backgroundColorForEmptyDataSet?(self) ?? .clearColor()
     }
     
     private var canDisplay: Bool {
-        return self.itemsCount > 0 ? false : true
+        if let selfAsEmptyDataSet = self as? EmptyDataSet {
+            return selfAsEmptyDataSet.isEmpty()
+        } else {
+            print("\(self.dynamicType) should conform to protocol EmptyDataset")
+            return false
+        }
     }
     
     private var shouldDisplay: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldDisplay where delegate.respondsToSelector(Selector("emptyDataSetShouldDisplay:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldDisplay?(self) ?? true
     }
     
     private var shouldFadeIn: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldFadeIn where delegate.respondsToSelector(Selector("emptyDataSetShouldFadeIn:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldFadeIn?(self) ?? true
     }
     
     private var shouldScroll: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldAllowScroll where delegate.respondsToSelector(Selector("emptyDataSetShouldAllowScroll:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldAllowScroll?(self) ?? true
     }
     
     private var shouldTouch: Bool {
-        if let delegate = emptyDataSetDelegate, callback = delegate.emptyDataSetShouldAllowTouch where delegate.respondsToSelector(Selector("emptyDataSetShouldAllowTouch:")) {
-            return callback(self)
-        }
-        return true
+        return emptyDataSetDelegate?.emptyDataSetShouldAllowTouch?(self) ?? true
     }
     
     func didTapView(sender: AnyObject?) {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSet:didTapView:")) {
-            
-            if let view = sender where sender is UIView {
-                delegate.emptyDataSet?(self, didTapView: view as! UIView)
-            }
-            else if let view = sender?.view where sender is UIGestureRecognizer {
-                delegate.emptyDataSet?(self, didTapView: view!)
-            }
+        if let view = sender where sender is UIView {
+            emptyDataSetDelegate?.emptyDataSet?(self, didTapView: view as! UIView)
+        }
+        else if let view = sender?.view where sender is UIGestureRecognizer {
+            emptyDataSetDelegate?.emptyDataSet?(self, didTapView: view)
         }
     }
     
     func willAppear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetWillAppear:")) {
-            delegate.emptyDataSetWillAppear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetWillAppear?(self)
     }
     
     func didAppear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetDidAppear:")) {
-            delegate.emptyDataSetDidAppear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetDidAppear?(self)
     }
     
     func willDisappear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetWillDisappear:")) {
-            delegate.emptyDataSetWillDisappear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetWillDisappear?(self)
     }
     
     func didDisappear() {
-        if let delegate = emptyDataSetDelegate where delegate.respondsToSelector(Selector("emptyDataSetDidDisappear:")) {
-            delegate.emptyDataSetDidDisappear?(self)
-        }
+        emptyDataSetDelegate?.emptyDataSetDidDisappear?(self)
     }
     
     private func invalidateLayout() {
@@ -366,9 +471,12 @@ extension UIScrollView {
         
         willDisappear()
         
+        // hides the empty data set view
+        emptyDataSetView?.hidden = true
+        
         // Cleans up the empty data set view
-        self.emptyDataSetView?.removeFromSuperview()
-        self.emptyDataSetView = nil
+//        self.emptyDataSetView?.removeFromSuperview()
+//        self.emptyDataSetView = nil
         
         self.scrollEnabled = true
         
@@ -381,12 +489,11 @@ extension UIScrollView {
     private func swizzleIfNeeded() {
         
         if !didSwizzle {
-            let newSelector = Selector("reloadEmptyDataSet")
-            
-            didSwizzle = swizzle(Selector("reloadData"), swizzledSelector: newSelector)
-            
-            // TODO: Swizzling works, but whenever we swizzle this other method, it breaks.
-            //didSwizzle = swizzle(Selector("endUpdates"), swizzledSelector: newSelector)
+            if let selfAsEmptyDataSet = self as? EmptyDataSet {
+                didSwizzle = selfAsEmptyDataSet.doSwizzle()
+            } else {
+                print("\(self.dynamicType) should conform to protocol EmptyDataset")
+            }
         }
     }
     
@@ -411,6 +518,107 @@ extension UIScrollView {
     }
 }
 
+// MARK: -
+extension UITableView: EmptyDataSet {
+
+    func doSwizzle() -> Bool {
+        
+        var didSwizzle = false
+
+        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let originalReloadDataSelector = #selector(UITableView.reloadData)
+        didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+        
+        let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
+        let originalEndUpdatesSelector = #selector(UITableView.endUpdates)
+        didSwizzle = didSwizzle &&
+            swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+        
+        return didSwizzle
+    }
+    
+    func isEmpty() -> Bool {
+        var items = 0
+        let sections = dataSource?.numberOfSectionsInTableView?(self) ?? 1
+        
+        for i in 0..<sections where !self.sectionsToIgnore.containsIndex(i) {
+            guard let item = self.dataSource?.tableView(self, numberOfRowsInSection: i) else { continue }
+            items += item
+        }
+        return items == 0
+    }
+
+    public func reloadDataEmptyDataSet()
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.reloadDataEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func endUpdatesEmptyDataSet()
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.endUpdatesEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+}
+
+extension UICollectionView: EmptyDataSet {
+
+    func doSwizzle() -> Bool {
+
+        var didSwizzle = false
+
+        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let originalReloadDataSelector = #selector(UICollectionView.reloadData)
+        didSwizzle = swizzle(originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
+        
+        let newEndUpdatesSelector = #selector(performBatchUpdatesEmptyDataSet)
+        let originalEndUpdatesSelector = #selector(UICollectionView.performBatchUpdates(_:completion:))
+        didSwizzle = didSwizzle &&
+            swizzle(originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
+        
+        return didSwizzle
+    }
+    
+    func isEmpty() -> Bool {
+        var items = 0
+        let sections = dataSource?.numberOfSectionsInCollectionView?(self) ?? 1
+        
+        for i in 0..<sections where !sectionsToIgnore.containsIndex(i) {
+            guard let item = dataSource?.collectionView(self, numberOfItemsInSection: i) else { continue }
+            items += item
+        }
+        return items == 0
+    }
+    
+    public func reloadDataEmptyDataSet()
+    {
+        
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.reloadDataEmptyDataSet()
+        
+        reloadEmptyDataSet()
+    }
+    
+    public func performBatchUpdatesEmptyDataSet(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+    {
+        print("\(self.dynamicType).\(#function)")
+        
+        // Calls the original implementation
+        self.performBatchUpdatesEmptyDataSet(updates, completion: completion)
+        
+        reloadEmptyDataSet()
+    }
+}
 
 // MARK: - DZNEmptyDataSetView
 private class DZNEmptyDataSetView: UIView, UIGestureRecognizerDelegate {
