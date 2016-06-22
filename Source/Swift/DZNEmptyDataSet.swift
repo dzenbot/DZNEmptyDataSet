@@ -8,12 +8,9 @@
 
 import UIKit
 
-// TODO: Add documentation once completed
-/**
- The protocol that acts as the data source of the empty datasets.
- 
- The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
- */
+/// The protocol that acts as the data source of the empty datasets.
+///
+/// The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
 @objc public protocol DZNEmptyDataSetSource : NSObjectProtocol {
     
     ///
@@ -261,9 +258,14 @@ extension UIScrollView {
         }
     }
     
-    // TODO: Not implemented yet
+    /// returns true if the Empty Data Set View is visible,
+    /// false otherwise
     var isEmptyDataSetVisible: Bool {
-        return false
+        if let view = emptyDataSetView {
+            return !view.hidden
+        } else {
+            return false
+        }
     }
     
     
@@ -288,7 +290,7 @@ extension UIScrollView {
                 view = DZNEmptyDataSetView(frame: self.bounds)
                 view?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
                 view?.backgroundColor = .clearColor()
-                view?.hidden = false
+                view?.hidden = true
                 
                 let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapView(_:)))
                 view?.addGestureRecognizer(tapGesture)
@@ -362,7 +364,7 @@ extension UIScrollView {
         
         willAppear()
         
-        // Configure the contnet view
+        // Configure the content view
         view.hidden = false
         view.clipsToBounds = true
         view.fadeInOnDisplay = self.shouldFadeIn
@@ -469,9 +471,12 @@ extension UIScrollView {
         
         willDisappear()
         
+        // hides the empty data set view
+        emptyDataSetView?.hidden = true
+        
         // Cleans up the empty data set view
-        self.emptyDataSetView?.removeFromSuperview()
-        self.emptyDataSetView = nil
+//        self.emptyDataSetView?.removeFromSuperview()
+//        self.emptyDataSetView = nil
         
         self.scrollEnabled = true
         
