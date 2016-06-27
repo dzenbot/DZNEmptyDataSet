@@ -255,6 +255,16 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return [UIColor clearColor];
 }
 
+- (void)dzn_dataSetBackgroundGradient
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundGradientForEmptyDataSet:)]) {
+        CAGradientLayer *gradient = [self.emptyDataSetSource backgroundGradientForEmptyDataSet:self];
+        if (gradient) NSAssert([gradient isKindOfClass:[CAGradientLayer class]], @"You must return a valid CAGradientLayer object for -backgroundGradientForEmptyDataSet:");
+        gradient.frame = self.bounds;
+        [self.layer insertSublayer:gradient atIndex:0];
+    }
+}
+
 - (UIView *)dzn_customView
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(customViewForEmptyDataSet:)]) {
@@ -521,6 +531,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure the empty dataset view
         view.backgroundColor = [self dzn_dataSetBackgroundColor];
+        [self dzn_dataSetBackgroundGradient]
         view.hidden = NO;
         view.clipsToBounds = YES;
         
