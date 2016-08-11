@@ -69,7 +69,7 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 ```
 Unless you are importing as a framework, then do:
 ```objc
-#import "<DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 ```
 
 ### Protocol Conformance
