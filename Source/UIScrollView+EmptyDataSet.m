@@ -749,7 +749,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     }
 }
 
-- (void)fillInSuperview {
+- (void)fillInSuperview
+{
     [self fixIssueWithNegativeOriginBounds];
 }
 
