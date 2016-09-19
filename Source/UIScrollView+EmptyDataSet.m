@@ -364,7 +364,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)dzn_didTapContentView:(id)sender
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
-        [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
+        [self.emptyDataSetDelegate emptyDataSet:self didTapView:[sender view]];
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
