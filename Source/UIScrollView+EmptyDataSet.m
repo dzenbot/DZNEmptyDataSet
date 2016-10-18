@@ -245,6 +245,33 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return nil;
 }
 
+- (CGFloat)dzn_buttonBorderWidth {
+    CGFloat width = 0.0;
+    
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBorderWidthForEmptyDataSet:)])
+        width = [self.emptyDataSetSource buttonBorderWidthForEmptyDataSet:self];
+    
+    return width;
+}
+
+- (CGColorRef)dzn_buttonBorderColor {
+    CGColorRef color = [UIColor clearColor].CGColor;
+    
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBorderColorForEmptyDataSet:)])
+        color = [self.emptyDataSetSource buttonBorderColorForEmptyDataSet:self];
+    
+    return color;
+}
+
+- (CGFloat)dzn_buttonCornerRadius {
+    CGFloat radius = 0.0;
+    
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBorderCornerRadiusForEmptyDataSet:)])
+        radius = [self.emptyDataSetSource buttonBorderCornerRadiusForEmptyDataSet:self];
+    
+    return radius;
+}
+
 - (UIColor *)dzn_dataSetBackgroundColor
 {
     if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(backgroundColorForEmptyDataSet:)]) {
@@ -513,6 +540,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                 [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
                 [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
                 [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+
+                view.button.layer.masksToBounds = YES;
+                view.button.layer.borderWidth = [self dzn_buttonBorderWidth];
+                view.button.layer.borderColor = [self dzn_buttonBorderColor];
+                view.button.layer.cornerRadius = [self dzn_buttonCornerRadius];
+                view.button.tintColor = [UIColor colorWithCGColor:[self dzn_buttonBorderColor]];
             }
         }
         
