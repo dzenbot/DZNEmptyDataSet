@@ -542,6 +542,24 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                 [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
 
                 view.button.layer.masksToBounds = YES;
+                [view.button sizeToFit];
+                
+                [view.button addConstraint:[NSLayoutConstraint constraintWithItem:view.button
+                                                                        attribute:NSLayoutAttributeWidth
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:nil
+                                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                                       multiplier:1
+                                                                         constant:view.button.frame.size.width + 60]];
+                
+                [view.contentView addConstraint:[NSLayoutConstraint constraintWithItem:view.button
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:view.contentView
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                            multiplier:1
+                                                                              constant:0]];
+                
                 view.button.layer.borderWidth = [self dzn_buttonBorderWidth];
                 view.button.layer.borderColor = [self dzn_buttonBorderColor];
                 view.button.layer.cornerRadius = [self dzn_buttonCornerRadius];
