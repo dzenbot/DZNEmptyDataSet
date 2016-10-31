@@ -206,7 +206,7 @@ static NSString *_preferredDateFormat = nil;
     NSMutableArray *contentComponents = [NSMutableArray arrayWithArray:[string componentsSeparatedByString:@"\n"]];
     
     // Retrieves the key paths of the objects, and removes it from the content
-    NSArray *keyPaths = [[contentComponents objectAtIndex:0] componentsSeparatedByString:@","];
+    NSArray *keyPaths = [contentComponents[0] componentsSeparatedByString:@","];
     [contentComponents removeObjectAtIndex:0];
     
     // The string that will wrap every object
@@ -220,8 +220,8 @@ static NSString *_preferredDateFormat = nil;
         
         [itemComponents enumerateObjectsUsingBlock:^(id obj, NSUInteger j, BOOL *stop) {
             
-            NSString *attribute = [itemComponents objectAtIndex:j];
-            NSString *key = [keyPaths objectAtIndex:j];
+            NSString *attribute = itemComponents[j];
+            NSString *key = keyPaths[j];
             
             NSString *value = ([self isNumeric:attribute]) ? [NSString stringWithFormat:@"%@",attribute] : [NSString stringWithFormat:@"\"%@\"",attribute];
 
