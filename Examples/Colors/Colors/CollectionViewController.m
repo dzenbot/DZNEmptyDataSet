@@ -289,7 +289,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     [self.collectionView reloadData];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

@@ -1,0 +1,27 @@
+{
+  "name": "DZNEmptyDataSet",
+  "version": "1.8",
+  "summary": "A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.",
+  "description": "It will work automatically, by just conforming to DZNEmptyDataSetSource, and returning the data you want to show. The -reloadData call will be observed so the empty dataset will be configured whenever needed.",
+  "homepage": "https://github.com/dzenbot/DZNEmptyDataSet",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "dzenbot": "iromero@dzen.cl"
+  },
+  "platforms": {
+    "ios": "6.0"
+  },
+  "source": {
+    "git": "https://github.com/dzenbot/DZNEmptyDataSet.git",
+    "tag": "v1.8"
+  },
+  "source_files": [
+    "Classes",
+    "Source/**/*.{h,m}"
+  ],
+  "requires_arc": true,
+  "frameworks": "UIKit"
+}

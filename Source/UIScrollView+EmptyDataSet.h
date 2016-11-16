@@ -4,14 +4,18 @@
 //  https://github.com/dzenbot/DZNEmptyDataSet
 //
 //  Created by Ignacio Romero Zurbuchen on 6/20/14.
-//  Copyright (c) 2014 DZN Labs. All rights reserved.
+//  Copyright (c) 2016 DZN Labs. All rights reserved.
 //  Licence: MIT-Licence
 //
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DZNEmptyDataSetSource;
 @protocol DZNEmptyDataSetDelegate;
+
+#define DZNEmptyDataSetDeprecated(instead) DEPRECATED_MSG_ATTRIBUTE(" Use " # instead " instead")
 
 /**
  A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.
@@ -20,9 +24,9 @@
 @interface UIScrollView (EmptyDataSet)
 
 /** The empty datasets data source. */
-@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource;
+@property (nonatomic, weak, nullable) IBOutlet id <DZNEmptyDataSetSource> emptyDataSetSource;
 /** The empty datasets delegate. */
-@property (nonatomic, weak) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
+@property (nonatomic, weak, nullable) IBOutlet id <DZNEmptyDataSetDelegate> emptyDataSetDelegate;
 /** YES if any empty dataset is visible. */
 @property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;
 
@@ -49,7 +53,7 @@
  @param scrollView A scrollView subclass informing the data source.
  @return An attributed string for the dataset title, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for the description of the dataset.
@@ -58,7 +62,7 @@
  @param scrollView A scrollView subclass informing the data source.
  @return An attributed string for the dataset description text, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for the image of the dataset.
@@ -66,7 +70,7 @@
  @param scrollView A scrollView subclass informing the data source.
  @return An image for the dataset.
  */
-- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView;
 
 
 /**
@@ -75,7 +79,7 @@
  @param scrollView A scrollView subclass object informing the data source.
  @return A color to tint the image of the dataset.
  */
-- (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  *  Asks the data source for the image animation of the dataset.
@@ -84,7 +88,7 @@
  *
  *  @return image animation
  */
-- (CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *) scrollView;
+- (nullable CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for the title to be used for the specified button state.
@@ -94,7 +98,7 @@
  @param state The state that uses the specified title. The possible values are described in UIControlState.
  @return An attributed string for the dataset button title, combining font, text color, text pararaph style, etc.
  */
-- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
+- (nullable NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
 
 /**
  Asks the data source for the image to be used for the specified button state.
@@ -104,7 +108,7 @@
  @param state The state that uses the specified title. The possible values are described in UIControlState.
  @return An image for the dataset button imageview.
  */
-- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
+- (nullable UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
 
 /**
  Asks the data source for a background image to be used for the specified button state.
@@ -114,7 +118,7 @@
  @param state The state that uses the specified image. The values are described in UIControlState.
  @return An attributed string for the dataset button title, combining font, text color, text pararaph style, etc.
  */
-- (UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
+- (nullable UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
 
 /**
  Asks the data source for the background color of the dataset. Default is clear color.
@@ -122,7 +126,7 @@
  @param scrollView A scrollView subclass object informing the data source.
  @return A color to be applied to the dataset background view.
  */
-- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
@@ -132,7 +136,7 @@
  @param scrollView A scrollView subclass object informing the delegate.
  @return The custom view.
  */
-- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
  Asks the data source for a offset for vertical and horizontal alignment of the content. Default is CGPointZero.
@@ -140,7 +144,7 @@
  @param scrollView A scrollView subclass object informing the delegate.
  @return The offset for vertical and horizontal alignment.
  */
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use -verticalOffsetForEmptyDataSet:");
+- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-verticalOffsetForEmptyDataSet:);
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
@@ -170,6 +174,14 @@
  @return YES if the empty dataset should fade in.
  */
 - (BOOL)emptyDataSetShouldFadeIn:(UIScrollView *)scrollView;
+
+/**
+ Asks the delegate to know if the empty dataset should still be displayed when the amount of items is more than 0. Default is NO
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return YES if empty dataset should be forced to display
+ */
+- (BOOL)emptyDataSetShouldBeForcedToDisplay:(UIScrollView *)scrollView;
 
 /**
  Asks the delegate to know if the empty dataset should be rendered and displayed. Default is YES.
@@ -210,14 +222,14 @@
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapView:");
+- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-emptyDataSet:didTapView:);
 
 /**
  Tells the delegate that the action button was tapped.
  
  @param scrollView A scrollView subclass informing the delegate.
  */
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView DEPRECATED_MSG_ATTRIBUTE("Use emptyDataSet:didTapButton:");
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView DZNEmptyDataSetDeprecated(-emptyDataSet:didTapButton:);
 
 /**
  Tells the delegate that the empty dataset view was tapped.
@@ -265,3 +277,7 @@
 - (void)emptyDataSetDidDisappear:(UIScrollView *)scrollView;
 
 @end
+
+#undef DZNEmptyDataSetDeprecated
+
+NS_ASSUME_NONNULL_END

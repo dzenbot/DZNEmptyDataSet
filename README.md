@@ -25,7 +25,7 @@ Please read this very interesting article about [*Designing For The Empty States
 * Avoiding white-screens and communicating to your users why the screen is empty.
 * Calling to action (particularly as an onboarding process).
 * Avoiding other interruptive mechanisms like showing error alerts.
-* Beeing consistent and improving the user experience.
+* Being consistent and improving the user experience.
 * Delivering a brand presence.
 
 
@@ -38,8 +38,8 @@ Please read this very interesting article about [*Designing For The Empty States
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* Compatible with iOS 6 or later.
-* Compatible with iPhone and iPad.
+* Compatible with iOS 6, tvOS 9, or later.
+* Compatible with iPhone, iPad, and Apple TV.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
@@ -48,13 +48,14 @@ By just conforming to DZNEmptyDataSetSource & DZNEmptyDataSetDelegate, you will 
 
 ## Installation
 
-Available in [Cocoa Pods](http://cocoapods.org/?q=DZNEmptyDataSet)
+Available in [CocoaPods](http://cocoapods.org/?q=DZNEmptyDataSet)
 ```ruby
 pod 'DZNEmptyDataSet'
 ```
+
 To integrate DZNEmptyDataSet into your Xcode project using Carthage, specify it in your `Cartfile`:
 
-```ogdl
+```ruby
 github "dzenbot/DZNEmptyDataSet"
 ```
 
@@ -65,6 +66,10 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 ### Import
 ```objc
 #import "UIScrollView+EmptyDataSet.h"
+```
+Unless you are importing as a framework, then do:
+```objc
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 ```
 
 ### Protocol Conformance
@@ -92,23 +97,6 @@ The image for the empty state:
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"empty_placeholder"];
-}
-```
-
-The image view animation
-```objc
-- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
-{
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    
-    return animation;
 }
 ```
 
@@ -179,6 +167,23 @@ If you need a more complex layout, you can return a custom view instead:
 }
 ```
 
+The image view animation
+```objc
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+```
+
 Additionally, you can also adjust the vertical alignment of the content view (ie: useful when there is tableHeaderView visible):
 ```objc
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
@@ -233,7 +238,7 @@ Asks for image view animation permission (Default is NO) :
 
 Notifies when the dataset view was tapped:
 ```objc
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
     // Do something
 }
@@ -241,7 +246,7 @@ Notifies when the dataset view was tapped:
 
 Notifies when the data set call to action button was tapped:
 ```objc
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
     // Do something
 }
@@ -260,7 +265,7 @@ or
 depending of which you are using.
 
 ### Force layout update
-You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty state layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on your data source that you want to avoid calling, when not needed. `[self.tableView reloadEmptyDataSet]` is the only way to refresh content when using with UIScrollView.
+You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty state layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on your data source that you want to avoid calling, when not needed. `[self.scrollView reloadEmptyDataSet]` is the only way to refresh content when using with UIScrollView.
 
 
 ## Sample projects
@@ -282,7 +287,7 @@ Feel free to collaborate with ideas, issues and/or pull requests.
 ## License
 (The MIT License)
 
-Copyright (c) 2015 Ignacio Romero Zurbuchen iromero@dzen.cl
+Copyright (c) 2016 Ignacio Romero Zurbuchen iromero@dzen.cl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

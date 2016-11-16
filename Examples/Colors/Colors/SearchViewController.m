@@ -243,7 +243,6 @@
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
-
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -257,8 +256,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s",__FUNCTION__);
-    
     return self.searchResult.count;
 }
 
@@ -338,7 +335,7 @@
     [self adjustToDeviceOrientation];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }
