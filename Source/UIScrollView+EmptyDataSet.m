@@ -735,7 +735,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)didMoveToSuperview
 {
-    self.frame = self.superview.bounds;
+    //MJRefresh changes contentInset. So scrollView.origin.y isn't equalt to 0. It will case empty view position offset.
+    self.frame = CGRectMake(0, 0, self.superview.frame.size.width, self.superview.frame.size.height);
     
     void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
     
