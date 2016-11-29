@@ -448,6 +448,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         
+        // Configure empty dataset fade in display
+        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
+        
         if (!view.superview) {
             // Send the view all the way to the back, in case a header and/or footer is present, as well as for sectionHeaders or any other content
             if (([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) && self.subviews.count > 1) {
@@ -526,9 +529,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
-        
-        // Configure empty dataset fade in display
-        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
         [view setupConstraints];
         
@@ -735,17 +735,19 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)didMoveToSuperview
 {
-    self.frame = self.superview.bounds;
-    
-    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
-    
-    if (self.fadeInOnDisplay) {
-        [UIView animateWithDuration:0.25
-                         animations:fadeInBlock
-                         completion:NULL];
-    }
-    else {
-        fadeInBlock();
+    [super didMoveToSuperview];
+    if (self.superview) {
+        
+        self.frame = self.superview.bounds;
+        
+        if (self.fadeInOnDisplay) {
+            CABasicAnimation *alpha = [CABasicAnimation animationWithKeyPath:@"opacity"];
+            alpha.fromValue = @0;
+            alpha.toValue = @1;
+            alpha.duration = 0.25;
+            [_contentView.layer addAnimation:alpha forKey:@"alpha"];
+        }
+        
     }
 }
 
@@ -760,7 +762,6 @@ Class dzn_baseClassToSwizzleForTarget(id target)
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
         _contentView.userInteractionEnabled = YES;
-        _contentView.alpha = 0;
     }
     return _contentView;
 }
