@@ -1,0 +1,6 @@
+framework module Pods_DZNEmptyDataSetTests {
+  umbrella header "Pods-DZNEmptyDataSetTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
