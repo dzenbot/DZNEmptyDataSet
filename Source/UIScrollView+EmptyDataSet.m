@@ -145,7 +145,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         UICollectionView *collectionView = (UICollectionView *)self;
         id <UICollectionViewDataSource> dataSource = collectionView.dataSource;
-        
+
         NSInteger sections = 1;
         
         if (dataSource && [dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
@@ -735,7 +735,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)didMoveToSuperview
 {
-    [self fillInSuperview];
+    CGRect superviewBounds = self.superview.bounds;
+    self.frame = CGRectMake(0, 0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
     
     void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
     
@@ -747,18 +748,6 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     else {
         fadeInBlock();
     }
-}
-
-- (void)fillInSuperview
-{
-    [self fixIssueWithNegativeOriginBounds];
-}
-
-- (void)fixIssueWithNegativeOriginBounds
-{
-    // self.superview.bounds can return an negative position of it's origin. For more information go to https://github.com/dzenbot/DZNEmptyDataSet/issues/205
-    CGRect superviewBounds = self.superview.bounds;
-    self.frame = CGRectMake(0, 0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
 }
 
 #pragma mark - Getters
