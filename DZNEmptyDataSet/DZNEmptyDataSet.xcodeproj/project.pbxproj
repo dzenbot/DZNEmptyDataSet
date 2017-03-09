@@ -42,6 +42,13 @@
 			remoteGlobalIDString = F58A3E311E66AEE90086E0EF;
 			remoteInfo = DZNEmptyDataSet;
 		};
+		F5BE151F1E713A7100F6FBEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F58A3E621E66B5410086E0EF;
+			remoteInfo = Applications;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -283,6 +290,7 @@
 			);
 			dependencies = (
 				F58A3E3E1E66AEE90086E0EF /* PBXTargetDependency */,
+				F5BE15201E713A7100F6FBEA /* PBXTargetDependency */,
 			);
 			name = DZNEmptyDataSetTests;
 			productName = DZNEmptyDataSetTests;
@@ -321,8 +329,7 @@
 					};
 					F58A3E3A1E66AEE90086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = B29AGZ557Z;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					F58A3E621E66B5410086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -470,6 +477,11 @@
 			isa = PBXTargetDependency;
 			target = F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */;
 			targetProxy = F58A3E3D1E66AEE90086E0EF /* PBXContainerItemProxy */;
+		};
+		F5BE15201E713A7100F6FBEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F58A3E621E66B5410086E0EF /* Applications */;
+			targetProxy = F5BE151F1E713A7100F6FBEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -630,7 +642,7 @@
 			baseConfigurationReference = 52A7392318BDCC558DB8399F /* Pods-DZNEmptyDataSetTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = B29AGZ557Z;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DZNEmptyDataSetTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSetTests;
@@ -643,7 +655,7 @@
 			baseConfigurationReference = 273E51E5FA96821F8F582949 /* Pods-DZNEmptyDataSetTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = B29AGZ557Z;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DZNEmptyDataSetTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSetTests;
