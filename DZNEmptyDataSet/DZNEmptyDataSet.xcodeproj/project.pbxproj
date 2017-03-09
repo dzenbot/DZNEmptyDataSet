@@ -32,6 +32,20 @@
 		F58A3EAB1E66BD5D0086E0EF /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E7B1E66B62F0086E0EF /* Application.m */; };
 		F58A3EAC1E66BD620086E0EF /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E811E66B62F0086E0EF /* DetailViewController.m */; };
 		F58A3EAD1E66BF270086E0EF /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E921E66B62F0086E0EF /* UIColor+Hexadecimal.m */; };
+		F5BE15291E713E2100F6FBEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15281E713E2100F6FBEA /* main.m */; };
+		F5BE152C1E713E2100F6FBEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE152B1E713E2100F6FBEA /* AppDelegate.m */; };
+		F5BE15341E713E2100F6FBEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15331E713E2100F6FBEA /* Assets.xcassets */; };
+		F5BE15371E713E2100F6FBEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15351E713E2100F6FBEA /* LaunchScreen.storyboard */; };
+		F5BE154A1E713E9300F6FBEA /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE153D1E713E9300F6FBEA /* CollectionViewController.m */; };
+		F5BE154B1E713E9300F6FBEA /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15401E713E9300F6FBEA /* Color.m */; };
+		F5BE154C1E713E9300F6FBEA /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15411E713E9300F6FBEA /* colors.json */; };
+		F5BE154D1E713E9300F6FBEA /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15431E713E9300F6FBEA /* Palette.m */; };
+		F5BE154E1E713E9300F6FBEA /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15451E713E9300F6FBEA /* UIColor+Hex.m */; };
+		F5BE154F1E713E9300F6FBEA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15471E713E9300F6FBEA /* SearchViewController.m */; };
+		F5BE15501E713E9300F6FBEA /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15491E713E9300F6FBEA /* TableViewController.m */; };
+		F5BE15521E713E9B00F6FBEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15511E713E9B00F6FBEA /* Images.xcassets */; };
+		F5BE15561E713EC800F6FBEA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15551E713EC800F6FBEA /* Storyboard.storyboard */; };
+		F5BE15571E71446300F6FBEA /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +98,28 @@
 		F58A3EA41E66B6D70086E0EF /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		F58A3EA61E66B6F10086E0EF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F58A3EA71E66B6F10086E0EF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F5BE15251E713E2100F6FBEA /* Colors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colors.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5BE15281E713E2100F6FBEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F5BE152A1E713E2100F6FBEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F5BE152B1E713E2100F6FBEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F5BE15331E713E2100F6FBEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F5BE15361E713E2100F6FBEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F5BE15381E713E2100F6FBEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5BE153C1E713E9300F6FBEA /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		F5BE153D1E713E9300F6FBEA /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
+		F5BE153F1E713E9300F6FBEA /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		F5BE15401E713E9300F6FBEA /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
+		F5BE15411E713E9300F6FBEA /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
+		F5BE15421E713E9300F6FBEA /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
+		F5BE15431E713E9300F6FBEA /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
+		F5BE15441E713E9300F6FBEA /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		F5BE15451E713E9300F6FBEA /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		F5BE15461E713E9300F6FBEA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		F5BE15471E713E9300F6FBEA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		F5BE15481E713E9300F6FBEA /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		F5BE15491E713E9300F6FBEA /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		F5BE15511E713E9B00F6FBEA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F5BE15551E713EC800F6FBEA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +144,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5BE15221E713E2100F6FBEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5BE15571E71446300F6FBEA /* DZNEmptyDataSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +181,7 @@
 				F58A3E341E66AEE90086E0EF /* DZNEmptyDataSet */,
 				F58A3E3F1E66AEE90086E0EF /* DZNEmptyDataSetTests */,
 				F58A3E641E66B5410086E0EF /* Sample - Applications */,
+				F5BE15261E713E2100F6FBEA /* Sample - Colors */,
 				F58A3E331E66AEE90086E0EF /* Products */,
 				242E9BB031D3264D62C731D6 /* Pods */,
 				A7CC5E0B0809CA256BDA9067 /* Frameworks */,
@@ -149,6 +194,7 @@
 				F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */,
 				F58A3E3B1E66AEE90086E0EF /* DZNEmptyDataSetTests.xctest */,
 				F58A3E631E66B5410086E0EF /* Applications.app */,
+				F5BE15251E713E2100F6FBEA /* Colors.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,6 +287,51 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		F5BE15261E713E2100F6FBEA /* Sample - Colors */ = {
+			isa = PBXGroup;
+			children = (
+				F5BE152A1E713E2100F6FBEA /* AppDelegate.h */,
+				F5BE152B1E713E2100F6FBEA /* AppDelegate.m */,
+				F5BE153C1E713E9300F6FBEA /* CollectionViewController.h */,
+				F5BE153D1E713E9300F6FBEA /* CollectionViewController.m */,
+				F5BE15461E713E9300F6FBEA /* SearchViewController.h */,
+				F5BE15471E713E9300F6FBEA /* SearchViewController.m */,
+				F5BE15481E713E9300F6FBEA /* TableViewController.h */,
+				F5BE15491E713E9300F6FBEA /* TableViewController.m */,
+				F5BE153E1E713E9300F6FBEA /* DataSource */,
+				F5BE15551E713EC800F6FBEA /* Storyboard.storyboard */,
+				F5BE15511E713E9B00F6FBEA /* Images.xcassets */,
+				F5BE15331E713E2100F6FBEA /* Assets.xcassets */,
+				F5BE15351E713E2100F6FBEA /* LaunchScreen.storyboard */,
+				F5BE15381E713E2100F6FBEA /* Info.plist */,
+				F5BE15271E713E2100F6FBEA /* Supporting Files */,
+			);
+			name = "Sample - Colors";
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		F5BE15271E713E2100F6FBEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F5BE15281E713E2100F6FBEA /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F5BE153E1E713E9300F6FBEA /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				F5BE15411E713E9300F6FBEA /* colors.json */,
+				F5BE153F1E713E9300F6FBEA /* Color.h */,
+				F5BE15401E713E9300F6FBEA /* Color.m */,
+				F5BE15421E713E9300F6FBEA /* Palette.h */,
+				F5BE15431E713E9300F6FBEA /* Palette.m */,
+				F5BE15441E713E9300F6FBEA /* UIColor+Hex.h */,
+				F5BE15451E713E9300F6FBEA /* UIColor+Hex.m */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -314,6 +405,23 @@
 			productReference = F58A3E631E66B5410086E0EF /* Applications.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F5BE15241E713E2100F6FBEA /* Colors */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5BE15391E713E2100F6FBEA /* Build configuration list for PBXNativeTarget "Colors" */;
+			buildPhases = (
+				F5BE15211E713E2100F6FBEA /* Sources */,
+				F5BE15221E713E2100F6FBEA /* Frameworks */,
+				F5BE15231E713E2100F6FBEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Colors;
+			productName = Colors;
+			productReference = F5BE15251E713E2100F6FBEA /* Colors.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -335,6 +443,10 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Manual;
 					};
+					F5BE15241E713E2100F6FBEA = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = F58A3E2C1E66AEE90086E0EF /* Build configuration list for PBXProject "DZNEmptyDataSet" */;
@@ -353,6 +465,7 @@
 				F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */,
 				F58A3E3A1E66AEE90086E0EF /* DZNEmptyDataSetTests */,
 				F58A3E621E66B5410086E0EF /* Applications */,
+				F5BE15241E713E2100F6FBEA /* Colors */,
 			);
 		};
 /* End PBXProject section */
@@ -384,6 +497,18 @@
 				F58A3E9C1E66B62F0086E0EF /* LaunchScreen.storyboard in Resources */,
 				F58A3E981E66B62F0086E0EF /* IdealSans-Book-Pro.otf in Resources */,
 				F58A3EA51E66B6D70086E0EF /* Storyboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5BE15231E713E2100F6FBEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5BE15371E713E2100F6FBEA /* LaunchScreen.storyboard in Resources */,
+				F5BE15521E713E9B00F6FBEA /* Images.xcassets in Resources */,
+				F5BE154C1E713E9300F6FBEA /* colors.json in Resources */,
+				F5BE15341E713E2100F6FBEA /* Assets.xcassets in Resources */,
+				F5BE15561E713EC800F6FBEA /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +595,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F5BE15211E713E2100F6FBEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5BE154A1E713E9300F6FBEA /* CollectionViewController.m in Sources */,
+				F5BE154B1E713E9300F6FBEA /* Color.m in Sources */,
+				F5BE154D1E713E9300F6FBEA /* Palette.m in Sources */,
+				F5BE15501E713E9300F6FBEA /* TableViewController.m in Sources */,
+				F5BE154E1E713E9300F6FBEA /* UIColor+Hex.m in Sources */,
+				F5BE152C1E713E2100F6FBEA /* AppDelegate.m in Sources */,
+				F5BE154F1E713E9300F6FBEA /* SearchViewController.m in Sources */,
+				F5BE15291E713E2100F6FBEA /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -500,6 +640,14 @@
 				F58A3E8E1E66B62F0086E0EF /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F5BE15351E713E2100F6FBEA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F5BE15361E713E2100F6FBEA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -670,7 +818,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -684,9 +832,33 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F5BE153A1E713E2100F6FBEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Colors/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Colors;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F5BE153B1E713E2100F6FBEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Colors/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Colors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -729,6 +901,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F5BE15391E713E2100F6FBEA /* Build configuration list for PBXNativeTarget "Colors" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5BE153A1E713E2100F6FBEA /* Debug */,
+				F5BE153B1E713E2100F6FBEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

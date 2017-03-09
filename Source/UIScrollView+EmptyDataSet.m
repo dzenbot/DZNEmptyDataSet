@@ -735,7 +735,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)didMoveToSuperview
 {
-    self.frame = self.superview.bounds;
+    CGRect superviewBounds = self.superview.bounds;
+    self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
     
     void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
     
