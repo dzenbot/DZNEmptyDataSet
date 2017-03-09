@@ -14,7 +14,7 @@ env:
     global:
     - LANG=en_US.UTF-8
 
-    - WORKSPACE="DZNEmptyDataSet.xcworkspace"
+    - WORKSPACE="DZNEmptyDataSet/DZNEmptyDataSet.xcworkspace"
     - IOS_SCHEME="DZNEmptyDataSet"
     - IOS_SDK="iphonesimulator10.0"
 
