@@ -6,9 +6,7 @@ coverage:
   round: nearest
   range: 70...100
   ignore:
-    - .*/Pods/.*
-    - .*/Applications/.*
-    - .*/Colors/.*
+    - DZNEmptyDataSet/.*
 
   status:
     project: true
