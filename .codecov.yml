@@ -6,7 +6,7 @@ coverage:
   round: nearest
   range: 70...100
   ignore:
-    - DZNEmptyDataSet/.*
+    - ./DZNEmptyDataSet/.*
 
   status:
     project: true
