@@ -13,6 +13,7 @@
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) NSArray *applications;
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation MainViewController
@@ -46,9 +47,11 @@
 {
     [super viewWillAppear:animated];
     
+    // Resets styling
     self.navigationController.navigationBar.titleTextAttributes = nil;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];;
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 
@@ -201,6 +204,10 @@
     DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
     controller.applications = self.applications;
     controller.allowShuffling = YES;
+    
+    if ([controller preferredStatusBarStyle] == UIStatusBarStyleLightContent) {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
     
     [self.navigationController pushViewController:controller animated:YES];
 }

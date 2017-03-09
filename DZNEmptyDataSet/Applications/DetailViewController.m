@@ -937,30 +937,4 @@
     });
 }
 
-
-#pragma mark - View Auto-Rotation
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-
-#pragma mark - View Auto-Rotation
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)dealloc
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
 @end
