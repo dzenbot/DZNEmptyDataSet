@@ -1,0 +1,21 @@
+codecov:
+    token: 
+
+coverage:
+  precision: 2
+  round: nearest
+  range: 70...100
+  ignore:
+    - .*/Pods/.*
+    - .*/Applications/.*
+    - .*/Colors/.*
+
+  status:
+    project: true
+    patch: true
+    changes: false
+
+comment:
+  layout: "header, diff, tree, changes"
+  behavior: default
+  branches: master

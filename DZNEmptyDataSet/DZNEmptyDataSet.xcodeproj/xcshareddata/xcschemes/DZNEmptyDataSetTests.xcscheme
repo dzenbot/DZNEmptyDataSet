@@ -23,6 +23,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F5BE15241E713E2100F6FBEA"
+            BuildableName = "Colors.app"
+            BlueprintName = "Colors"
+            ReferencedContainer = "container:DZNEmptyDataSet.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
