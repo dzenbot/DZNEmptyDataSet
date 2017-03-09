@@ -14,6 +14,9 @@
          location = "group:../Gemfile">
       </FileRef>
       <FileRef
+         location = "group:../Dangerfile">
+      </FileRef>
+      <FileRef
          location = "group:Pods/../../.codecov.yml">
       </FileRef>
       <FileRef
