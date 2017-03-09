@@ -38,8 +38,8 @@ Please read this very interesting article about [*Designing For The Empty States
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
-* Compatible with iOS 6 or later.
-* Compatible with iPhone and iPad.
+* Compatible with iOS 6, tvOS 9, or later.
+* Compatible with iPhone, iPad, and Apple TV.
 * **App Store ready**
 
 This library has been designed in a way where you won't need to extend UITableView or UICollectionView class. It will still work when using UITableViewController or UICollectionViewController.
@@ -69,7 +69,7 @@ For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoado
 ```
 Unless you are importing as a framework, then do:
 ```objc
-#import "<DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 ```
 
 ### Protocol Conformance
@@ -97,23 +97,6 @@ The image for the empty state:
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIImage imageNamed:@"empty_placeholder"];
-}
-```
-
-The image view animation
-```objc
-- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
-{
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
-    
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
-    
-    animation.duration = 0.25;
-    animation.cumulative = YES;
-    animation.repeatCount = MAXFLOAT;
-    
-    return animation;
 }
 ```
 
@@ -181,6 +164,23 @@ If you need a more complex layout, you can return a custom view instead:
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [activityView startAnimating];
     return activityView;
+}
+```
+
+The image view animation
+```objc
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
 }
 ```
 
