@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:DZNEmptyDataSet.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Config">
+      <FileRef
+         location = "group:../Gemfile">
+      </FileRef>
+      <FileRef
+         location = "group:../Dangerfile">
+      </FileRef>
+      <FileRef
+         location = "group:Pods/../../.codecov.yml">
+      </FileRef>
+      <FileRef
+         location = "group:Pods/../../.travis.yml">
+      </FileRef>
+      <FileRef
+         location = "group:Pods/../../.gitignore">
+      </FileRef>
+   </Group>
+</Workspace>
