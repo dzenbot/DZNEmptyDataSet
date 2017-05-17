@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return image animation
  */
-- (nullable CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView;
+- (nullable CAAnimation *) imageAnimationForEmptyDataSet:(UIScrollView *) scrollView;
 
 /**
  Asks the data source for the title to be used for the specified button state.
@@ -154,6 +154,30 @@ NS_ASSUME_NONNULL_BEGIN
  @return The space height between elements.
  */
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for the button's border width. Default is 0.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The button's border width.
+ */
+- (CGFloat)buttonBorderWidthForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for the color of the border. Default is clear.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The button's border color.
+ */
+- (CGColorRef)buttonBorderColorForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for the corner radius of the button. Default is 0.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @return The button's corner radius.
+ */
+- (CGFloat)buttonBorderCornerRadiusForEmptyDataSet:(UIScrollView *)scrollView;
 
 @end
 
@@ -281,3 +305,4 @@ NS_ASSUME_NONNULL_BEGIN
 #undef DZNEmptyDataSetDeprecated
 
 NS_ASSUME_NONNULL_END
+
