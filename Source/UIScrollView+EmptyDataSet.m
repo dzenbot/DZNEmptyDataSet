@@ -902,7 +902,7 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)prepareForReuse
 {
-    [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[[self contentView] subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     _titleLabel = nil;
     _detailLabel = nil;
