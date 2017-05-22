@@ -930,6 +930,10 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     // When a custom offset is available, we adjust the vertical constraints' constants
     if (self.verticalOffset != 0 && self.constraints.count > 0) {
         centerYConstraint.constant = self.verticalOffset;
+        if ([self.superview respondsToSelector:@selector(contentInset)]) {
+            UIEdgeInsets inset = [[self.superview valueForKey:@"contentInset"] UIEdgeInsetsValue];
+            centerYConstraint.constant += inset.top;
+        }
     }
     
     // If applicable, set the custom view's constraints
