@@ -1,5 +1,0 @@
-platform :ios, '6.0'
-
-pod 'DZNEmptyDataSet', :path => '../../'
-
-pod 'NSManagedObjectContext-Hydrate', '~> 1.0.4'

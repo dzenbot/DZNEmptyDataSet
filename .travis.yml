@@ -1,0 +1,28 @@
+osx_image: xcode8.1
+language: objective-c
+sudo: required
+
+cache:
+    - bundler
+    - cocoapods
+
+before_install:
+    - bundle install
+    - bundle exec danger
+
+env:
+    global:
+    - LANG=en_US.UTF-8
+
+    - WORKSPACE="DZNEmptyDataSet/DZNEmptyDataSet.xcworkspace"
+    - IOS_SCHEME="DZNEmptyDataSet"
+    - IOS_SDK="iphonesimulator10.0"
+
+    matrix:
+    - DESTINATION="OS=10.1,name=iPhone 7" SDK="$IOS_SDK" SCHEME="$IOS_SCHEME"
+
+script:
+    - xcodebuild clean build test -scheme "$SCHEME" -workspace "$WORKSPACE" SDK="$IOS_SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
