@@ -12,8 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM (NSUInteger, DZNEmptyDataSetVerticalAnchorLocation) {
+    DZNEmptyDataSetVerticalAnchorLocationCenter = 0,
+    DZNEmptyDataSetVerticalAnchorLocationTop,
+    DZNEmptyDataSetVerticalAnchorLocationBottom
+};
+
 @protocol DZNEmptyDataSetSource;
 @protocol DZNEmptyDataSetDelegate;
+
 
 #define DZNEmptyDataSetDeprecated(instead) DEPRECATED_MSG_ATTRIBUTE(" Use " # instead " instead")
 
@@ -154,6 +161,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return The space height between elements.
  */
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView;
+
+/**
+ Asks the data source for a vertical anchor location. Default is DZNEmptyDataSetVerticalAnchorLocationCenter.
+
+ @param scrollView A scrollview subclass object informing the data source.
+ @return A DZNEmptyDataSetVerticalAnchorLocation value indicating if the view should be pinned to the top, center, or bottom of its container.
+ */
+- (DZNEmptyDataSetVerticalAnchorLocation)verticalAnchorLocationForEmptyDataSet:(UIScrollView *)scrollView;
 
 @end
 
