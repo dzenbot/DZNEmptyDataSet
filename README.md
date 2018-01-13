@@ -19,9 +19,9 @@ Most applications show lists of content (data sets), which many turn out to be e
 
 Please read this very interesting article about [*Designing For The Empty States*](http://tympanus.net/codrops/2013/01/09/designing-for-the-empty-states/).
 
-![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row1.png)
-![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/UITableView-DataSet/master/Examples/Applications/Screenshots/Screenshots_row2.png)
-(*These are real life examples, available in the 'Applications' sample project*)
+![Screenshots_Row1](https://raw.githubusercontent.com/dzenbot/DZNEmptyDataSet/v2-swift/Examples/Applications/Screenshots/Screenshots_row1.png)
+![Screenshots_Row2](https://raw.githubusercontent.com/dzenbot/DZNEmptyDataSet/v2-swift/Examples/Applications/Screenshots/Screenshots_row2.png)
+(*These are real life examples, available in the 'Applications' sample project in the v2-Swift branch*)
 
 **[Empty Data Sets](http://pttrns.com/?did=1&scid=30)** are helpful for:
 * Avoiding white-screens and communicating to your users why the screen is empty.
