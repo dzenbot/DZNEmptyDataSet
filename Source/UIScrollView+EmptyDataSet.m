@@ -589,7 +589,7 @@ static NSString *const DZNSwizzleInfoSelectorKey = @"selector";
 // Based on Bryce Buchanan's swizzling technique http://blog.newrelic.com/2014/04/16/right-way-to-swizzle/
 // And Juzzin's ideas https://github.com/juzzin/JUSEmptyViewController
 
-void dzn_original_implementation(id self, SEL _cmd)
+static __attribute__((always_inline)) void dzn_original_implementation(id self, SEL _cmd)
 {
     // Fetch original implementation from lookup table
     Class baseClass = dzn_baseClassToSwizzleForTarget(self);
@@ -610,7 +610,7 @@ void dzn_original_implementation(id self, SEL _cmd)
     }
 }
 
-NSString *dzn_implementationKey(Class class, SEL selector)
+static __attribute__((always_inline)) NSString *dzn_implementationKey(Class class, SEL selector)
 {
     if (!class || !selector) {
         return nil;
@@ -622,7 +622,7 @@ NSString *dzn_implementationKey(Class class, SEL selector)
     return [NSString stringWithFormat:@"%@_%@",className,selectorName];
 }
 
-Class dzn_baseClassToSwizzleForTarget(id target)
+static __attribute__((always_inline)) Class dzn_baseClassToSwizzleForTarget(id target)
 {
     if ([target isKindOfClass:[UITableView class]]) {
         return [UITableView class];
