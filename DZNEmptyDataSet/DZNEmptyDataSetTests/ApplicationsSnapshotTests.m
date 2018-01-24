@@ -31,7 +31,7 @@
         
         // Using XCTAssert instead of NSAssert since these do not cause the tests to fail.
         XCTAssert([device.model containsString:@"iPhone"], @"Please run snapshot tests on an iPhone.");
-        XCTAssert([device.systemVersion doubleValue] > 10.0, @"Please run snapshot tests on a simulator with iOS 10.0 or above.");
+        XCTAssert([device.systemVersion doubleValue] > 11.0, @"Please run snapshot tests on a simulator with iOS 11.0 or above.");
         XCTAssert(screen.scale == 2.0, @"Please run snapshot tests on a @2x density simulator.");
     });
 }
