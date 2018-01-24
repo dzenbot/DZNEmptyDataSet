@@ -211,11 +211,19 @@
         UIImage *image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         imageView.userInteractionEnabled = YES;
-        
+
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeaderView:)];
         [imageView addGestureRecognizer:tapGesture];
+
+        CGRect frame = self.view.bounds;
+        frame.size.height = image.size.height;
+        UIView *headerView = [[UIView alloc] initWithFrame:frame];
+        headerView.backgroundColor = [UIColor whiteColor];
+
+        imageView.center = CGPointMake(frame.size.width/2.0, frame.size.height/2.0);
+        [headerView addSubview:imageView];
         
-        self.tableView.tableHeaderView = imageView;
+        self.tableView.tableHeaderView = headerView;
     }
     else {
         self.tableView.tableHeaderView = [UIView new];
