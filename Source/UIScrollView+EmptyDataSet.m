@@ -139,13 +139,18 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                 items += [dataSource tableView:tableView numberOfRowsInSection:section];
             }
         }
+        
+        if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(countForJudge)]) {
+            items = [self.emptyDataSetSource countForJudge];
+        }
+        
     }
     // UICollectionView support
     else if ([self isKindOfClass:[UICollectionView class]]) {
         
         UICollectionView *collectionView = (UICollectionView *)self;
         id <UICollectionViewDataSource> dataSource = collectionView.dataSource;
-
+        
         NSInteger sections = 1;
         
         if (dataSource && [dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
@@ -156,6 +161,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             for (NSInteger section = 0; section < sections; section++) {
                 items += [dataSource collectionView:collectionView numberOfItemsInSection:section];
             }
+        }
+        
+        if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(countForJudge)]) {
+            items = [self.emptyDataSetSource countForJudge];
         }
     }
     
@@ -448,9 +457,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         DZNEmptyDataSetView *view = self.emptyDataSetView;
         
-        // Configure empty dataset fade in display
-        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
-        
         if (!view.superview) {
             // Send the view all the way to the back, in case a header and/or footer is present, as well as for sectionHeaders or any other content
             if (([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) && self.subviews.count > 1) {
@@ -529,6 +535,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         // Configure empty dataset userInteraction permission
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
+        
+        // Configure empty dataset fade in display
+        view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
         [view setupConstraints];
         
@@ -735,10 +744,10 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 - (void)didMoveToSuperview
 {
-    CGRect superviewBounds = self.superview.bounds;
-    self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
+    @weakify(self);
+    self.frame = self.superview.bounds;
     
-    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
+    void(^fadeInBlock)(void) = ^{self_weak_.contentView.alpha = 1.0;};
     
     if (self.fadeInOnDisplay) {
         [UIView animateWithDuration:0.25
@@ -934,6 +943,7 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     
     // If applicable, set the custom view's constraints
     if (_customView) {
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
     }
