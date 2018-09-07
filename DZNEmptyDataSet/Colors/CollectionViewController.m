@@ -7,7 +7,7 @@
 //
 
 #import "CollectionViewController.h"
-#import "SearchViewController.h"
+#import "DetailViewController.h"
 #import "Palette.h"
 #import "Color.h"
 
@@ -20,20 +20,12 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 @interface CollectionViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic) NSInteger columnCount;
-@property (nonatomic, strong) NSMutableArray *filteredPalette;
+@property (nonatomic, strong) NSMutableArray *shuffledColors;
 @end
 
 @implementation CollectionViewController
 
-#pragma mark - View lifecycle
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    self.title = @"Collection";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_collection"] tag:self.title.hash];
-}
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
@@ -58,11 +50,8 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    self.shuffledColors = nil;
+    [self.collectionView reloadData];
 }
 
 
@@ -76,22 +65,22 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (CGSize)cellSize
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    CGFloat size = (self.navigationController.view.bounds.size.width/self.columnCount) - flowLayout.minimumLineSpacing;
+    CGFloat size = (self.navigationController.view.bounds.size.width/(CGFloat)self.columnCount) - flowLayout.minimumLineSpacing;
     return CGSizeMake(size, size);
 }
 
-- (NSMutableArray *)filteredPalette
+- (NSMutableArray *)shuffledColors
 {
-    // Randomly filtered palette
-    if (!_filteredPalette)
+    // Randomly shuffled palette
+    if (!_shuffledColors)
     {
-        _filteredPalette = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
-        
-        for (NSInteger i = _filteredPalette.count-1; i > 0; i--) {
-            [_filteredPalette exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1.0)];
+        _shuffledColors = [[NSMutableArray alloc] initWithArray:[[Palette sharedPalette] colors]];
+        // Fisher–Yates shuffle algorithm
+        for (NSInteger i = _shuffledColors.count-1; i > 0; i--) {
+            [_shuffledColors exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform((uint32_t)(i+1))];
         }
     }
-    return _filteredPalette;
+    return _shuffledColors;
 }
 
 
@@ -100,16 +89,14 @@ static NSString *CellIdentifier = @"ColorViewCell";
 - (IBAction)refreshColors:(id)sender
 {
     [[Palette sharedPalette] reloadAll];
-    [self setFilteredPalette:nil];
-    
+    self.shuffledColors = nil;
     [self.collectionView reloadData];
 }
 
 - (IBAction)removeColors:(id)sender
 {
     [[Palette sharedPalette] removeAll];
-    [_filteredPalette removeAllObjects];
-    
+    [_shuffledColors removeAllObjects];
     [self.collectionView reloadData];
 }
 
@@ -117,7 +104,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 {
     if ([[segue identifier] isEqualToString:@"collection_push_detail"])
     {
-        SearchViewController *controller = [segue destinationViewController];
+        DetailViewController *controller = [segue destinationViewController];
         controller.selectedColor = sender;
     }
 }
@@ -215,7 +202,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.filteredPalette count];
+    return [self.shuffledColors count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -224,7 +211,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     cell.selectedBackgroundView = [UIView new];
     cell.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.25];
     
-    Color *color = self.filteredPalette[indexPath.row];
+    Color *color = self.shuffledColors[indexPath.row];
     cell.backgroundColor = color.color;
 
     return cell;
@@ -235,7 +222,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Color *color = self.filteredPalette[indexPath.row];
+    Color *color = self.shuffledColors[indexPath.row];
     
     if ([self shouldPerformSegueWithIdentifier:@"collection_push_detail" sender:color]) {
         [self performSegueWithIdentifier:@"collection_push_detail" sender:color];
@@ -265,7 +252,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
-            Color *color = self.filteredPalette[indexPath.row];
+            Color *color = self.shuffledColors[indexPath.row];
             if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
         }
     });
@@ -274,26 +261,20 @@ static NSString *CellIdentifier = @"ColorViewCell";
 
 #pragma mark - View Auto-Rotation
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if (![UIInputViewController class]) {
-        [self.collectionView reloadData];
-    }
-}
-
 - (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [self.collectionView reloadData];
+    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
+    // Called when device is rotated.  Cell sizes should be recomputed when this
+    // happens (especially on iPad) since the cell sizes for portrait and landscape
+    // aren't exactly identical.  Ignoring this fact leads to noticable white
+    // gaps between cells after rotation.
+    [self.collectionView reloadData];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 @end

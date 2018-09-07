@@ -90,6 +90,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (!view)
     {
         view = [DZNEmptyDataSetView new];
+        // NOTE: Desirable in case an empty data set result is rotated.
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         view.hidden = YES;
         

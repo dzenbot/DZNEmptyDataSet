@@ -28,9 +28,13 @@
     dispatch_once(&onceToken, ^{
         UIDevice *device = [UIDevice currentDevice];
         UIScreen *screen = [UIScreen mainScreen];
-        
+        CGFloat width = screen.bounds.size.width;
+        CGFloat height = screen.bounds.size.height;
+        CGFloat minLength = MIN(width,height);
+        CGFloat maxLength = MAX(width,height);
         // Using XCTAssert instead of NSAssert since these do not cause the tests to fail.
         XCTAssert([device.model containsString:@"iPhone"], @"Please run snapshot tests on an iPhone.");
+        XCTAssert((minLength==375)&&(maxLength==667), @"Please run snapshot tests on an iPhone 6, 6s, 7, or 8.");
         XCTAssert([device.systemVersion doubleValue] > 11.0, @"Please run snapshot tests on a simulator with iOS 11.0 or above.");
         XCTAssert(screen.scale == 2.0, @"Please run snapshot tests on a @2x density simulator.");
     });
@@ -65,6 +69,7 @@
 
 - (void)verifyView:(UIView *)view withIdentifier:(NSString *)identifier
 {
+    NSLog(@"%@", identifier);
     FBSnapshotVerifyViewWithOptions(view, identifier, FBSnapshotTestCaseDefaultSuffixes(), 0);
 }
 

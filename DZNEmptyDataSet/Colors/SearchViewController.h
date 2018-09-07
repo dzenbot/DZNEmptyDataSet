@@ -11,14 +11,6 @@
 @class Color;
 
 @interface SearchViewController : UIViewController <UISearchDisplayDelegate, UISearchBarDelegate>
-
 @property (nonatomic, strong) Color *selectedColor;
-
-@property (nonatomic, weak) IBOutlet UIImageView *colorView;
-@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *hexLabel;
-@property (nonatomic, weak) IBOutlet UILabel *rgbLabel;
-@property (nonatomic, weak) IBOutlet UILabel *hexLegend;
-@property (nonatomic, weak) IBOutlet UILabel *rgbLegend;
 
 @end

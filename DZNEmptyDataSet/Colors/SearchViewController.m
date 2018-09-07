@@ -6,149 +6,98 @@
 //  Copyright (c) 2014 DZN Labs. All rights reserved.
 //
 
+#import "DetailViewController.h"
 #import "SearchViewController.h"
 #import "Palette.h"
 #import "Color.h"
 
 #import <DZNEmptyDataSet/DZNEmptyDataSet.h>
 
-@interface SearchViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-@property (nonatomic, strong) NSArray *searchResult;
-@property (nonatomic, getter = isShowingLandscape) BOOL showingLandscape;
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
+@property (nonatomic, strong) UISearchController *searchController;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *filteredColors;
 @end
 
 @implementation SearchViewController
 
-#pragma mark - View lifecycle
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    self.title = @"Search";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_search"] tag:self.title.hash];
-}
-
-- (void)loadView
-{
-    [super loadView];
-    
-    if ([self.navigationController.viewControllers count] == 1) {
-        self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
-    }
-    else {
-        self.title = @"Detail";
-    }
-    
-    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
-    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
-    
-    self.searchDisplayController.searchBar.placeholder = @"Search color";
-    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    [self.searchDisplayController setValue:@"" forKey:@"_noResultsMessage"];
-    
-    for (UIView *subview in self.view.subviews) {
-        subview.autoresizingMask = UIViewAutoresizingNone;
-    }
-}
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.tableFooterView = [UIView new];
     
-    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
-    [self updateLayoutAnimatedWithDuration:0.0];
+    // SEE: "Listing 1 Creating and configuring a search controller on iOS"
+    // https://developer.apple.com/documentation/uikit/uisearchcontroller
+    // Create the search results controller and store a reference to it.
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    // Use the current view controller to update the search results.
+    self.searchController.searchResultsUpdater = self;
+    // Install the search bar as the table header.
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    // It is usually good to set the presentation context.
+    self.definesPresentationContext = YES;
+    
+    self.searchController.searchBar.placeholder = @"Search color";
+    self.searchController.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self updateContent];
+    self.filteredColors = nil;
+    [self.tableView reloadData];
 }
-
 
 #pragma mark - Getters
 
-- (NSArray *)searchResult
+- (NSMutableArray *)filteredColors
 {
-    if (_searchResult) {
-        return _searchResult;
+    if (!_filteredColors)
+    {
+        UISearchBar *searchBar = self.searchController.searchBar;
+        _filteredColors = [[[Palette sharedPalette] colors] mutableCopy];
+        if ([searchBar isFirstResponder] && searchBar.text.length > 0)
+        {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchBar.text];
+            [_filteredColors filterUsingPredicate:predicate];
+        }
     }
-    
-    NSString *searchString = self.searchDisplayController.searchBar.text;
-    
-    if (searchString.length == 0) {
-        return nil;
-    }
-    
-    NSArray *colors = [[Palette sharedPalette] colors];
-    NSPredicate *precidate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@ || hex CONTAINS[cd] %@", searchString, searchString];
-    
-    _searchResult = [colors filteredArrayUsingPredicate:precidate];
-    
-    return _searchResult;
+    return _filteredColors;
 }
-
 
 #pragma mark - Actions
 
-- (void)updateLayoutAnimatedWithDuration:(NSTimeInterval)duration
+- (IBAction)refreshColors:(id)sender
 {
-    [UIView beginAnimations:@"" context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    
-    if (self.showingLandscape) {
-        self.colorView.frame = CGRectMake(45.0, 88.0, 160.0, 160.0);
-        self.nameLabel.frame = CGRectMake(240.0, 114.0, 280.0, 35.0);
-        self.hexLabel.frame = CGRectMake(300.0, 170.0, 140.0, 20.0);
-        self.rgbLabel.frame = CGRectMake(300.0, 200.0, 140.0, 20.0);
-        self.hexLegend.frame = CGRectMake(240.0, 170.0, 60.0, 20.0);
-        self.rgbLegend.frame = CGRectMake(240.0, 200.0, 60.0, 20.0);
-        
-        self.nameLabel.textAlignment = NSTextAlignmentLeft;
+    [[Palette sharedPalette] reloadAll];
+    self.filteredColors = nil;
+    [self.tableView reloadData];
+}
+
+- (IBAction)removeColors:(id)sender
+{
+    [[Palette sharedPalette] removeAll];
+    [_filteredColors removeAllObjects];
+    [self.tableView reloadData];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"search_push_detail"])
+    {
+        DetailViewController *controller = [segue destinationViewController];
+        controller.selectedColor = sender;
     }
-    else {
-        self.colorView.frame = CGRectMake(60.0, 130.0, 200.0, 200.0);
-        self.nameLabel.frame = CGRectMake(20.0, 350.0, 280.0, 35.0);
-        self.hexLabel.frame = CGRectMake(120.0, 420.0, 140.0, 20.0);
-        self.rgbLabel.frame = CGRectMake(120.0, 450.0, 140.0, 20.0);
-        self.hexLegend.frame = CGRectMake(60.0, 420.0, 60.0, 20.0);
-        self.rgbLegend.frame = CGRectMake(60.0, 450.0, 60.0, 20.0);
-        
-        self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    
-    [UIView commitAnimations];
 }
-
-- (void)updateContent
-{
-    BOOL hide = self.selectedColor ? NO : YES;
-    
-    self.colorView.hidden = hide;
-    self.nameLabel.hidden = hide;
-    self.hexLabel.hidden = hide;
-    self.rgbLabel.hidden = hide;
-    self.hexLegend.hidden = hide;
-    self.rgbLegend.hidden = hide;
-    
-    self.colorView.image = [Color roundImageForSize:self.colorView.frame.size withColor:self.selectedColor.color];
-    
-    self.nameLabel.text = self.selectedColor.name;
-    self.hexLabel.text = [NSString stringWithFormat:@"#%@", self.selectedColor.hex];
-    self.rgbLabel.text = self.selectedColor.rgb;
-}
-
-- (void)adjustToDeviceOrientation
-{
-    self.showingLandscape = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
-    [self updateLayoutAnimatedWithDuration:0.25];
-    
-    [self.searchDisplayController.searchResultsTableView reloadEmptyDataSet];
-}
-
 
 #pragma mark - DZNEmptyDataSetSource Methods
 
@@ -232,13 +181,13 @@
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
 {
-    return NO;
+    return YES;
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
 
-    [self.searchDisplayController setActive:NO animated:YES];
+    // TODO: [self.searchController setActive:NO animated:YES];
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
@@ -256,7 +205,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.searchResult.count;
+    NSInteger rowCount = [self filteredColors].count;
+
+    return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -274,7 +225,7 @@
         cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     }
     
-    Color *color = self.searchResult[indexPath.row];
+    Color *color = [[self filteredColors] objectAtIndex:indexPath.row];
     
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
@@ -289,60 +240,101 @@
     return 56.0;
 }
 
-
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedColor = self.searchResult[indexPath.row];
-    [self updateContent];
+    Color *color = [[self filteredColors] objectAtIndex:indexPath.row];
     
-    [self.searchDisplayController setActive:NO animated:YES];
-}
-
-
-#pragma mark - UISearchDisplayControllerDelegate Methods
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    _searchResult = nil;
-    
-    return YES;
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
-{
-    // Do something
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
-{
-    // Do something
-}
-
-
-#pragma mark - View Auto-Rotation
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if (![self respondsToSelector:@selector(willTransitionToTraitCollection:withTransitionCoordinator:)]) {
-        [self adjustToDeviceOrientation];
+    if ([self shouldPerformSegueWithIdentifier:@"search_push_detail" sender:color]) {
+        [self performSegueWithIdentifier:@"search_push_detail" sender:color];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    [self adjustToDeviceOrientation];
-}
+#pragma mark - UISearchBarDelegate Methods
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    return YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    // Do something
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    // Do something
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // Do something
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    // Do something
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)searchForText:(NSString *)searchString
+{
+    //NSLog(@"searchString == %@",searchString);
+}
+
+#pragma mark - UISearchResultsUpdating Protocol
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = _searchController.searchBar.text;
+    [self searchForText:searchString];
+    self.filteredColors = nil;
+    [self.tableView reloadData];
+}
+
+#pragma mark - UISearchControllerDelegate Protocol
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    // Do something
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    // Do something
+}
+
+- (void)presentSearchController:(UISearchController *)searchController
+{
+    // Do something
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    // Do something
+}
+
+- (void)willPresentSearchController:(UISearchController *)searchController
+{
+    // Do something
 }
 
 @end

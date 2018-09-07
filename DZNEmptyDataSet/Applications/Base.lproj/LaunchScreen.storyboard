@@ -18,22 +18,22 @@
                         <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ted-Z9-xao">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYT-lA-Ksh" userLabel="Title Label">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7N-gP-Cai" userLabel="Title Label">
                                 <rect key="frame" x="16" y="52" width="343" height="72"/>
-                                <string key="text">Colors
+                                <string key="text">Applications
 Sample App</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NoColor.png" translatesAutoresizingMaskIntoConstraints="NO" id="RJI-6x-5AK" userLabel="Launch Image">
-                                <rect key="frame" x="82.5" y="236.5" width="209" height="193"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NoApplication.png" translatesAutoresizingMaskIntoConstraints="NO" id="9S1-oa-dDi" userLabel="Launch Image">
+                                <rect key="frame" x="36.5" y="274.5" width="301" height="118"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29j-sj-vyP" userLabel="Copyright Label">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="poO-ds-biI" userLabel="Copyright Label">
                                 <rect key="frame" x="16" y="594" width="343" height="41"/>
                                 <string key="text">Ignacio Romero Zurbuchen
 Copyright (c) 2014 DZN Labs.</string>
@@ -44,14 +44,14 @@ Copyright (c) 2014 DZN Labs.</string>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="LYT-lA-Ksh" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="32" id="51i-ZN-ddN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="LYT-lA-Ksh" secondAttribute="trailing" id="9Kq-tS-ef0"/>
-                            <constraint firstItem="LYT-lA-Ksh" firstAttribute="leading" secondItem="ted-Z9-xao" secondAttribute="leadingMargin" id="Dps-Ng-hk3"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="29j-sj-vyP" secondAttribute="trailing" id="PcY-cX-PTM"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="29j-sj-vyP" secondAttribute="bottom" constant="32" id="PkX-tJ-SFh"/>
-                            <constraint firstItem="29j-sj-vyP" firstAttribute="leading" secondItem="ted-Z9-xao" secondAttribute="leadingMargin" id="dAP-aE-r3K"/>
-                            <constraint firstItem="RJI-6x-5AK" firstAttribute="centerX" secondItem="ted-Z9-xao" secondAttribute="centerX" id="tVZ-Dx-J6g"/>
-                            <constraint firstItem="RJI-6x-5AK" firstAttribute="centerY" secondItem="ted-Z9-xao" secondAttribute="centerY" id="uKQ-pj-vu3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="a7N-gP-Cai" secondAttribute="trailing" id="3sX-nB-XPr"/>
+                            <constraint firstItem="poO-ds-biI" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="9i1-lF-S4j"/>
+                            <constraint firstItem="a7N-gP-Cai" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="32" id="Kkc-3M-F4A"/>
+                            <constraint firstItem="9S1-oa-dDi" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Pzm-yk-YJg"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="poO-ds-biI" secondAttribute="bottom" constant="32" id="T1u-Yz-Vxf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="poO-ds-biI" secondAttribute="trailing" id="fGV-N4-unX"/>
+                            <constraint firstItem="a7N-gP-Cai" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="mXd-jY-Fhj"/>
+                            <constraint firstItem="9S1-oa-dDi" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="qGL-xb-Yy9"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -61,6 +61,6 @@ Copyright (c) 2014 DZN Labs.</string>
         </scene>
     </scenes>
     <resources>
-        <image name="NoColor.png" width="209" height="193"/>
+        <image name="NoApplication.png" width="301" height="118"/>
     </resources>
 </document>

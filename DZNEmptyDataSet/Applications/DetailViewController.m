@@ -28,29 +28,23 @@
     return self;
 }
 
-#pragma mark - View lifecycle
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
-    
     [self configureHeaderAndFooter];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self configureNavigationBar];
-    
     [self setNeedsStatusBarAppearanceUpdate];
 }
-
 
 #pragma mark - Configuration and Event Methods
 

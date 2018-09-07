@@ -11,7 +11,7 @@
 
 #import <DZNEmptyDataSet/DZNEmptyDataSet.h>
 
-@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
 @property (nonatomic, strong) NSArray *applications;
 @property (nonatomic, strong) UISearchController *searchController;
 @end
@@ -21,35 +21,44 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"applications" ofType:@"json"];
     self.applications = [Application applicationsFromJSONAtPath:path];
 }
 
-#pragma mark - View lifecycle
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     self.title = @"Applications";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     
-    self.searchDisplayController.searchResultsTableView.emptyDataSetSource = self;
-    self.searchDisplayController.searchResultsTableView.emptyDataSetDelegate = self;
-    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-    [self.searchDisplayController setValue:@"" forKey:@"noResultsMessage"];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    [self.tableView setTableHeaderView:self.searchController.searchBar];
+    self.definesPresentationContext = YES;
+
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    // Resets styling
-    self.navigationController.navigationBar.titleTextAttributes = nil;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];;
+    [self resetStyling];
+}
+
+- (void)resetStyling {
+    // Reset styling
+    UIColor *tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: tintColor};
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:@"f8f8f8"];
+    self.navigationController.navigationBar.tintColor = tintColor;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
@@ -59,12 +68,12 @@
 
 - (NSArray *)filteredApps
 {
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+    UISearchBar *searchBar = self.searchController.searchBar;
 
     if ([searchBar isFirstResponder] && searchBar.text.length > 0)
     {
-        NSPredicate *precidate = [NSPredicate predicateWithFormat:@"displayName CONTAINS[cd] %@", searchBar.text];
-        return [self.applications filteredArrayUsingPredicate:precidate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"displayName CONTAINS[cd] %@", searchBar.text];
+        return [self.applications filteredArrayUsingPredicate:predicate];
     }
     return self.applications;
 }
@@ -80,7 +89,7 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+    UISearchBar *searchBar = self.searchController.searchBar;
     
     NSString *text = [NSString stringWithFormat:@"There are no empty dataset examples for \"%@\".", searchBar.text];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:nil];
@@ -138,7 +147,7 @@
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
 
-    UISearchBar *searchBar = self.searchDisplayController.searchBar;
+    UISearchBar *searchBar = self.searchController.searchBar;
 
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@", searchBar.text]];
     
@@ -238,6 +247,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     // Do something
+    [self resetStyling];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -247,48 +257,56 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    // Do something
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)searchForText:(NSString *)searchString
+{
+    //NSLog(@"searchString == %@",searchString);
 }
 
 
-#pragma mark - UISearchDisplayDelegate Methods
+#pragma mark - UISearchResultsUpdating Methods
 
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = _searchController.searchBar.text;
+    [self searchForText:searchString];
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - UISearchControllerDelegate Methods
+
+- (void)didDismissSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+- (void)didPresentSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
+- (void)presentSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+- (void)willDismissSearchController:(UISearchController *)searchController
 {
     // Do something
 }
 
-
-#pragma mark - View Auto-Rotation
-
-- (UIStatusBarStyle)preferredStatusBarStyle
+- (void)willPresentSearchController:(UISearchController *)searchController
 {
-    return UIStatusBarStyleDefault;
+    // Do something
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
 
 @end

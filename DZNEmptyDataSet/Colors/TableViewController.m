@@ -7,7 +7,7 @@
 //
 
 #import "TableViewController.h"
-#import "SearchViewController.h"
+#import "DetailViewController.h"
 #import "Palette.h"
 #import "Color.h"
 
@@ -18,27 +18,11 @@
 
 @implementation TableViewController
 
-#pragma mark - View lifecycle
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    self.title = @"Table";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:[UIImage imageNamed:@"tab_table"] tag:self.title.hash];
-}
-
-- (void)loadView
-{
-    [super loadView];
-    
-    self.tableView.tableFooterView = [UIView new];
-}
+#pragma mark - Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.tableView reloadData];
 }
 
@@ -48,21 +32,19 @@
 - (IBAction)refreshColors:(id)sender
 {
     [[Palette sharedPalette] reloadAll];
-    
     [self.tableView reloadData];
 }
 
 - (IBAction)removeColors:(id)sender
 {
     [[Palette sharedPalette] removeAll];
-    
     [self.tableView reloadData];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"table_push_detail"]) {
-        SearchViewController *controller = [segue destinationViewController];
+        DetailViewController *controller = [segue destinationViewController];
         controller.selectedColor = sender;
 	}
 }
@@ -73,30 +55,24 @@
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"No colors loaded";
-    
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = NSTextAlignmentCenter;
-    
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0],
                                  NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
                                  NSParagraphStyleAttributeName: paragraphStyle};
-    
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text = @"To show a list of random colors, tap on the refresh icon in the right top corner.\n\nTo clean the list, tap on the trash icon.";
-    
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = NSTextAlignmentCenter;
-    
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:15.0],
                                  NSForegroundColorAttributeName: [UIColor colorWithRed:170/255.0 green:171/255.0 blue:179/255.0 alpha:1.0],
                                  NSParagraphStyleAttributeName: paragraphStyle};
-    
     return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 }
 
@@ -151,7 +127,6 @@
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -161,14 +136,10 @@
         cell.textLabel.textColor = [UIColor colorWithWhite:0.125 alpha:1.0];
         cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     }
-    
     Color *color = [[Palette sharedPalette] colors][indexPath.row];
-    
     cell.textLabel.text = color.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"#%@", color.hex];
-	
     cell.imageView.image = [Color roundThumbWithColor:color.color];
-    
     return cell;
 }
 
@@ -185,10 +156,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
         Color *color = [[Palette sharedPalette] colors][indexPath.row];
         [[Palette sharedPalette] removeColor:color];
-        
         [tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates];
@@ -201,11 +170,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Color *color = [[Palette sharedPalette] colors][indexPath.row];
-    
     if ([self shouldPerformSegueWithIdentifier:@"table_push_detail" sender:color]) {
         [self performSegueWithIdentifier:@"table_push_detail" sender:color];
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -225,25 +192,11 @@
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
             Color *color = [[Palette sharedPalette] colors][indexPath.row];
             if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
         }
     });
-}
-
-
-#pragma mark - View Auto-Rotation
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
 }
 
 @end
