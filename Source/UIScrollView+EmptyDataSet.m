@@ -480,7 +480,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             
             UIImage *image = [self dzn_image];
             UIColor *imageTintColor = [self dzn_imageTintColor];
-            UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+            
+            if (@available(iOS 7.0, *)) {
+                UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+            
             
             view.verticalSpace = [self dzn_verticalSpace];
             
@@ -494,6 +497,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                     // iOS 6 fallback: insert code to convert imaged if needed
                     view.imageView.image = image;
                 }
+            }
             }
             
             // Configure title label
@@ -531,11 +535,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
         
         [view setupConstraints];
-        
-        [UIView performWithoutAnimation:^{
-            [view layoutIfNeeded];
-        }];
-        
+        if (@available(iOS 7.0, *)) {
+            [UIView performWithoutAnimation:^{
+                [view layoutIfNeeded];
+            }];
+        }
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
@@ -738,7 +742,7 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     CGRect superviewBounds = self.superview.bounds;
     self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
     
-    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
+    void(^fadeInBlock)(void) = ^{self->_contentView.alpha = 1.0;};
     
     if (self.fadeInOnDisplay) {
         [UIView animateWithDuration:0.25
