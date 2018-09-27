@@ -481,8 +481,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             UIImage *image = [self dzn_image];
             UIColor *imageTintColor = [self dzn_imageTintColor];
             
-            if (@available(iOS 7.0, *)) {
-                UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+            UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
             
             
             view.verticalSpace = [self dzn_verticalSpace];
@@ -497,7 +496,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                     // iOS 6 fallback: insert code to convert imaged if needed
                     view.imageView.image = image;
                 }
-            }
             }
             
             // Configure title label
@@ -535,11 +533,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
         
         [view setupConstraints];
-        if (@available(iOS 7.0, *)) {
-            [UIView performWithoutAnimation:^{
-                [view layoutIfNeeded];
-            }];
-        }
+        
+        [UIView performWithoutAnimation:^{
+            [view layoutIfNeeded];
+        }];
+        
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
