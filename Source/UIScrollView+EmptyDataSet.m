@@ -480,7 +480,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             
             UIImage *image = [self dzn_image];
             UIColor *imageTintColor = [self dzn_imageTintColor];
+            
             UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+            
             
             view.verticalSpace = [self dzn_verticalSpace];
             
@@ -738,7 +740,8 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     CGRect superviewBounds = self.superview.bounds;
     self.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(superviewBounds), CGRectGetHeight(superviewBounds));
     
-    void(^fadeInBlock)(void) = ^{_contentView.alpha = 1.0;};
+    __weak __typeof(_contentView) weakContentView = _contentView;
+    void(^fadeInBlock)(void) = ^{weakContentView.alpha = 1.0;};
     
     if (self.fadeInOnDisplay) {
         [UIView animateWithDuration:0.25
