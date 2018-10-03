@@ -30,8 +30,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Compare)
+NS_ASSUME_NONNULL_BEGIN
 
-- (BOOL)fb_compareWithImage:(UIImage *)image tolerance:(CGFloat)tolerance;
+@interface UIImage (Diff)
+
+- (UIImage *)fb_diffWithImage:(UIImage *)image;
 
 @end
+
+NS_ASSUME_NONNULL_END

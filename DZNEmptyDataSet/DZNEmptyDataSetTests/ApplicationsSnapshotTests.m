@@ -23,7 +23,7 @@
     self.recordMode = NO;
     
     // Snaphot tests are not yet configured to be running for multiple hardware configuration (device type, system version, screen density, etc.).
-    // We make sure tests are only ran for @2x iPhone simulators, with iOS 10 or above.
+    // We make sure tests are only ran for iPhone 8 simulator, with iOS 12 or compatible.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         UIDevice *device = [UIDevice currentDevice];

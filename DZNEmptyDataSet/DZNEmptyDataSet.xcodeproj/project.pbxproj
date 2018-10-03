@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B2BC14E3498BA30F9A20FE75 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391AA672D1AC4F1C3C5186F7 /* Pods_DZNEmptyDataSetTests.framework */; };
+		E108711F21644A7C0023FC5E /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
+		E108712021644A7C0023FC5E /* DZNEmptyDataSet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E108712421644A9B0023FC5E /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
+		E108712521644A9B0023FC5E /* DZNEmptyDataSet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E139974F213F6E8A00689E6F /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = E14E1D93213E4F2C00647A29 /* UIColor+Hexadecimal.m */; };
 		E1399750213F6E9A00689E6F /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = E14E1D88213E4F2C00647A29 /* Application.m */; };
 		E1399751213F6EAB00689E6F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14E1D8C213E4F2C00647A29 /* DetailViewController.m */; };
@@ -47,11 +51,30 @@
 		F58A3E431E66AEE90086E0EF /* DZNEmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F58A3E4E1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F58A3E4C1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F58A3E4F1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E4D1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m */; };
-		F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
-		F5BE15571E71446300F6FBEA /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E1075A1C216451F10037C940 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F58A3E621E66B5410086E0EF;
+			remoteInfo = Applications;
+		};
+		E108712121644A7C0023FC5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F58A3E311E66AEE90086E0EF;
+			remoteInfo = DZNEmptyDataSet;
+		};
+		E108712621644A9B0023FC5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F58A3E311E66AEE90086E0EF;
+			remoteInfo = DZNEmptyDataSet;
+		};
 		F58A3E3D1E66AEE90086E0EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
@@ -59,14 +82,41 @@
 			remoteGlobalIDString = F58A3E311E66AEE90086E0EF;
 			remoteInfo = DZNEmptyDataSet;
 		};
-		F5BE151F1E713A7100F6FBEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F58A3E621E66B5410086E0EF;
-			remoteInfo = Applications;
-		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E108712321644A7C0023FC5E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E108712021644A7C0023FC5E /* DZNEmptyDataSet.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E108712821644A9B0023FC5E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E108712521644A9B0023FC5E /* DZNEmptyDataSet.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E108712921644CBB0023FC5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		273E51E5FA96821F8F582949 /* Pods-DZNEmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -151,7 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
+				E108711F21644A7C0023FC5E /* DZNEmptyDataSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,7 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5BE15571E71446300F6FBEA /* DZNEmptyDataSet.framework in Frameworks */,
+				E108712421644A9B0023FC5E /* DZNEmptyDataSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,12 +420,13 @@
 				F58A3E391E66AEE90086E0EF /* Resources */,
 				41E8FAF2556733821B42B61F /* [CP] Embed Pods Frameworks */,
 				C99FFA9F6DFE074B412088E9 /* [CP] Copy Pods Resources */,
+				E108712921644CBB0023FC5E /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E1075A1D216451F10037C940 /* PBXTargetDependency */,
 				F58A3E3E1E66AEE90086E0EF /* PBXTargetDependency */,
-				F5BE15201E713A7100F6FBEA /* PBXTargetDependency */,
 			);
 			name = DZNEmptyDataSetTests;
 			productName = DZNEmptyDataSetTests;
@@ -389,10 +440,12 @@
 				F58A3E5F1E66B5410086E0EF /* Sources */,
 				F58A3E601E66B5410086E0EF /* Frameworks */,
 				F58A3E611E66B5410086E0EF /* Resources */,
+				E108712321644A7C0023FC5E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E108712221644A7C0023FC5E /* PBXTargetDependency */,
 			);
 			name = Applications;
 			productName = Applications;
@@ -406,10 +459,12 @@
 				F5BE15211E713E2100F6FBEA /* Sources */,
 				F5BE15221E713E2100F6FBEA /* Frameworks */,
 				F5BE15231E713E2100F6FBEA /* Resources */,
+				E108712821644A9B0023FC5E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E108712721644A9B0023FC5E /* PBXTargetDependency */,
 			);
 			name = Colors;
 			productName = Colors;
@@ -427,15 +482,15 @@
 				TargetAttributes = {
 					F58A3E311E66AEE90086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					F58A3E3A1E66AEE90086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					F58A3E621E66B5410086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					F5BE15241E713E2100F6FBEA = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -611,15 +666,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E1075A1D216451F10037C940 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F58A3E621E66B5410086E0EF /* Applications */;
+			targetProxy = E1075A1C216451F10037C940 /* PBXContainerItemProxy */;
+		};
+		E108712221644A7C0023FC5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */;
+			targetProxy = E108712121644A7C0023FC5E /* PBXContainerItemProxy */;
+		};
+		E108712721644A9B0023FC5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */;
+			targetProxy = E108712621644A9B0023FC5E /* PBXContainerItemProxy */;
+		};
 		F58A3E3E1E66AEE90086E0EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */;
 			targetProxy = F58A3E3D1E66AEE90086E0EF /* PBXContainerItemProxy */;
-		};
-		F5BE15201E713A7100F6FBEA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F58A3E621E66B5410086E0EF /* Applications */;
-			targetProxy = F5BE151F1E713A7100F6FBEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -708,7 +773,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -761,7 +826,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -774,9 +839,9 @@
 		F58A3E471E66AEE90086E0EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -785,6 +850,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -792,9 +858,9 @@
 		F58A3E481E66AEE90086E0EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -803,6 +869,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -812,11 +879,14 @@
 			baseConfigurationReference = 52A7392318BDCC558DB8399F /* Pods-DZNEmptyDataSetTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DZNEmptyDataSetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSetTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -825,11 +895,14 @@
 			baseConfigurationReference = 273E51E5FA96821F8F582949 /* Pods-DZNEmptyDataSetTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DZNEmptyDataSetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSetTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -837,12 +910,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -850,12 +926,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -863,6 +942,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Colors/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -875,6 +955,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Colors/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
