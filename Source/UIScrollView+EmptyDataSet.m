@@ -145,7 +145,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         
         UICollectionView *collectionView = (UICollectionView *)self;
         id <UICollectionViewDataSource> dataSource = collectionView.dataSource;
-
+        
         NSInteger sections = 1;
         
         if (dataSource && [dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
@@ -364,7 +364,7 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)dzn_didTapContentView:(id)sender
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:didTapView:)]) {
-        [self.emptyDataSetDelegate emptyDataSet:self didTapView:sender];
+        [self.emptyDataSetDelegate emptyDataSet:self didTapView:[sender view]];
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -480,19 +480,23 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             
             UIImage *image = [self dzn_image];
             UIColor *imageTintColor = [self dzn_imageTintColor];
-            UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
             
-            view.verticalSpace = [self dzn_verticalSpace];
-            
-            // Configure Image
-            if (image) {
-                if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
-                    view.imageView.image = [image imageWithRenderingMode:renderingMode];
-                    view.imageView.tintColor = imageTintColor;
-                }
-                else {
-                    // iOS 6 fallback: insert code to convert imaged if needed
-                    view.imageView.image = image;
+            if (@available(iOS 7.0, *)) {
+                UIImageRenderingMode renderingMode = imageTintColor ? UIImageRenderingModeAlwaysTemplate : UIImageRenderingModeAlwaysOriginal;
+                
+                
+                view.verticalSpace = [self dzn_verticalSpace];
+                
+                // Configure Image
+                if (image) {
+                    if ([image respondsToSelector:@selector(imageWithRenderingMode:)]) {
+                        view.imageView.image = [image imageWithRenderingMode:renderingMode];
+                        view.imageView.tintColor = imageTintColor;
+                    }
+                    else {
+                        // iOS 6 fallback: insert code to convert imaged if needed
+                        view.imageView.image = image;
+                    }
                 }
             }
             
@@ -531,11 +535,11 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.userInteractionEnabled = [self dzn_isTouchAllowed];
         
         [view setupConstraints];
-        
-        [UIView performWithoutAnimation:^{
-            [view layoutIfNeeded];
-        }];
-        
+        if (@available(iOS 7.0, *)) {
+            [UIView performWithoutAnimation:^{
+                [view layoutIfNeeded];
+            }];
+        }
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
@@ -922,9 +926,11 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     // The content view must alway be centered to its superview
     NSLayoutConstraint *centerXConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterX];
     NSLayoutConstraint *centerYConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
+    NSLayoutConstraint *heightConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeHeight];
     
     [self addConstraint:centerXConstraint];
     [self addConstraint:centerYConstraint];
+    [self addConstraint:heightConstraint];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
     
     // When a custom offset is available, we adjust the vertical constraints' constants
