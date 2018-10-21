@@ -926,11 +926,9 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     // The content view must alway be centered to its superview
     NSLayoutConstraint *centerXConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterX];
     NSLayoutConstraint *centerYConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
-    NSLayoutConstraint *heightConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeHeight];
     
     [self addConstraint:centerXConstraint];
     [self addConstraint:centerYConstraint];
-    [self addConstraint:heightConstraint];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
     
     // When a custom offset is available, we adjust the vertical constraints' constants
