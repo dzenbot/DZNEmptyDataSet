@@ -51,7 +51,7 @@
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
-static BOOL tempScrollEnabled = YES;
+static BOOL tempScrollEnabled;
 #define kEmptyImageViewAnimationKey @"com.dzn.emptyDataSet.imageViewAnimation"
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
@@ -393,6 +393,8 @@ static BOOL tempScrollEnabled = YES;
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)datasource
 {
     if (!datasource || ![self dzn_canDisplay]) {
+        // Record scroll permission
+        tempScrollEnabled = self.scrollEnabled;
         [self dzn_invalidate];
     }
     
@@ -410,6 +412,8 @@ static BOOL tempScrollEnabled = YES;
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
 {
     if (!delegate) {
+        // Record scroll permission
+        tempScrollEnabled = self.scrollEnabled;
         [self dzn_invalidate];
     }
     
