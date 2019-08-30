@@ -28,10 +28,29 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <FBSnapshotTestCase/UIImage+Diff.h>
 
-@interface UIImage (Diff)
+@implementation UIImage (Diff)
 
-- (UIImage *)fb_diffWithImage:(UIImage *)image;
+- (UIImage *)fb_diffWithImage:(UIImage *)image
+{
+    if (!image) {
+        return nil;
+    }
+    CGSize imageSize = CGSizeMake(MAX(self.size.width, image.size.width), MAX(self.size.height, image.size.height));
+    UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
+    CGContextSetAlpha(context, 0.5);
+    CGContextBeginTransparencyLayer(context, NULL);
+    [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+    CGContextSetBlendMode(context, kCGBlendModeDifference);
+    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextFillRect(context, CGRectMake(0, 0, self.size.width, self.size.height));
+    CGContextEndTransparencyLayer(context);
+    UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return returnImage;
+}
 
 @end

@@ -28,29 +28,22 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <FBSnapshotTestCase/UIImage+Diff.h>
+#import <UIKit/UIKit.h>
 
-@implementation UIImage (Diff)
+NS_ASSUME_NONNULL_BEGIN
 
-- (UIImage *)fb_diffWithImage:(UIImage *)image
-{
-  if (!image) {
-    return nil;
-  }
-  CGSize imageSize = CGSizeMake(MAX(self.size.width, image.size.width), MAX(self.size.height, image.size.height));
-  UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  [self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
-  CGContextSetAlpha(context, 0.5);
-  CGContextBeginTransparencyLayer(context, NULL);
-  [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
-  CGContextSetBlendMode(context, kCGBlendModeDifference);
-  CGContextSetFillColorWithColor(context,[UIColor whiteColor].CGColor);
-  CGContextFillRect(context, CGRectMake(0, 0, self.size.width, self.size.height));
-  CGContextEndTransparencyLayer(context);
-  UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return returnImage;
-}
+@interface UIImage (Compare)
+
+/**
+ Compares the image against another given image.
+
+ @param image The other image to compare against.
+ @param perPixelTolerance How much (in percentage) any given pixel's colors are allowed to change from the pixel in the reference image.
+ @param overallTolerance The overall percentage of pixels that are allowed to change from the pixels in the reference image.
+ @return A BOOL which represents if the image is the same or not.
+ */
+- (BOOL)fb_compareWithImage:(UIImage *)image perPixelTolerance:(CGFloat)perPixelTolerance overallTolerance:(CGFloat)overallTolerance;
 
 @end
+
+NS_ASSUME_NONNULL_END
