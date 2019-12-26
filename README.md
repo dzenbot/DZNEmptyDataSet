@@ -61,7 +61,7 @@ To integrate DZNEmptyDataSet into your Xcode project using Carthage, specify it 
 github "dzenbot/DZNEmptyDataSet"
 ```
 
-To integrate DZNEmptyDataSet into your Xcode project using SPM, specify it in your `Package`:
+To integrate DZNEmptyDataSet into your Xcode project using SPM, specify it in your `Package.swift`:
 
 ```ruby
 .package(
