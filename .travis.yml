@@ -8,7 +8,7 @@ cache:
 
 before_install:
     - bundle install
-    - bundle exec danger
+    #- bundle exec danger
 
 env:
     global:
