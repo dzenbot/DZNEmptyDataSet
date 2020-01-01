@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */; };
+		4F59DA4F23BC1F060059733C /* EmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
 		F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 		F58A3E411E66AEE90086E0EF /* ApplicationsSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */; };
@@ -69,6 +70,7 @@
 		1C26D4C95382E14DAC506EE2 /* Pods-EmptyDataSetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSetTests/Pods-EmptyDataSetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		23BB766D928F8635A201F389 /* Pods_EmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3456B9A6D72D48F19A7F61 /* Pods-DZNEmptyDataSetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSet.swift; sourceTree = "<group>"; };
 		78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DZNEmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84189CEC4210484C1F24D3A8 /* Pods-DZNEmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
 		DC2B63699C936D9C9CDB1740 /* Pods-EmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSetTests/Pods-EmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */,
 				F58A3E4C1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h */,
 				F58A3E4D1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m */,
+				4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */,
 				F58A3E361E66AEE90086E0EF /* Info.plist */,
 			);
 			path = DZNEmptyDataSet;
@@ -439,6 +442,7 @@
 				TargetAttributes = {
 					F58A3E311E66AEE90086E0EF = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Manual;
 					};
 					F58A3E3A1E66AEE90086E0EF = {
@@ -569,6 +573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F59DA4F23BC1F060059733C /* EmptyDataSet.swift in Sources */,
 				F58A3E4F1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -772,6 +777,7 @@
 		F58A3E471E66AEE90086E0EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -784,12 +790,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		F58A3E481E66AEE90086E0EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -802,6 +811,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
