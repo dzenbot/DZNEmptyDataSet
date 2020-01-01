@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
@@ -31,34 +32,48 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "cell \(indexPath.row+1)"
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+}
+
 extension ViewController: EmptyDataSetSource {
 
-    func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString? {
-        return nil
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return NSAttributedString(string: "Hello")
     }
 
-    func descriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString? {
-        return nil
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return NSAttributedString(string: "World")
     }
 
-    func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage? {
-        return nil
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        return UIImage(named: "Bento-Box")
     }
 
-    func tintColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
-        return nil
-    }
-
-    func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
-        return nil
-    }
-
-    func customViewForEmptyDataSet(scrollView: UIScrollView) -> UIView? {
-        return nil
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
+        return UIColor(red: 232/255, green: 240/255, blue: 242/255, alpha: 1)
     }
 }
 
 extension ViewController: EmptyDataSetDelegate {
+
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
         return true
     }

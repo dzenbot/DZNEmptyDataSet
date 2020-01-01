@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */; };
 		3B12888038B2AA7F321565FC /* Pods_Bento.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A616CBACE16863851A421398 /* Pods_Bento.framework */; };
+		3FF250E1FED243B2337A1DF9 /* Pods_EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8442C77998FDE8BE3D6A37 /* Pods_EmptyDataSet.framework */; };
 		4FA1AAE923BC28F2007CF389 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAE823BC28F2007CF389 /* AppDelegate.swift */; };
 		4FA1AAEB23BC28F2007CF389 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAEA23BC28F2007CF389 /* SceneDelegate.swift */; };
 		4FA1AAED23BC28F2007CF389 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAEC23BC28F2007CF389 /* ViewController.swift */; };
@@ -22,6 +23,9 @@
 		4FA1AB0D23BC29D2007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AB0F23BC2BC9007CF389 /* EmptyDataSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */; };
 		4FA1AB1123BC2C20007CF389 /* EmptyDataSetImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */; };
+		4FA1AB1223BD2F1D007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
+		4FA1AB1423BD3645007CF389 /* EmptyDataSetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */; };
+		4FA1AB1623BD3679007CF389 /* EmptyDataSetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
 		F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 		F58A3E411E66AEE90086E0EF /* ApplicationsSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */; };
@@ -104,6 +108,7 @@
 		0964B6B448E0388404127D2C /* Pods-Bento.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bento.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bento/Pods-Bento.debug.xcconfig"; sourceTree = "<group>"; };
 		1C26D4C95382E14DAC506EE2 /* Pods-EmptyDataSetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSetTests/Pods-EmptyDataSetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		23BB766D928F8635A201F389 /* Pods_EmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		35391D2768B732E0C798EDE8 /* Pods-EmptyDataSet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSet/Pods-EmptyDataSet.debug.xcconfig"; sourceTree = "<group>"; };
 		3B3456B9A6D72D48F19A7F61 /* Pods-DZNEmptyDataSetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSet.swift; sourceTree = "<group>"; };
 		4FA1AAE623BC28F2007CF389 /* Bento.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bento.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,10 +124,14 @@
 		4FA1AB0223BC296B007CF389 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetView.swift; sourceTree = "<group>"; };
 		4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetImpl.swift; sourceTree = "<group>"; };
+		4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetSource.swift; sourceTree = "<group>"; };
+		4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetDelegate.swift; sourceTree = "<group>"; };
 		78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DZNEmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80429DE569A05F9D34CC30C7 /* Pods-Bento.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bento.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bento/Pods-Bento.release.xcconfig"; sourceTree = "<group>"; };
 		84189CEC4210484C1F24D3A8 /* Pods-DZNEmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
+		8A3065E7E54480E6A729ACA3 /* Pods-EmptyDataSet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSet.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSet/Pods-EmptyDataSet.release.xcconfig"; sourceTree = "<group>"; };
 		A616CBACE16863851A421398 /* Pods_Bento.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bento.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB8442C77998FDE8BE3D6A37 /* Pods_EmptyDataSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmptyDataSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC2B63699C936D9C9CDB1740 /* Pods-EmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSetTests/Pods-EmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
 		F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DZNEmptyDataSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DZNEmptyDataSet.h; sourceTree = "<group>"; };
@@ -191,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FF250E1FED243B2337A1DF9 /* Pods_EmptyDataSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA1AB1223BD2F1D007CF389 /* EmptyDataSet.framework in Frameworks */,
 				F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
 				3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */,
 			);
@@ -239,6 +250,8 @@
 				84189CEC4210484C1F24D3A8 /* Pods-DZNEmptyDataSetTests.release.xcconfig */,
 				0964B6B448E0388404127D2C /* Pods-Bento.debug.xcconfig */,
 				80429DE569A05F9D34CC30C7 /* Pods-Bento.release.xcconfig */,
+				35391D2768B732E0C798EDE8 /* Pods-EmptyDataSet.debug.xcconfig */,
+				8A3065E7E54480E6A729ACA3 /* Pods-EmptyDataSet.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -262,6 +275,8 @@
 			children = (
 				4FA1AB0123BC296B007CF389 /* DZNEmptyDataSet.h */,
 				4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */,
+				4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */,
+				4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */,
 				4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */,
 				4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */,
 				4FA1AB0223BC296B007CF389 /* Info.plist */,
@@ -275,6 +290,7 @@
 				23BB766D928F8635A201F389 /* Pods_EmptyDataSetTests.framework */,
 				78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */,
 				A616CBACE16863851A421398 /* Pods_Bento.framework */,
+				BB8442C77998FDE8BE3D6A37 /* Pods_EmptyDataSet.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -487,6 +503,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FA1AB0823BC296B007CF389 /* Build configuration list for PBXNativeTarget "EmptyDataSet" */;
 			buildPhases = (
+				6444A841F00E85DDECD9DB6C /* [CP] Check Pods Manifest.lock */,
 				4FA1AAFA23BC296B007CF389 /* Headers */,
 				4FA1AAFB23BC296B007CF389 /* Sources */,
 				4FA1AAFC23BC296B007CF389 /* Frameworks */,
@@ -739,6 +756,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6444A841F00E85DDECD9DB6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EmptyDataSet-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DDD9C9F5302171B78206FE07 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -796,7 +835,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA1AB1623BD3679007CF389 /* EmptyDataSetDelegate.swift in Sources */,
 				4FA1AB1123BC2C20007CF389 /* EmptyDataSetImpl.swift in Sources */,
+				4FA1AB1423BD3645007CF389 /* EmptyDataSetSource.swift in Sources */,
 				4FA1AB0C23BC2991007CF389 /* EmptyDataSet.swift in Sources */,
 				4FA1AB0F23BC2BC9007CF389 /* EmptyDataSetView.swift in Sources */,
 			);
@@ -963,6 +1004,7 @@
 		};
 		4FA1AB0923BC296B007CF389 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35391D2768B732E0C798EDE8 /* Pods-EmptyDataSet.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -993,6 +1035,7 @@
 		};
 		4FA1AB0A23BC296B007CF389 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8A3065E7E54480E6A729ACA3 /* Pods-EmptyDataSet.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

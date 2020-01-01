@@ -9,6 +9,10 @@ target 'Bento' do
     pod 'SnapKit'
 end
 
+target 'EmptyDataSet' do
+    pod 'SnapKit'
+end
+
 target 'DZNEmptyDataSetTests' do
     pod 'iOSSnapshotTestCase'
 end

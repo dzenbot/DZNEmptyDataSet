@@ -9,7 +9,8 @@
 #import "DetailViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-#import <DZNEmptyDataSet/DZNEmptyDataSet.h>
+@import DZNEmptyDataSet;
+@import EmptyDataSet;
 
 @interface DetailViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) Application *application;

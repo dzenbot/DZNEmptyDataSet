@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 internal class EmptyDataSetView: UIView {
 
@@ -46,31 +47,7 @@ internal class EmptyDataSetView: UIView {
         return view
     }()
 
-    func prepareForReuse() {
-        guard contentView.subviews.count > 0 else { return }
-
-        titleLabel.text = nil
-        titleLabel.frame = .zero
-
-        descriptionLabel.text = nil
-        descriptionLabel.frame = .zero
-
-        imageView.image = nil
-
-        // Removes all subviews
-        contentView.subviews.forEach({$0.removeFromSuperview()})
-    }
-
     // MARK: - Private
-
-    fileprivate func verticalStackView(with views: [UIView]) -> UIStackView {
-        let stackView = UIStackView(arrangedSubviews: views)
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.alignment = .leading
-        stackView.spacing = 0
-        return stackView
-    }
 
     fileprivate var canShowImage: Bool {
         return imageView.image != nil
@@ -81,9 +58,22 @@ internal class EmptyDataSetView: UIView {
         return !attributedString.string.isEmpty
     }
 
-    fileprivate var canShowDetail: Bool {
+    fileprivate var canShowDescription: Bool {
         guard let attributedString = descriptionLabel.attributedText else { return false }
         return !attributedString.string.isEmpty
+    }
+
+    // MARK: - Initialization
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.frame = UIScreen.main.bounds
+        addSubview(contentView)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - UIView Overrides
@@ -100,5 +90,61 @@ internal class EmptyDataSetView: UIView {
         else {
             self.contentView.alpha = 1
         }
+    }
+
+    // MARK: - Layout
+
+    func setupLayout() {
+
+        prepareForReuse()
+
+        let padding = frame.width/16
+        var views = [UIView]()
+
+        if canShowImage { views.append(imageView) }
+        if canShowTitle { views.append(titleLabel) }
+        if canShowDescription { views.append(descriptionLabel) }
+
+        // skip layout if there is nothing to display
+        guard views.count > 0 else { return }
+
+        let stackView = UIStackView(arrangedSubviews: views)
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = 10
+
+        if canShowImage { stackView.setCustomSpacing(50, after: imageView) }
+//        stackView.setCustomSpacing(10, after: titleLabel)
+
+        contentView.addSubview(stackView)
+        stackView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+    }
+
+    func prepareForReuse() {
+        guard contentView.subviews.count > 0 else { return }
+
+        titleLabel.text = nil
+        titleLabel.frame = .zero
+
+        descriptionLabel.text = nil
+        descriptionLabel.frame = .zero
+
+        imageView.image = nil
+
+        // Removes all subviews
+        contentView.subviews.forEach({$0.removeFromSuperview()})
+    }
+
+    // MARK: - Gesture Handling
+
+    fileprivate func didTapView(sender: UIView) {
+        print("didTapView: \(sender)")
+    }
+
+    fileprivate func didTapView() {
+        print("didTapView: \(self)")
     }
 }

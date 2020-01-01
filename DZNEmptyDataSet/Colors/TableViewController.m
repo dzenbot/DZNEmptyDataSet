@@ -11,7 +11,8 @@
 #import "Palette.h"
 #import "Color.h"
 
-#import <DZNEmptyDataSet/DZNEmptyDataSet.h>
+@import DZNEmptyDataSet;
+@import EmptyDataSet;
 
 @interface TableViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end

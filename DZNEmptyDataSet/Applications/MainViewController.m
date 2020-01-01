@@ -9,7 +9,8 @@
 #import "MainViewController.h"
 #import "UIColor+Hexadecimal.h"
 
-#import <DZNEmptyDataSet/DZNEmptyDataSet.h>
+@import DZNEmptyDataSet;
+@import EmptyDataSet;
 
 @interface MainViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (nonatomic, strong) NSArray *applications;

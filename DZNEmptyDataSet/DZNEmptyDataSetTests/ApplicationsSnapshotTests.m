@@ -6,9 +6,10 @@
 //  Copyright © 2017 DZN. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-#import <DZNEmptyDataSet/DZNEmptyDataSet.h>
+@import UIKit;
+@import DZNEmptyDataSet;
+@import FBSnapshotTestCase;
+@import EmptyDataSet;
 
 #import "Application.h"
 #import "DetailViewController.h"

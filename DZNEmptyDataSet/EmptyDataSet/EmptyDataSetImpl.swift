@@ -16,7 +16,15 @@ protocol EmptyDataSetProtocol {
 extension UIScrollView  {
 
     var emptyDataSetView: EmptyDataSetView? {
-        return nil
+        var view = objc_getAssociatedObject(self, &AssociatedKeys.view) as? EmptyDataSetView
+
+        if view == nil {
+            view = EmptyDataSetView()
+//            view?.isHidden = true
+            objc_setAssociatedObject(self, &AssociatedKeys.view, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+
+        return view
     }
 
     // MARK: - Swizzling

@@ -25,36 +25,6 @@ public protocol EmptyDataSetInterface {
     func reloadEmptyDataSet()
 }
 
-public protocol EmptyDataSetSource {
-
-    ///
-    func titleForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
-
-    ///
-    func descriptionForEmptyDataSet(scrollView: UIScrollView) -> NSAttributedString?
-
-    ///
-    func imageForEmptyDataSet(scrollView: UIScrollView) -> UIImage?
-
-    ///
-    func tintColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor?
-
-    ///
-    func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor?
-
-    ///
-    func customViewForEmptyDataSet(scrollView: UIScrollView) -> UIView?
-}
-
-public protocol EmptyDataSetDelegate {
-
-    ///
-    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool
-
-    ///
-    func emptyDataSetDidUpdateState(_ scrollView: UIScrollView, state: EmptyDataSetState)
-}
-
 public enum EmptyDataSetState {
     case willAppear, didAppear, willDisappear, DidDisappear
 }
@@ -62,23 +32,13 @@ public enum EmptyDataSetState {
 extension UIScrollView: EmptyDataSetInterface {
 
     public var emptyDataSetSource: EmptyDataSetSource? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.datasource) as? EmptyDataSetSource
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.datasource, newValue, .OBJC_ASSOCIATION_ASSIGN)
-            swizzleIfNeeded()
-        }
+        get { return objc_getAssociatedObject(self, &AssociatedKeys.datasource) as? EmptyDataSetSource }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.datasource, newValue, .OBJC_ASSOCIATION_ASSIGN); swizzleIfNeeded() }
     }
 
     public var emptyDataSetDelegate: EmptyDataSetDelegate? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.delegate) as? EmptyDataSetDelegate
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.delegate, newValue, .OBJC_ASSOCIATION_ASSIGN)
-            swizzleIfNeeded()
-        }
+        get { return objc_getAssociatedObject(self, &AssociatedKeys.delegate) as? EmptyDataSetDelegate }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.delegate, newValue, .OBJC_ASSOCIATION_ASSIGN); swizzleIfNeeded() }
     }
 
     public var isEmptyDataSetVisible: Bool {
@@ -87,6 +47,14 @@ extension UIScrollView: EmptyDataSetInterface {
     }
 
     public func reloadEmptyDataSet() {
+        guard let view = self.emptyDataSetView else { return }
 
+        view.titleLabel.attributedText = emptyDataSetSource?.title(forEmptyDataSet: self)
+        view.descriptionLabel.attributedText = emptyDataSetSource?.description(forEmptyDataSet: self)
+        view.imageView.image = emptyDataSetSource?.image(forEmptyDataSet: self)
+        view.backgroundColor = emptyDataSetSource?.backgroundColor(forEmptyDataSet: self)
+
+        view.setupLayout()
+        addSubview(view)
     }
 }

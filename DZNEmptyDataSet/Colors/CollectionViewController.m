@@ -11,7 +11,8 @@
 #import "Palette.h"
 #import "Color.h"
 
-#import <DZNEmptyDataSet/DZNEmptyDataSet.h>
+@import DZNEmptyDataSet;
+@import EmptyDataSet;
 
 #define kColumnCountMax 7
 #define kColumnCountMin 5
