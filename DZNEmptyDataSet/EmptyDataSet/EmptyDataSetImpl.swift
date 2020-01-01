@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EmptyDataSetProtocol {
-    func doSwizzle() -> Bool
+    func swizzle() -> Bool
     func isEmpty() -> Bool
 }
 
@@ -72,7 +72,7 @@ internal extension UIScrollView  {
         guard !didSwizzle else { return }
 
         if let proxy = self as? EmptyDataSetProtocol {
-            didSwizzle = proxy.doSwizzle()
+            didSwizzle = proxy.swizzle()
         } else {
             print("\(type(of: self)) should conform to protocol EmptyDataset")
         }
@@ -100,7 +100,7 @@ internal extension UIScrollView  {
 
 extension UITableView: EmptyDataSetProtocol {
 
-    func doSwizzle() -> Bool {
+    func swizzle() -> Bool {
         var didSwizzle = false
 
         let newReloadDataSelector = #selector(reloadData_swizzled)
@@ -127,16 +127,12 @@ extension UITableView: EmptyDataSetProtocol {
     }
 
     @objc func reloadData_swizzled() {
-        print("\(type(of: self)).\(#function)")
-
         // Calls the original implementation
         reloadData_swizzled()
         reloadEmptyDataSet()
     }
 
     @objc func endUpdates_swizzled() {
-        print("\(type(of: self)).\(#function)")
-
         // Calls the original implementation
         endUpdates_swizzled()
         reloadEmptyDataSet()
@@ -147,7 +143,7 @@ extension UITableView: EmptyDataSetProtocol {
 
 extension UICollectionView: EmptyDataSetProtocol {
 
-    func doSwizzle() -> Bool {
+    func swizzle() -> Bool {
         var didSwizzle = false
 
         let newReloadDataSelector = #selector(reloadData_swizzled)
@@ -174,16 +170,12 @@ extension UICollectionView: EmptyDataSetProtocol {
     }
 
     @objc func reloadData_swizzled() {
-        print("\(type(of: self)).\(#function)")
-
         // Calls the original implementation
         reloadData_swizzled()
         reloadEmptyDataSet()
     }
 
     @objc func performBatchUpdates_swizzled() {
-        print("\(type(of: self)).\(#function)")
-
         // Calls the original implementation
         performBatchUpdates_swizzled()
         reloadEmptyDataSet()
