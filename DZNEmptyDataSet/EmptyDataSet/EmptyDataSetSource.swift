@@ -12,37 +12,42 @@ import UIKit
 /// The data source must adopt the EmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
 public protocol EmptyDataSetSource: class {
 
-    ///
+    /// Default is nil.
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString?
 
-    ///
+    /// Default is nil.
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString?
 
-    ///
+    /// Default is nil.
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage?
 
-    ///
-    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
-
-    ///
+    /// Default is nil.
     func imagetintColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
 
-    ///
-    func spaceHeight(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
+    /// Default is nil.
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
 
-    ///
+    /// Default is nil.
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString?
+
+    /// Default is nil.
+    func buttonImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage?
+
+    /// Default is nil.
+    func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage?
+
+    /// Default is EmptyDataSetDefaultSpacing.
+    func spacing(forEmptyDataSet scrollView: UIScrollView, after emptyDataSetElement: EmptyDataSetElement) -> CGFloat?
+
+    /// Default is nil.
     func customView(forEmptyDataSet scrollView: UIScrollView) -> UIView?
 }
 
 /// EmptyDataSetSource default implementation so most methods are optional
-
+/// -title(forEmptyDataSet:) and -description(forEmptyDataSet:) are required for minimum configuration.
 public extension EmptyDataSetSource {
 
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
-        return nil
-    }
-
-    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
         return nil
     }
 
@@ -50,8 +55,24 @@ public extension EmptyDataSetSource {
         return nil
     }
 
-    func spaceHeight(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
         return nil
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        return nil
+    }
+
+    func buttonImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage? {
+        return nil
+    }
+
+    func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage? {
+        return nil
+    }
+
+    func spacing(forEmptyDataSet scrollView: UIScrollView, after emptyDataSetElement: EmptyDataSetElement) -> CGFloat? {
+        return EmptyDataSetDefaultSpacing
     }
 
     func customView(forEmptyDataSet scrollView: UIScrollView) -> UIView? {

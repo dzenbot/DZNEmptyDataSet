@@ -13,14 +13,43 @@ protocol EmptyDataSetProtocol {
     func isEmpty() -> Bool
 }
 
-extension UIScrollView  {
+internal extension UIScrollView  {
+
+    // MARK: - Layout
+
+    func layoutEmptyDataSetIfNeeded() {
+        guard let view = self.emptyDataSetView else { return }
+
+        if let source = emptyDataSetSource {
+            view.titleLabel.attributedText = source.title(forEmptyDataSet: self)
+            view.descriptionLabel.attributedText = source.description(forEmptyDataSet: self)
+            view.imageView.image = source.image(forEmptyDataSet: self)
+            view.backgroundColor = source.backgroundColor(forEmptyDataSet: self)
+
+            var spacing = [EmptyDataSetElement: CGFloat]()
+            EmptyDataSetElement.allCases.forEach {
+                spacing[$0] = source.spacing(forEmptyDataSet: self, after: $0)
+            }
+            view.spacing = spacing
+        }
+
+        if let delegate = emptyDataSetDelegate {
+            view.fadeInOnDisplay = delegate.emptyDataSetShouldFadeIn(self)
+            view.isUserInteractionEnabled = delegate.emptyDataSetShouldAllowTouch(self)
+
+            // TODO: Cache previous scroll state
+            isScrollEnabled = delegate.emptyDataSetShouldAllowScroll(self)
+        }
+
+        view.setupLayout()
+        addSubview(view)
+    }
 
     var emptyDataSetView: EmptyDataSetView? {
         var view = objc_getAssociatedObject(self, &AssociatedKeys.view) as? EmptyDataSetView
 
         if view == nil {
             view = EmptyDataSetView()
-//            view?.isHidden = true
             objc_setAssociatedObject(self, &AssociatedKeys.view, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
 
@@ -50,7 +79,7 @@ extension UIScrollView  {
     }
 
     fileprivate func swizzle(originalSelector: Selector, swizzledSelector: Selector) -> Bool {
-        guard self.responds(to: originalSelector) else { return false }
+        guard responds(to: originalSelector) else { return false }
 
         guard let originalMethod = class_getInstanceMethod(type(of: self), originalSelector),
             let swizzledMethod = class_getInstanceMethod(type(of: self), swizzledSelector) else { return false }

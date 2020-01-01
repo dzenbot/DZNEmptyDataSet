@@ -70,6 +70,15 @@ extension ViewController: EmptyDataSetSource {
     func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
         return UIColor(red: 232/255, green: 240/255, blue: 242/255, alpha: 1)
     }
+
+    func spacing(forEmptyDataSet scrollView: UIScrollView, after emptyDataSetElement: EmptyDataSetElement) -> CGFloat? {
+        switch emptyDataSetElement {
+        case .image:
+            return 30
+        default:
+            return nil
+        }
+    }
 }
 
 extension ViewController: EmptyDataSetDelegate {
@@ -78,7 +87,27 @@ extension ViewController: EmptyDataSetDelegate {
         return true
     }
 
-    func emptyDataSetDidUpdateState(_ scrollView: UIScrollView, state: EmptyDataSetState) {
+    func emptyDataSetShouldForceToDisplay(_ scrollView: UIScrollView) -> Bool {
+        return false
+    }
+
+    func emptyDataSetShouldFadeIn(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSetShouldAllowTouch(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapView view: UIView) {
+
+    }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
     }
 }

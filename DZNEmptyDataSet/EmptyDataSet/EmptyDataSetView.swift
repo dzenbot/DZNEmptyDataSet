@@ -14,6 +14,7 @@ internal class EmptyDataSetView: UIView {
     // MARK: - Internal
 
     var fadeInOnDisplay = false
+    var spacing: [EmptyDataSetElement: CGFloat]?
 
     lazy var contentView: UIView = {
         let view = UIView()
@@ -47,6 +48,11 @@ internal class EmptyDataSetView: UIView {
         return view
     }()
 
+    lazy var button: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+
     // MARK: - Private
 
     fileprivate var canShowImage: Bool {
@@ -67,9 +73,6 @@ internal class EmptyDataSetView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        contentView.frame = UIScreen.main.bounds
-        addSubview(contentView)
     }
 
     required init?(coder: NSCoder) {
@@ -79,16 +82,18 @@ internal class EmptyDataSetView: UIView {
     // MARK: - UIView Overrides
 
     override func didMoveToWindow() {
-        guard let superview = self.superview else { return }
-        self.frame = superview.bounds
+        guard let superview = superview else { return }
+        frame = superview.bounds
 
-        if self.fadeInOnDisplay {
-            UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                self.contentView.alpha = 1
+        contentView.frame = bounds
+        addSubview(contentView)
+
+        if fadeInOnDisplay {
+            UIView.animate(withDuration: 0.25, animations: { [weak self] () -> Void in
+                self?.contentView.alpha = 1
             })
-        }
-        else {
-            self.contentView.alpha = 1
+        } else {
+            contentView.alpha = 1
         }
     }
 
@@ -98,9 +103,7 @@ internal class EmptyDataSetView: UIView {
 
         prepareForReuse()
 
-        let padding = frame.width/16
         var views = [UIView]()
-
         if canShowImage { views.append(imageView) }
         if canShowTitle { views.append(titleLabel) }
         if canShowDescription { views.append(descriptionLabel) }
@@ -112,10 +115,13 @@ internal class EmptyDataSetView: UIView {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.spacing = EmptyDataSetDefaultSpacing
 
-        if canShowImage { stackView.setCustomSpacing(50, after: imageView) }
-//        stackView.setCustomSpacing(10, after: titleLabel)
+        if let spacing = spacing {
+            if let space = spacing[.image] { stackView.setCustomSpacing(space, after: imageView) }
+            if let space = spacing[.title] { stackView.setCustomSpacing(space, after: titleLabel) }
+            if let space = spacing[.description] { stackView.setCustomSpacing(space, after: descriptionLabel) }
+        }
 
         contentView.addSubview(stackView)
         stackView.snp.makeConstraints {

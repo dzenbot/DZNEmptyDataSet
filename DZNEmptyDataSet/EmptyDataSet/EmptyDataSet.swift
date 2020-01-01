@@ -25,9 +25,11 @@ public protocol EmptyDataSetInterface {
     func reloadEmptyDataSet()
 }
 
-public enum EmptyDataSetState {
-    case willAppear, didAppear, willDisappear, DidDisappear
+public enum EmptyDataSetElement: CaseIterable {
+    case image, title, description, button
 }
+
+let EmptyDataSetDefaultSpacing: CGFloat = 10
 
 extension UIScrollView: EmptyDataSetInterface {
 
@@ -47,14 +49,6 @@ extension UIScrollView: EmptyDataSetInterface {
     }
 
     public func reloadEmptyDataSet() {
-        guard let view = self.emptyDataSetView else { return }
-
-        view.titleLabel.attributedText = emptyDataSetSource?.title(forEmptyDataSet: self)
-        view.descriptionLabel.attributedText = emptyDataSetSource?.description(forEmptyDataSet: self)
-        view.imageView.image = emptyDataSetSource?.image(forEmptyDataSet: self)
-        view.backgroundColor = emptyDataSetSource?.backgroundColor(forEmptyDataSet: self)
-
-        view.setupLayout()
-        addSubview(view)
+        layoutEmptyDataSetIfNeeded() 
     }
 }
