@@ -41,6 +41,9 @@ public protocol EmptyDataSetSource {
 
     ///
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor?
+
+    ///
+    func customViewForEmptyDataSet(scrollView: UIScrollView) -> UIView?
 }
 
 public protocol EmptyDataSetDelegate {

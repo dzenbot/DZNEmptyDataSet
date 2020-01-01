@@ -11,7 +11,6 @@ import UIKit
 protocol EmptyDataSetProtocol {
     func doSwizzle() -> Bool
     func isEmpty() -> Bool
-    func reloadDataEmptyDataSet()
 }
 
 extension UIScrollView  {
@@ -60,16 +59,18 @@ extension UIScrollView  {
     }
 }
 
+// MARK: - UITableView + EmptyDataSetProtocol
+
 extension UITableView: EmptyDataSetProtocol {
 
     func doSwizzle() -> Bool {
         var didSwizzle = false
 
-        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let newReloadDataSelector = #selector(reloadData_swizzled)
         let originalReloadDataSelector = #selector(UITableView.reloadData)
         didSwizzle = swizzle(originalSelector: originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
 
-        let newEndUpdatesSelector = #selector(endUpdatesEmptyDataSet)
+        let newEndUpdatesSelector = #selector(endUpdates_swizzled)
         let originalEndUpdatesSelector = #selector(UITableView.endUpdates)
         didSwizzle = didSwizzle &&
             swizzle(originalSelector: originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
@@ -88,33 +89,35 @@ extension UITableView: EmptyDataSetProtocol {
         return items == 0
     }
 
-    @objc func reloadDataEmptyDataSet() {
+    @objc func reloadData_swizzled() {
         print("\(type(of: self)).\(#function)")
 
         // Calls the original implementation
-        self.reloadDataEmptyDataSet()
+        reloadData_swizzled()
         reloadEmptyDataSet()
     }
 
-    @objc func endUpdatesEmptyDataSet() {
+    @objc func endUpdates_swizzled() {
         print("\(type(of: self)).\(#function)")
 
         // Calls the original implementation
-        self.endUpdatesEmptyDataSet()
+        endUpdates_swizzled()
         reloadEmptyDataSet()
     }
 }
+
+// MARK: - UICollectionView + EmptyDataSetProtocol
 
 extension UICollectionView: EmptyDataSetProtocol {
 
     func doSwizzle() -> Bool {
         var didSwizzle = false
 
-        let newReloadDataSelector = #selector(reloadDataEmptyDataSet)
+        let newReloadDataSelector = #selector(reloadData_swizzled)
         let originalReloadDataSelector = #selector(UICollectionView.reloadData)
         didSwizzle = swizzle(originalSelector: originalReloadDataSelector, swizzledSelector: newReloadDataSelector)
 
-        let newEndUpdatesSelector = #selector(performBatchUpdatesEmptyDataSet)
+        let newEndUpdatesSelector = #selector(performBatchUpdates_swizzled)
         let originalEndUpdatesSelector = #selector(UICollectionView.performBatchUpdates(_:completion:))
         didSwizzle = didSwizzle &&
             swizzle(originalSelector: originalEndUpdatesSelector, swizzledSelector: newEndUpdatesSelector)
@@ -133,26 +136,28 @@ extension UICollectionView: EmptyDataSetProtocol {
         return items == 0
     }
 
-    @objc func reloadDataEmptyDataSet() {
+    @objc func reloadData_swizzled() {
         print("\(type(of: self)).\(#function)")
 
         // Calls the original implementation
-        self.reloadDataEmptyDataSet()
+        reloadData_swizzled()
         reloadEmptyDataSet()
     }
 
-    @objc func performBatchUpdatesEmptyDataSet() {
+    @objc func performBatchUpdates_swizzled() {
         print("\(type(of: self)).\(#function)")
 
         // Calls the original implementation
-        self.performBatchUpdatesEmptyDataSet()
+        performBatchUpdates_swizzled()
         reloadEmptyDataSet()
     }
 }
 
+// MARK: - Swizzling Associated Keys
+
 struct AssociatedKeys {
     static var datasource = "emptyDataSetSource"
     static var delegate = "emptyDataSetDelegate"
-    static var contentView = "emptyDataSetView"
+    static var view = "emptyDataSetView"
     static var didSwizzle = "didSwizzle"
 }

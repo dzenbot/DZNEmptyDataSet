@@ -52,6 +52,10 @@ extension ViewController: EmptyDataSetSource {
     func backgroundColorForEmptyDataSet(scrollView: UIScrollView) -> UIColor? {
         return nil
     }
+
+    func customViewForEmptyDataSet(scrollView: UIScrollView) -> UIView? {
+        return nil
+    }
 }
 
 extension ViewController: EmptyDataSetDelegate {
