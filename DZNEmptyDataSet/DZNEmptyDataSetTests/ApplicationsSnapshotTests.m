@@ -9,7 +9,6 @@
 @import UIKit;
 @import DZNEmptyDataSet;
 @import FBSnapshotTestCase;
-@import EmptyDataSet;
 
 #import "Application.h"
 #import "DetailViewController.h"

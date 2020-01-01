@@ -23,7 +23,6 @@
 		4FA1AB0D23BC29D2007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AB0F23BC2BC9007CF389 /* EmptyDataSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */; };
 		4FA1AB1123BC2C20007CF389 /* EmptyDataSetImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */; };
-		4FA1AB1223BD2F1D007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AB1423BD3645007CF389 /* EmptyDataSetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */; };
 		4FA1AB1623BD3679007CF389 /* EmptyDataSetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
@@ -215,7 +214,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FA1AB1223BD2F1D007CF389 /* EmptyDataSet.framework in Frameworks */,
 				F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
 				3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */,
 			);
