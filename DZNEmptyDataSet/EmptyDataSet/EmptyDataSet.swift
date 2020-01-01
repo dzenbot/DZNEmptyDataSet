@@ -11,10 +11,10 @@ import UIKit
 public protocol EmptyDataSetInterface {
 
     /// The empty datasets delegate
-    var emptyDataSetSource: EmptyDataSetSource { get set }
+    var emptyDataSetSource: EmptyDataSetSource? { get set }
 
     /// The empty datasets data source
-    var emptyDataSetDelegate: EmptyDataSetDelegate { get set }
+    var emptyDataSetDelegate: EmptyDataSetDelegate? { get set }
 
     /// Returns true if the Empty Data Set View is visible
     var isEmptyDataSetVisible: Bool { get }
@@ -56,6 +56,34 @@ public enum EmptyDataSetState {
     case willAppear, didAppear, willDisappear, DidDisappear
 }
 
-extension EmptyDataSetInterface where Self: UIScrollView {
-    
+extension UIScrollView: EmptyDataSetInterface {
+
+    public var emptyDataSetSource: EmptyDataSetSource? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.datasource) as? EmptyDataSetSource
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.datasource, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            swizzleIfNeeded()
+        }
+    }
+
+    public var emptyDataSetDelegate: EmptyDataSetDelegate? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.delegate) as? EmptyDataSetDelegate
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.delegate, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            swizzleIfNeeded()
+        }
+    }
+
+    public var isEmptyDataSetVisible: Bool {
+        guard let view = emptyDataSetView else { return false }
+        return !view.isHidden
+    }
+
+    public func reloadEmptyDataSet() {
+
+    }
 }
