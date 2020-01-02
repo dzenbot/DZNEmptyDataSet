@@ -12,6 +12,8 @@
 
 + (UIColor *)colorWithHex:(NSString *)string
 {
+    if (string.length == 0) { return nil; }
+
     NSString *cleanString = [string stringByReplacingOccurrencesOfString:@"#" withString:@""];
     if([cleanString length] == 3) {
         cleanString = [NSString stringWithFormat:@"%@%@%@%@%@%@",

@@ -16,6 +16,8 @@
     if (self) {
         self.displayName = dict[@"display_name"];
         self.developerName = dict[@"developer_name"];
+        self.barColor = dict[@"bar_color"];
+        self.tintColor = dict[@"tint_color"];
         self.identifier = dict[@"identifier"];
     }
     return self;

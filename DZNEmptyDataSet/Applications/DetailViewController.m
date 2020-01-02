@@ -56,132 +56,6 @@
 
 - (void)configureNavigationBar
 {
-    UIColor *barColor = nil;
-    UIColor *tintColor = nil;
-    
-    self.navigationController.navigationBar.titleTextAttributes = nil;
-
-    switch (self.application.type) {
-        case ApplicationType500px:
-        {
-            barColor = [UIColor colorWithHex:@"242424"];
-            tintColor = [UIColor colorWithHex:@"d7d7d7"];
-            break;
-        }
-        case ApplicationTypeAirbnb:
-        {
-            barColor = [UIColor colorWithHex:@"f8f8f8"];
-            tintColor = [UIColor colorWithHex:@"08aeff"];
-            break;
-        }
-        case ApplicationTypeCamera:
-        {
-            barColor = [UIColor colorWithHex:@"595959"];
-            tintColor = [UIColor whiteColor];
-            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: tintColor};
-            break;
-        }
-        case ApplicationTypeDropbox:
-        {
-            barColor = [UIColor whiteColor];
-            tintColor = [UIColor colorWithHex:@"007ee5"];
-            break;
-        }
-        case ApplicationTypeFacebook:
-        {
-            barColor = [UIColor colorWithHex:@"506da8"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeFancy:
-        {
-            barColor = [UIColor colorWithHex:@"353b49"];
-            tintColor = [UIColor colorWithHex:@"c4c7cb"];
-            break;
-        }
-        case ApplicationTypeFoursquare:
-        {
-            barColor = [UIColor colorWithHex:@"00aeef"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeInstagram:
-        {
-            barColor = [UIColor colorWithHex:@"2e5e86"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeKickstarter:
-        {
-            barColor = [UIColor colorWithHex:@"f7f8f8"];
-            tintColor = [UIColor colorWithHex:@"2bde73"];
-            break;
-        }
-        case ApplicationTypePath:
-        {
-            barColor = [UIColor colorWithHex:@"544f49"];
-            tintColor = [UIColor colorWithHex:@"fffff2"];
-            break;
-        }
-        case ApplicationTypePinterest:
-        {
-            barColor = [UIColor colorWithHex:@"f4f4f4"];
-            tintColor = [UIColor colorWithHex:@"cb2027"];
-            break;
-        }
-        case ApplicationTypeSlack:
-        {
-            barColor = [UIColor colorWithHex:@"f4f5f6"];
-            tintColor = [UIColor colorWithHex:@"3eba92"];
-            break;
-        }
-        case ApplicationTypeSkype:
-        {
-            barColor = [UIColor colorWithHex:@"00aff0"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeTumblr:
-        {
-            barColor = [UIColor colorWithHex:@"2e3e53"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeTwitter:
-        {
-            barColor = [UIColor colorWithHex:@"58aef0"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeVesper:
-        {
-            barColor = [UIColor colorWithHex:@"5e7d9a"];
-            tintColor = [UIColor colorWithHex:@"f8f8f8"];
-            break;
-        }
-        case ApplicationTypeVideos:
-        {
-            barColor = [UIColor colorWithHex:@"4a4b4d"];
-            tintColor = [UIColor blackColor];
-            break;
-        }
-        case ApplicationTypeVine:
-        {
-            barColor = [UIColor colorWithHex:@"00bf8f"];
-            tintColor = [UIColor whiteColor];
-            break;
-        }
-        case ApplicationTypeWWDC:
-        {
-            tintColor = [UIColor colorWithHex:@"fc6246"];
-            break;
-        }
-        default:
-            barColor = [UIColor colorWithHex:@"f8f8f8"];
-            tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
-            break;
-    }
-    
     UIImage *logo = [UIImage imageNamed:[NSString stringWithFormat:@"logo_%@", [self.application.displayName lowercaseString]]];
     
     if (logo) {
@@ -191,7 +65,11 @@
         self.navigationItem.titleView = nil;
         self.navigationItem.title = self.application.displayName;
     }
-    
+
+    UIColor *barColor = [UIColor colorWithHex:self.application.barColor];
+    UIColor *tintColor = [UIColor colorWithHex:self.application.tintColor];
+
+    self.navigationController.navigationBar.titleTextAttributes = nil;
     self.navigationController.navigationBar.barTintColor = barColor;
     self.navigationController.navigationBar.tintColor = tintColor;
 }

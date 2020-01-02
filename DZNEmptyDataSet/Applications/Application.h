@@ -46,8 +46,10 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
 @interface Application : NSObject
 @property (nonatomic, strong) NSString *displayName;
 @property (nonatomic, strong) NSString *developerName;
-@property (nonatomic, strong) NSString *identifier;
 @property (nonatomic, strong) NSString *iconName;
+@property (nonatomic, strong) NSString *barColor;
+@property (nonatomic, strong) NSString *tintColor;
+@property (nonatomic, strong) NSString *identifier;
 @property (nonatomic) ApplicationType type;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
