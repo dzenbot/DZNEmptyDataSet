@@ -7,12 +7,11 @@
 //
 
 #import "TableViewController.h"
-#import "SearchViewController.h"
+#import "DetailViewController.h"
 #import "Palette.h"
 #import "Color.h"
 
 @import DZNEmptyDataSet;
-@import EmptyDataSet;
 
 @interface TableViewController () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @end
@@ -63,7 +62,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"table_push_detail"]) {
-        SearchViewController *controller = [segue destinationViewController];
+        DetailViewController *controller = [segue destinationViewController];
         controller.selectedColor = sender;
 	}
 }

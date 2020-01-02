@@ -17,7 +17,6 @@
 		4FA1AAF223BC28F3007CF389 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FA1AAF123BC28F3007CF389 /* Assets.xcassets */; };
 		4FA1AAF523BC28F3007CF389 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FA1AAF323BC28F3007CF389 /* LaunchScreen.storyboard */; };
 		4FA1AB0323BC296B007CF389 /* DZNEmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB0123BC296B007CF389 /* DZNEmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FA1AB0723BC296B007CF389 /* EmptyDataSet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4FA1AB0C23BC2991007CF389 /* EmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */; };
 		4FA1AB0D23BC29D2007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AB0F23BC2BC9007CF389 /* EmptyDataSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */; };
@@ -25,6 +24,7 @@
 		4FA1AB1423BD3645007CF389 /* EmptyDataSetSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */; };
 		4FA1AB1623BD3679007CF389 /* EmptyDataSetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */; };
 		4FA1AB1823BD67B3007CF389 /* DisplayEmptyDataSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1723BD67B3007CF389 /* DisplayEmptyDataSetTests.swift */; };
+		4FA1AB1B23BDF332007CF389 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1923BDF331007CF389 /* DetailViewController.m */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
 		F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 		F58A3E411E66AEE90086E0EF /* ApplicationsSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */; };
@@ -58,7 +58,6 @@
 		F5BE154C1E713E9300F6FBEA /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15411E713E9300F6FBEA /* colors.json */; };
 		F5BE154D1E713E9300F6FBEA /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15431E713E9300F6FBEA /* Palette.m */; };
 		F5BE154E1E713E9300F6FBEA /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15451E713E9300F6FBEA /* UIColor+Hex.m */; };
-		F5BE154F1E713E9300F6FBEA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15471E713E9300F6FBEA /* SearchViewController.m */; };
 		F5BE15501E713E9300F6FBEA /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BE15491E713E9300F6FBEA /* TableViewController.m */; };
 		F5BE15521E713E9B00F6FBEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15511E713E9B00F6FBEA /* Images.xcassets */; };
 		F5BE15561E713EC800F6FBEA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5BE15551E713EC800F6FBEA /* Storyboard.storyboard */; };
@@ -66,13 +65,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FA1AB0423BC296B007CF389 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FA1AAFE23BC296B007CF389;
-			remoteInfo = EmptyDataSet;
-		};
 		F58A3E3D1E66AEE90086E0EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F58A3E291E66AEE90086E0EF /* Project object */;
@@ -88,20 +80,6 @@
 			remoteInfo = Applications;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		4FA1AB0B23BC296B007CF389 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				4FA1AB0723BC296B007CF389 /* EmptyDataSet.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0964B6B448E0388404127D2C /* Pods-Bento.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bento.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bento/Pods-Bento.debug.xcconfig"; sourceTree = "<group>"; };
@@ -126,6 +104,8 @@
 		4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetSource.swift; sourceTree = "<group>"; };
 		4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataSetDelegate.swift; sourceTree = "<group>"; };
 		4FA1AB1723BD67B3007CF389 /* DisplayEmptyDataSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayEmptyDataSetTests.swift; sourceTree = "<group>"; };
+		4FA1AB1923BDF331007CF389 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		4FA1AB1A23BDF332007CF389 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DZNEmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80429DE569A05F9D34CC30C7 /* Pods-Bento.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bento.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bento/Pods-Bento.release.xcconfig"; sourceTree = "<group>"; };
 		84189CEC4210484C1F24D3A8 /* Pods-DZNEmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,8 +158,6 @@
 		F5BE15431E713E9300F6FBEA /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
 		F5BE15441E713E9300F6FBEA /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		F5BE15451E713E9300F6FBEA /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
-		F5BE15461E713E9300F6FBEA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		F5BE15471E713E9300F6FBEA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		F5BE15481E713E9300F6FBEA /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		F5BE15491E713E9300F6FBEA /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		F5BE15511E713E9B00F6FBEA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -417,10 +395,10 @@
 				F5BE152B1E713E2100F6FBEA /* AppDelegate.m */,
 				F5BE153C1E713E9300F6FBEA /* CollectionViewController.h */,
 				F5BE153D1E713E9300F6FBEA /* CollectionViewController.m */,
-				F5BE15461E713E9300F6FBEA /* SearchViewController.h */,
-				F5BE15471E713E9300F6FBEA /* SearchViewController.m */,
 				F5BE15481E713E9300F6FBEA /* TableViewController.h */,
 				F5BE15491E713E9300F6FBEA /* TableViewController.m */,
+				4FA1AB1A23BDF332007CF389 /* DetailViewController.h */,
+				4FA1AB1923BDF331007CF389 /* DetailViewController.m */,
 				F5BE153E1E713E9300F6FBEA /* DataSource */,
 				F5BE15551E713EC800F6FBEA /* Storyboard.storyboard */,
 				F5BE15511E713E9B00F6FBEA /* Images.xcassets */,
@@ -563,12 +541,10 @@
 				F58A3E5F1E66B5410086E0EF /* Sources */,
 				F58A3E601E66B5410086E0EF /* Frameworks */,
 				F58A3E611E66B5410086E0EF /* Resources */,
-				4FA1AB0B23BC296B007CF389 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4FA1AB0523BC296B007CF389 /* PBXTargetDependency */,
 			);
 			name = Applications;
 			productName = Applications;
@@ -887,7 +863,7 @@
 				F5BE15501E713E9300F6FBEA /* TableViewController.m in Sources */,
 				F5BE154E1E713E9300F6FBEA /* UIColor+Hex.m in Sources */,
 				F5BE152C1E713E2100F6FBEA /* AppDelegate.m in Sources */,
-				F5BE154F1E713E9300F6FBEA /* SearchViewController.m in Sources */,
+				4FA1AB1B23BDF332007CF389 /* DetailViewController.m in Sources */,
 				F5BE15291E713E2100F6FBEA /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -895,11 +871,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4FA1AB0523BC296B007CF389 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4FA1AAFE23BC296B007CF389 /* EmptyDataSet */;
-			targetProxy = 4FA1AB0423BC296B007CF389 /* PBXContainerItemProxy */;
-		};
 		F58A3E3E1E66AEE90086E0EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F58A3E311E66AEE90086E0EF /* DZNEmptyDataSet */;
@@ -968,7 +939,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Sample - Bento/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -993,7 +964,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Sample - Bento/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Bento;
@@ -1260,7 +1231,6 @@
 		F58A3E771E66B5410086E0EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
@@ -1269,13 +1239,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		F58A3E781E66B5410086E0EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
@@ -1284,6 +1254,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Applications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1296,6 +1267,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Colors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1308,6 +1280,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Colors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

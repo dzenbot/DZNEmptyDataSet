@@ -1,5 +1,5 @@
 //
-//  SearchViewController.h
+//  DetailViewController.h
 //  Colors
 //
 //  Created by Ignacio Romero Z. on 7/4/14.
@@ -10,7 +10,7 @@
 
 @class Color;
 
-@interface SearchViewController : UIViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface DetailViewController : UIViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) Color *selectedColor;
 

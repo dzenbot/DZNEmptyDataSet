@@ -7,12 +7,11 @@
 //
 
 #import "CollectionViewController.h"
-#import "SearchViewController.h"
+#import "DetailViewController.h"
 #import "Palette.h"
 #import "Color.h"
 
 @import DZNEmptyDataSet;
-@import EmptyDataSet;
 
 #define kColumnCountMax 7
 #define kColumnCountMin 5
@@ -118,7 +117,7 @@ static NSString *CellIdentifier = @"ColorViewCell";
 {
     if ([[segue identifier] isEqualToString:@"collection_push_detail"])
     {
-        SearchViewController *controller = [segue destinationViewController];
+        DetailViewController *controller = [segue destinationViewController];
         controller.selectedColor = sender;
     }
 }
@@ -270,31 +269,6 @@ static NSString *CellIdentifier = @"ColorViewCell";
             if (color.hex.length > 0) [[UIPasteboard generalPasteboard] setString:color.hex];
         }
     });
-}
-
-
-#pragma mark - View Auto-Rotation
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if (![UIInputViewController class]) {
-        [self.collectionView reloadData];
-    }
-}
-
-- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    [self.collectionView reloadData];
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
 }
 
 @end
