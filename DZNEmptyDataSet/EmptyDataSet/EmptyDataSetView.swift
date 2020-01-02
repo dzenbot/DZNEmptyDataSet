@@ -157,8 +157,8 @@ internal class EmptyDataSetView: UIView {
         print("didTapView: \(sender)")
     }
 
-    fileprivate func didTapView() {
-        print("didTapView: \(self)")
+    fileprivate func didTapButton(sender: UIButton) {
+        print("didTapButton: \(self)")
     }
 }
 

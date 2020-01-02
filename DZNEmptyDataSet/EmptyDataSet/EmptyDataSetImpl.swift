@@ -51,6 +51,10 @@ internal extension UIScrollView  {
 
         if view == nil {
             view = EmptyDataSetView()
+
+            let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTapContentView(_:)))
+            view?.addGestureRecognizer(tapGesture)
+
             objc_setAssociatedObject(self, &AssociatedKeys.view, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
 
@@ -94,6 +98,13 @@ internal extension UIScrollView  {
             method_exchangeImplementations(originalMethod, swizzledMethod)
             return true
         }
+    }
+
+    // MARK: - Gestures
+
+    @objc private func didTapContentView(_ sender: UITapGestureRecognizer) {
+        guard let view = sender.view else { return }
+        emptyDataSetDelegate?.emptyDataSet(self, didTapView: view)
     }
 }
 

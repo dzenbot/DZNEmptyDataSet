@@ -99,10 +99,10 @@ extension ViewController: EmptyDataSetDelegate {
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapView view: UIView) {
-
+        print("didTapView")
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
-
+        print("didTapButton")
     }
 }
