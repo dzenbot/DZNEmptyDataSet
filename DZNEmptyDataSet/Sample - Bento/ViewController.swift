@@ -8,12 +8,11 @@
 
 import UIKit
 import EmptyDataSet
-import SnapKit
 
 class ViewController: UIViewController {
 
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: view.bounds, style: .plain)
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.emptyDataSetSource = self
@@ -25,10 +24,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(tableView)
-
-        tableView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
-        }
     }
 }
 

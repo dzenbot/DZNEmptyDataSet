@@ -36,6 +36,9 @@ public protocol EmptyDataSetSource: class {
     /// Default is nil.
     func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage?
 
+    /// Default is nil.
+    func button(forEmptyDataSet scrollView: UIScrollView) -> UIButton?
+
     /// Default is EmptyDataSetDefaultSpacing.
     func spacing(forEmptyDataSet scrollView: UIScrollView, after emptyDataSetElement: EmptyDataSetElement) -> CGFloat?
 
@@ -75,6 +78,10 @@ public extension EmptyDataSetSource {
     }
 
     func buttonBackgroundImage(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> UIImage? {
+        return nil
+    }
+
+    func button(forEmptyDataSet scrollView: UIScrollView) -> UIButton? {
         return nil
     }
 

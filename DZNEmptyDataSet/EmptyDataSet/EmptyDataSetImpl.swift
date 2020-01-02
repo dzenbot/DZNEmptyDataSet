@@ -42,6 +42,7 @@ internal extension UIScrollView  {
         }
 
         view.setupLayout()
+        
         addSubview(view)
     }
 

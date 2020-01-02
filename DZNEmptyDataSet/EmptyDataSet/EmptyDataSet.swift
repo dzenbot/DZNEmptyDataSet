@@ -49,6 +49,6 @@ extension UIScrollView: EmptyDataSetInterface {
     }
 
     public func reloadEmptyDataSet() {
-        layoutEmptyDataSetIfNeeded() 
+        layoutEmptyDataSetIfNeeded()
     }
 }

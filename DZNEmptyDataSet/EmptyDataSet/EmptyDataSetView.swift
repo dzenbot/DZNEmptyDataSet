@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SnapKit // temporary. TODO: Implement raw auto-layout.
+import SnapKit
 
 internal class EmptyDataSetView: UIView {
 
@@ -127,6 +127,13 @@ internal class EmptyDataSetView: UIView {
         stackView.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
         }
+
+        // TODO: For some reason, the following implementation is causing conflicts and not laying out correctly!
+        // This is the exact same result that the SnapKit implementation above!
+//        NSLayoutConstraint.activate([
+//            contentView.centerXAnchor.constraint(equalTo: stackView.centerXAnchor),
+//            contentView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor)
+//        ])
     }
 
     func prepareForReuse() {
@@ -152,5 +159,13 @@ internal class EmptyDataSetView: UIView {
 
     fileprivate func didTapView() {
         print("didTapView: \(self)")
+    }
+}
+
+extension UIView {
+
+    @discardableResult
+    func equallyRelatedConstraint(view: UIView, attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint {
+        return NSLayoutConstraint(item: view, attribute: attribute, relatedBy: .equal, toItem: self, attribute: attribute, multiplier: 1, constant: 0)
     }
 }
