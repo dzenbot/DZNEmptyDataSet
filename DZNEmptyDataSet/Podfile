@@ -15,4 +15,5 @@ end
 
 target 'DZNEmptyDataSetTests' do
     pod 'iOSSnapshotTestCase'
+    pod 'SnapKit'
 end

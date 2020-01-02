@@ -43,9 +43,16 @@ public protocol EmptyDataSetSource: class {
     func customView(forEmptyDataSet scrollView: UIScrollView) -> UIView?
 }
 
-/// EmptyDataSetSource default implementation so most methods are optional
-/// -title(forEmptyDataSet:) and -description(forEmptyDataSet:) are required for minimum configuration.
+/// EmptyDataSetSource default implementation so all methods are optional
 public extension EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return nil
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return nil
+    }
 
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
         return nil

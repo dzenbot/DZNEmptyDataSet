@@ -28,12 +28,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         UIDevice *device = [UIDevice currentDevice];
-        UIScreen *screen = [UIScreen mainScreen];
-        
-        // Using XCTAssert instead of NSAssert since these do not cause the tests to fail.
-        XCTAssert([device.name containsString:@"iPhone 8"], @"Please run snapshot tests on an iPhone 8 simulator.");
-        XCTAssert([device.systemVersion doubleValue] > 11.0, @"Please run snapshot tests on a simulator with iOS 11.0 or above.");
-        XCTAssert(screen.scale == 2.0, @"Please run snapshot tests on a @2x density simulator.");
+        XCTAssert([device.name containsString:@"iPhone 8"], @"Please run snapshot tests on an iPhone 8 simulator with iOS 13.3");
+        XCTAssert([device.systemVersion doubleValue] == 13.3, @"Please run snapshot tests on an iPhone 8 simulator with iOS 13.3");
     });
 }
 
@@ -68,7 +64,7 @@
 
 - (void)verifyView:(UIView *)view withIdentifier:(NSString *)identifier
 {
-    FBSnapshotVerifyViewWithOptions(view, identifier, FBSnapshotTestCaseDefaultSuffixes(), 0);
+    FBSnapshotVerifyViewWithOptions(view, identifier, FBSnapshotTestCaseDefaultSuffixes(), 1);
 }
 
 @end
