@@ -25,6 +25,7 @@
 		4FA1AB1623BD3679007CF389 /* EmptyDataSetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */; };
 		4FA1AB1823BD67B3007CF389 /* DisplayEmptyDataSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1723BD67B3007CF389 /* DisplayEmptyDataSetTests.swift */; };
 		4FA1AB1B23BDF332007CF389 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1923BDF331007CF389 /* DetailViewController.m */; };
+		4FA1AB1C23BE74F0007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
 		F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 		F58A3E411E66AEE90086E0EF /* ApplicationsSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */; };
@@ -193,6 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA1AB1C23BE74F0007CF389 /* EmptyDataSet.framework in Frameworks */,
 				F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
 				3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */,
 			);
