@@ -17,7 +17,6 @@
 		4FA1AAF223BC28F3007CF389 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FA1AAF123BC28F3007CF389 /* Assets.xcassets */; };
 		4FA1AAF523BC28F3007CF389 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FA1AAF323BC28F3007CF389 /* LaunchScreen.storyboard */; };
 		4FA1AB0323BC296B007CF389 /* DZNEmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB0123BC296B007CF389 /* DZNEmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FA1AB0623BC296B007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AB0723BC296B007CF389 /* EmptyDataSet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4FA1AB0C23BC2991007CF389 /* EmptyDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */; };
 		4FA1AB0D23BC29D2007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
@@ -226,7 +225,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
-				4FA1AB0623BC296B007CF389 /* EmptyDataSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,7 +1262,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1279,7 +1277,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Applications/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
