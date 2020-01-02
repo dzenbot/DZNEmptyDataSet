@@ -26,11 +26,10 @@ internal extension UIScrollView  {
             view.imageView.image = source.image(forEmptyDataSet: self)
             view.backgroundColor = source.backgroundColor(forEmptyDataSet: self)
 
-            var spacing = [EmptyDataSetElement: CGFloat]()
+            view.verticalSpacing = [EmptyDataSetElement: CGFloat]()
             EmptyDataSetElement.allCases.forEach {
-                spacing[$0] = source.spacing(forEmptyDataSet: self, after: $0)
+                view.verticalSpacing?[$0] = source.spacing(forEmptyDataSet: self, after: $0)
             }
-            view.spacing = spacing
         }
 
         if let delegate = emptyDataSetDelegate {

@@ -14,7 +14,7 @@ internal class EmptyDataSetView: UIView {
     // MARK: - Internal
 
     var fadeInOnDisplay = false
-    var spacing: [EmptyDataSetElement: CGFloat]?
+    var verticalSpacing: [EmptyDataSetElement: CGFloat]?
 
     lazy var contentView: UIView = {
         let view = UIView()
@@ -117,7 +117,7 @@ internal class EmptyDataSetView: UIView {
         stackView.alignment = .center
         stackView.spacing = EmptyDataSetDefaultSpacing
 
-        if let spacing = spacing {
+        if let spacing = verticalSpacing {
             if let space = spacing[.image] { stackView.setCustomSpacing(space, after: imageView) }
             if let space = spacing[.title] { stackView.setCustomSpacing(space, after: titleLabel) }
             if let space = spacing[.description] { stackView.setCustomSpacing(space, after: descriptionLabel) }
