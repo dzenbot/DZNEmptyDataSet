@@ -7,10 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-//! Project version number for EmptyDataSet.
 FOUNDATION_EXPORT double EmptyDataSetVersionNumber;
-
-//! Project version string for EmptyDataSet.
 FOUNDATION_EXPORT const unsigned char EmptyDataSetVersionString[];
-

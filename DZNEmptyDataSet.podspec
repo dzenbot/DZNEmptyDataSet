@@ -1,17 +1,28 @@
-@version = "1.8.1"
+@version = '2.0'
 
 Pod::Spec.new do |s|
-  s.name          = "DZNEmptyDataSet"
-  s.version       = @version
-  s.summary       = "A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display."
-  s.description   = "It will work automatically, by just conforming to DZNEmptyDataSetSource, and returning the data you want to show. The -reloadData call will be observed so the empty dataset will be configured whenever needed."
-  s.homepage      = "https://github.com/dzenbot/DZNEmptyDataSet"
-  s.license       = { :type => 'MIT', :file => 'LICENSE' }
-  s.author        = { "dzenbot" => "iromero@dzen.cl" }
-  s.ios.deployment_target   = '6.0'
-  s.tvos.deployment_target  = '9.0'
-  s.source        = { :git => "https://github.com/dzenbot/DZNEmptyDataSet.git", :tag => "v#{s.version}" }
-  s.source_files  = 'Classes', 'Source/**/*.{h,m}'
-  s.requires_arc  = true
-  s.framework     = "UIKit"
+  s.name                    = 'DZNEmptyDataSet'
+  s.version                 = @version
+  s.summary                 = 'A drop-in UITableView/UICollectionView superclass extension for displaying placeholders for whenever the view has no content to display.'
+  s.homepage                = 'https://github.com/dzenbot/DZNEmptyDataSet'
+  s.license                 = { :type => 'MIT', :file => 'LICENSE' }
+  s.author                  = { 'Ignacio Romero Zurbuchen' => 'ignacio.romeroz@gmail.com' }
+
+  s.source = {
+    :git => 'https://github.com/dzenbot/DZNEmptyDataSet.git',
+    :tag => 'v#{s.version}',
+    :branch => 'master'
+  }
+
+  s.source_files            = 'Source/*.{swift}'
+  s.preserve_paths          = 'Source/*'
+  s.requires_arc            = true
+  s.swift_versions          = ['4.0', '5.0', '5.1']
+
+  s.ios.deployment_target   = '11.0'
+  s.tvos.deployment_target  = '11.0'
+
+  s.ios.frameworks          = 'UIKit'
+  s.tvos.frameworks         = 'UIKit'
+
 end

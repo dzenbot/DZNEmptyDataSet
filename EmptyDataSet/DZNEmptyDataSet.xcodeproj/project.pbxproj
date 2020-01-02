@@ -26,12 +26,17 @@
 		4FA1AB1823BD67B3007CF389 /* DisplayEmptyDataSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1723BD67B3007CF389 /* DisplayEmptyDataSetTests.swift */; };
 		4FA1AB1B23BDF332007CF389 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1923BDF331007CF389 /* DetailViewController.m */; };
 		4FA1AB1C23BE74F0007CF389 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
+		4FA1AB1F23BE76A2007CF389 /* UIScrollView+EmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB1D23BE76A2007CF389 /* UIScrollView+EmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FA1AB2023BE76A2007CF389 /* UIScrollView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB1E23BE76A2007CF389 /* UIScrollView+EmptyDataSet.m */; };
+		4FA1AB2423BE771F007CF389 /* DZNEmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB2223BE771F007CF389 /* DZNEmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FA1AB2523BE7A10007CF389 /* EmptyDataSet.swift in Headers */ = {isa = PBXBuildFile; fileRef = 4F59DA4E23BC1F060059733C /* EmptyDataSet.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FA1AB2623BE7A10007CF389 /* EmptyDataSetSource.swift in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB1323BD3645007CF389 /* EmptyDataSetSource.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FA1AB2723BE7A10007CF389 /* EmptyDataSetDelegate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB1523BD3679007CF389 /* EmptyDataSetDelegate.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FA1AB2823BE7A10007CF389 /* EmptyDataSetView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB0E23BC2BC9007CF389 /* EmptyDataSetView.swift */; };
+		4FA1AB2923BE7A10007CF389 /* EmptyDataSetImpl.swift in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */; };
 		F56CEC4B1E67430000E2FACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
 		F58A3E3C1E66AEE90086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
 		F58A3E411E66AEE90086E0EF /* ApplicationsSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */; };
-		F58A3E431E66AEE90086E0EF /* DZNEmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F58A3E4E1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F58A3E4C1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F58A3E4F1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E4D1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m */; };
 		F58A3E931E66B62F0086E0EF /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E7B1E66B62F0086E0EF /* Application.m */; };
 		F58A3E951E66B62F0086E0EF /* applications.json in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7E1E66B62F0086E0EF /* applications.json */; };
 		F58A3E961E66B62F0086E0EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E7F1E66B62F0086E0EF /* Assets.xcassets */; };
@@ -42,7 +47,6 @@
 		F58A3E9C1E66B62F0086E0EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F58A3E8B1E66B62F0086E0EF /* LaunchScreen.storyboard */; };
 		F58A3E9F1E66B62F0086E0EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E901E66B62F0086E0EF /* main.m */; };
 		F58A3EA01E66B62F0086E0EF /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3E921E66B62F0086E0EF /* UIColor+Hexadecimal.m */; };
-		F58A3EA31E66B6C70086E0EF /* Applications-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = F58A3EA21E66B6C70086E0EF /* Applications-Prefix.pch */; };
 		F58A3EA51E66B6D70086E0EF /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F58A3EA41E66B6D70086E0EF /* Storyboard.storyboard */; };
 		F58A3EA81E66B6F10086E0EF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F58A3EA71E66B6F10086E0EF /* AppDelegate.m */; };
 		F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */; };
@@ -107,6 +111,10 @@
 		4FA1AB1723BD67B3007CF389 /* DisplayEmptyDataSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayEmptyDataSetTests.swift; sourceTree = "<group>"; };
 		4FA1AB1923BDF331007CF389 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		4FA1AB1A23BDF332007CF389 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		4FA1AB1D23BE76A2007CF389 /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
+		4FA1AB1E23BE76A2007CF389 /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
+		4FA1AB2123BE771F007CF389 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4FA1AB2223BE771F007CF389 /* DZNEmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZNEmptyDataSet.h; sourceTree = "<group>"; };
 		78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DZNEmptyDataSetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80429DE569A05F9D34CC30C7 /* Pods-Bento.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bento.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bento/Pods-Bento.release.xcconfig"; sourceTree = "<group>"; };
 		84189CEC4210484C1F24D3A8 /* Pods-DZNEmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DZNEmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DZNEmptyDataSetTests/Pods-DZNEmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,13 +123,9 @@
 		BB8442C77998FDE8BE3D6A37 /* Pods_EmptyDataSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmptyDataSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC2B63699C936D9C9CDB1740 /* Pods-EmptyDataSetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmptyDataSetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmptyDataSetTests/Pods-EmptyDataSetTests.release.xcconfig"; sourceTree = "<group>"; };
 		F58A3E321E66AEE90086E0EF /* DZNEmptyDataSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DZNEmptyDataSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DZNEmptyDataSet.h; sourceTree = "<group>"; };
-		F58A3E361E66AEE90086E0EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F58A3E3B1E66AEE90086E0EF /* DZNEmptyDataSetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DZNEmptyDataSetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F58A3E401E66AEE90086E0EF /* ApplicationsSnapshotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplicationsSnapshotTests.m; sourceTree = "<group>"; };
 		F58A3E421E66AEE90086E0EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F58A3E4C1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+EmptyDataSet.h"; path = "../../Source/UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
-		F58A3E4D1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+EmptyDataSet.m"; path = "../../Source/UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
 		F58A3E631E66B5410086E0EF /* Applications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Applications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F58A3E7A1E66B62F0086E0EF /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		F58A3E7B1E66B62F0086E0EF /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
@@ -259,7 +263,8 @@
 				4FA1AB1023BC2C20007CF389 /* EmptyDataSetImpl.swift */,
 				4FA1AB0223BC296B007CF389 /* Info.plist */,
 			);
-			path = EmptyDataSet;
+			name = EmptyDataSet;
+			path = ../Source/Swift;
 			sourceTree = "<group>";
 		};
 		A7CC5E0B0809CA256BDA9067 /* Frameworks */ = {
@@ -276,11 +281,11 @@
 		F58A3E281E66AEE90086E0EF = {
 			isa = PBXGroup;
 			children = (
-				F58A3E341E66AEE90086E0EF /* DZNEmptyDataSet */,
 				F58A3E3F1E66AEE90086E0EF /* DZNEmptyDataSetTests */,
 				4FA1AAE723BC28F2007CF389 /* Sample - Bento */,
 				F58A3E641E66B5410086E0EF /* Sample - Applications */,
 				F5BE15261E713E2100F6FBEA /* Sample - Colors */,
+				F58A3E341E66AEE90086E0EF /* DZNEmptyDataSet */,
 				4FA1AB0023BC296B007CF389 /* EmptyDataSet */,
 				F58A3E331E66AEE90086E0EF /* Products */,
 				242E9BB031D3264D62C731D6 /* Pods */,
@@ -304,12 +309,13 @@
 		F58A3E341E66AEE90086E0EF /* DZNEmptyDataSet */ = {
 			isa = PBXGroup;
 			children = (
-				F58A3E351E66AEE90086E0EF /* DZNEmptyDataSet.h */,
-				F58A3E4C1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h */,
-				F58A3E4D1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m */,
-				F58A3E361E66AEE90086E0EF /* Info.plist */,
+				4FA1AB2223BE771F007CF389 /* DZNEmptyDataSet.h */,
+				4FA1AB1D23BE76A2007CF389 /* UIScrollView+EmptyDataSet.h */,
+				4FA1AB1E23BE76A2007CF389 /* UIScrollView+EmptyDataSet.m */,
+				4FA1AB2123BE771F007CF389 /* Info.plist */,
 			);
-			path = DZNEmptyDataSet;
+			name = DZNEmptyDataSet;
+			path = ../Source/Objc;
 			sourceTree = "<group>";
 		};
 		F58A3E3F1E66AEE90086E0EF /* DZNEmptyDataSetTests */ = {
@@ -443,6 +449,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FA1AB0323BC296B007CF389 /* DZNEmptyDataSet.h in Headers */,
+				4FA1AB2523BE7A10007CF389 /* EmptyDataSet.swift in Headers */,
+				4FA1AB2623BE7A10007CF389 /* EmptyDataSetSource.swift in Headers */,
+				4FA1AB2723BE7A10007CF389 /* EmptyDataSetDelegate.swift in Headers */,
+				4FA1AB2823BE7A10007CF389 /* EmptyDataSetView.swift in Headers */,
+				4FA1AB2923BE7A10007CF389 /* EmptyDataSetImpl.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,9 +461,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F58A3EA31E66B6C70086E0EF /* Applications-Prefix.pch in Headers */,
-				F58A3E431E66AEE90086E0EF /* DZNEmptyDataSet.h in Headers */,
-				F58A3E4E1E66AF400086E0EF /* UIScrollView+EmptyDataSet.h in Headers */,
+				4FA1AB1F23BE76A2007CF389 /* UIScrollView+EmptyDataSet.h in Headers */,
+				4FA1AB2423BE771F007CF389 /* DZNEmptyDataSet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -826,7 +836,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F58A3E4F1E66AF400086E0EF /* UIScrollView+EmptyDataSet.m in Sources */,
+				4FA1AB2023BE76A2007CF389 /* UIScrollView+EmptyDataSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,7 +951,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Sample - Bento/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -966,7 +976,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Sample - Bento/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.Bento;
@@ -992,7 +1002,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = EmptyDataSet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Source/Objc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1006,6 +1016,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -1024,7 +1035,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = EmptyDataSet/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Source/Objc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1036,6 +1047,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -1166,6 +1178,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DZNEmptyDataSet/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1187,6 +1200,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DZNEmptyDataSet/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzn.DZNEmptyDataSet;
 				PRODUCT_NAME = "$(TARGET_NAME)";

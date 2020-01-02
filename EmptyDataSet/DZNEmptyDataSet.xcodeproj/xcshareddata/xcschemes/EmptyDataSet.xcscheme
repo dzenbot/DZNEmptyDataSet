@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F58A3E3A1E66AEE90086E0EF"
+               BuildableName = "DZNEmptyDataSetTests.xctest"
+               BlueprintName = "DZNEmptyDataSetTests"
+               ReferencedContainer = "container:DZNEmptyDataSet.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
