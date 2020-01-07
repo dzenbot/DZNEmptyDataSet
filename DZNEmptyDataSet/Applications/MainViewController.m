@@ -8,6 +8,9 @@
 
 #import "MainViewController.h"
 #import "UIColor+Hexadecimal.h"
+#import "Applications-Swift.h"
+
+static BOOL isVersion2 = YES;
 
 @interface MainViewController ()
 @property (nonatomic, strong) NSArray *applications;
@@ -95,15 +98,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Application *app = self.applications[indexPath.row];
-    DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
-    controller.applications = self.applications;
-    controller.allowShuffling = YES;
-    
-    if ([controller preferredStatusBarStyle] == UIStatusBarStyleLightContent) {
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
+    if (isVersion2) {
+        ApplicationViewController *controller = [[ApplicationViewController alloc] initWithApplication:app];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else {
+        DetailViewController *controller = [[DetailViewController alloc] initWithApplication:app];
+        controller.applications = self.applications;
+        controller.allowShuffling = YES;
+
+        if ([controller preferredStatusBarStyle] == UIStatusBarStyleLightContent) {
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        }
+
+        [self.navigationController pushViewController:controller animated:YES];
     }
-    
-    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

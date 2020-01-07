@@ -19,6 +19,10 @@
         self.barColor = dict[@"bar_color"];
         self.tintColor = dict[@"tint_color"];
         self.identifier = dict[@"identifier"];
+        self.title = dict[@"title"];
+        self.subtitle = dict[@"subtitle"];
+        self.button = dict[@"button"];
+        self.backgroundColor = dict[@"background_color"];
     }
     return self;
 }

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, ApplicationType) {
     
     ApplicationTypeUndefined = 0,
@@ -50,6 +52,11 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
 @property (nonatomic, strong) NSString *barColor;
 @property (nonatomic, strong) NSString *tintColor;
 @property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, strong) NSString * _Nullable title;
+@property (nonatomic, strong) NSString * _Nullable subtitle;
+@property (nonatomic, strong) NSString * _Nullable button;
+@property (nonatomic, strong) NSString * _Nullable backgroundColor;
+
 @property (nonatomic) ApplicationType type;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
@@ -58,3 +65,5 @@ typedef NS_ENUM(NSUInteger, ApplicationType) {
 + (NSArray *)applicationsFromJSON:(id)JSON;
 
 @end
+
+NS_ASSUME_NONNULL_END

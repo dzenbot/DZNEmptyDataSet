@@ -4,14 +4,23 @@
   "developer_name": "500px",
   "bar_color": "242424",
   "tint_color": "d7d7d7",
-  "identifier": "471965292"
+  "identifier": "471965292",
+  "title": "No Photos",
+  "subtitle": "Get started by uploading a photo.",
+  "button": "",
+  "background_color": "000000"
   },
   {
   "display_name": "Airbnb",
   "developer_name": "Airbnb, Inc.",
   "bar_color": "f8f8f8",
   "tint_color": "08aeff",
-  "identifier": "401626263"
+  "identifier": "401626263",
+  "title": "No Messages",
+  "subtitle": "When you have messages, you’ll see them here.",
+  "button": "",
+  "background_color": "ffffff"
+
   },
   {
   "display_name": "AppStore",
