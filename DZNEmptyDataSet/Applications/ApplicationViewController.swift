@@ -9,9 +9,18 @@
 import UIKit
 import EmptyDataSet
 
-class ApplicationViewController: UITableViewController {
+class ApplicationViewController: UIViewController {
 
     var app: Application?
+
+    lazy var tableView: MyTableView = {
+        let view = MyTableView(frame: self.view.bounds, style: .plain)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.dataSource = self
+        view.emptyDataSetSource = self
+        view.emptyDataSetDelegate = self
+        return view
+    }()
 
     @objc
     convenience init(application: Application) {
@@ -29,14 +38,15 @@ class ApplicationViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.emptyDataSetSource = self
-        tableView.emptyDataSetDelegate = self
         
         view.backgroundColor = .white
 
+        view.addSubview(tableView)
+
         configureHeaderAndFooter()
         configureNavigationBar()
+
+        print("ApplicationViewController: \(self)")
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -109,11 +119,18 @@ class ApplicationViewController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    deinit {
+        print("ApplicationViewController -deinit")
+    }
+}
+
+extension ApplicationViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
     }
 }
@@ -158,7 +175,7 @@ extension ApplicationViewController: EmptyDataSetSource {
         return NSAttributedString(string: subtitle, attributes: attributes)
     }
 
-    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {        
         guard let app = app else { return nil }
 
         let imageName = "placeholder_\(app.displayName.lowercased())".replacingOccurrences(of: " ", with: "_")
@@ -339,3 +356,11 @@ extension ApplicationViewController: EmptyDataSetDelegate {
 //
 //    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 //}
+
+class MyTableView: UITableView {
+    deinit {
+        print("deinit MyTableView")
+        emptyDataSetSource = nil
+        emptyDataSetDelegate = nil
+    }
+}

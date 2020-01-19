@@ -100,7 +100,7 @@ internal class EmptyDataSetView: UIView {
     // MARK: - Layout
 
     func setupLayout() {
-
+        
         prepareForReuse()
 
         var views = [UIView]()
@@ -159,6 +159,10 @@ internal class EmptyDataSetView: UIView {
 
     fileprivate func didTapButton(sender: UIButton) {
         print("didTapButton: \(self)")
+    }
+
+    deinit {
+        print("EmptyDataSetView -deinit")
     }
 }
 

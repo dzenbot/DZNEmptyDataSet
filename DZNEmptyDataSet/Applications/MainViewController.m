@@ -113,6 +113,8 @@ static BOOL isVersion2 = YES;
 
         [self.navigationController pushViewController:controller animated:YES];
     }
+
+    NSLog(@"viewControllers.count = %lu", (unsigned long)self.navigationController.viewControllers.count);
 }
 
 @end

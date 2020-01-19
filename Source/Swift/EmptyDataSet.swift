@@ -33,19 +33,21 @@ let EmptyDataSetDefaultSpacing: CGFloat = 10
 
 extension UIScrollView: EmptyDataSetInterface {
 
-    public var emptyDataSetSource: EmptyDataSetSource? {
-        get { return objc_getAssociatedObject(self, &AssociatedKeys.datasource) as? EmptyDataSetSource }
-        set { objc_setAssociatedObject(self, &AssociatedKeys.datasource, newValue, .OBJC_ASSOCIATION_ASSIGN); swizzleIfNeeded() }
+    public weak var emptyDataSetSource: EmptyDataSetSource? {
+        get { return getEmptyDataSetSource() }
+        set { setEmptyDataSetSource(newValue) }
     }
 
-    public var emptyDataSetDelegate: EmptyDataSetDelegate? {
-        get { return objc_getAssociatedObject(self, &AssociatedKeys.delegate) as? EmptyDataSetDelegate }
-        set { objc_setAssociatedObject(self, &AssociatedKeys.delegate, newValue, .OBJC_ASSOCIATION_ASSIGN); swizzleIfNeeded() }
+    public weak var emptyDataSetDelegate: EmptyDataSetDelegate? {
+        get { return getEmptyDataSetDelegate() }
+        set { setEmptyDataSetDelegate(newValue) }
     }
 
     public var isEmptyDataSetVisible: Bool {
-        guard let view = emptyDataSetView else { return false }
-        return !view.isHidden
+//        guard let view = emptyDataSetView else { return false }
+//        return !view.isHidden
+
+        return true
     }
 
     public func reloadEmptyDataSet() {

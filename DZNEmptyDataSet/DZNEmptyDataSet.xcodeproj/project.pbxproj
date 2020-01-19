@@ -11,6 +11,7 @@
 		3AC13C2C04A330F6731CD271 /* Pods_DZNEmptyDataSetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C5DC4B343BE997FFAA0048 /* Pods_DZNEmptyDataSetTests.framework */; };
 		3B12888038B2AA7F321565FC /* Pods_Bento.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A616CBACE16863851A421398 /* Pods_Bento.framework */; };
 		3FF250E1FED243B2337A1DF9 /* Pods_EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8442C77998FDE8BE3D6A37 /* Pods_EmptyDataSet.framework */; };
+		4F9DB7A823D433FE00570483 /* EmptyDataSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA1AAFF23BC296B007CF389 /* EmptyDataSet.framework */; };
 		4FA1AAE923BC28F2007CF389 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAE823BC28F2007CF389 /* AppDelegate.swift */; };
 		4FA1AAEB23BC28F2007CF389 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAEA23BC28F2007CF389 /* SceneDelegate.swift */; };
 		4FA1AAED23BC28F2007CF389 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AAEC23BC28F2007CF389 /* ViewController.swift */; };
@@ -213,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9DB7A823D433FE00570483 /* EmptyDataSet.framework in Frameworks */,
 				F58A3EA91E66B7940086E0EF /* DZNEmptyDataSet.framework in Frameworks */,
 				166785C29B6C017532F9BA5B /* Pods_Applications.framework in Frameworks */,
 			);
