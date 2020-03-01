@@ -88,9 +88,9 @@ internal class EmptyDataSetView: UIView {
         addSubview(contentView)
 
         if fadeInOnDisplay {
-            UIView.animate(withDuration: 0.25, animations: { [weak self] () -> Void in
-                self?.contentView.alpha = 1
-            })
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.alpha = 1
+            }
         } else {
             contentView.alpha = 1
         }
