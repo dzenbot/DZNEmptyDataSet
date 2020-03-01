@@ -13,10 +13,6 @@ target 'Applications' do
     pod 'SnapKit'
 end
 
-target 'EmptyDataSet' do
-    pod 'SnapKit'
-end
-
 target 'DZNEmptyDataSetTests' do
     pod 'iOSSnapshotTestCase'
     pod 'SnapKit'
