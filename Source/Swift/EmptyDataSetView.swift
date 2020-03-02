@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 internal class EmptyDataSetView: UIView {
 
@@ -89,9 +88,9 @@ internal class EmptyDataSetView: UIView {
         addSubview(contentView)
 
         if fadeInOnDisplay {
-            UIView.animate(withDuration: 0.25, animations: { [weak self] () -> Void in
-                self?.contentView.alpha = 1
-            })
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.alpha = 1
+            }
         } else {
             contentView.alpha = 1
         }
@@ -124,16 +123,12 @@ internal class EmptyDataSetView: UIView {
         }
 
         contentView.addSubview(stackView)
-        stackView.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
-
-        // TODO: For some reason, the following implementation is causing conflicts and not laying out correctly!
-        // This is the exact same result that the SnapKit implementation above!
-//        NSLayoutConstraint.activate([
-//            contentView.centerXAnchor.constraint(equalTo: stackView.centerXAnchor),
-//            contentView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor)
-//        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
     }
 
     func prepareForReuse() {
