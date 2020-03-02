@@ -175,14 +175,15 @@ extension UITableView: EmptyDataSetProtocol {
     }
 
     func isEmpty() -> Bool {
-        var items: Int = 0
         let sections = dataSource?.numberOfSections?(in: self) ?? 1
 
         for i in 0..<sections {
-            guard let item: Int = dataSource?.tableView(self, numberOfRowsInSection: i) else { continue }
-            items += item
+            if let items = dataSource?.tableView(self, numberOfRowsInSection: i), items > 0 {
+                return false
+            }
         }
-        return items == 0
+        
+        return true
     }
 
     @objc func reloadData_swizzled() {
@@ -222,14 +223,15 @@ extension UICollectionView: EmptyDataSetProtocol {
     }
 
     func isEmpty() -> Bool {
-        var items: Int = 0
         let sections = dataSource?.numberOfSections?(in: self) ?? 1
 
         for i in 0..<sections {
-            guard let item: Int = dataSource?.collectionView(self, numberOfItemsInSection: i) else { continue }
-            items += item
+            if let items = dataSource?.collectionView(self, numberOfItemsInSection: i), items > 0 {
+                return false
+            }
         }
-        return items == 0
+        
+        return true
     }
 
     @objc func reloadData_swizzled() {

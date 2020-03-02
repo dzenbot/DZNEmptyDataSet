@@ -5,10 +5,6 @@ inhibit_all_warnings!
 
 workspace 'DZNEmptyDataSet.xcworkspace'
 
-target 'Bento' do
-    pod 'SnapKit'
-end
-
 target 'Applications' do
     pod 'SnapKit'
 end
