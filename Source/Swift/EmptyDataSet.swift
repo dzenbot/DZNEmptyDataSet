@@ -21,7 +21,7 @@ public protocol EmptyDataSetInterface {
 
     /// Reloads the empty dataset content receiver.
     /// Call this method to force all the data to refresh. Calling reloadData() is similar, but this method only refreshes the empty dataset,
-    /// instead of all the delegate/datasource callbs from your table view or collection view.
+    /// instead of all the delegate/datasource calls from your table view or collection view.
     func reloadEmptyDataSet()
 }
 
