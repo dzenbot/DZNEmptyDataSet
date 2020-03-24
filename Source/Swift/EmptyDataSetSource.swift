@@ -22,7 +22,7 @@ public protocol EmptyDataSetSource: class {
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage?
 
     /// Default is nil.
-    func imagetintColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
+    func imageTintColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
 
     /// Default is nil.
     func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor?
@@ -93,4 +93,3 @@ public extension EmptyDataSetSource {
         return nil
     }
 }
-
