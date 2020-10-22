@@ -21,9 +21,9 @@ let package = Package(
         .target(
             name: "DZNEmptyDataSet",
             dependencies: [],
-            path: ".",
-            sources: ["Source"],
-            publicHeadersPath: "Source"
+            path: "Source",
+            exclude: ["DZNEmptyDataSet"],
+            publicHeadersPath: "."
         )
     ]
 )
