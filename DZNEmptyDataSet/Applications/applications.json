@@ -2,136 +2,199 @@
   {
   "display_name": "500px",
   "developer_name": "500px",
-  "identifier": "471965292"
+  "bar_color": "242424",
+  "tint_color": "d7d7d7",
+  "identifier": "471965292",
+  "title": "No Photos",
+  "subtitle": "Get started by uploading a photo.",
+  "button": "",
+  "background_color": "000000"
   },
   {
   "display_name": "Airbnb",
   "developer_name": "Airbnb, Inc.",
-  "identifier": "401626263"
+  "bar_color": "f8f8f8",
+  "tint_color": "08aeff",
+  "identifier": "401626263",
+  "title": "No Messages",
+  "subtitle": "When you have messages, you’ll see them here.",
+  "button": "",
+  "background_color": "ffffff"
+
   },
   {
   "display_name": "AppStore",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": ""
   },
   {
   "display_name": "Camera",
   "developer_name": "Apple, Inc.",
+  "bar_color": "595959",
+  "tint_color": "ffffff",
   "identifier": ""
   },
   {
   "display_name": "Dropbox",
   "developer_name": "Dropbox, Inc.",
+  "bar_color": "ffffff",
+  "tint_color": "007ee5",
   "identifier": "327630330"
   },
   {
   "display_name": "Facebook",
   "developer_name": "Facebook, Inc.",
+  "bar_color": "506da8",
+  "tint_color": "ffffff",
   "identifier": "284882215"
   },
   {
   "display_name": "Fancy",
   "developer_name": "Thing Daemon, Inc.",
+  "bar_color": "353b49",
+  "tint_color": "c4c7cb",
   "identifier": "407324335"
   },
   {
   "display_name": "Foursquare",
   "developer_name": "Foursquare Labs",
+  "bar_color": "00aeef",
+  "tint_color": "ffffff",
   "identifier": "306934924"
   },
   {
   "display_name": "iCloud",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": ""
   },
   {
   "display_name": "Instagram",
   "developer_name": "Instagram, Inc.",
+  "bar_color": "2e5e86",
+  "tint_color": "ffffff",
   "identifier": "389801252"
   },
   {
   "display_name": "iTunes Connect",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": "376771144"
   },
   {
   "display_name": "Kickstarter",
   "developer_name": "Kickstarter, Inc.",
+  "bar_color": "f7f8f8",
+  "tint_color": "2bde73",
   "identifier": "596961532"
   },
   {
   "display_name": "Path",
   "developer_name": "Path, Inc.",
+  "bar_color": "544f49",
+  "tint_color": "fffff2",
   "identifier": "403639508"
   },
   {
   "display_name": "Pinterest",
   "developer_name": "Pinterest, Inc.",
+  "bar_color": "f4f4f4",
+  "tint_color": "cb2027",
   "identifier": "429047995"
   },
   {
   "display_name": "Photos",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": ""
   },
   {
   "display_name": "Podcasts",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": "525463029"
   },
   {
   "display_name": "Remote",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": "284417350"
   },
   {
   "display_name": "Safari",
   "developer_name": "Apple, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": ""
   },
   {
   "display_name": "Skype",
   "developer_name": "Skype Communications S.a.r.l",
+  "bar_color": "00aff0",
+  "tint_color": "ffffff",
   "identifier": "304878510"
   },
   {
   "display_name": "Slack",
   "developer_name": "Tiny Speck, Inc.",
+  "bar_color": "f4f5f6",
+  "tint_color": "3eba92",
   "identifier": "618783545"
   },
   {
   "display_name": "Tumblr",
   "developer_name": "Tumblr, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": "305343404"
   },
   {
   "display_name": "Twitter",
   "developer_name": "Twitter, Inc.",
+  "bar_color": "2e3e53",
+  "tint_color": "ffffff",
   "identifier": "333903271"
   },
   {
   "display_name": "Vesper",
   "developer_name": "Q Branch",
+  "bar_color": "5e7d9a",
+  "tint_color": "f8f8f8",
   "identifier": "655895325"
   },
   {
   "display_name": "Videos",
   "developer_name": "Apple, Inc.",
+  "bar_color": "4a4b4d",
+  "tint_color": "000000",
   "identifier": ""
   },
   {
   "display_name": "Vine",
   "developer_name": "Vine Labs, Inc.",
+  "bar_color": "00bf8f",
+  "tint_color": "ffffff",
   "identifier": "592447445"
   },
   {
   "display_name": "WhatsApp",
   "developer_name": "WhatsApp, Inc.",
+  "bar_color": "f8f8f8",
+  "tint_color": "",
   "identifier": "310633997"
   },
   {
   "display_name": "WWDC",
   "developer_name": "Apple, Inc.",
+  "bar_color": "fc6246",
+  "tint_color": "",
   "identifier": "640199958"
   },
 ]

@@ -5,6 +5,11 @@ inhibit_all_warnings!
 
 workspace 'DZNEmptyDataSet.xcworkspace'
 
+target 'Applications' do
+    pod 'SnapKit'
+end
+
 target 'DZNEmptyDataSetTests' do
     pod 'iOSSnapshotTestCase'
+    pod 'SnapKit'
 end

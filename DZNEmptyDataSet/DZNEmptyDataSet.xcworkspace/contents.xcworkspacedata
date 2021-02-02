@@ -11,6 +11,9 @@
       location = "container:"
       name = "Config">
       <FileRef
+         location = "group:../DZNEmptyDataSet.podspec">
+      </FileRef>
+      <FileRef
          location = "group:../Gemfile">
       </FileRef>
       <FileRef

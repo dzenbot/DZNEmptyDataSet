@@ -1,0 +1,6 @@
+framework module Pods_EmptyDataSet {
+  umbrella header "Pods-EmptyDataSet-umbrella.h"
+
+  export *
+  module * { export * }
+}
