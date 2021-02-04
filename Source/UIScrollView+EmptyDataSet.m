@@ -452,13 +452,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         view.fadeInOnDisplay = [self dzn_shouldFadeIn];
         
         if (!view.superview) {
+            [self addSubview:view];
+
             // Send the view all the way to the back, in case a header and/or footer is present, as well as for sectionHeaders or any other content
-            if (([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) && self.subviews.count > 1) {
-                [self insertSubview:view atIndex:0];
-            }
-            else {
-                [self addSubview:view];
-            }
+            [self sendSubviewToBack:view];
+
+            // make sure the y origin of view is 0. adding it to a scrollView may have changed it
+            CGRect frame = view.frame;
+            frame.origin.y = 0;
+            view.frame = frame;
         }
         
         // Removing view resetting the view and its constraints it very important to guarantee a good state
