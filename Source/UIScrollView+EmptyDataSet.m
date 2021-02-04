@@ -685,6 +685,13 @@ Class dzn_baseClassToSwizzleForTarget(id target)
 
 #pragma mark - UIGestureRecognizerDelegate Methods
 
+// This is necessary to allow touches to pass through to any UIControl that is tapped within a custom view. Otherwise,
+// the tap gesture on the DZNEmptyDataSetView gets the touch first which isn't the desired behaviour. The tap gesture
+// should only get touch events if the view that was tapped is not a UIControl
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return ![touch.view isKindOfClass:[UIControl class]];
+}
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer.view isEqual:self.emptyDataSetView]) {
