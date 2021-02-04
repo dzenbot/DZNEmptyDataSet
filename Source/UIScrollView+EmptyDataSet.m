@@ -45,6 +45,30 @@
 
 @end
 
+@interface UITableView (DZNiOS7TableViewWrapperView)
+
+- (UIView *)dzn_tableViewWrapperView;
+
+@end
+
+@implementation UITableView (DZNiOS7TableViewWrapperView)
+
+- (UIView *)dzn_tableViewWrapperView {
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1 &&
+        floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1 &&
+        [self isKindOfClass:[UITableView class]]) {
+        for (UIView *subview in [self subviews]) {
+            if ([subview isKindOfClass:NSClassFromString(@"UITableViewWrapperView")]) {
+                return subview;
+            }
+        }
+    }
+    
+    return nil;
+}
+
+@end
+
 
 #pragma mark - UIScrollView+EmptyDataSet
 
@@ -342,6 +366,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_didAppear
 {
+    if ([self isKindOfClass:[UITableView class]]) {
+        [(UITableView *)self dzn_tableViewWrapperView].userInteractionEnabled = NO;
+    }
+    
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidAppear:self];
     }
@@ -356,6 +384,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 
 - (void)dzn_didDisappear
 {
+    if ([self isKindOfClass:[UITableView class]]) {
+        [(UITableView *)self dzn_tableViewWrapperView].userInteractionEnabled = YES;
+    }
+    
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidDisappear:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidDisappear:self];
     }
