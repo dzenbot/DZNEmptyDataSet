@@ -128,6 +128,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
 
+
+/**
+ Asks the data source for the background gradient of the dataset. Default is none.
+ 
+ @param scrollView A scrollView subclass object informing the data source.
+ @return A gradient to be applied to the dataset background view.
+ */
+- (CAGradientLayer *)backgroundGradientForEmptyDataSet:(UIScrollView *)scrollView;
+
+
 /**
  Asks the data source for a custom view to be displayed instead of the default views such as labels, imageview and button. Default is nil.
  Use this method to show an activity view indicator for loading feedback, or for complete custom empty data set.

@@ -36,7 +36,7 @@ Please read this very interesting article about [*Designing For The Empty States
 * Gives multiple possibilities of layout and appearance, by showing an image and/or title label and/or description label and/or button.
 * Uses NSAttributedString for easier appearance customisation.
 * Uses auto-layout to automagically center the content to the tableview, with auto-rotation support. Also accepts custom vertical and horizontal alignment.
-* Background color customisation.
+* Background color customisation, including gradient.
 * Allows tap gesture on the whole tableview rectangle (useful for resigning first responder or similar actions).
 * For more advanced customisation, it allows a custom view.
 * Compatible with Storyboard.
@@ -165,6 +165,16 @@ The background color for the empty state:
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
 {
     return [UIColor whiteColor];
+}
+```
+
+The background gradient for the empty state:
+```objc
+- (CAGradientLayer *)backgroundGradientForEmptyDataSet:(UIScrollView *)scrollView
+{
+    CAGradientLayer *backgroundGradient = [CAGradientLayer layer];
+    backgroundGradient.colors = @[(id)[[UIColor whiteColor] CGColor], (id)[[UIColor blackColor] CGColor]];
+    return backgroundGradient;
 }
 ```
 
