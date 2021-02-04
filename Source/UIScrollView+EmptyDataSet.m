@@ -934,6 +934,10 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     
     // If applicable, set the custom view's constraints
     if (_customView) {
+        CGFloat topOffset = (self.verticalOffset > 0.0) ? self.verticalOffset : 0.0;
+        CGFloat bottemOffset = (self.verticalOffset < 0.0) ? -self.verticalOffset : 0.0;
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topOffset)-[contentView]-(bottemOffset)-|" options:0 metrics:@{@"topOffset":@(topOffset), @"bottemOffset":@(bottemOffset)} views:@{@"contentView": self.contentView}]];
+        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[customView]|" options:0 metrics:nil views:@{@"customView":_customView}]];
     }
