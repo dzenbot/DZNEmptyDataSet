@@ -37,6 +37,7 @@
 
 @property (nonatomic, assign) CGFloat verticalOffset;
 @property (nonatomic, assign) CGFloat verticalSpace;
+@property (nonatomic, assign) DZNEmptyDataSetVerticalAnchorLocation verticalAnchorLocation;
 
 @property (nonatomic, assign) BOOL fadeInOnDisplay;
 
@@ -283,6 +284,15 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return 0.0;
 }
 
+- (DZNEmptyDataSetVerticalAnchorLocation)dzn_verticalAnchorLocation
+{
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(verticalAnchorLocationForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource verticalAnchorLocationForEmptyDataSet:self];
+    }
+    
+    return DZNEmptyDataSetVerticalAnchorLocationCenter;
+}
+
 
 #pragma mark - Delegate Getters & Events (Private)
 
@@ -522,6 +532,9 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         // Configure offset
         view.verticalOffset = [self dzn_verticalOffset];
         
+        // Configure anchor location
+        view.verticalAnchorLocation = [self dzn_verticalAnchorLocation];
+
         // Configure the empty dataset view
         view.backgroundColor = [self dzn_dataSetBackgroundColor];
         view.hidden = NO;
@@ -921,15 +934,30 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     // First, configure the content view constaints
     // The content view must alway be centered to its superview
     NSLayoutConstraint *centerXConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterX];
-    NSLayoutConstraint *centerYConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
+    NSLayoutConstraint *verticalAnchorConstraint = nil;
+    
+    switch (self.verticalAnchorLocation) {
+        case DZNEmptyDataSetVerticalAnchorLocationCenter: {
+            verticalAnchorConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeCenterY];
+            break;
+        }
+        case DZNEmptyDataSetVerticalAnchorLocationTop: {
+            verticalAnchorConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeTop];
+            break;
+        }
+        case DZNEmptyDataSetVerticalAnchorLocationBottom: {
+            verticalAnchorConstraint = [self equallyRelatedConstraintWithView:self.contentView attribute:NSLayoutAttributeBottom];
+            break;
+        }
+    }
     
     [self addConstraint:centerXConstraint];
-    [self addConstraint:centerYConstraint];
+    [self addConstraint:verticalAnchorConstraint];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:@{@"contentView": self.contentView}]];
     
     // When a custom offset is available, we adjust the vertical constraints' constants
     if (self.verticalOffset != 0 && self.constraints.count > 0) {
-        centerYConstraint.constant = self.verticalOffset;
+        verticalAnchorConstraint.constant = self.verticalOffset;
     }
     
     // If applicable, set the custom view's constraints
