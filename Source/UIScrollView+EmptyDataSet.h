@@ -91,6 +91,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
+ Provides the data source with the means to customize the button that appears
+ at the bottom of the empty data set. Implementing this method will mean that
+ any values provided in `-buttonTitleForEmptyDataSet:forState:`,
+ `-buttonImageForEmptyDataSet:forState:`, and ``buttonBackgroundImageForEmptyDataSet:forState:`
+ will be ignored.
+
+ @param scrollView A scrollView subclass object informing the data source.
+ @param button The button that will be displayed at the bottom of the empty data set.
+ */
+- (void)emptyDataSet:(UIScrollView*)scrollView configureButton:(UIButton*)button;
+
+/**
  Asks the data source for the title to be used for the specified button state.
  The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
  

@@ -505,9 +505,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             if (detailLabelString) {
                 view.detailLabel.attributedText = detailLabelString;
             }
-            
+
             // Configure button
-            if (buttonImage) {
+            if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(emptyDataSet:configureButton:)]) {
+                [self.emptyDataSetSource emptyDataSet:self configureButton:view.button];
+            }
+            else if (buttonImage) {
                 [view.button setImage:buttonImage forState:UIControlStateNormal];
                 [view.button setImage:[self dzn_buttonImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             }
