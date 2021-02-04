@@ -325,6 +325,14 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     return NO;
 }
 
+- (BOOL)dzn_isTouchAllowedToPassThrough:(UIView *)sender
+{
+    if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSet:shouldAllowTouchPassThroughView:)]) {
+        return [self.emptyDataSetDelegate emptyDataSet:self shouldAllowTouchPassThroughView:sender];
+    }
+    return YES;
+}
+
 - (BOOL)dzn_isImageViewAnimateAllowed
 {
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetShouldAnimateImageView:)]) {
@@ -1034,6 +1042,17 @@ Class dzn_baseClassToSwizzleForTarget(id target)
     // Return either the contentView or customView
     if ([hitView isEqual:_contentView] || [hitView isEqual:_customView]) {
         return hitView;
+    }
+    
+    if ([self.superview isKindOfClass:[UIScrollView class]] &&
+        [self.superview respondsToSelector:@selector(dzn_isTouchAllowedToPassThrough:)]) {
+        UIScrollView *scrollView = (UIScrollView *)self.superview;
+        
+        if (![scrollView dzn_isTouchAllowedToPassThrough:hitView]) {
+            return hitView;
+        } else {
+            return nil;
+        }
     }
     
     return nil;

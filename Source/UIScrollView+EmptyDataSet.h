@@ -208,6 +208,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView;
 
 /**
+ Asks the delegate to know if the touch should pass through the empty dataset. Default is YES.
+ 
+ @param scrollView A scrollView subclass object informing the delegate.
+ @param view The view tapped by the user.
+ @return YES if touch should pass through the empty dataset.
+ */
+- (BOOL)emptyDataSet:(UIScrollView *)scrollView shouldAllowTouchPassThroughView:(UIView *)view;
+
+/**
  Asks the delegate for image view animation permission. Default is NO.
  Make sure to return a valid CAAnimation object from imageAnimationForEmptyDataSet:
  
