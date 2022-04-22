@@ -51,7 +51,7 @@
 static char const * const kEmptyDataSetSource =     "emptyDataSetSource";
 static char const * const kEmptyDataSetDelegate =   "emptyDataSetDelegate";
 static char const * const kEmptyDataSetView =       "emptyDataSetView";
-
+static BOOL tempScrollEnabled;
 #define kEmptyImageViewAnimationKey @"com.dzn.emptyDataSet.imageViewAnimation"
 
 @interface UIScrollView () <UIGestureRecognizerDelegate>
@@ -393,6 +393,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)setEmptyDataSetSource:(id<DZNEmptyDataSetSource>)datasource
 {
     if (!datasource || ![self dzn_canDisplay]) {
+        // Record scroll permission
+        tempScrollEnabled = self.scrollEnabled;
         [self dzn_invalidate];
     }
     
@@ -410,6 +412,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
 - (void)setEmptyDataSetDelegate:(id<DZNEmptyDataSetDelegate>)delegate
 {
     if (!delegate) {
+        // Record scroll permission
+        tempScrollEnabled = self.scrollEnabled;
         [self dzn_invalidate];
     }
     
@@ -536,6 +540,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view layoutIfNeeded];
         }];
         
+        // Record scroll permission
+        tempScrollEnabled = self.scrollEnabled;
         // Configure scroll permission
         self.scrollEnabled = [self dzn_isScrollAllowed];
         
@@ -572,7 +578,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         [self setEmptyDataSetView:nil];
     }
     
-    self.scrollEnabled = YES;
+    // restore scroll permission
+    self.scrollEnabled = tempScrollEnabled;
     
     // Notifies that the empty dataset view did disappear
     [self dzn_didDisappear];
