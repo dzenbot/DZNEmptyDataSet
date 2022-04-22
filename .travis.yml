@@ -1,4 +1,4 @@
-osx_image: xcode9.2
+osx_image: xcode11.3
 language: objective-c
 sudo: required
 
@@ -8,7 +8,7 @@ cache:
 
 before_install:
     - bundle install
-    - bundle exec danger
+    #- bundle exec danger
 
 env:
     global:
@@ -16,10 +16,10 @@ env:
 
     - WORKSPACE="DZNEmptyDataSet/DZNEmptyDataSet.xcworkspace"
     - IOS_SCHEME="DZNEmptyDataSet"
-    - IOS_SDK="iphonesimulator11.2"
+    - IOS_SDK="iphonesimulator13.3"
 
     matrix:
-    - DESTINATION="OS=11.2,name=iPhone 8" SDK="$IOS_SDK" SCHEME="$IOS_SCHEME"
+    - DESTINATION="OS=13.3,name=iPhone 8" SDK="$IOS_SDK" SCHEME="$IOS_SCHEME"
 
 script:
     - xcodebuild clean build test -scheme "$SCHEME" -workspace "$WORKSPACE" SDK="$IOS_SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES

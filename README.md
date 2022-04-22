@@ -1,7 +1,7 @@
 DZNEmptyDataSet
 =================
 
-[![Travis](https://travis-ci.org/dzenbot/DZNEmptyDataSet.svg?branch=snapshot-tests)](https://travis-ci.org/dzenbot/DZNEmptyDataSet/builds)
+[![Travis](https://travis-ci.org/dzenbot/DZNEmptyDataSet.svg?branch=master)](https://travis-ci.org/dzenbot/DZNEmptyDataSet.svg?branch=master)
 [![codecov](https://codecov.io/gh/dzenbot/DZNEmptyDataSet/badge.svg)](https://codecov.io/gh/dzenbot/DZNEmptyDataSet)
 [![Pod Version](http://img.shields.io/cocoapods/v/DZNEmptyDataSet.svg)](http://cocoadocs.org/docsets/DZNEmptyDataSet/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -61,6 +61,15 @@ To integrate DZNEmptyDataSet into your Xcode project using Carthage, specify it 
 github "dzenbot/DZNEmptyDataSet"
 ```
 
+To integrate DZNEmptyDataSet into your Xcode project using SPM, specify it in your `Package.swift`:
+
+```ruby
+.package(
+    url: "https://github.com/dzenbot/DZNEmptyDataSet",
+    .branch("master")
+)
+```
+For existing, go to "File Navigator" -> "Select Project" -> "Project Name" -> "Swift Packages" -> "+" -> Paste "https://github.com/dzenbot/DZNEmptyDataSet" and proceed to select your target.
 
 ## How to use
 For complete documentation, [visit CocoaPods' auto-generated doc](http://cocoadocs.org/docsets/DZNEmptyDataSet/)

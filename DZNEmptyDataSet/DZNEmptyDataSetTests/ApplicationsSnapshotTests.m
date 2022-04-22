@@ -6,6 +6,7 @@
 //  Copyright © 2017 DZN. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
 #import <DZNEmptyDataSet/DZNEmptyDataSet.h>
 
@@ -30,7 +31,7 @@
         UIScreen *screen = [UIScreen mainScreen];
         
         // Using XCTAssert instead of NSAssert since these do not cause the tests to fail.
-        XCTAssert([device.model containsString:@"iPhone"], @"Please run snapshot tests on an iPhone.");
+        XCTAssert([device.name containsString:@"iPhone 8"], @"Please run snapshot tests on an iPhone 8 simulator.");
         XCTAssert([device.systemVersion doubleValue] > 11.0, @"Please run snapshot tests on a simulator with iOS 11.0 or above.");
         XCTAssert(screen.scale == 2.0, @"Please run snapshot tests on a @2x density simulator.");
     });
@@ -47,10 +48,12 @@
     NSArray *applications = [Application applicationsFromJSONAtPath:path];
     
     for (Application *app in applications) {
-        
-        DetailViewController *vc = [[DetailViewController alloc] initWithApplication:app];
-        
-        [self verifyView:vc.view withIdentifier:app.displayName];
+
+        UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        window.rootViewController = [[DetailViewController alloc] initWithApplication:app];
+        [window makeKeyAndVisible];
+
+        [self verifyView:window withIdentifier:app.displayName];
     }
 }
 
