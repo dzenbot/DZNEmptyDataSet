@@ -281,6 +281,10 @@ You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the curren
 
 ## How to use DZNEmptyExt
 
+This DZNEmptyExt is an encapsulation of uiscrollview+emptydataset.<br />
+1、Added scene management functio <br />
+2、Simplify data configuration and method call（similar to masonry）
+
 ### Import
 ```objc
 #import "UIScrollView+DZNEmptyExt.h"
@@ -288,12 +292,8 @@ You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the curren
 Unless you are importing as a framework, then do:
 ```objc
 #import <DZNEmptyDataSet/UIScrollView+DZNEmptyExt.h>
-```
+``
 
-This DZNEmptyExt is an encapsulation of uiscrollview+emptydataset.
-
-1、Added display state management (the corresponding display content can be configured according to loading, loading failure, network failure or other customized scenarios. When displaying, use reloaddata: < # expected state # > to switch.）
-2、Use functional programming and Chain programming to configure data（similar to masonry）
 
 ### Configure display data
 
