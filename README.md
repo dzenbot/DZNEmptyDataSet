@@ -297,7 +297,7 @@ This DZNEmptyExt is an encapsulation of uiscrollview+emptydataset.
 
 ### Configure display data
 
-```
+```objc
 //   Bind display to scence
 [tableView makeEmptyPage:^(DZNEmptyMaker *make) {
     
@@ -352,7 +352,7 @@ This DZNEmptyExt is an encapsulation of uiscrollview+emptydataset.
 
 Using [tableview reloaddata] will maintain the current display scene
 
-```
+```objc
 // Do not display empty datasets
 [tableView reloadData: hideEmptyDataSet];
 
@@ -365,7 +365,7 @@ Using [tableview reloaddata] will maintain the current display scene
 ```
 #### Event monitoring（displaySceneChange、LifeCycle、Click/tap ）
 
-```
+```objc
 // 
 DZNEmptyMaker * emptyMaker = [tableView makeEmptyPage:^(DZNEmptyMaker *make) {
     // Bind display to scene
@@ -386,7 +386,7 @@ DZNEmptyMaker * emptyMaker = [tableView makeEmptyPage:^(DZNEmptyMaker *make) {
 
 #### initialize/reset、update 、add
 
-```
+```objc
 /**
  Initialize or reset empty page content
 */
