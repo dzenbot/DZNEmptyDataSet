@@ -559,6 +559,8 @@ static const char emptyMakerKey;
     };
 }
 
+- (void)end {}
+
 @end
 
 

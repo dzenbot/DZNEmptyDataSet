@@ -12,6 +12,8 @@
 @class DZNEmptyMaker;
 @class DZNEmpty;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DZNEmptyCustomSource;
 @protocol DZNEmptyDelegate;
 @protocol DZNEmptyDataSource;
@@ -37,19 +39,19 @@ typedef NS_ENUM(NSInteger, DZNEmptyViewLifeCycle) {
 
 
 typedef void (^DZNEmptyMakerBlock)(DZNEmptyMaker * make);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNDefaultStrBlock)(NSString * title, UIFont * font, UIColor * color);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNButtonStrBlock)(NSString * title, UIFont * font, UIColor * color, UIControlState state);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNAttrButtonStrBlock)(NSAttributedString * title, UIControlState state);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNAttrStrBlock)(NSAttributedString * title);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNButtonImageBlock)(UIImage * img, UIControlState state);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNImageBlock)(UIImage * img);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNShowAnimateBlock)(BOOL allow);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNAnimationBlock)(CAAnimation * animation);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNFloatBlock)(CGFloat spaceHeight);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * (^DZNColorBlock)(UIColor * color);
-typedef DZNEmpty<DZNEmptyDelegate> * (^DZNBoolBlock)(BOOL allow);
-typedef DZNEmpty<DZNEmptyDelegate> * (^DZNOffsetBlock)(CGFloat offset);
-typedef DZNEmpty<DZNEmptyDelegate> * (^DZNCustomBlock)(UIView * view);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNDefaultStrBlock)(NSString * title, UIFont * font, UIColor * color);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNButtonStrBlock)(NSString * title, UIFont * font, UIColor * color, UIControlState state);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNAttrButtonStrBlock)(NSAttributedString * title, UIControlState state);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNAttrStrBlock)(NSAttributedString * title);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNButtonImageBlock)(UIImage * img, UIControlState state);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNImageBlock)(UIImage * img);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNShowAnimateBlock)(BOOL allow);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNAnimationBlock)(CAAnimation * animation);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNFloatBlock)(CGFloat spaceHeight);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate> * _Nonnull (^DZNColorBlock)(UIColor * color);
+typedef DZNEmpty<DZNEmptyDelegate> * _Nonnull (^DZNBoolBlock)(BOOL allow);
+typedef DZNEmpty<DZNEmptyDelegate> * _Nonnull (^DZNOffsetBlock)(CGFloat offset);
+typedef DZNEmpty<DZNEmptyDelegate> * _Nonnull (^DZNCustomBlock)(UIView * view);
 
 
 //_____________________________________________________________________________
@@ -86,6 +88,11 @@ typedef DZNEmpty<DZNEmptyDelegate> * (^DZNCustomBlock)(UIView * view);
  Asks the delegate for image view animation permission. Default is NO.
  */
 @property (nonatomic, copy) DZNShowAnimateBlock allowImageAnimate;
+
+/**
+ Used to eliminate swift warning instead of @discardableResult
+ */
+- (void)end;
 
 @end
 
@@ -249,7 +256,7 @@ typedef NS_ENUM(NSInteger, DZNEmptyEditType) {
 typedef void (^DZNSceneChangeBlock)(DZNDisplayScene type);
 typedef void (^DZNEmptyViewLifeCycleBlock)(DZNEmptyViewLifeCycle status);
 typedef void (^DZNTapBlock)(DZNTapType tapType, UIScrollView * scrollView, UIView * view);
-typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate, DZNEmptyCustomSource> * (^DZNdisplaySceneBlock)(DZNDisplayScene type);
+typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate, DZNEmptyCustomSource> * _Nonnull (^DZNdisplaySceneBlock)(DZNDisplayScene type);
 
 
 @interface DZNEmptyMaker : NSObject
@@ -304,3 +311,5 @@ typedef DZNEmpty<DZNEmptyDataSource, DZNEmptyDelegate, DZNEmptyCustomSource> * (
 @interface DZNEmpty : NSObject
 
 @end
+
+NS_ASSUME_NONNULL_END

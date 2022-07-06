@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7DA71C82286EF48200C69885"
-               BuildableName = "Applications copy.app"
-               BlueprintName = "Applications copy"
+               BuildableName = "EmptyExt.app"
+               BlueprintName = "EmptyExt"
                ReferencedContainer = "container:DZNEmptyDataSet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7DA71C82286EF48200C69885"
-            BuildableName = "Applications copy.app"
-            BlueprintName = "Applications copy"
+            BuildableName = "EmptyExt.app"
+            BlueprintName = "EmptyExt"
             ReferencedContainer = "container:DZNEmptyDataSet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7DA71C82286EF48200C69885"
-            BuildableName = "Applications copy.app"
-            BlueprintName = "Applications copy"
+            BuildableName = "EmptyExt.app"
+            BlueprintName = "EmptyExt"
             ReferencedContainer = "container:DZNEmptyDataSet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
