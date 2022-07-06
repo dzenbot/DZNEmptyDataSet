@@ -279,6 +279,130 @@ depending of which you are using.
 You can also call `[self.tableView reloadEmptyDataSet]` to invalidate the current empty state layout and trigger a layout update, bypassing `-reloadData`. This might be useful if you have a lot of logic on your data source that you want to avoid calling, when not needed. `[self.scrollView reloadEmptyDataSet]` is the only way to refresh content when using with UIScrollView.
 
 
+## How to use DZNEmptyExt
+
+This DZNEmptyExt is an encapsulation of uiscrollview+emptydataset.<br />
+1、Added scene management functio <br />
+2、Simplify data configuration and method call（similar to masonry）
+
+### Import
+```objc
+#import "UIScrollView+DZNEmptyExt.h"
+```
+Unless you are importing as a framework, then do:
+```objc
+#import <DZNEmptyDataSet/UIScrollView+DZNEmptyExt.h>
+```
+
+
+### Configure display data
+
+```objc
+//   Bind display to scence
+[tableView makeEmptyPage:^(DZNEmptyMaker *make) {
+    
+    // Parameter display of default view
+    make.displayScene(@"dropbox") 
+    //  -------Corresponding to DZNEmptyDataSetSource------
+    .image(/** image */)
+    // Equivalent to attrTitle(/** NSAttributedString */)
+    .title(/** string */, /** font */, /** color */)  
+    // Equivalent to attrDescribe(/** NSAttributedString */)
+    .describe(/** string */, /** font */, /** color */)     
+    // Equivalent to attrButtonTitle(/** NSAttributedString */)
+    .buttonTitle(/** string */, /** font */, /** color */, /** UIControlState */)  
+    .buttonImage(/** image */), /** UIControlState */)
+    .buttonBackImage(/** image */), /** UIControlState */)
+    .imageAnimation(/** animation */)
+    .imageTintColor(/** color */)
+    .backgroundColor(/** color */)
+    .spaceHeight(/** float */)
+    .offset(/** offset */)
+    //  -------Corresponding to DZNEmptyDataSetDelegate------
+    .shouldBeForcedToDisplay(/** YES/NO */)
+    .allowImageAnimate(/** YES/NO */)
+    .shouldDisplay(/** YES/NO */)
+    .shouldFadeIn(/** YES/NO */)
+    .allowScroll(/** YES/NO */)
+    .allowTouch(/** YES/NO */);
+    
+    // Parameter display of customized view
+    make.displayScene(@"Loading")
+    .customView(/** view */)   //Use custom view
+    .shouldBeForcedToDisplay(/** YES/NO */)
+    .allowImageAnimate(/** YES/NO */)
+    .shouldDisplay(/** YES/NO */)
+    .shouldFadeIn(/** YES/NO */)
+    .allowScroll(/** YES/NO */)
+    .allowTouch(/** YES/NO */); 
+    
+    make.displayScene(@"LoadFailure")
+    .image(/** image */)
+    .title(/** string */, /** font */, /** color */)
+    ...; // Configure data as needed
+    
+    make.displayScene(@"NetworkFailure")
+    ...; // Configure data as needed
+    
+    ......
+}];
+```
+
+#### Refresh layout
+
+Using [tableview reloaddata] will maintain the current display scene
+
+```objc
+// Do not display empty datasets
+[tableView reloadData: hideEmptyDataSet];
+
+// Refresh the contents of the display string binding
+[tableView reloadData: @"dropbox"];
+[tableView reloadData: @"Loading"];
+[tableView reloadData: @"LoadFailure"];
+[tableView reloadData: @"NetworkFailure"];
+...
+```
+#### Event monitoring（displaySceneChange、LifeCycle、Click/tap ）
+
+```objc
+// 
+DZNEmptyMaker * emptyMaker = [tableView makeEmptyPage:^(DZNEmptyMaker *make) {
+    // Bind display to scene
+    ......
+}];
+
+[[[emptyMaker emptySceneChange:^(DZNDisplayScene type) {
+    // Callback when changing the current display scene
+    // do something
+}] emptyViewLifeCycle:^(DZNEmptyViewLifeCycle status) {
+    // Callback when the empty page lifecycle method changes
+    // do something
+}] emptyDisplayClick:^(DZNTapType tapType, UIScrollView *scrollView, UIView *view) {
+    // Callback when tap button or view
+    // do something
+}];
+```
+
+#### initialize/reset、update 、add
+
+```objc
+/**
+ Initialize or reset empty page content
+*/
+-(DZNEmptyMaker *)makeEmptyPage:(DZNEmptyMakerBlock)block;
+
+/**
+ add Empty Page content(Existing ones will be overwritten）
+*/
+-(DZNEmptyMaker *)addEmptyPage:(DZNEmptyMakerBlock)block;
+
+/**
+ update Empty Page content（Only configured states can be modified）
+*/
+-(DZNEmptyMaker *)updateEmptyPage:(DZNEmptyMakerBlock)block;
+```
+
 ## Sample projects
 
 #### Applications
